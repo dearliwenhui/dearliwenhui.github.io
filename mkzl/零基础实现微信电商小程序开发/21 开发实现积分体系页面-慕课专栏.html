@@ -1,0 +1,520 @@
+<html><head><meta charset="utf-8"><title>21 开发实现积分体系页面-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        21 开发实现积分体系页面
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-13 17:02:24
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d4ce8600001adf206400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">老骥伏枥，志在千里； 烈士暮年，壮心不已。 <p class="author">——曹操</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节我们已经实现了从微信运动步数获取积分，本节我们将根据第二节的功能设计完成积分体系的页面开发，向用户展示他的积分变动记录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第二节中，我们已经使用“分类拆解法”的拆解步骤，将页面进行了详细拆解。本节我们将按照“分类拆解法”的编程步骤，一步一步完成如图 4 所示页面的开发。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 4 积分体系页面</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4923200001624909001600.jpg" data-original="//img.mukewang.com/5d4923200001624909001600.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>请先完成本章第三节的实践作业，重新获取自己的微信运动步数信息，否则在积分变动记录表 <code>user_point</code> 中没有自己的积分获取记录。</strong></p>
+</div><div class="cl-preview-section"><h2 id="数据服务" style="font-size: 30px;">1. 数据服务</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第五章第四节中我们已经介绍了分层模型，把业务数据访问与前端业务逻辑分层实现，将访问云数据库的操作单独编写在小程序客户端的一系列 Data Service 函数中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，在实现积分体系页面前，需要先准备好积分变动记录表 <code>user_point</code> 的  Data Service 函数 PointService.js 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">PointService.js 中主要包括一个类 PointService ，在该类中提供了一个方法 <code>getPointChangeList</code> 用于从云数据库的 <code>user_point</code> 表中<strong>分页获取</strong>用户的积分变动记录，该方法会调用入参异步回调函数 <code>success_callback(pointChangeArray)</code> ，将积分变动记录交给异步回调函数进行后续业务处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了满足积分体系页面对不同类型积分查询的需求， <code>getPointChangeList</code> 还需要两个输入参数：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>type</code> 参数表示需要获取哪种类型的积分记录，增加积分记录的参数值为 inc ，减少积分记录的参数值为 dec ，全部积分记录的参数值为 all；</li>
+<li style="font-size: 20px; line-height: 38px;"><code>isReset</code> 参数表示是否需要重置分页，从第一页开始重新查询积分记录，该参数在用户切换积分记录的查询类型  <code>type</code> 时为 <code>true</code> ，否则为 <code>false</code>。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>分页获取列表数据的具体实现方式在第三章第二节的 “4. 列表数据显示” 中有详细讲解，具体算法思路请回顾该节内容。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">完整的 PointService.js 代码内容如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js"><span class="token comment">// 初始化 云数据库</span>
+<span class="token keyword">const</span> db <span class="token operator">=</span> wx<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span><span class="token function">database</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> _ <span class="token operator">=</span> db<span class="token punctuation">.</span>command
+
+<span class="token comment">//引用时间格式化工具</span>
+<span class="token keyword">const</span> util <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../utils/util.js'</span><span class="token punctuation">)</span>
+
+<span class="token comment">/**
+ *积分数据操作类
+ *@class PointService
+ *@constructor
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">PointService</span> <span class="token punctuation">{</span>
+  <span class="token comment">/**
+   * 构造函数
+   */</span>
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>listIndex <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment">//分页获取数据的当前页索引</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pageCount <span class="token operator">=</span> <span class="token number">12</span> <span class="token comment">//每次分页获取多少数据</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 从数据库获取用于显示的积分变动列表信息
+   * @method getPointChangeList
+   * @for PointService
+   * @param {string} type 需要获取的积分变动类型，增加-inc，减少-dec，全部-all
+   * @param {bool} isReset 是否清空分页缓存
+   * @param {function} successCallback(pointChangeArray) 处理数据查询结果的回调函数
+   * pointChangeArray数据结构：
+   * [{
+   *     index,
+   *     date,
+   *     changePoints,
+   *     operation
+   * },]
+   */</span>
+  <span class="token function">getPointChangeList</span><span class="token punctuation">(</span>type<span class="token punctuation">,</span> isReset<span class="token punctuation">,</span> successCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> pointChangeArray <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	
+    <span class="token comment">//如果传入的积分变动类型为空，直接返回</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">===</span> undefined<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">typeof</span> successCallback <span class="token operator">==</span> <span class="token string">"function"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">successCallback</span><span class="token punctuation">(</span>pointChangeArray<span class="token punctuation">)</span>
+      <span class="token keyword">return</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//重置分页为初始值，从第一页开始重新查询积分记录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isReset<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>listIndex <span class="token operator">=</span> <span class="token number">0</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>pageCount <span class="token operator">=</span> <span class="token number">12</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//根据 type 构造查询条件</span>
+    <span class="token comment">//默认为查询全部积分记录</span>
+    <span class="token keyword">var</span> query <span class="token operator">=</span> db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'user_point'</span><span class="token punctuation">)</span>
+    <span class="token comment">//如果 type 为 inc，只查询增加积分记录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token string">"inc"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      query <span class="token operator">=</span> query
+        <span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          changePoints<span class="token punctuation">:</span> _<span class="token punctuation">.</span><span class="token function">gte</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token comment">//如果 type 为 dec，只查询消耗积分记录</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token string">"dec"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      query <span class="token operator">=</span> query
+        <span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          changePoints<span class="token punctuation">:</span> _<span class="token punctuation">.</span><span class="token function">lt</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//按照第三章第二节的 “4. 列表数据显示” 中的算法构造分页查询条件</span>
+    <span class="token keyword">var</span> offset <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>listIndex <span class="token operator">*</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pageCount
+    <span class="token comment">//skip和limit的传入参数必须大于0</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      query <span class="token operator">=</span> query
+        <span class="token punctuation">.</span><span class="token function">orderBy</span><span class="token punctuation">(</span><span class="token string">'date'</span><span class="token punctuation">,</span> <span class="token string">'desc'</span><span class="token punctuation">)</span> <span class="token comment">//按积分变动时间倒序排序</span>
+        <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pageCount<span class="token punctuation">)</span> <span class="token comment">//限制返回数量为 max 条</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      query <span class="token operator">=</span> query
+        <span class="token punctuation">.</span><span class="token function">orderBy</span><span class="token punctuation">(</span><span class="token string">'date'</span><span class="token punctuation">,</span> <span class="token string">'desc'</span><span class="token punctuation">)</span> <span class="token comment">//按积分变动时间倒序排序</span>
+        <span class="token punctuation">.</span><span class="token function">skip</span><span class="token punctuation">(</span>offset<span class="token punctuation">)</span> <span class="token comment">// 跳过结果集中的前 offset 条，从第 offset + 1 条开始返回</span>
+        <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pageCount<span class="token punctuation">)</span> <span class="token comment">//限制返回数量为 max 条</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//按照第三章第二节的 “4. 列表数据显示” 中的算法进行分页查询</span>
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">//执行数据库查询</span>
+    query
+      <span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token keyword">in</span> res<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//由于数据库中存储的 date 类型数据直接显示在页面中会让用户难以理解，</span>
+            <span class="token comment">//需要调整时间的显示格式</span>
+            pointChangeArray<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+              index<span class="token punctuation">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>_id<span class="token punctuation">,</span>
+              date<span class="token punctuation">:</span> util<span class="token punctuation">.</span><span class="token function">formatTime</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>date<span class="token punctuation">)</span><span class="token punctuation">,</span>
+              changePoints<span class="token punctuation">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>changePoints<span class="token punctuation">,</span>
+              operation<span class="token punctuation">:</span> res<span class="token punctuation">.</span>data<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>operation
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span>
+          <span class="token comment">//分页显示的页码+1</span>
+          <span class="token operator">++</span>that<span class="token punctuation">.</span>listIndex
+        <span class="token punctuation">}</span>
+        <span class="token comment">//回调函数处理数据查询结果。按照第三章第二节的 “4. 列表数据显示” 中的算法,</span>
+        <span class="token comment">//回调函数需要将新获取到的数据添加到数据集合末尾，并设置数据全部加载完毕的标志</span>
+        <span class="token keyword">typeof</span> successCallback <span class="token operator">==</span> <span class="token string">"function"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">successCallback</span><span class="token punctuation">(</span>pointChangeArray<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">//访问数据库失败 的 系统异常处理</span>
+        <span class="token comment">//跳转出错页面</span>
+        wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          url<span class="token punctuation">:</span> <span class="token string">'../../errorpage/errorpage'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> PointService
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>贴出完整代码，是想向各位同学再次重申代码编写规范性和代码注释完整性的重要性。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>再次推荐各位同学认真学习：<a href="https://www.kancloud.cn/digest/code-guide/42604">腾讯alloyteam团队前端代码规范</a>。</strong></p>
+</div><div class="cl-preview-section"><h2 id="编程步骤" style="font-size: 30px;">2. 编程步骤</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在编写完积分变动记录表 <code>user_point</code> 的数据服务后，我们就可以正式开始页面的编写。</p>
+</div><div class="cl-preview-section"><h3 id="定义页面子部件及其排列顺序">2.1 定义页面子部件及其排列顺序</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节我们已经完成了图 4 的页面拆解工作。页面可以拆解为 2 个子部件：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">子部件 1 ：顶部的积分记录类型菜单</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 2 ：积分记录列表</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先在 WXML 页面模板中定义 2 个子部件的容器，积分体系页面的整体结构可以使用 WeUI 的组件 Navbar 实现 ：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- weui的navbar --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-tab<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 1 ：顶部的积分记录类型菜单 navbar的选项卡 --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-navbar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 2 ：积分记录列表 navbar的内容区域 --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-tab__panel<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现子部件-1-：顶部的积分记录类型菜单">2.2 实现子部件 1 ：顶部的积分记录类型菜单</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节已经将子部件 1 拆解为一系列的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">“全部”菜单，显示全部积分记录</p>
+<p style="font-size: 20px; line-height: 38px;">单条内容交互界面，事件为用户点击屏幕事件，数据为用户当前选中的菜单 ID。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">"增加"菜单，显示积分获取记录</p>
+<p style="font-size: 20px; line-height: 38px;">单条内容交互界面，事件为用户点击屏幕事件，数据为用户当前选中的菜单 ID。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">"减少"菜单，显示积分消耗记录</p>
+<p style="font-size: 20px; line-height: 38px;">单条内容交互界面，事件为用户点击屏幕事件，数据为用户当前选中的菜单 ID。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">三个菜单的用户点击屏幕事件类似，事件响应为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">设置用户当前选中的菜单 ID 数据 为用户点击的菜单 ID。</li>
+<li style="font-size: 20px; line-height: 38px;">用户当前选中的菜单 ID 对应菜单的单条内容交互界面为绿色选中样式，其它菜单的界面为未选中样式。</li>
+<li style="font-size: 20px; line-height: 38px;">从积分变动记录表中获取用户当前选中的菜单 ID 对应类型的积分变动记录第一个分页数据，并存放到积分变动记录数组中。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此外，还有一个系统自动执行的事件：页面加载时默认选中“全部”菜单，然后从积分变动记录表中获取该菜单对应类型的积分变动记录第一个分页数据，并存放到积分变动记录数组中。</p>
+</div><div class="cl-preview-section"><h3 id="实现-navbar">2.2.1 实现 Navbar</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参照 WeUI 的 Demo 小程序中组件 Navbar 的代码，首先在 <code>data</code> 中定义 Navbar 组件的数据，并设置菜单的名称和菜单对应的 PointService 的查询类型 <code>queryParam</code>：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    tabs<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"全部"</span><span class="token punctuation">,</span> <span class="token string">"增加"</span><span class="token punctuation">,</span> <span class="token string">"减少"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//定义navbar的选项卡</span>
+    queryParam<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"all"</span><span class="token punctuation">,</span> <span class="token string">"inc"</span><span class="token punctuation">,</span> <span class="token string">"dec"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//对应选项卡的查询参数</span>
+    activeIndex<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">//navbar的当前选中选项，页面加载时默认选中“全部”菜单</span>
+    sliderOffset<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">//weui的navbar参数</span>
+    sliderLeft<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">//weui的navbar参数</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在 WXML 页面文件中复制组件 Navbar 的页面代码，并绑定菜单点击事件响应函数 <code>tabClick</code> ：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- navbar的选项卡 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-navbar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{tabs}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>*this<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{index}}<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-navbar__item {{activeIndex == index ? <span class="token punctuation">'</span>weui-bar__item_on<span class="token punctuation">'</span> : <span class="token punctuation">'</span><span class="token punctuation">'</span>}}<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tabClick<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-navbar__title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{item}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-navbar__slider<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token selector">left: </span><span class="token punctuation">{</span><span class="token punctuation">{</span>sliderLeft<span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token selector">px; transform: translateX(</span><span class="token punctuation">{</span><span class="token punctuation">{</span>sliderOffset<span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token selector">px); -webkit-transform: translateX(</span><span class="token punctuation">{</span><span class="token punctuation">{</span>sliderOffset<span class="token punctuation">}</span><span class="token punctuation">}</span>px<span class="token punctuation">)</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后在页面加载事件 <code>onLoad</code> 中初始化 Navbar 组件：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  onLoad<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token comment">//初始化weui的navbar</span>
+    wx<span class="token punctuation">.</span><span class="token function">getSystemInfo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      success<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          sliderLeft<span class="token punctuation">:</span> <span class="token punctuation">(</span>res<span class="token punctuation">.</span>windowWidth <span class="token operator">/</span> that<span class="token punctuation">.</span>data<span class="token punctuation">.</span>tabs<span class="token punctuation">.</span>length <span class="token operator">-</span> sliderWidth<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">,</span>
+          sliderOffset<span class="token punctuation">:</span> res<span class="token punctuation">.</span>windowWidth <span class="token operator">/</span> that<span class="token punctuation">.</span>data<span class="token punctuation">.</span>tabs<span class="token punctuation">.</span>length <span class="token operator">*</span> that<span class="token punctuation">.</span>data<span class="token punctuation">.</span>activeIndex
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现事件">2.2.2 实现事件</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">页面加载时和用户点击菜单时，事件响应函数都需要调用 PointService 的方法 <code>getPointChangeList</code> 获取用户的分页积分记录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据第三章第二节的 “4. 列表数据显示” 中介绍的算法，需要定义保存从数据库中获取到的数据的数组 <code>pointChangeRecords</code> 和是否云开发数据库中所有数据都已经显示到页面中的标志 <code>isNoMoreData</code>：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    pointChangeRecords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//积分变化记录</span>
+    isNoMoreData<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//记录是否已加载完所有分页数据</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后调用 PointService 的方法 <code>getPointChangeList</code> 获取积分记录，并根据第三章第二节的 “4. 列表数据显示” 中介绍的算法进行分页加载数据的逻辑实现：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">//引用积分变动记录的数据库访问类</span>
+  <span class="token keyword">import</span> PointService <span class="token keyword">from</span> <span class="token string">'../../../../../dataservice/PointService.js'</span>
+  <span class="token keyword">var</span> pointService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PointService</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token comment">/**
+   * 调用 PointService 的 getPointChangeList 方法获取积分记录
+   */</span>
+  <span class="token function">getPointList</span><span class="token punctuation">(</span>isTabChanged<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//如果用户点击菜单切换了积分记录的查询类型，清空原积分记录数组，从第一页开始重新查询积分记录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>isTabChanged<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        pointChangeRecords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        isNoMoreData<span class="token punctuation">:</span> <span class="token boolean">false</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">var</span> pointChangeRecords <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>pointChangeRecords
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">//调用 PointService 的 getPointChangeList 方法</span>
+    pointService<span class="token punctuation">.</span><span class="token function">getPointChangeList</span><span class="token punctuation">(</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>queryParam<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>activeIndex<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//用户当前选中的菜单对应的 type 类型</span>
+      isTabChanged<span class="token punctuation">,</span> <span class="token comment">//是否用户点击菜单切换了积分记录的查询类型</span>
+      <span class="token comment">//处理数据库查询结果的回调函数</span>
+      <span class="token keyword">function</span><span class="token punctuation">(</span>pointChangeArray<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//判断本次查询是否没有获取到数据</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pointChangeArray<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">//使用数组的 concat 方法将新获取到的数据添加到数据集合末尾</span>
+          pointChangeRecords <span class="token operator">=</span> pointChangeRecords<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>pointChangeArray<span class="token punctuation">)</span>
+          <span class="token comment">//更新数据集合，使页面显示新获取到的数据</span>
+          that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            pointChangeRecords<span class="token punctuation">:</span> pointChangeRecords
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment">//如果查询没有获取到数据，说明云开发数据库中所有数据都已经获取完毕</span>
+          <span class="token comment">//设置数据全部加载完毕的标志</span>
+          that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            isNoMoreData<span class="token punctuation">:</span> <span class="token boolean">true</span> 
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后分别实现事件响应函数：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">页面加载完毕时系统自动执行的事件</p>
+<p style="font-size: 20px; line-height: 38px;">页面加载时默认选中“全部”菜单，页面加载完毕后获取全部积分记录的第一页分页数据：</p>
+<pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 生命周期函数--监听页面初次渲染完成
+   */</span>
+  onReady<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getPointList</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token comment">//页面加载完毕后获取全部积分记录的第一页分页数据</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户点击菜单事件</p>
+<p style="font-size: 20px; line-height: 38px;">当用户单击的菜单不是当前选中菜单时，获取用户新选择菜单的积分记录的第一页分页数据：</p>
+<pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * Tab点击事件
+   */</span>
+  tabClick<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//当用户单击的菜单不是当前选中菜单时,才重新设置及选中菜单并重新获取积分记录</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>id <span class="token operator">!=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>activeIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//重新设置用户选中的菜单为用户点击菜单</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        sliderOffset<span class="token punctuation">:</span> e<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>offsetLeft<span class="token punctuation">,</span>
+        activeIndex<span class="token punctuation">:</span> e<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>id <span class="token comment">//记录navbar的当前选中选项</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//获取用户新选择菜单的积分记录的第一页分页数据</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getPointList</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="实现子部件-2-：积分记录列表">2.3 实现子部件 2 ：积分记录列表</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节已经将子部件 2 拆解为一系列的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">积分记录列表</p>
+<p style="font-size: 20px; line-height: 38px;">多条内容交互界面，事件为用户下滑屏幕到页面底部，数据为积分变动记录数组。</p>
+<p style="font-size: 20px; line-height: 38px;">积分变动记录数组的第一个分页数据由子部件 1 的事件响应函数设置。</p>
+<p style="font-size: 20px; line-height: 38px;">用户下滑屏幕到页面底部事件的事件响应为：从积分变动记录表中分页获取下一页数据，并追加到积分变动记录数组末尾。如果积分变动记录表中所有数据都获取完毕，用户下滑屏幕将不再获取分页数据。</p>
+<p style="font-size: 20px; line-height: 38px;">多条内容交互界面显示积分变动记录数组中的所有数据。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">积分变化记录数据 <code>pointChangeRecords</code> 的显示使用 WXML 的列表渲染语法 <code>wx:for</code> ，使用 WeUI 的 Panel 组件作为列表容器，使用WeUI 的 List 组件作为列表显示样式， 使用WeUI 的 Flex 组件实现一条积分记录的左右排列内容显示样式：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">  <span class="token comment">&lt;!-- 子部件 2 ：积分记录列表 navbar的内容区域  --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-tab__panel<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 使用 Panel 作为积分记录列表的容器  --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel point_change<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    	<span class="token comment">&lt;!-- 使用 List 作为列表显示样式  --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cells weui-cells_after-title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token comment">&lt;!-- 列表渲染 列表显示积分详情记录 --&gt;</span> 
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{pointChangeRecords}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{pointChange.index}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pointChange<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token comment">&lt;!-- 每一条积分记录是一个 cell --&gt;</span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell weui-cell_hide_line<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                <span class="token comment">&lt;!-- 一条积分记录的左右排列内容显示样式用 flex 实现  --&gt;</span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                  <span class="token comment">&lt;!-- 积分变动原因与时间  --&gt;</span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{pointChange.operation}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{pointChange.date}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+                  <span class="token comment">&lt;!-- 积分变动数值  --&gt;</span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>align-center text-xxl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                    <span class="token comment">&lt;!-- 如果是增加积分用红色显示，如果是消耗积分用绿色显示  --&gt;</span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{ pointChange.changePoints&gt;0 ? <span class="token punctuation">'</span>text-red<span class="token punctuation">'</span> : <span class="token punctuation">'</span>text-green<span class="token punctuation">'</span> }}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                      {{pointChange.changePoints&gt;0 ? "+" + pointChange.changePoints : pointChange.changePoints }}
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+                  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后按照第三章第二节的 “4. 列表数据显示” 中介绍的方法，定义用户下滑屏幕到页面底部事件的事件响应：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 用户下滑屏幕到页面底部事件的处理函数
+   */</span>
+  onReachBottom<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>isNoMoreData<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//如果还有数据未加载完，则获取更多数据</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getPointList</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>由于篇幅所限，完整的 WXML页面模板代码请查阅专栏源代码 point.wxml 与 point.wxss ，完整的 JS 逻辑代码见 point.js ，具体代码位置见本节末尾图 5。</strong></p>
+</div><div class="cl-preview-section"><h2 id="专栏源代码" style="font-size: 30px;">3. 专栏源代码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏源代码已上传到 GitHub ，请访问以下地址获取：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/liujiec/Membership-ECommerce-Miniprogram">https://github.com/liujiec/Membership-ECommerce-Miniprogram</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节源代码内容在图 5 红框标出的位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 5 本节源代码位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4923760001fcf307560813.png" data-original="//img.mukewang.com/5d4923760001fcf307560813.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将实现积分体系的风控规则，同时介绍用户被锁定后的页面展现内容。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>编写代码完成图 4 所示的页面，如碰到问题，请阅读本专栏源代码学习如何实现。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/579">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            20 开发实现同步微信运动步数获得积分
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/581">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            22 坏人请走开：开发实现积分体系风控规则
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

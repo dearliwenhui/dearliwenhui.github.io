@@ -1,0 +1,166 @@
+<html><head><meta charset="utf-8"><title>22 到底哪把锁更适合你？—synchronized与ReentrantLock对比-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        22 到底哪把锁更适合你？—synchronized与ReentrantLock对比
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-11-12 09:41:56
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5dc8c6ae000154d406400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">横眉冷对千夫指，俯首甘为孺子牛。<p class="author">——鲁迅</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前一节我们学习了ReentrantLock显式锁，在这之前我们还学习过 synchronized 内置锁。那么这两个锁究竟有什么区别呢？synchronized是不是就足够用了？什么时候使用ReentrantLock？本小节，我们就来一块看看这两种锁，分析一下他们的不同之处，以及应用的最佳场景。</p>
+</div><div class="cl-preview-section"><h2 id="、synchronized与reentrantlock比较" style="font-size: 30px;">1、synchronized与ReentrantLock比较</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从功能特性上来看，ReentrantLock其实具备synchronized所有特性，可以完全取代synchronized。不过ReentrantLock设计之初并不是为了替换掉synchronized，而是当synchronized不能满足需求时，才考虑使用ReentrantLock。这是因为ReentrantLock使用起来需要更为小心，必须要显式的释放锁。一旦忘记或者执行不到释放锁的代码，那么其它线程无法获取锁，一直陷入等待之中。另外由于synchronized更被开发人员所熟知，并且编写起来，代码更为紧凑，非常的简洁。只需要把同步代码放入花括号中。执行完同步代码块中的代码，锁自动被释放。因此，一般情况下，如果synchronized能够满足我们的需求，我们还是应该尽量使用synchronized。除非是需求确实需要显式锁Lock的相关特性，我们才会选择使用显式锁。这就像我们挑选物品，当然功能多的最好，但你同时会面临着高昂的价格、复杂的使用方法、更容易出现故障等问题。所以很简单，我们应该按需选择，如果不需要那么多功能，那么就选择最简单的易用的。<br>
+<img class="" src="https://img.mukewang.com/5dc37e720001538e11060476.jpg" data-original="//img.mukewang.com/5dc37e720001538e11060476.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们从几个不同维度对synchronized和ReentrantLock做个对比。</p>
+</div><div class="cl-preview-section"><h2 id="、性能对比" style="font-size: 30px;">2、性能对比</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ReentrantLock 在 Java 5.0时被添加进来。那个时候，它有着比内置锁更好的竞争性。竞争性是锁的性能重点，有着好的竞争性，代表线程在锁的竞争上消耗更低，整个并发程序的性能就会更好。不过在 Java 6 开始，内置锁改进了算法，从而限制提高了内置锁的性能。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">5.0 时，随着线程的增加，内置锁的性能急剧下降，而 ReentrantLock 的下降并不明显。线程增加到一定数量后，ReentrantLock 性能会达到内置锁的 4-5 倍。而在 6.0 中，两者差距并不明显，ReentrantLock 略占一点点优势。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以结论是我们并不需要过多考虑性能因素，而采用 ReentrantLock。</p>
+</div><div class="cl-preview-section"><h2 id="、特性对比" style="font-size: 30px;">3、特性对比</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以说 ReentrantLock 在特性上完胜内置锁。ReentrantLock 提供了公平和非公平锁、可定时、可轮询和可中断的锁获取方式、非块状锁结构。如果我们真的需要使用这些特性，那么不要犹豫，去使用 ReentrantLock 就好，因为 synchronized 根本就不支持。</p>
+</div><div class="cl-preview-section"><h2 id="、公平性的选择" style="font-size: 30px;">4、公平性的选择</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个比较简单直接，ReentrantLock 支持公平锁，而内置锁不能支持公平锁。ReentrantLock 内部有一个线程排队的队列，如果 ReentrantLock 选择了公平的方式，那么队列中的线程会按照顺序去 tryLock。非公平的方式，在锁释放后，如果有新的线程来竞争锁，那么就可能插队，在等待队列中的线程被恢复并获取锁之前，新的线程获取了锁。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">公平性的选择，意味着需要放弃一部分性能。大多数情况下，公平锁的性能都要低于非公平锁。这是因为挂起和恢复线程都有很大开销。选择公平锁时，从释放锁到等待队列中最前面线程被唤醒能够去 tryLock，中间有很大的时间延迟，那么这就造成了公平锁的性能会更差。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果线程获取锁到释放锁之间的程序执行时间较长，那么公平锁的性能不会那么差。因为不会有很多的线程唤醒操作，也就是说不会有过多的时间间隙被浪费点。那么公平锁有能带来更好的公平性，所以此时我们优先选择公平锁。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果线程持有锁执行逻辑的时间很短，而多线程并发量又很大。这造成了获取和释放锁频繁发生，从而大量时间浪费在从锁被释放到排队线程被唤醒工作的过程上。因此，此时我们更好的选择是非公平锁。</p>
+</div><div class="cl-preview-section"><h2 id="、使用上的差异" style="font-size: 30px;">5、使用上的差异</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">两者在使用上的差异前文已经有所对比。synchronized 使用简单，只需要把同步代码放入 synchronized 代码块中即可，程序执行完同步代码块自动解锁。而 Lock 需要显式获取锁，然后需要配合 try 和 finally 来使用。尤其注意一定要在 finally 中释放锁。从使用角度看，我们应该优先使用 synchronized，因为更为方便，也不容易出错。</p>
+</div><div class="cl-preview-section"><h2 id="、总结" style="font-size: 30px;">6、总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节我们从几个不同纬度对比了 synchronized 和 lock。首先在性能上，Java 6 以后两者并没有显著的区别。在功能上，Lock 显然更为丰富，适合更多的场景。不过在绝大多数场景中，synchronized 提供的功能完全能够满足。此外，synchronized的 使用更为简单和安全。因此，如果我们并不需要lock提供的额外功能，那么请优先使用synchronized 方法。只有在真的需要 lock 所提供的特性时，才应选择 lock。下一节我们来看看 Lock 家族的另外一员大将，更为灵活的读写锁——ReadWriteLock。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/956">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            21 更高级的锁—深入解析Lock
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/958">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            23 按需上锁—ReadWriteLock详解
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.mukewang.com/5d762b3c000119e505400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1910221525494047</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：906691736</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=55RtSbJ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,268 @@
+<html><head><meta charset="utf-8"><title>30 Spring Cloud Sleuth 实践-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 11-2 30 Spring Cloud Sleuth 实践
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                30 Spring Cloud Sleuth 实践
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-29 10:32:41
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img1.mukewang.com/5d3a5c06000169e806400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">自信和希望是青年的特权。<p class="author">——大仲马</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节课我们介绍了 Spring Cloud Sleuth 相关术语和工作原理，这节课我们将学习如何使用 Spring Cloud Sleuth 进行信息采集。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先来一个最简单的 Hello World。</p>
+</div><div class="cl-preview-section"><h2 id="快速入手" style="font-size: 30px;">快速入手</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建示例项目 spring-cloud-sleuth，按照以下步骤进行配置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>添加依赖</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">应用中增加 Sleuth 非常简单，只需在 pom.xml 增加以下的依赖：</p>
+</div><div class="cl-preview-section"><pre><code>&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+	&lt;/dependency&gt;
+   &lt;dependency&gt;
+	 &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+	 &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;
+   &lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;dependencyManagement&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+            &lt;version&gt;${spring-cloud.version}&lt;/version&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加 <code>spring-boot-starter-web</code> 依赖包，是因为下面我们需要模拟测试 Web 请求。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>创建服务</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来创建一个 hello world 服务，打印一行日志来看看 Sleuth 都干了哪些事。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SleuthController</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Log log <span class="token operator">=</span> LogFactory<span class="token punctuation">.</span><span class="token function">getLog</span><span class="token punctuation">(</span>SampleController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Doing some work"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token string">"hello world"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个很简单的服务，打印日志是因为 Sleuth 和日志已经做了深度融合，会将 Sleuth 收集的信息打印出来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>测试</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面工作准备完成之后，启动项目，在浏览器中访问地址：<code>http://localhost:8080/hello</code>调用上面创建好的服务，这时会在控制台看到这样一行日志：</p>
+</div><div class="cl-preview-section"><pre><code>2019-05-03 10:48:54.890  INFO [Spring Cloud Sleuth,4e088a46074173ee,4e088a46074173ee,false] 20124 --- [nio-8080-exec-2] com.justdojava.sleuth.HelloController    : Doing some work
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>[Spring Cloud Sleuth,4e088a46074173ee,4e088a46074173ee,false]</code>即为本次 Sleuth 输出的内容，日志的格式为：[application name, traceId, spanId, export]，上节我们已经做过解释，分别是应用名、traceId、spanId和是否对外输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样最简单的一个 Sleuth 测试就完成了。</p>
+</div><div class="cl-preview-section"><h2 id="请求调用" style="font-size: 30px;">请求调用</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面只是一个最简单的调用示例，我们来看看如果在方法中调用另外一个方法，Sleuth 是如何记录数据的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建一个 hi() 方法，通过 restTemplate 去调用 hi2() 方法。代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">hi</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"hi!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>random<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    String s <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>restTemplate
+            <span class="token punctuation">.</span><span class="token function">getForObject</span><span class="token punctuation">(</span><span class="token string">"http://localhost:"</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>port <span class="token operator">+</span> <span class="token string">"/hi2"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token string">"hi/"</span> <span class="token operator">+</span> s<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/hi2"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">hi2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"hi2!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> millis <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>random<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span>millis<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>tracer<span class="token punctuation">.</span><span class="token function">currentSpan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span><span class="token string">"random-sleep-millis"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>millis<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token string">"hi2"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加完成后重新启动项目，在浏览器中访问访问地址：<code>http://localhost:8080/</code>，查看控制台日志的打印信息。</p>
+</div><div class="cl-preview-section"><pre><code>2019-05-03 12:59:42.745  INFO [Spring Cloud Sleuth,063ad9837aebfe4a,063ad9837aebfe4a,true] 29536 --- [nio-8080-exec-5] com.justdojava.sleuth.SampleController   : hi!
+2019-05-03 12:59:43.216  INFO [Spring Cloud Sleuth,063ad9837aebfe4a,e5a424ae0f3007f2,true] 29536 --- [nio-8080-exec-6] com.justdojava.sleuth.SampleController   : hi2!
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为涉及到两次调用，因此产生了两个 Span ,第一个 Span 和第二个 Span 的 ID 不同，从日志打印也可以看出两个 Span 有着同样的 traceId，表面它们属于同一个 Trace。</p>
+</div><div class="cl-preview-section"><h2 id="异步调用" style="font-size: 30px;">异步调用</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再来模拟以下异步线程调用时，Sleuth 是如何记录 Span 信息的。下面进行演示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先需要在启动类添加注解 <code>@EnableAsync</code>，开启应用异步调用的功能。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@EnableAsync</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SleuthApplication</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建一个 SleuthService 类，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SleuthService</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> Log log <span class="token operator">=</span> LogFactory<span class="token punctuation">.</span><span class="token function">getLog</span><span class="token punctuation">(</span>SleuthController<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> Tracer tracer<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> Random random <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Random</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Async</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">background</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"background"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> millis <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>random<span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span>millis<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>tracer<span class="token punctuation">.</span><span class="token function">currentSpan</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span><span class="token string">"background-sleep-millis"</span><span class="token punctuation">,</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>millis<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>@Async</code>，添加此注解的方法会自动异步执行。接下来在 SleuthController 中添加调用此方法的入口。</li>
+</ul>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/async"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> String <span class="token function">async</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"async"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>background<span class="token punctuation">.</span><span class="token function">background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token string">"async"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加完之后，重新启动项目，访问地址<code>http://localhost:8080/async</code>，查看控制台日志的打印信息。</p>
+</div><div class="cl-preview-section"><pre><code>2019-05-03 13:18:42.279  INFO [Spring Cloud Sleuth,36d6f60de86c3e6f,36d6f60de86c3e6f,true] 2064 --- [nio-8080-exec-1] com.justdojava.sleuth.SleuthController   : async
+2019-05-03 13:18:42.293  INFO [Spring Cloud Sleuth,36d6f60de86c3e6f,31c32c5f44694e80,true] 2064 --- [         task-1] com.justdojava.sleuth.SleuthController   : background
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从日志的打印情况来看和上面请求调用比较类型，同属于一个 TraceId，各自有各自的 SpanId。通过此示例可以表明 Sleuth 支持异步调用的信息收集。</p>
+</div><div class="cl-preview-section"><h2 id="定时任务" style="font-size: 30px;">定时任务</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们测试 Sleuth  在定时任务 <code>@Scheduled</code> 中的信息收集情况。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先在启动类上添加 <code>@EnableScheduling</code> 注解，开启应用的定时任务功能。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@EnableScheduling</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SleuthApplication</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 SleuthService 类中添加定时任务，定时任务中去调用 background() 方法。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@Scheduled</span><span class="token punctuation">(</span>fixedDelay <span class="token operator">=</span> <span class="token number">36000</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">scheduledWork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Start some work from the scheduled task"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">background</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"End work from scheduled task"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们设置每 36 秒调用一次，添加完成后重新启动项目，查看控制台的日志输出信息。</p>
+</div><div class="cl-preview-section"><pre><code>2019-05-03 13:40:02.431  INFO [Spring Cloud Sleuth,48adb9bab82b50cb,48adb9bab82b50cb,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : Start some work from the scheduled task
+2019-05-03 13:40:02.431  INFO [Spring Cloud Sleuth,48adb9bab82b50cb,48adb9bab82b50cb,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : background
+2019-05-03 13:40:03.381  INFO [Spring Cloud Sleuth,48adb9bab82b50cb,48adb9bab82b50cb,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : End work from scheduled task
+2019-05-03 13:40:39.382  INFO [Spring Cloud Sleuth,51d22d621a0f96d1,51d22d621a0f96d1,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : Start some work from the scheduled task
+2019-05-03 13:40:39.383  INFO [Spring Cloud Sleuth,51d22d621a0f96d1,51d22d621a0f96d1,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : background
+2019-05-03 13:40:39.653  INFO [Spring Cloud Sleuth,51d22d621a0f96d1,51d22d621a0f96d1,true] 29084 --- [   scheduling-1] com.justdojava.sleuth.SleuthController   : End work from scheduled task
+...
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过日志分析可以看出，每次定时任务都会产生一个新的 Trace，并且调用过程中 SpanId 都是一致的。说明定时任务调用和页面调用是不同的，页面调用异步方法时会产生新的 Span ，而定时任务调用异步方法仍然使用的时同一个 Span。通过该实验也可以说明 Sleuth 完全支持定时任务信息收集。</p>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节我们学习了 Spring Cloud Sleuth 在单体应用中如何收集数据信息，实践了 Sleuth 在 Web 调用、异步调用、定时任务中的实验方式。在真正的项目中，一般不会单独的使用  Spring Cloud Sleuth ，往往是结合 ZipKin 等图形界面软件一起使用。Zipkin 的介绍和使用在下一节会再给大家介绍。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参考链接：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/spring-cloud/spring-cloud-sleuth">https://github.com/spring-cloud/spring-cloud-sleuth</a><br>
+<a href="https://cloud.spring.io/spring-cloud-sleuth/spring-cloud-sleuth.html#_running_examples">https://cloud.spring.io/spring-cloud-sleuth/spring-cloud-sleuth.html#_running_examples</a></p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/546">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    29 分布式链路跟踪和 Spring Cloud Sleuth
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/548">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    31 Zipkin 入门介绍
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

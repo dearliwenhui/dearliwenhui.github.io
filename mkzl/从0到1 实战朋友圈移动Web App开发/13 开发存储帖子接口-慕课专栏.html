@@ -1,0 +1,290 @@
+<html><head><meta charset="utf-8"><title>13 开发存储帖子接口-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        13 开发存储帖子接口
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-02 14:02:08
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d536ff90001d8de06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">不安于小成，然后足以成大器；不诱于小利，然后可以立远功。<p class="author">——方孝孺</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在完成了相关的发表界面UI开发后，我们就开始发开对应的后台的接口，整个后台逻辑相对简单，基本上是Post的处理逻辑，下面就进入开发吧。</p>
+</div><div class="cl-preview-section"><h3 id="创建-post-的-model">创建 Post 的 model</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先需要了解一下 Post 的表结构。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Post表结构</strong>：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">字段名</th>
+<th align="center">类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">_id</td>
+<td align="center">objectID（主键）</td>
+</tr>
+<tr>
+<td align="center">帖子内容：content</td>
+<td align="center">String</td>
+</tr>
+<tr>
+<td align="center">图片内容：picList</td>
+<td align="center">Schema.Types.Mixed</td>
+</tr>
+<tr>
+<td align="center">创建时间：create</td>
+<td align="center">Date</td>
+</tr>
+<tr>
+<td align="center">更新时间：update</td>
+<td align="center">Date</td>
+</tr>
+<tr>
+<td align="center">发布人：user</td>
+<td align="center">Schema.Types.ObjectId</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Post表示每条朋友圈的对象模型，我们使用mongoose来创建PostModel。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在后端项的 models 下新建 <code>Post.js</code>:</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> PostSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  content<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//朋友圈文本内容</span>
+  picList<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>Mixed <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//朋友圈图片内容</span>
+  create<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//创建时间</span>
+  update<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//更新时间</span>
+  user<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'User'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token comment">//朋友圈的Users外键属性，标识谁发的朋友圈</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>timestamps<span class="token punctuation">:</span><span class="token punctuation">{</span>createdAt<span class="token punctuation">:</span> <span class="token string">'create'</span><span class="token punctuation">,</span>updatedAt<span class="token punctuation">:</span><span class="token string">'update'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Post'</span><span class="token punctuation">,</span> PostSchema<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>ref</code>表示关联 User，相当于 Post 里有一列是 user，它的值是 User 的 ObjectId(userid)，在后面的查询时，可以通过 <code>populate()</code> 轻松获取到Post关联的User对象信息。<br>
+<code>required</code>：true 表示此列为必填项，如果在创建时没有，将会报错。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>创建朋友圈post接口</strong>：<br>
+在 routes 文件夹下的 post.js 中创建了一个post方法的路由，路径是 /savepost，当浏览器请求<code>http://xx.xx.xx/savepost</code>就会进入这个方法。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">/*
+* 创建朋友圈post
+*/</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/savepost'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">//获取到当前用户的id</span>
+  <span class="token keyword">var</span> userid <span class="token operator">=</span> req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id<span class="token punctuation">;</span>
+  <span class="token comment">//从req.body里获取content和picList</span>
+  <span class="token comment">/*{
+    "content": "hello",
+    "picList": [{
+      "url": "//wecircle.oss-cn-beijing.aliyuncs.com/image-1559201643093.png",
+      "size": {
+        "width": 933,
+        "height": 563,
+        "type": "png"
+      },
+      "id": 1
+    }]
+  }*/</span>
+  <span class="token keyword">var</span> p <span class="token operator">=</span> <span class="token punctuation">{</span>
+    content<span class="token punctuation">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">,</span>
+    picList<span class="token punctuation">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>picList<span class="token punctuation">,</span>
+    user<span class="token punctuation">:</span>userid<span class="token comment">//user和post关联</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token comment">//调用PostModel的静态方法create</span>
+    <span class="token comment">//await方式返回保存后的Post对象，如果发生错误将会进入catch方法</span>
+    <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token keyword">await</span> Post<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>result
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>e
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面这段代码的流程主要是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前端页面将content内容和picList图片内容通过post方法传到后端。</li>
+<li style="font-size: 20px; line-height: 38px;">在后端通过获取当前用户的id同时将数据进行组装校验。</li>
+<li style="font-size: 20px; line-height: 38px;">调用<code>Post.create()</code>将数据保存。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在创建<code>Post</code>时将当前用户的<code>User</code>的<code>id</code>放在<code>Post</code>的<code>user</code>字段上，就完成了<code>Post</code>和<code>User</code>的关联。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样我们在查询<code>Post</code>时，使用<code>populate('user')</code>(后面章节会有讲解)，就可以直接将用户数据查出来，结构如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+    <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5cf7d0c65d68df68afb51f94"</span><span class="token punctuation">,</span>
+    <span class="token string">"content"</span><span class="token punctuation">:</span> <span class="token string">"Hello"</span><span class="token punctuation">,</span>
+    <span class="token string">"picList"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"user"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">"_id"</span><span class="token punctuation">:</span> <span class="token string">"5cdbfba26db2f4663abd3cb0"</span><span class="token punctuation">,</span>
+      <span class="token string">"nickname"</span><span class="token punctuation">:</span> <span class="token string">"吕小鸣的宝贝"</span><span class="token punctuation">,</span>
+      <span class="token string">"avatar"</span><span class="token punctuation">:</span> <span class="token string">"//app.nihaoshijie.com.cn/upload/avatar/avatar6.jpg"</span><span class="token punctuation">,</span>
+      <span class="token string">"gender"</span><span class="token punctuation">:</span> <span class="token string">"0"</span><span class="token punctuation">,</span>
+      <span class="token string">"bgurl"</span><span class="token punctuation">:</span> <span class="token string">"//app.nihaoshijie.com.cn/upload/bg/topbg3.jpg"</span><span class="token punctuation">,</span>
+      <span class="token string">"phoneNum"</span><span class="token punctuation">:</span> <span class="token string">"13526405082"</span><span class="token punctuation">,</span>
+      <span class="token string">"update"</span><span class="token punctuation">:</span> <span class="token string">"2019-05-15T11:47:35.902Z"</span><span class="token punctuation">,</span>
+      <span class="token string">"create"</span><span class="token punctuation">:</span> <span class="token string">"2019-05-15T11:44:34.642Z"</span><span class="token punctuation">,</span>
+      <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">"create"</span><span class="token punctuation">:</span> <span class="token string">"2019-06-05T14:25:10.174Z"</span><span class="token punctuation">,</span>
+    <span class="token string">"update"</span><span class="token punctuation">:</span> <span class="token string">"2019-06-05T14:25:10.174Z"</span><span class="token punctuation">,</span>
+    <span class="token string">"__v"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token string">"comments"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"likes"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"isLike"</span><span class="token punctuation">:</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="小节">小节</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章主要讲解了开发创建朋友圈Post接口。<br>
+相关知识点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">我们将朋友圈数据的图片数据存储在了<code>picList</code>字段中，这个字段采用<code>Schema.Types.Mixed</code>方式，可以直接存储一个js数组，方便使用。</li>
+<li style="font-size: 20px; line-height: 38px;">使用mongoose的<code>create</code>方法来存储一个Post数据。</li>
+<li style="font-size: 20px; line-height: 38px;">以及如何在mongoose利用<code>ref</code>将两个model(表)进行关联。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：<br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/routes/post.js">Github1</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/models/Post.js">Github2</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/655">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            12 upload 图片上传接口
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/657">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            14 顶部组件 UI 开发
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

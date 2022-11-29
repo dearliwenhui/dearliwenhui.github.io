@@ -1,0 +1,224 @@
+<html><head><meta charset="utf-8"><title>02  HTTP 初窥门径-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        02  HTTP 初窥门径
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-08-12 10:42:22
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.sycdn.imooc.com/5ddbad2100011a4806400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">读书而不思考，等于吃饭而不消化。——波尔克<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">历史总是存在着一些无法解释的现象，1955 年对于计算机行业来说，是一个伟大的年份，这一年，比尔·盖茨和乔帮主出生。前者一手缔造了MicroSoft，让计算机走进了千家万户。后者创办了Apple，创造了风靡全球的iPod、iPhone。这一年，英国诞生了一个小男孩<code>Tim Berners-Lee</code>，此子天赋异禀，智商超群。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb36160001455d03000336.png" data-original="//img1.sycdn.imooc.com/5ddb36160001455d03000336.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Tim 在大学毕业后，加入了欧洲核子研究组织( <code>CERN</code> )，成为了一名光荣的程序猿。这哥们在上班的时候可能觉得无聊，总想搞点大事情，他想把 <code>CERN</code> 所有的电脑的数据进行共享。这样的话，大家就可以偷偷看到其他人的各种八卦，会大大的丰富大家的业余生活~~~</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">这个理由是本人瞎猜臆造，如有巧合，纯属雷同……</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">终于有一天，Tim 发明了一种叫做万维网(World Wide Web ，也就是我们熟悉的 <code>WWW</code> )的东西，通过 <code>WWW</code> 技术可以将所有的电脑资源共享。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们今天能够通过慕课网学习各种知识，也是多亏了 Tim 的万维网技术，请让我们对他表示崇高的敬意。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了实现资源共享，Tim 发明了一种叫做 <strong>超文本(hypertext)</strong> 的东东。该技术包含了三部分内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">定义资源路径的<code>URI</code>；</li>
+<li style="font-size: 20px; line-height: 38px;">传输资源的通信协议；</li>
+<li style="font-size: 20px; line-height: 38px;">创建网页的语言。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">他用这些技术在乔帮主发明的 <strong>NeXT 电脑作为服务器</strong>，创造了人类的第一个网站<a href="http://info.cern.ch/">Info.cern.ch</a>，此网站现在还能正常访问。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb36290001646910080678.png" data-original="//img1.sycdn.imooc.com/5ddb36290001646910080678.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么要说这些呢？因为我们今天要介绍的主角 <strong>HTTP 协议 <strong>就是上面提到的</strong>超文本(hypertext)中的传输资源的通信协议~</strong></p>
+</div><div class="cl-preview-section"><h3 id="http版本">HTTP版本</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">自 HTTP 协议发明到现在，经过了几次版本修改，分别是<code>HTTP/0.9</code>，<code>HTTP/1/0</code>，<code>HTTP/1.1</code>以及<code>HTTP/2</code>。<br>
+现在市面上主要还是 <code>HTTP/1.1</code>，我们本文也主要介绍的是该版本。</p>
+</div><div class="cl-preview-section"><h4 id="tcpip协议" style="font-size: 26px;">TCP/IP协议</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在学习 HTTP 协议之前我们先来了解下 TCP/IP 协议。可能大家要问了，我们在学习 HTTP，为什么要扯到 TCP/IP协议呢？你是不是在凑字数？骗子！！！非也，非也，我们要理解 HTTP，就必须要简单了解一下 TCP/IP 协议，它是 HTTP 的基础，地基打稳了房子才能结实嘛！<br>
+大家在工作过程中可能经常听到  OSI 七层网络结构以及 TCP/IP 四层网络结构等，但是这些都是什么呢？你平时工作中是否被搞晕过呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5dde3316000172fc05010349.png" data-original="//img1.sycdn.imooc.com/5dde3316000172fc05010349.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">左边的是大名鼎鼎的<strong>国际标准化组织 ISO 指定的网络结构模型</strong>。但是实际上大家使用的都是右边的 <strong>TCP/IP 四层网络结构。</strong></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><code>ISO</code>指定网络标准的时候，<code>TCP/IP</code>已经成为了事实上的标准，所以造成了一种奇葩现象。国际协会指定了标准，但是大家都不用~~</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们简单的聊一下 TCP/IP 四层结构中每一层的作用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>应用层：</strong> 这一层就是上层应用使用的协议。比如<code>HTTP</code>协议，<code>FTP</code>协议，<code>SMTP</code>协议等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>传输层：</strong> 从物理层到传输层这三层都是负责建立网络连接，发送数据。他们并不关心应用层使用什么协议。<br>
+传输层使用的就是<code>TCP</code>和<code>UDP</code>协议。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>网络层：</strong> 这一层负责选择<code>路由路径</code>。条条大路通罗马嘛，所以从相同的<strong>出发地</strong>到相同的<strong>目的地</strong> 也会有很多种路径，网络层就负责选择一条数据通行的路径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>物理层：</strong> 这一层负责数据的发送。这是最底层的网卡负责的。网卡把数据转换成<strong>高/低电平</strong>,然后通过网线发送出去。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们以一个实际的例子来说明这个过程：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5dde33220001ff2716200730.png" data-original="//img1.sycdn.imooc.com/5dde33220001ff2716200730.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图是 主机A 向 主机B 发送 hello world 的过程。用户发出一个请求之后，从应用层开始，一直到物理层，每一层都会被加上盖层所属的附加信息；在接收端，每经过一层都会去掉该层的附加信息，然后交给上层处理。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">是不是很像洋葱，一层又一层……</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">应用层把待发送的信息 hello world 使用自己的协议进行封装，然后调用传输层的接口，以此类推，最终数据传递给了物理层。每一层都会加上自己特有的一些标志信息。物理层最后把要发送的数据(包含应用层真正想发送的hello world 以及每个层自己增加的标识信息)转换为高低电平发送出去，接收端收到之后进行一个<strong>逆向</strong>的解析过程，最后主机B收到了 hello world。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">上面是一个简单的描述，但是整体的原理就是这样的~<br>
+大家不要被每一层的概念所迷惑。这些<strong>层</strong>是人为划分出来的概念。就是为了写代码实现的时候比较方便。只需要定义每个层的接口，上一层调用下一层的接口就行了，不必关心具体实现。这也是软件设计中的一种理念。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="http协议">HTTP协议</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面简单的说了一下网络的结构，这些东西是 <strong>HTTP 运行的基础。</strong> 下面我们聊一下本文的重点：HTTP 协议相关的内容。</p>
+</div><div class="cl-preview-section"><h4 id="http协议总览" style="font-size: 26px;">HTTP协议总览</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先看一下 HTTP 协议的总览图，如下：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb367400019cdc17181926.png" data-original="//img1.sycdn.imooc.com/5ddb367400019cdc17181926.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="http协议结构" style="font-size: 26px;">HTTP协议结构</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5dde33300001dc7c08440936.png" data-original="//img1.sycdn.imooc.com/5dde33300001dc7c08440936.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">图中可以看到，<code>HTTP</code>协议分为三个部分，其中报文头部和报文主体之间使用空行进行分隔。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">HTTP 是一个 <code>Request-Response</code> 的协议。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5dde333d0001dd0716070591.png" data-original="//img1.sycdn.imooc.com/5dde333d0001dd0716070591.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">客户端发出 HTTP 请求( request )；</li>
+<li style="font-size: 20px; line-height: 38px;">服务器接收请求，处理请求，然后返回响应结果( response )；</li>
+<li style="font-size: 20px; line-height: 38px;">客户端接收响应结果，进行其它处理。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们针对<code>HTTP</code>的请求和响应分别学习他们的报文结构。</p>
+</div><div class="cl-preview-section"><h4 id="http-请求报文" style="font-size: 26px;">HTTP 请求报文</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5dde33470001259c10830821.png" data-original="//img1.sycdn.imooc.com/5dde33470001259c10830821.png" alt="图片描述"><br>
+我们可以看到，<code>HTTP</code>请求报文分为三部分:</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">请求行</li>
+<li style="font-size: 20px; line-height: 38px;">请求头</li>
+<li style="font-size: 20px; line-height: 38px;">请求体</li>
+</ul>
+</div><div class="cl-preview-section"><h5 id="请求行" style="font-size: 20px; line-height: 38px;">请求行</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb36d60001d0aa11440818.png" data-original="//img1.sycdn.imooc.com/5ddb36d60001d0aa11440818.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">请求行包含了三部分，分别是请求方法，请求的 <code>URL</code> 以 HTTP 协议版本。</p>
+</div><div class="cl-preview-section"><h5 id="请求方法" style="font-size: 20px; line-height: 38px;">请求方法</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>HTTP/1.1</code>支持多种请求方法 ( <code>method</code> )，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb371a0001685612061170.png" data-original="//img1.sycdn.imooc.com/5ddb371a0001685612061170.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">图中的数字表示的是支持该方法的最低 HTTP 协议版本，例如我们从图中可以看到<code>HTTP/0.9</code>只支持<code>GET</code>方法。在工作中我们最常用到的是 <code>GET</code> 和 <code>POST</code> 方法。下面我们简单来聊一下这两种方法的区别。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1229">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            01  开篇词：你为什么要学 Nginx？
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1231">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            03 HTTP 请求与响应
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,593 @@
+<html><head><meta charset="utf-8"><title>31 搜索热词、搜索历史和联想搜索-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        31 搜索热词、搜索历史和联想搜索
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-30 11:36:32
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.mukewang.com/5d67ae1e0001836a06400360.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">不想当将军的士兵，不是好士兵。<p class="author">——拿破仑</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节我们在商城首页实现了分类展示商品列表，本节我们将在商品搜索页面实现商品搜索功能。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第二节中，我们已经设计了商品搜索页面的页面效果，如图 11 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 11 商品搜索页面</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d67aeb40001ea6b03530616.png" data-original="//img.mukewang.com/5d67aeb40001ea6b03530616.png" alt="图片描述"><br>
+根据第一节的业务设计，和第二节的功能设计、页面效果图，按照 “分类拆解法” 的步骤进行商品搜索页面开发。</p>
+</div><div class="cl-preview-section"><h2 id="拆解步骤" style="font-size: 30px;">1. 拆解步骤</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>在本节仅给出拆解结果，拆解过程请回顾第二章第三节对 “分类拆解法” 的详细讲解内容。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>请各位同学自己动手实践，按照拆解步骤拆解，结合第一节的业务设计、第二节的功能设计，拆解本节图 11 、第二节图 2  、第二节图 4 的商品搜索页面，然后将自己的拆解结果与本节列出的拆解结果进行对照总结。这是本节内容的实践环节之一。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">商品搜索页面可以由上到下拆解为 4 个子部件，具体拆解结果如下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">子部件 1 ：顶部搜索栏</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 1 的显示元素包括：</p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">搜索框</p>
+<p style="font-size: 20px; line-height: 38px;">输入界面，事件为键盘输入事件、输入框聚焦事件、输入框失去焦点事件，数据为用户输入关键词和输入框是否聚焦的标志</p>
+<p style="font-size: 20px; line-height: 38px;">键盘输入事件的事件响应为：记录用户输入关键词并在联想词列表中显示与输入内容相关的关键词</p>
+<p style="font-size: 20px; line-height: 38px;">输入框聚焦事件的事件响应为：设置输入框是否聚焦的标志为 <code>true</code>，显示联想词列表，并在联想词列表中显示与输入框中内容相关的关键词</p>
+<p style="font-size: 20px; line-height: 38px;">输入框失去焦点事件的事件响应为：设置输入框是否聚焦的标志为 <code>false</code></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">清空搜索框内容按钮</p>
+<p style="font-size: 20px; line-height: 38px;">单条内容交互界面，事件为用户点击事件，数据为用户输入关键词</p>
+<p style="font-size: 20px; line-height: 38px;">清空搜索框内容按钮仅在输入框中有内容时显示</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：清空用户输入关键词和联想关键词数组</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">联想词列表</p>
+<p style="font-size: 20px; line-height: 38px;">多条内容交互界面，事件为用户点击事件，数据为用户输入关键词和联想关键词数组</p>
+<p style="font-size: 20px; line-height: 38px;">当用户在搜索框输入内容时显示联想词列表，联想关键词数组为搜索联想词库中包含用户输入关键词的 8 条联想关键词 **（与用户输入的关键词相关的联想词可能有很多个，显示太多的联想词会让用户无法选择，只显示最相关的几个联想词的用户体验较好）**</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：在搜索框中设置搜索内容为用户点击的关键词，并触发搜索按钮点击事件显示搜索结果</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">搜索按钮</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，事件为用户点击事件，数据为用户输入关键词、搜索结果列表和历史搜索关键词列表</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：在历史搜索关键词列表中添加当前用户输入关键词，并在子部件 4 中显示商品标题包含用户输入关键词的搜索结果列表</p>
+</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">子部件 2 ：历史搜索记录栏</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 1 的显示元素包括：</p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标题</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，无事件，无数据</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">清空按钮</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，事件为用户点击事件，数据为历史搜索关键词列表</p>
+<p style="font-size: 20px; line-height: 38px;">历史搜索关键词列表存储在微信客户端缓存中</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：在微信客户端缓存中清空历史搜索关键词列表</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标签栏</p>
+<p style="font-size: 20px; line-height: 38px;">多条内容交互界面，事件为页面加载事件与用户点击事件，数据为历史搜索关键词列表</p>
+<p style="font-size: 20px; line-height: 38px;">在页面加载时，从微信客户端缓存中读取历史搜索关键词列表，显示到标签栏中 <strong>（使用微信客户端缓存保存历史搜索关键词列表才能实现：当用户第二次打开商品搜索页面时，能看到以前在商品搜索页页面搜索的历史记录）</strong></p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：在搜索框中设置搜索内容为用户点击的标签，并触发搜索按钮点击事件显示搜索结果</p>
+</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">子部件 3 ：热门搜索词栏</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 3 的显示元素包括：</p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标题</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，无事件，无数据</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标签栏</p>
+<p style="font-size: 20px; line-height: 38px;">多条内容交互界面，事件为页面加载事件与用户点击事件，数据为热门搜索关键词列表</p>
+<p style="font-size: 20px; line-height: 38px;">在页面加载时，从热搜词库中读取热门搜索关键词列表，显示到标签栏中</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：在搜索框中设置搜索内容为用户点击的标签，并触发搜索按钮点击事件显示搜索结果</p>
+</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">子部件 4 ：搜索结果栏</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 4 的显示元素包括：</p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商品列表</p>
+<p style="font-size: 20px; line-height: 38px;">多条数据的交互界面，事件为用户屏幕滑动事件与用户点击屏幕事件，数据为：商品标题包含用户输入关键词的商品信息数组</p>
+<p style="font-size: 20px; line-height: 38px;">点击搜索按钮、点击搜索联想词、点击历史搜索记录标签或点击热搜词标签后，从商品信息表中查找商品标题包含关键词的商品信息列表</p>
+<p style="font-size: 20px; line-height: 38px;">用户下滑屏幕到页面底部事件的事件响应为：从商品信息表中分页获取商品标题包含关键词的下一页商品信息数据，并追加到商品信息数组末尾。如果商品信息表中商品标题包含关键词的所有数据都获取完毕，用户下滑屏幕将不再获取分页数据</p>
+<p style="font-size: 20px; line-height: 38px;">商品信息数组中的商品数据以左右两列卡片式瀑布流的方式显示，一个卡片显示一个商品信息，每个卡片显示商品的缩略图、商品名称（黑色）、商品简介（灰色）、商品原价（红色）</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击屏幕事件的事件响应为：在用户点击商品卡片后，页面跳转到商品详情页面，需要向商品详情页面传递商品 ID</p>
+<p style="font-size: 20px; line-height: 38px;">商品信息表的数据需要从云数据库中获取</p>
+</li>
+</ul>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="数据服务" style="font-size: 30px;">2. 数据服务</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在商品搜索页面需要读取搜索联想词库与热搜词库，读取方法应该在数据服务 <code>ProductService</code> 中实现，将业务与数据操作分离：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js"><span class="token comment">/**
+ * 产品数据操作类 
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">ProductService</span> <span class="token punctuation">{</span>
+
+  <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>productData <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"../data/json_data.js"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 从热搜词库获取热搜产品关键词
+   * @return {array} 热搜产品关键词string数组
+   */</span>
+  <span class="token function">getHotSearchProducts</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>productData<span class="token punctuation">.</span>hotSearchProducts
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">/**
+   * 从搜索联想词库获取搜索联想词
+   * @param {string} keyword 用户输入的关键词
+   * @return {array} 联想词string数组
+   */</span>
+  <span class="token function">getSuggestWords</span><span class="token punctuation">(</span>keyword<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    keyword <span class="token operator">=</span> keyword<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//将用户输入的关键词与联想词库进行小写匹配，返回 8 个联想词</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>productData<span class="token punctuation">.</span>suggestWords<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>e <span class="token operator">=&gt;</span> e<span class="token punctuation">.</span>word<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>keyword<span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> ProductService
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>ProductService</code> 的完整代码请参考专栏源代码  ProductService.js ，具体代码位置见本节末尾图 12。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在页面 JS 逻辑中引用 <code>ProductService</code> 即可调用读取搜索联想词库与热搜词库的方法：</p>
+</div><div class="cl-preview-section"><pre><code>//引用商品信息的数据库访问类
+import ProductService from '../../../../../dataservice/ProductService.js'
+var productService = new ProductService()
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="编程步骤" style="font-size: 30px;">3. 编程步骤</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节的图 2 、图 3 、图 4 中分别展示了不同情况下各个显示元素的显示与隐藏，这主要与输入框是否聚焦的标志 <code>inputFocused</code> 和输入框中是否有内容（即用户输入关键词的字符串长度 <code>inputVal.length</code> 是否大于零）有关。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各个子部件与显示元素的具体显示与隐藏规则如下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">输入框中有内容时显示：</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 1 的清空搜索框内容按钮</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">输入框中无内容时显示：</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 2 ：历史搜索记录栏</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 3 ：热门搜索词栏</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">输入框中有内容，且输入框聚焦时显示：</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 1 的联想词列表</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">输入框中有内容，且输入框未聚焦时显示：</p>
+<p style="font-size: 20px; line-height: 38px;">子部件 4 ：搜索结果栏</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="定义页面子部件及其排列顺序">3.1 定义页面子部件及其排列顺序</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先在 data 中定义与界面显示隐藏相关的数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    inputVal<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token comment">//用户输入关键词</span>
+    inputFocused<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//输入框是否聚焦的标志</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在 WXML 页面模板中定义 3 个子部件的容器，并定义显示隐藏的条件：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- 子部件 1 ：顶部搜索栏 可直接使用 WeUI 的 SearchBar 组件实现--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!-- 子部件 1 的联想词列表 当输入框中有内容，且输入框聚焦时显示 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cells searchbar-result<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &lt;= 0 || !inputFocused}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token comment">&lt;!-- 输入框中无内容时显示 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &gt; 0}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 子部件 2 ：历史搜索记录栏 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel padding<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 子部件 3 ：热门搜索词栏 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel padding<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token comment">&lt;!-- 子部件 4 ：搜索结果栏 当输入框中有内容，且输入框未聚焦时显示--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &lt;= 0 || inputFocused}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 1 可直接使用 WeUI 的 SearchBar 组件实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>需要注意的 <code>wx:if</code> 与 <code>hidden</code> 的不同使用场景， <code>wx:if</code> 与 <code>hidden</code> 都可以控制界面的显示与隐藏，但他们的性能开销不同，在需要频繁切换显示隐藏的场景下，用 <code>hidden</code> 更好，否则 <code>wx:if</code> 较好。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong><code>wx:if</code> 与 <code>hidden</code> 的详细区别请参考微信官方 “小程序开发文档” 中的说明，具体位置为：<a href="https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/conditional.html">“框架” -&gt; “WXML 语法参考” -&gt; “条件渲染”</a>。</strong></p>
+</div><div class="cl-preview-section"><h3 id="实现子部件-1-：顶部搜索栏">3.2 实现子部件 1 ：顶部搜索栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">顶部搜索栏可以直接修改 WeUI Demo 小程序的 SearchBar 组件源代码实现，需要进行修改的内容包括：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在输入框增加输入框聚焦事件 <code>bindfocus="inputFocus"</code>、输入框失去焦点事件 <code>bindblur="inputBlur"</code> 以编写事件响应函数</li>
+<li style="font-size: 20px; line-height: 38px;">使用 <code>hidden</code> 来控制界面隐藏、显示</li>
+<li style="font-size: 20px; line-height: 38px;">使用列表渲染 <code>wx:for</code> 来展示联想词列表，并定义联想词点击事件 <code>bindtap='onClickTags'</code>  以编写事件响应函数</li>
+<li style="font-size: 20px; line-height: 38px;">将搜索框右侧的取消按钮修改为搜索按钮，并定义搜索按钮点击事件 <code>bindtap="onClickSearchButton"</code> 以编写事件响应函数 </li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- 子部件 1 ：顶部搜索栏 可直接使用 WeUI 的 SearchBar 组件实现 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar__form<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar__box<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>icon</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-icon-search_in-box<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>search<span class="token punctuation">"</span></span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>14<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>icon</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 1.在输入框增加输入框聚焦事件、输入框失去焦点事件 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar__input<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>搜索<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal}}<span class="token punctuation">"</span></span> <span class="token attr-name">bindfocus</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inputFocus<span class="token punctuation">"</span></span> <span class="token attr-name">bindblur</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inputBlur<span class="token punctuation">"</span></span> <span class="token attr-name">bindinput</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inputTyping<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+      <span class="token comment">&lt;!-- 2.使用 hidden 来控制界面隐藏、显示 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-colorui-clear<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &lt;= 0}}<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>clearInput<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>icon</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>clear<span class="token punctuation">"</span></span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>14<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>icon</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 4.在搜索框右侧的取消按钮修改为搜索按钮 --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-search-bar__cancel-btn<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>onClickSearchButton<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>搜索<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!-- 2.子部件 1 的联想词列表 当输入框中有内容，且输入框聚焦时显示 使用 hidden 来控制界面隐藏、显示 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cells searchbar-result<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &lt;= 0 || !inputFocused}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 3.使用 列表渲染来展示联想词列表 --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{suggestKeywords}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{suggestKeyword.word}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>suggestKeyword<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell<span class="token punctuation">"</span></span> <span class="token attr-name">hover-class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell_active<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{ suggestKeyword.word }}<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>onClickTags<span class="token punctuation">'</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>{{suggestKeyword.word}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><ol start="5">
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">WeUI 的 SearchBar 组件是灰色背景白色搜索框，要实现图 11 中的白色背景灰色搜索框效果，还需要对样式进行调整，调整后的样式请参考专栏源代码 <code>search.wxss</code> 中注释为 “/* 修改 weui 搜索栏样式 */”  的部分。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">在 data 中定义相关数据并实现各个事件响应函数</p>
+<p style="font-size: 20px; line-height: 38px;">数据：</p>
+</li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    searchedKeywords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//历史搜索关键词列表</span>
+    suggestKeywords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//联想关键词数组</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">​		根据拆解结果，逐一实现子部件 1 的各个事件响应函数：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  
+  <span class="token comment">/**
+   * 输入框聚焦事件：设置输入框是否聚焦的标志为 true，根据输入框中的关键词刷新联想关键词数组
+   */</span>
+  inputFocus<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      inputFocused<span class="token punctuation">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">refreshSuggestWords</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 输入框失去焦点事件：设置输入框是否聚焦的标志为 false
+   */</span>
+  inputBlur<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      inputFocused<span class="token punctuation">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 清空搜索框内容按钮点击事件：清空用户输入关键词和联想关键词数组
+   */</span>
+  clearInput<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      inputVal<span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+      suggestKeywords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 输入框键盘输入事件：记录用户输入关键词，根据输入框中的关键词刷新联想关键词数组
+   */</span>
+  inputTyping<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      inputVal<span class="token punctuation">:</span> e<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>value<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">refreshSuggestWords</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 搜索按钮点击事件：在历史搜索关键词列表中添加当前用户输入关键词，
+   * 并在子部件 4 中显示商品标题包含用户输入关键词的搜索结果列表
+   */</span>
+  onClickSearchButton<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//在历史搜索关键词列表中添加当前用户输入关键词</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">addSearchedKeyword</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>inputVal<span class="token punctuation">)</span>
+    
+    <span class="token comment">//在用户点击搜索后，刷新商品列表显示</span>
+    <span class="token comment">//... 略，参考第三节 refreshProductList 方法，或阅读专栏源代码</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  
+  <span class="token comment">/**
+   * 联想词列表中联想词点击事件：设置输入框内容为点击关键词，并触发搜索按钮点击事件
+   * 点击历史记录的标签、点击热门搜索标签的事件响应函数同样为该方法
+   */</span>
+  onClickTags<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      inputVal<span class="token punctuation">:</span> e<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>id<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">onClickSearchButton</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  
+  <span class="token comment">/**
+   * 根据输入框中的关键词刷新联想关键词数组
+   */</span>
+  refreshSuggestWords<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//调用数据服务，从搜索联想词库获取搜索联想词</span>
+    <span class="token keyword">var</span> suggestWords <span class="token operator">=</span> productService<span class="token punctuation">.</span><span class="token function">getSuggestWords</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>inputVal<span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      suggestKeywords<span class="token punctuation">:</span> suggestWords
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 在历史搜索关键词列表中添加关键词
+   * 使用小程序官方提供的数据缓存 API 实现历史搜索关键词列表的读取与存储
+   */</span>
+  addSearchedKeyword<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//输入参数的合法性校验</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">"undefined"</span> <span class="token operator">||</span> text<span class="token punctuation">.</span>length <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//从缓存读取历史搜索关键词列表</span>
+    <span class="token keyword">var</span> value <span class="token operator">=</span> wx<span class="token punctuation">.</span><span class="token function">getStorageSync</span><span class="token punctuation">(</span><span class="token string">'searchedKeywords'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//如果缓存中已经存在历史搜索关键词列表</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//如果历史搜索关键词列表中没有关键词，就将关键词添加到列表末尾</span>
+        value<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//如果缓存中不存在历史搜索关键词列表，新建列表并添加关键词进列表</span>
+      value <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      value<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//更新历史搜索关键词列表的显示数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      searchedKeywords<span class="token punctuation">:</span> value
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//将最新的历史搜索关键词列表更新到本地缓存</span>
+    wx<span class="token punctuation">.</span><span class="token function">setStorage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      key<span class="token punctuation">:</span> <span class="token string">"searchedKeywords"</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span> value<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">历史搜索关键词列表的存储与读取使用使用小程序官方提供的数据缓存 API 实现，数据缓存 API 的官方文档位置为：<a href="https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html">“API” -&gt; “数据缓存”</a>，使用 <code>setStorage</code> 向微信客户端写入搜索记录， <code>getStorage</code> 从微信客户端读取搜索记录，<code>removeStorage</code> 从缓存中清除历史搜索关键词列表。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>请注意 <code>clearStorage</code> 是清空微信客户端的所有缓存，不要将它与 <code>removeStorage</code> 的用法搞反了。</strong></p>
+</div><div class="cl-preview-section"><h3 id="实现子部件-2-：历史搜索记录栏与子部件-3-：热门搜索词栏">3.3 实现子部件 2 ：历史搜索记录栏与子部件 3 ：热门搜索词栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 与 子部件 3 的实现基本一致，区别仅在于数据源不同，以及子部件 2  多了一个清空按钮。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 3 的显示数据需要定义：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    hotSearchProducts<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//热门搜索关键词列表</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 的界面需要使用 WeUI 的 Flex 组件来实现标题与清空按钮的水平左右显示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">历史搜索记录标签，热门搜索词标签使用 WXML 的列表渲染显示。</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- 输入框中无内容时显示 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">hidden</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inputVal.length &gt; 0}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 2 ：历史搜索记录栏 使用 WeUI 的 Panel 组件--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel padding<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 使用 WeUI 的 Flex 组件实现 标题与清空按钮左右显示 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item padding-bottom-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-lg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>历史记录<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token comment">&lt;!-- 清空按钮 --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-right<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-delete<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>clearSearchedKeywords<span class="token punctuation">'</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 使用列表渲染显示历史搜索记录标签 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>search_tags text-df<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{searchedKeywords}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{hotSearchProducts}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>keyword<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{ keyword }}<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fl padding-right-sm<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>onClickTags<span class="token punctuation">'</span></span><span class="token punctuation">&gt;</span></span>{{ keyword }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 3 ：热门搜索词栏 使用 WeUI 的 Panel 组件--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel padding<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-lg padding-bottom-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>热门搜索<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 使用列表渲染显示热门搜索词标签 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>search_tags text-df<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>block</span> <span class="token attr-name"><span class="token namespace">wx:</span>for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{hotSearchProducts}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>key</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{hotSearchProducts}}<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">wx:</span>for-item</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>keyword<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{ keyword }}<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fl padding-right-sm<span class="token punctuation">"</span></span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>onClickTags<span class="token punctuation">'</span></span><span class="token punctuation">&gt;</span></span>{{ keyword }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>block</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在页面加载时需要读取历史搜索记录列表与热门搜索关键词列表：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  onReady<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//调用数据服务读取热门搜索关键词列表</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      hotSearchProducts<span class="token punctuation">:</span> productService<span class="token punctuation">.</span><span class="token function">getHotSearchProducts</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token comment">//从本地缓存读取历史搜索记录列表</span>
+    <span class="token keyword">var</span> value <span class="token operator">=</span> wx<span class="token punctuation">.</span><span class="token function">getStorageSync</span><span class="token punctuation">(</span><span class="token string">'searchedKeywords'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//如果缓存中已经存在历史搜索关键词列表，读取缓存</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        searchedKeywords<span class="token punctuation">:</span> value
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">历史搜索记录标签与热门搜索词标签的点击事件与联想词点击事件一致，可直接使用同样的的事件响应函数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 的清空按钮需要定义事件响应函数：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 清空按钮点击事件：在微信客户端缓存中清空历史搜索关键词列表
+   */</span>
+  clearSearchedKeywords<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//清空历史搜索关键词列表的显示数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      searchedKeywords<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//缓存中清除历史搜索关键词列表</span>
+    wx<span class="token punctuation">.</span><span class="token function">removeStorage</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      key<span class="token punctuation">:</span> <span class="token string">'searchedKeywords'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现子部件-4-：搜索结果栏">3.4 实现子部件 4 ：搜索结果栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">搜索结果栏的代码实现与第三节商品列表栏几乎相同，不再复述。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">搜索结果栏的实现代码请参考：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">第三节中商品列表栏的代码，不使用自定义组件，直接在页面中编写全部代码</li>
+<li style="font-size: 20px; line-height: 38px;">专栏源代码，使用自定义组件实现</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>由于篇幅所限，包含完整样式的 WXML 页面模板代码请查阅专栏源代码 search.wxml 与 search.wxss ，完整的 JS 逻辑代码见 search.js ，具体代码位置见本节末尾图 12 。</strong></p>
+</div><div class="cl-preview-section"><h2 id="专栏源代码" style="font-size: 30px;">4. 专栏源代码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏源代码已上传到 GitHub ，请访问以下地址获取：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/liujiec/Membership-ECommerce-Miniprogram">https://github.com/liujiec/Membership-ECommerce-Miniprogram</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节源代码内容在图 12 红框标出的位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 12 本节源代码位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d67aedf000167e906130620.png" data-original="//img.mukewang.com/5d67aedf000167e906130620.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将编写云函数实现商品购买的支付接口，然后在商品详情页面和购物车页面中实现商品购买功能。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>请结合第二章第三节对 “分类拆解法” 的详细讲解内容，拆解本节图 11 、第二节图 2  、第二节图 4 的商品搜索页面，然后将自己的拆解结果与本节列出的拆解结果进行对照总结。</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>编写代码完成商品搜索页面，如碰到问题，请阅读本专栏源代码学习如何实现。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/589">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            30 现在流行瀑布流：开发实现商城首页面
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/591">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            32 准备好收银机：开发实现商城支付接口
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

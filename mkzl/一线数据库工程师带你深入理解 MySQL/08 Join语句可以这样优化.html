@@ -1,0 +1,324 @@
+<html><head><meta charset="utf-8"><title>08 Join语句可以这样优化-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        08 Join语句可以这样优化
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-13 14:08:27
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d3acc0d0001f2a306400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">世上无难事,只要肯登攀。<p class="author">——毛泽东</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在使用数据库查询数据时，有时一张表并不能满足我们的需求，很多时候都涉及到多张表的连接查询。今天，我们就一起研究关联查询的一些优化技巧。在说关联查询优化之前，我们先看下跟关联查询有关的几个算法：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了方便理解，首先创建测试表并写入测试数据，语句如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> muke<span class="token punctuation">;</span> <span class="token comment">/* 创建测试使用的database，名为muke */</span>
+<span class="token keyword">use</span> muke<span class="token punctuation">;</span> <span class="token comment">/* 使用muke这个database */</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> t1<span class="token punctuation">;</span> <span class="token comment">/* 如果表t1存在则删除表t1 */</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token punctuation">`</span>t1<span class="token punctuation">`</span> <span class="token punctuation">(</span> <span class="token comment">/* 创建表t1 */</span>
+<span class="token punctuation">`</span>id<span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">auto_increment</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">b</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span>create_time<span class="token punctuation">`</span> <span class="token keyword">datetime</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">COMMENT</span> <span class="token string">'记录创建时间'</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span>update_time<span class="token punctuation">`</span> <span class="token keyword">datetime</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">ON</span> <span class="token keyword">UPDATE</span> <span class="token keyword">CURRENT_TIMESTAMP</span>
+<span class="token keyword">COMMENT</span> <span class="token string">'记录更新时间'</span><span class="token punctuation">,</span>
+<span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token keyword">KEY</span> <span class="token punctuation">`</span>idx_a<span class="token punctuation">`</span> <span class="token punctuation">(</span><span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span><span class="token operator">=</span><span class="token keyword">InnoDB</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CHARSET</span><span class="token operator">=</span>utf8mb4<span class="token punctuation">;</span>
+
+<span class="token keyword">drop</span> <span class="token keyword">procedure</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> insert_t1<span class="token punctuation">;</span> <span class="token comment">/* 如果存在存储过程insert_t1，则删除 */</span>
+
+<span class="token keyword">delimiter</span> <span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">create</span> <span class="token keyword">procedure</span> insert_t1<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">/* 创建存储过程insert_t1 */</span>
+<span class="token keyword">begin</span>
+<span class="token keyword">declare</span> i <span class="token keyword">int</span><span class="token punctuation">;</span> <span class="token comment">/* 声明变量i */</span>
+<span class="token keyword">set</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* 设置i的初始值为1 */</span>
+<span class="token keyword">while</span><span class="token punctuation">(</span>i<span class="token operator">&lt;=</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token keyword">do</span> <span class="token comment">/* 对满足i&lt;=10000的值进行while循环 */</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> t1<span class="token punctuation">(</span><span class="token number">a</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">)</span> <span class="token keyword">values</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* 写入表t1中a、b两个字段，值都为i当前的值 */</span>
+<span class="token keyword">set</span> i<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* 将i加1 */</span>
+<span class="token keyword">end</span> <span class="token keyword">while</span><span class="token punctuation">;</span>
+<span class="token keyword">end</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token keyword">delimiter</span> <span class="token punctuation">;</span> <span class="token comment">/* 创建批量写入10000条数据到表t1的存储过程insert_t1 */</span>
+<span class="token keyword">call</span> insert_t1<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* 运行存储过程insert_t1 */</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> t2<span class="token punctuation">;</span> <span class="token comment">/* 如果表t2存在则删除表t2 */</span>
+<span class="token keyword">create</span> <span class="token keyword">table</span> t2 <span class="token operator">like</span> t1<span class="token punctuation">;</span> <span class="token comment">/* 创建表t2，表结构与t1一致 */</span>
+<span class="token keyword">insert</span> <span class="token keyword">into</span> t2 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">limit</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token comment">/* 将表t1的前100行数据导入到t2 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="关联查询的算法" style="font-size: 30px;">1 关联查询的算法</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">MySQL 使用以下两种嵌套循环算法或它们的变体在表之间执行连接（参考 《<a href="https://dev.mysql.com/doc/refman/5.7/en/nested-loop-joins.html">MySQL 5.7 Reference Manual》8.2.1.6 Nested-Loop Join Algorithms</a>）：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Nested-Loop Join 算法</li>
+<li style="font-size: 20px; line-height: 38px;">Block Nested-Loop Join 算法</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">另外还有一种算法 Batched Key Access，其实算对 Nested-Loop Join 算法的一种优化。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们就看下这些算法的设计思想：</p>
+</div><div class="cl-preview-section"><h3 id="nested-loop-join-算法">1.1 Nested-Loop Join 算法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个简单的 Nested-Loop Join(NLJ) 算法一次一行循环地从第一张表（称为驱动表）中读取行，在这行数据中取到关联字段，根据关联字段在另一张表（被驱动表）里取出满足条件的行，然后取出两张表的结果合集。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们试想一下，如果在被驱动表中这个关联字段没有索引，那么每次取出驱动表的关联字段在被驱动表查找对应的数据时，都会对被驱动表做一次全表扫描，成本是非常高的（比如驱动表数据量是 m，被驱动表数据量是 n，则扫描行数为 m * n ）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好在 MySQL 在关联字段有索引时，才会使用 NLJ，如果没索引，就会使用 Block Nested-Loop Join，等下会细说这个算法。我们先来看下在有索引情况的情况下，使用 Nested-Loop Join 的场景（称为：Index Nested-Loop Join）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为 MySQL 在关联字段有索引时，才会使用 NLJ，因此本节后面的内容所用到的 NLJ 都表示  Index Nested-Loop Join。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如下例：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">inner</span> <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.a</span> <span class="token operator">=</span> t2<span class="token number">.a</span><span class="token punctuation">;</span>       <span class="token comment">/* sql1 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Tips：表 t1 和表 t2 中的 a 字段都有索引。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么确定这条 SQL 使用的是 NLJ 算法？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先来看下 sql1 的执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aae8900018b3113450183.png" data-original="//img.mukewang.com/5d3aae8900018b3113450183.png" alt="图片描述">从执行计划中可以看到这些信息：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">驱动表是 t2，被驱动表是 t1。原因是：explain 分析 join 语句时，在第一行的就是驱动表；选择 t2 做驱动表的原因：如果没固定连接方式（比如没加 straight_join）优化器会优先选择小表做驱动表。<strong>所以使用 inner join 时，前面的表并不一定就是驱动表。</strong></li>
+<li style="font-size: 20px; line-height: 38px;">使用了 NLJ。原因是：一般 join 语句中，如果执行计划 Extra 中未出现 Using join buffer （***）；则表示使用的 join 算法是 NLJ。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">sql1 的大致流程如下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">从表 t2 中读取一行数据；</li>
+<li style="font-size: 20px; line-height: 38px;">从第 1 步的数据中，取出关联字段 a，到表 t1 中查找；</li>
+<li style="font-size: 20px; line-height: 38px;">取出表 t1 中满足条件的行，跟 t2 中获取到的结果合并，作为结果返回给客户端；</li>
+<li style="font-size: 20px; line-height: 38px;">重复上面 3 步。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个过程中会读取 t2 表的所有数据，因此这里扫描了 100 行，然后遍历这 100 行数据中字段 a 的值，根据 t2 表中 a 的值索引扫描 t1 表中的对应行，这里也扫描了 100 行。因此整个过程扫描了 200 行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前面，我们有说到：如果被驱动表的关联字段没索引，就会使用 Block Nested-Loop Join(简称：BNL)，为什么会选择使用 BNL 算法而不继续使用 Nested-Loop Join呢？下面就一起分析下：</p>
+</div><div class="cl-preview-section"><h3 id="block-nested-loop-join-算法">1.2 Block Nested-Loop Join 算法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Block Nested-Loop Join(BNL)  算法的思想是：把驱动表的数据读入到 join_buffer 中，然后扫描被驱动表，把被驱动表每一行取出来跟 join_buffer 中的数据做对比，如果满足 join 条件，则返回结果给客户端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们一起看看下面这条 SQL 语句：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">inner</span> <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.b</span> <span class="token operator">=</span> t2<span class="token number">.b</span><span class="token punctuation">;</span>       <span class="token comment">/* sql2 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Tips：表 t1 和表 t2 中的 b 字段都没有索引</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看下执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aae720001247916240181.png" data-original="//img.mukewang.com/5d3aae720001247916240181.png" alt="图片描述">在 Extra 发现 Using join buffer (Block Nested Loop)，这个就说明该关联查询使用的是 BNL 算法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再看下 sql2 的执行流程：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">把 t2 的所有数据放入到 join_buffer 中</li>
+<li style="font-size: 20px; line-height: 38px;">把表 t1 中每一行取出来，跟 join_buffer 中的数据做对比</li>
+<li style="font-size: 20px; line-height: 38px;">返回满足 join  条件的数据</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个过程中，对表 t1 和 t2 都做了一次全表扫描，因此扫描的总行数为10000(表 t1 的数据总量) + 100(表 t2 的数据总量) = 10100。并且 join_buffer 里的数据是无序的，因此对表 t1 中的每一行，都要做 100 次判断，所以内存中的判断次数是 100 * 10000= 100 万次。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们来回答上面提出的一个问题：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果被驱动表的关联字段没索引，为什么会选择使用 BNL 算法而不继续使用 Nested-Loop Join 呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在被驱动表的关联字段没索引的情况下，比如 sql2：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果使用 Nested-Loop Join，那么扫描行数为 100 * 10000 = 100万次，这个是磁盘扫描。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果使用 BNL，那么磁盘扫描是 100 + 10000=10100 次，在内存中判断 100 * 10000 = 100万次。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">显然后者磁盘扫描的次数少很多，因此是更优的选择。因此对于 MySQL 的关联查询，如果被驱动表的关联字段没索引，会使用 BNL 算法。</p>
+</div><div class="cl-preview-section"><h3 id="batched-key-access-算法">1.3 Batched Key Access 算法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在学了 NLJ 和 BNL 算法后，你是否有个疑问，如果把 NLJ 与 BNL 两种算法的一些优秀的思想结合，是否可行呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如 NLJ 的关键思想是：被驱动表的关联字段有索引。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而 BNL 的关键思想是：把驱动表的数据批量提交一部分放到 join_buffer 中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从 MySQL 5.6 开始，确实出现了这种集 NLJ 和 BNL 两种算法优点于一体的新算法：<a href="https://dev.mysql.com/doc/refman/5.7/en/bnl-bka-optimization.html">Batched Key Access(BKA)</a>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其原理是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">将驱动表中相关列放入 join_buffer 中</li>
+<li style="font-size: 20px; line-height: 38px;">批量将关联字段的值发送到 Multi-Range Read(MRR) 接口</li>
+<li style="font-size: 20px; line-height: 38px;">MRR 通过接收到的值，根据其对应的主键 ID 进行排序，然后再进行数据的读取和操作</li>
+<li style="font-size: 20px; line-height: 38px;">返回结果给客户端</li>
+</ol>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>这里补充下 MRR 相关知识：</strong></p>
+<p style="font-size: 20px; line-height: 38px;">当表很大并且没有存储在缓存中时，使用辅助索引上的范围扫描读取行可能导致对表有很多随机访问。</p>
+<p style="font-size: 20px; line-height: 38px;">而 Multi-Range Read 优化的设计思路是：查询辅助索引时，对查询结果先按照主键进行排序，并按照主键排序后的顺序，进行顺序查找，从而减少随机访问磁盘的次数。</p>
+<p style="font-size: 20px; line-height: 38px;">使用 MRR 时，explain 输出的 Extra 列显示的是 Using MRR。</p>
+<p style="font-size: 20px; line-height: 38px;">optimizer_switch 中 mrr_cost_based 参数的值会影响 MRR。</p>
+<p style="font-size: 20px; line-height: 38px;">如果 mrr_cost_based=on，表示优化器尝试在使用和不使用 MRR 之间进行基于成本的选择。</p>
+<p style="font-size: 20px; line-height: 38px;">如果 mrr_cost_based=off，表示一直使用 MRR。</p>
+<p style="font-size: 20px; line-height: 38px;">更多 MRR 信息请参考官方手册：<a href="https://dev.mysql.com/doc/refman/5.7/en/mrr-optimization.html">https://dev.mysql.com/doc/refman/5.7/en/mrr-optimization.html</a>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面尝试开启 BKA ：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">set</span> optimizer_switch<span class="token operator">=</span><span class="token string">'mrr=on,mrr_cost_based=off,batched_key_access=on'</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里对上面几个参数做下解释：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">mrr=on    开启 mrr</li>
+<li style="font-size: 20px; line-height: 38px;">mrr_cost_based=off	不需要优化器基于成本考虑使用还是不使用 MRR，也就是一直使用 MRR</li>
+<li style="font-size: 20px; line-height: 38px;">batched_key_access=on	开启 BKA</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后再看 sql1 的执行计划：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">explain</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">inner</span> <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.a</span> <span class="token operator">=</span> t2<span class="token number">.a</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d3aae3a00015d6f16110183.png" data-original="//img.mukewang.com/5d3aae3a00015d6f16110183.png" alt="图片描述">在 Extra 字段中发现有 Using join buffer (Batched Key Access)，表示确实变成了 BKA 算法。</p>
+</div><div class="cl-preview-section"><h2 id="优化关联查询" style="font-size: 30px;">2 优化关联查询</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过上面的知识点，我们知道了关联查询的一些算法，下面一起来讨论下关联查询的优化：</p>
+</div><div class="cl-preview-section"><h3 id="关联字段添加索引">2.1  关联字段添加索引</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过上面的内容，我们知道了 BNL、NLJ 和 BKA 的原理，因此让 BNL变成 NLJ 或者 BKA，可以提高 join 的效率。我们来看下面的例子</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们构造出两个算法对于的例子：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Block Nested-Loop Join 的例子：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.b</span><span class="token operator">=</span> t2<span class="token number">.b</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">需要 0.08 秒。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Index Nested-Loop Join 的例子：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.a</span><span class="token operator">=</span> t2<span class="token number">.a</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只需要 0.01 秒。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再对比一下两条 SQL 的执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aae130001b59716160362.png" data-original="//img.mukewang.com/5d3aae130001b59716160362.png" alt="图片描述">前者扫描的行数是 100 和 9963。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">后者扫描的行数是 100 和 1。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对比执行时间和执行计划，再结合在本节开始讲解的两种算法的执行流程，很明显 Index Nested-Loop Join 效率更高。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Tips:因为在写入数据时使用的是 insert into t1(a,b) values(i, i); 因此 a、b 两个字段的值是相等的，因此这个实验的两条 SQL 虽然使用的是不同关联字段，但是实际相当于同一个字段添加索引前后的状态。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>因此建议在被驱动表的关联字段上添加索引，让 BNL变成 NLJ 或者 BKA ，可明显优化关联查询。</strong></p>
+</div><div class="cl-preview-section"><h3 id="小表做驱动表">2.2 小表做驱动表</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面说到，Index Nested-Loop Join 算法会读取驱动表的所有数据，首先扫描的行数是驱动表的总行数（假设为 n），然后遍历这 n 行数据中关联字段的值，根据驱动表中关联字段的值索引扫描被驱动表中的对应行，这里又会扫描 n 行，因此整个过程扫描了 2n 行。当使用 Index Nested-Loop Join 算法时，扫描行数跟驱动表的数据量成正比。所以在写 SQL 时，如果确定被关联字段有索引的情况下，建议用小表做驱动表。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来看下以 t2 为驱动表的 SQL：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t2 straight_join t1 <span class="token keyword">on</span> t2<span class="token number">.a</span> <span class="token operator">=</span> t1<span class="token number">.a</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里使用 straight_join 可以固定连接方式，让前面的表为驱动表。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再看下以 t1 为驱动表的 SQL：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 straight_join t2 <span class="token keyword">on</span> t1<span class="token number">.a</span> <span class="token operator">=</span> t2<span class="token number">.a</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们对比下两条 SQL 的执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aadfb0001ceb013250368.png" data-original="//img.mukewang.com/5d3aadfb0001ceb013250368.png" alt="图片描述">明显前者扫描的行数少（注意关注 explain 结果的 rows 列），所以<strong>建议小表驱动大表</strong>。</p>
+</div><div class="cl-preview-section"><h3 id="临时表">2.3 临时表</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">多数情况我们可以通过在被驱动表的关联字段上加索引来让 join 使用 NLJ 或者 BKA，但有时因为某条关联查询只是临时查一次，如果再去添加索引可能会浪费资源，那么有什么办法优化呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里提供一种创建临时表的方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们一起测试下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如下面这条关联查询：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1<span class="token number">.b</span><span class="token operator">=</span> t2<span class="token number">.b</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们看下执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aade00001747f16150189.png" data-original="//img.mukewang.com/5d3aade00001747f16150189.png" alt="图片描述">由于表 t1 和表 t2 的字段 b都没索引，因此使用的是效率比较低的 BNL 算法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在用临时表的方法对这条 SQL 进行优化：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先创建临时表 t1_tmp，表结构与表 t1 一致，只是在关联字段 b 上添加了索引。</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TEMPORARY</span> <span class="token keyword">TABLE</span> <span class="token punctuation">`</span>t1_tmp<span class="token punctuation">`</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">`</span>id<span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span><span class="token number">b</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span>create_time<span class="token punctuation">`</span> <span class="token keyword">datetime</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">COMMENT</span> <span class="token string">'记录创建时间'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">`</span>update_time<span class="token punctuation">`</span> <span class="token keyword">datetime</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">ON</span> <span class="token keyword">UPDATE</span> <span class="token keyword">CURRENT_TIMESTAMP</span> <span class="token keyword">COMMENT</span> <span class="token string">'记录更新时间'</span><span class="token punctuation">,</span>
+  <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">KEY</span> <span class="token punctuation">`</span>idx_a<span class="token punctuation">`</span> <span class="token punctuation">(</span><span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token keyword">KEY</span> <span class="token punctuation">`</span>idx_b<span class="token punctuation">`</span> <span class="token punctuation">(</span><span class="token number">b</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span><span class="token operator">=</span><span class="token keyword">InnoDB</span> <span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">把 t1 表中的数据写入临时表 t1_tmp 中：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">insert</span> <span class="token keyword">into</span> t1_tmp <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1<span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">执行 join 语句：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1_tmp <span class="token keyword">join</span> t2 <span class="token keyword">on</span> t1_tmp<span class="token number">.b</span><span class="token operator">=</span> t2<span class="token number">.b</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再看下执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aadc30001aa1a13660181.png" data-original="//img.mukewang.com/5d3aadc30001aa1a13660181.png" alt="图片描述">Extra 没出现 “Block Nested Loop”，说明使用的是 Index Nested-Loop Join，并且扫描行数也大大降低了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>所以当遇到 BNL 的 join 语句，如果不方便在关联字段上添加索引，不妨尝试创建临时表，然后在临时表中的关联字段上添加索引，然后通过临时表来做关联查询。</strong></p>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">3 总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节首先讲到了 NLJ 、BNL、和 BKA 这几种 join 算法的原理，然后通过认识这些算法，从而引申出 join 语句的一些优化技巧，比如关联字段添加索引、小表做驱动表和创建临时表等方法。</p>
+</div><div class="cl-preview-section"><h2 id="问题" style="font-size: 30px;">4 问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">哪种情况下，小表做驱动表跟大表做驱动表的执行效率是一样的？</p>
+</div><div class="cl-preview-section"><h2 id="参考资料" style="font-size: 30px;">5 参考资料</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">《MySQL 5.7 Reference Manual》</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">​		8.2.1.6 Nested-Loop Join Algorithms:<a href="https://dev.mysql.com/doc/refman/5.7/en/nested-loop-joins.html">https://dev.mysql.com/doc/refman/5.7/en/nested-loop-joins.html</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">​		8.2.1.10 Multi-Range Read Optimization:<a href="https://dev.mysql.com/doc/refman/5.7/en/mrr-optimization.html">https://dev.mysql.com/doc/refman/5.7/en/mrr-optimization.html</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">​		8.2.1.11 Block Nested-Loop and Batched Key Access Joins:<a href="https://dev.mysql.com/doc/refman/5.7/en/bnl-bka-optimization.html">https://dev.mysql.com/doc/refman/5.7/en/bnl-bka-optimization.html</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/687">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            07 换种思路写分页查询
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/689">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            09 为何count(*)这么慢?
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

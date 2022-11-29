@@ -1,0 +1,440 @@
+<html><head><meta charset="utf-8"><title>16 增量式爬虫与增量爬网策略设计-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 4-5 16 增量式爬虫与增量爬网策略设计
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                16 增量式爬虫与增量爬网策略设计
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-17 16:09:21
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5cebc8370001c21506400360.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">机会不会上门来找人，只有人去找机会。<p class="author">——狄更斯</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于数据量庞大、更新频繁的网站，一次性的爬网并不能解决问题，这就需要让爬虫进入长期性而且是周期的增量式爬取。本节将介绍应该采用什么样的更新策略去应对此类爬虫项目，对于类似的项目在设计时应用注意哪些设计的原则。</p>
+</div><div class="cl-preview-section"><h2 id="什么是增量式爬虫-？" style="font-size: 30px;">什么是增量式爬虫 ？</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">增量式爬虫并不是一种新型的框架或者设计，而是一种具体爬虫技术的应用。增量式爬虫是针对某些会进行不定期更新内容的网站的爬取，此类网站的信息是随时间动态增量变化的爬虫并不能只通过一次的爬取就能获取所有的内容，而是一种异步式的跟随网站更新而增量式地拉取新内容的一种设计。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于具有持续更新特性的网站我们并不能每次都让爬虫地毯式地全网拉取一次，这样做不但好时长而且每次的数据冗余量也是非常巨大的，由其是对于那些规模庞大的目标网站来说这种一次性拉取的时间可能就得消耗好几天！其次，这种近乎于野蛮的爬取行径是很容易被目标网站所察觉从而可能被直接封禁，更坏的结果可能是会因为干扰他人的网站的正常经营而涉及法律法律责任，所以文明爬网还是很重要的。</p>
+</div><div class="cl-preview-section"><h2 id="增量爬网的策略" style="font-size: 30px;">增量爬网的策略</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">增量式爬网主要包括以下几种具体情况：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">网站的页面持续增加，原有页面内容不更新。</li>
+<li style="font-size: 20px; line-height: 38px;">网站的页面总量不变，页面内容被定期更新。</li>
+<li style="font-size: 20px; line-height: 38px;">网站的页面总量增加，页面内容也有可能被更新。</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="网站的页面持续增加，原有页面内容不更新" style="font-size: 26px;">网站的页面持续增加，原有页面内容不更新</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这种情况是最容易处理的，只要定期对网站进行一次全面重爬并加入<strong>去重过滤器</strong>，那么每次重爬就不会对已爬取过的页面重新拉取，而只拉取新的页面。</p>
+</div><div class="cl-preview-section"><h4 id="网站的页面总量不变，页面内容被定期更新" style="font-size: 26px;">网站的页面总量不变，页面内容被定期更新</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于这种情况有两种策略：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">当网站页面总量的规模不大时（万级以下），可采用全面重爬的办法覆盖原有已爬取过的内容。</li>
+<li style="font-size: 20px; line-height: 38px;">当网站页面总量有一定规模(万级以上)，则可以考虑先做一次全面的页面爬取并爬取后结果作为历史基线数据。然后可以采用优选法的拉取方式。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">什么是优选法呢？其实这个优选法的方式有很多重，目的就是将本需要通过一次性全面无差别的爬取方式改变为针对重点页面，重点数据进行优先获取的目的。当然这种办法实现的前提是目标数据本身存在差异性，可以进行优先级的排序。例如：我们要从豆瓣上爬取每个时期各本书的综合评分，那么就可以根据历史数据中图书的热度（阅读次数）、用户活跃度（评价数）来进行复合优选排序，然后可以用<strong>2/8法则</strong>将最重要的20%的数据先进行快速爬取，而将80%的数据分成多个时段去获取。这是一种比较简单，不需要算法支持的一种优选法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我也参考过其他一些人的做法，这种会法就点像搜索引擎的方式：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">按照反链数来对页面进行悠闲排序 —— 这种做法的好处是反链数越多的内容其质量可能也越高，同时也是各种搜索引擎对页面PV评分的其中一个占比很大的权重值。然而其缺点是作为爬虫你是很难得知到底还有哪些网站还有反向链接指向该页面，充其量只能计算出当前网站内同时指向该页面的链接总数而已，所以我认为这种作法其实并不具备通用性，难以实现。</li>
+<li style="font-size: 20px; line-height: 38px;">根据搜索引擎的内容排序来对页面进行优先级划分 —— 将页面链接地址放入搜索引擎排名越靠前的当然越受欢迎，但这种法则需要向搜索引擎发出大量的爬取请求(至少是一个页面则取一次)，为了获取排名的优先级得写多一个针对搜索引擎的爬虫，这样一来感觉就有点得不尝失，工作量倍增。</li>
+<li style="font-size: 20px; line-height: 38px;">采用随机数学模型计算网页更新的概率（例如：泊松过程 <code>scipy.possion</code>），概率大者优先级高。这种虽然说是很科学的做法，而然这种做法的进入门槛更高，也要求有在统计学方面非常熟悉，开发过程中还得对模型进行各种调节，其实现难度可想而知。</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="网站的页面总量增加，页面内容也有可能被更新" style="font-size: 26px;">网站的页面总量增加，页面内容也有可能被更新</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这种情况则是1，2两种情况的综合。同时需要执行两次爬取过程，第一次采用<strong>去重过滤器</strong>的的办法爬取新增加的页面；第二次则是采用优选法进行分时分量的拉取。</p>
+</div><div class="cl-preview-section"><h2 id="增量爬网的设计原则" style="font-size: 30px;">增量爬网的设计原则</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">针对增量式爬虫具有持久性、数据量爬大、更新频繁的特性，我认为设计时应该遵从以下的几条基本原则：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">避免重复爬取 —— 采用高效、精确的去重手段尽可能避免在同一爬取周期内发出重复的请求。</li>
+<li style="font-size: 20px; line-height: 38px;">分布爬取分布存储——可以采用分布式结构将爬虫分散到多台具有不同IP的机器上，充分利用硬件资源，同时存储的数据也可视具体应用的体量采用分布式存储的方式分切储存空间。</li>
+<li style="font-size: 20px; line-height: 38px;">爬取时间碎片化 —— 将一次性的耗时长的爬取任务在分切到多个时间点上，形成多个不同时间段上的计划任务，可以减少由于爬取过程中出现的不可预期的情况导致全过程失败带来的损失。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">总结起来就是分时，分量免重复原则。</p>
+</div><div class="cl-preview-section"><h2 id="apscheduler" style="font-size: 30px;">APScheduler</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">避免重复爬取原则所采用的实现手段：去重过滤器和分布式爬虫会在本专栏后面专门的章节中配合实例应用进行讲述。在本节中将侧重介绍<strong>爬取时间碎片化</strong>的方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">将爬取时间碎片化从技术上是通过<strong>定时任务</strong>的方式实现，Python的定时任务有三个方法</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">内置的 sched 类</li>
+<li style="font-size: 20px; line-height: 38px;">使用Celery</li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://apscheduler.readthedocs.io/en/latest/">APScheduler</a></li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上述的三者中从方便性与实用性上<a href="https://apscheduler.readthedocs.io/en/latest/">APScheduler</a>是最好的，所以我们还是以APScheduler作为爬虫的定时器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以通过pip指令将APScheduler安装到爬虫项目的虚环境下:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ pip install apscheduler
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">APScheduler由四种组件构成，它们分别是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">triggers（触发器）：触发器包含调度逻辑，每一个作业有它自己的触发器，用于决定接下来哪一个作业会运行，除了他们自己初始化配置外，触发器完全是无状态的。</li>
+<li style="font-size: 20px; line-height: 38px;">job stores（作业存储）：用来存储被调度的作业，默认的作业存储器是简单地把作业任务保存在内存中，其它作业存储器可以将任务作业保存到各种数据库中，支持MongoDB、Redis、SQLAlchemy存储方式。当对作业任务进行持久化存储的时候，作业的数据将被序列化，重新读取作业时在反序列化。</li>
+<li style="font-size: 20px; line-height: 38px;">executors（执行器）：执行器用来执行定时任务，只是将需要执行的任务放在新的线程或者线程池中运行。当作业任务完成时，执行器将会通知调度器。对于执行器，默认情况下选择<code>ThreadPoolExecutor</code>就可以了，但是如果涉及到一下特殊任务如比较消耗CPU的任务则可以选择<code>ProcessPoolExecutor</code>，当然根据根据实际需求可以同时使用两种执行器。</li>
+<li style="font-size: 20px; line-height: 38px;">schedulers（调度器）：调度器是将其它部分联系在一起，一般在应用程序中只有一个调度器，应用开发者不会直接操作触发器、任务存储以及执行器，相反调度器提供了处理的接口。通过调度器完成任务的存储以及执行器的配置操作，如可以添加。修改、移除任务作业。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">APScheduler提供了多种调度器，可以根据具体需求来选择合适的调度器，常用的调度器有：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>BlockingScheduler</code>：适合于只在进程中运行单个任务的情况，通常在调度器是你唯一要运行的东西时使用。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>BackgroundScheduler</code>: 适合于要求任何在程序后台运行的情况，当希望调度器在应用后台执行时使用。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>AsyncIOScheduler</code>：适合于使用asyncio框架的情况</li>
+<li style="font-size: 20px; line-height: 38px;"><code>GeventScheduler</code>: 适合于使用gevent框架的情况</li>
+<li style="font-size: 20px; line-height: 38px;"><code>TornadoScheduler</code>: 适合于使用Tornado框架的应用</li>
+<li style="font-size: 20px; line-height: 38px;"><code>TwistedScheduler</code>: 适合使用Twisted框架的应用</li>
+<li style="font-size: 20px; line-height: 38px;"><code>QtScheduler</code>: 适合使用QT的情况</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="配置调度器" style="font-size: 26px;">配置调度器</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">APScheduler提供了许多不同的方式来配置调度器，你可以使用一个配置字典或者作为参数关键字的方式传入。你也可以先创建调度器，再配置和添加作业，这样你可以在不同的环境中得到更大的灵活性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">1)下面一个简单的示例：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">import</span> time
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>blocking <span class="token keyword">import</span> BlockingScheduler
+ 
+<span class="token keyword">def</span> <span class="token function">test_job</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> time<span class="token punctuation">.</span>strftime<span class="token punctuation">(</span><span class="token string">'%Y-%m-%d %H:%M:%S'</span><span class="token punctuation">,</span> time<span class="token punctuation">.</span>localtime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+ 
+scheduler <span class="token operator">=</span> BlockingScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#该示例代码生成了一个BlockingScheduler调度器，使用了默认的默认的任务存储MemoryJobStore，以及默认的执行器ThreadPoolExecutor，并且最大线程数为10。</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>test_job<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job'</span><span class="token punctuation">)</span>
+
+<span class="token comment">#该示例中的定时任务采用固定时间间隔（interval）的方式，每隔5秒钟执行一次。</span>
+<span class="token comment">#并且还为该任务设置了一个任务id</span>
+
+scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2）如果想执行一些复杂任务，如上边所说的同时使用两种执行器，或者使用多种任务存储方式，并且需要根据具体情况对任务的一些默认参数进行调整。可以参考下面的方式。（<a href="http://apscheduler.readthedocs.io/en/latest/userguide.html%EF%BC%89">http://apscheduler.readthedocs.io/en/latest/userguide.html）</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一种方式：参数式定义</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> pytz <span class="token keyword">import</span> utc
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>background <span class="token keyword">import</span> BackgroundScheduler
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>jobstores<span class="token punctuation">.</span>mongodb <span class="token keyword">import</span> MongoDBJobStore
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>jobstores<span class="token punctuation">.</span>sqlalchemy <span class="token keyword">import</span> SQLAlchemyJobStore
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>executors<span class="token punctuation">.</span>pool <span class="token keyword">import</span> ThreadPoolExecutor<span class="token punctuation">,</span> ProcessPoolExecutor
+
+
+jobstores <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'mongo'</span><span class="token punctuation">:</span> MongoDBJobStore<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># 创建MongoDB的存储作为后备数据库</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> SQLAlchemyJobStore<span class="token punctuation">(</span>url<span class="token operator">=</span><span class="token string">'sqlite:///jobs.sqlite'</span><span class="token punctuation">)</span> <span class="token comment"># 默认采用SQLite作为任务数据库 </span>
+<span class="token punctuation">}</span>
+
+executors <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> ThreadPoolExecutor<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">'processpool'</span><span class="token punctuation">:</span> ProcessPoolExecutor<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+job_defaults <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'coalesce'</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+    <span class="token string">'max_instances'</span><span class="token punctuation">:</span> <span class="token number">3</span>
+<span class="token punctuation">}</span>
+scheduler <span class="token operator">=</span> BackgroundScheduler<span class="token punctuation">(</span>jobstores<span class="token operator">=</span>jobstores<span class="token punctuation">,</span> executors<span class="token operator">=</span>executors<span class="token punctuation">,</span> job_defaults<span class="token operator">=</span>job_defaults<span class="token punctuation">,</span> timezone<span class="token operator">=</span>utc<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第二种方式：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>background <span class="token keyword">import</span> BackgroundScheduler
+
+scheduler <span class="token operator">=</span> BackgroundScheduler<span class="token punctuation">(</span><span class="token punctuation">{</span>
+    <span class="token string">'apscheduler.jobstores.mongo'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+         <span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'mongodb'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.jobstores.default'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'sqlalchemy'</span><span class="token punctuation">,</span>
+        <span class="token string">'url'</span><span class="token punctuation">:</span> <span class="token string">'sqlite:///jobs.sqlite'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.executors.default'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'class'</span><span class="token punctuation">:</span> <span class="token string">'apscheduler.executors.pool:ThreadPoolExecutor'</span><span class="token punctuation">,</span>
+        <span class="token string">'max_workers'</span><span class="token punctuation">:</span> <span class="token string">'20'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.executors.processpool'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'processpool'</span><span class="token punctuation">,</span>
+        <span class="token string">'max_workers'</span><span class="token punctuation">:</span> <span class="token string">'5'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.job_defaults.coalesce'</span><span class="token punctuation">:</span> <span class="token string">'false'</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.job_defaults.max_instances'</span><span class="token punctuation">:</span> <span class="token string">'3'</span><span class="token punctuation">,</span>
+    <span class="token string">'apscheduler.timezone'</span><span class="token punctuation">:</span> <span class="token string">'UTC'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第三种方式：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> pytz <span class="token keyword">import</span> utc
+
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>background <span class="token keyword">import</span> BackgroundScheduler
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>jobstores<span class="token punctuation">.</span>sqlalchemy <span class="token keyword">import</span> SQLAlchemyJobStore
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>executors<span class="token punctuation">.</span>pool <span class="token keyword">import</span> ProcessPoolExecutor
+
+
+jobstores <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'mongo'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'mongodb'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> SQLAlchemyJobStore<span class="token punctuation">(</span>url<span class="token operator">=</span><span class="token string">'sqlite:///jobs.sqlite'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+executors <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'threadpool'</span><span class="token punctuation">,</span> <span class="token string">'max_workers'</span><span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'processpool'</span><span class="token punctuation">:</span> ProcessPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+job_defaults <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'coalesce'</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+    <span class="token string">'max_instances'</span><span class="token punctuation">:</span> <span class="token number">3</span>
+<span class="token punctuation">}</span>
+scheduler <span class="token operator">=</span> BackgroundScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>configure<span class="token punctuation">(</span>jobstores<span class="token operator">=</span>jobstores<span class="token punctuation">,</span> executors<span class="token operator">=</span>executors<span class="token punctuation">,</span> job_defaults<span class="token operator">=</span>job_defaults<span class="token punctuation">,</span> timezone<span class="token operator">=</span>utc<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="对任务作业的基本操作：" style="font-size: 26px;">对任务作业的基本操作：</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加作业有两种方式：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">可以直接调用<code>add_job()</code></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">使用<code>scheduled_job()</code>修饰器</p>
+</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而<code>add_job()</code>是使用最多的，它可以返回一个<code>apscheduler.job.Job</code>实例，因而可以对它进行修改或者删除，而使用修饰器添加的任务添加之后就不能进行修改。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如使用<code>add_job()</code>添加作业：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment">#!/usr/bin/env python</span>
+<span class="token comment">#-*- coding:UTF-8</span>
+<span class="token keyword">import</span> time
+<span class="token keyword">import</span> datetime
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>blocking <span class="token keyword">import</span> BlockingScheduler
+
+<span class="token keyword">def</span> <span class="token function">job1</span><span class="token punctuation">(</span>f<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> time<span class="token punctuation">.</span>strftime<span class="token punctuation">(</span><span class="token string">'%Y-%m-%d %H:%M:%S'</span><span class="token punctuation">,</span> time<span class="token punctuation">.</span>localtime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> f
+
+<span class="token keyword">def</span> <span class="token function">job2</span><span class="token punctuation">(</span>arg1<span class="token punctuation">,</span> args2<span class="token punctuation">,</span> f<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> f<span class="token punctuation">,</span> args1<span class="token punctuation">,</span> args2
+
+<span class="token keyword">def</span> <span class="token function">job3</span><span class="token punctuation">(</span><span class="token operator">**</span>args<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> args
+
+<span class="token triple-quoted-string string">'''
+APScheduler支持以下三种定时任务：
+cron: crontab类型任务
+interval: 固定时间间隔任务
+date: 基于日期时间的一次性任务
+'''</span>
+scheduler <span class="token operator">=</span> BlockingScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">#循环任务示例</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job1<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'循环'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job1'</span><span class="token punctuation">)</span>
+<span class="token comment">#定时任务示例</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job1<span class="token punctuation">,</span> <span class="token string">'cron'</span><span class="token punctuation">,</span> second<span class="token operator">=</span><span class="token string">'*/5'</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'定时'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job2'</span><span class="token punctuation">)</span>
+<span class="token comment">#一次性任务示例</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job1<span class="token punctuation">,</span> next_run_time<span class="token operator">=</span><span class="token punctuation">(</span>datetime<span class="token punctuation">.</span>datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> datetime<span class="token punctuation">.</span>timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'一次'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job3'</span><span class="token punctuation">)</span>
+<span class="token triple-quoted-string string">'''
+传递参数的方式有元组(tuple)、列表(list)、字典(dict)
+注意：不过需要注意采用元组传递参数时后边需要多加一个逗号
+'''</span>
+<span class="token comment">#基于list</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job2<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">,</span><span class="token string">'list'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job4'</span><span class="token punctuation">)</span>
+<span class="token comment">#基于tuple</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job2<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">,</span><span class="token string">'tuple'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job5'</span><span class="token punctuation">)</span>
+<span class="token comment">#基于dict</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job3<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> kwargs<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'f'</span><span class="token punctuation">:</span><span class="token string">'dict'</span><span class="token punctuation">,</span> <span class="token string">'a'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job7'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> scheduler<span class="token punctuation">.</span>get_jobs<span class="token punctuation">(</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#带有参数的示例</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job2<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job4'</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job2<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> args<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job5'</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>job3<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> kwargs<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'a'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'b'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'test_job6'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span> scheduler<span class="token punctuation">.</span>get_jobs<span class="token punctuation">(</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者使用<code>scheduled_job()</code>修饰器来添加作业：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">@sched<span class="token punctuation">.</span>scheduled_job<span class="token punctuation">(</span><span class="token string">'cron'</span><span class="token punctuation">,</span> second<span class="token operator">=</span><span class="token string">'*/5'</span> ，<span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'my_job_id'</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_task</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Hello world!"</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>启动调度器</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以使用<code>start()</code>方法启动调度器，<code>BlockingScheduler</code>需要在初始化之后才能执行<code>start()</code>,对于其他的Scheduler，调用<code>start()</code>方法都会直接返回，然后可以继续执行后面的初始化操作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>blocking <span class="token keyword">import</span> BlockingScheduler
+ 
+<span class="token keyword">def</span> <span class="token function">my_job</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span> <span class="token string">"Hello world!"</span>
+ 
+scheduler <span class="token operator">=</span> BlockingScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>add_job<span class="token punctuation">(</span>my_job<span class="token punctuation">,</span> <span class="token string">'interval'</span><span class="token punctuation">,</span> seconds<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>关闭调度器</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用下边方法关闭调度器：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">scheduler<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认情况下调度器会关闭它的任务存储和执行器，并等待所有正在执行的任务完成，如果不想等待，可以进行如下操作：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">scheduler<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span>wait<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="用定时任务启动网易爬虫" style="font-size: 30px;">用定时任务启动网易爬虫</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果要将网易爬虫彻底运行一次那可能有得耗费好几天的时间，毕竟这是一个爬通网易全网的爬虫，网易的数据量是何其巨大。除了本章之前所介绍的几种优化这种大规模爬虫的方法以外，要节省时间就应该对爬虫所爬取的范围进行精准的划分，毕竟将对方爬光的这种情况发生的几率并不高。就本示例而言，我们是可以应用增量式爬网的思维，将需要获取的数据进行分区划分，从区域入手分布于多个时间段进行，这样就可以将一个需要耗费巨量时间的任务拆分成多个，对局部获取到的数据进行优先的处理而不是等待所有的任务完成后再进行下一步的数据分析处理工作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以我们可以将网易爬虫的爬取目标以栏目的内容来划分，例如：我们只爬取"游戏"、"人间"与"体育"这三个栏目，每次就直接从分栏目进入只爬取该栏目下的内容，这样对数据的获取效率会更高。然后将爬取这三个栏目独立看成执行三次任务并分别在周一早上11点，周三深夜11点和周五的凌晨3点进行，通过对内容与分时的划分后，当爬虫持续地运行一段时间，我们还可以从这种划分中观察到网易对这些频道中的内容的更新频率与更新方式，这样在以后便于以后对爬虫任务的调整，使爬取的时间更短数据目标更加明确。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">将频道作为起始点而不是网易首页的话，我们只要按照我在第二章第二节"新闻供稿专用爬虫开发实践"中所介绍的将种子页参数化的办法就可以得以实现了，只要在<code>NeteaseSpider</code>中将<code>starts_url</code>的内容调整一下即可：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">NeteaseSpider</span><span class="token punctuation">(</span>CrawlSpider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'netease'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'163.com'</span><span class="token punctuation">]</span>
+    urls <span class="token operator">=</span> <span class="token string">'https://www.163.com/'</span>
+    start_urls <span class="token operator">=</span> urls<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样我们就可以在命令行执行<code>crawl</code>时通过参数传递改变起始页<code>url</code>的位置。例如起动专爬游戏栏目:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ scrapy crawl netease -a urls='https://game.163.com,https://play.163.com'
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们就需要编写一个入口文件，在这个文件就启动APScheduler来定时启动相应的爬取任务：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># coding:utf-8</span>
+<span class="token keyword">import</span> os
+<span class="token keyword">from</span> pytz <span class="token keyword">import</span> utc
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>blocking <span class="token keyword">import</span> BlockingScheduler
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>schedulers<span class="token punctuation">.</span>background <span class="token keyword">import</span> BackgroundScheduler
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>jobstores<span class="token punctuation">.</span>sqlalchemy <span class="token keyword">import</span> SQLAlchemyJobStore
+<span class="token keyword">from</span> apscheduler<span class="token punctuation">.</span>executors<span class="token punctuation">.</span>pool <span class="token keyword">import</span> ProcessPoolExecutor
+
+jobstores <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token comment"># 'mongo': {'type': 'mongodb'},</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> SQLAlchemyJobStore<span class="token punctuation">(</span>url<span class="token operator">=</span><span class="token string">'sqlite:///jobs.sqlite'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+executors <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'default'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'threadpool'</span><span class="token punctuation">,</span> <span class="token string">'max_workers'</span><span class="token punctuation">:</span> <span class="token number">20</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">'processpool'</span><span class="token punctuation">:</span> ProcessPoolExecutor<span class="token punctuation">(</span>max_workers<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+job_defaults <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'coalesce'</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+    <span class="token string">'max_instances'</span><span class="token punctuation">:</span> <span class="token number">3</span>
+<span class="token punctuation">}</span>
+
+scheduler <span class="token operator">=</span> BlockingScheduler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+scheduler<span class="token punctuation">.</span>configure<span class="token punctuation">(</span>jobstores<span class="token operator">=</span>jobstores<span class="token punctuation">,</span> executors<span class="token operator">=</span>executors<span class="token punctuation">,</span> job_defaults<span class="token operator">=</span>job_defaults<span class="token punctuation">,</span> timezone<span class="token operator">=</span>utc<span class="token punctuation">)</span>
+
+<span class="token comment"># 此任务每周1上午11点执行</span>
+@scheduler<span class="token punctuation">.</span>scheduled_job<span class="token punctuation">(</span><span class="token string">'cron'</span><span class="token punctuation">,</span> day_of_week<span class="token operator">=</span><span class="token string">'1'</span><span class="token punctuation">,</span> hour<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">crawl_games</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"scrapy crawl netease -a url='https://play.163.com,https://game.163.com'"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 此任务每周3晚上11点执行</span>
+@scheduler<span class="token punctuation">.</span>scheduled_job<span class="token punctuation">(</span><span class="token string">'cron'</span><span class="token punctuation">,</span> day_of_week<span class="token operator">=</span><span class="token string">'3'</span><span class="token punctuation">,</span> hour<span class="token operator">=</span><span class="token number">21</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">crawl_sports</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"scrapy crawl netease -a url='https://sports.163.com'"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 此任务每周5凌晨3点执行</span>
+@scheduler<span class="token punctuation">.</span>scheduled_job<span class="token punctuation">(</span><span class="token string">'cron'</span><span class="token punctuation">,</span> day_of_week<span class="token operator">=</span><span class="token string">'5'</span><span class="token punctuation">,</span> hour<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">crawl_renjian</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"scrapy crawl netease -a url='https://renjian.163.com'"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"爬取任务管理已启动按ctrl+C退出执行"</span><span class="token punctuation">)</span>
+        scheduler<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 启动任务管理器</span>
+    <span class="token keyword">except</span> <span class="token punctuation">(</span>KeyboardInterrupt<span class="token punctuation">,</span> SystemExit<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        scheduler<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 关闭任务管理器</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们只需要执行以下的指命就可以运行这个定时任务了：</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ python scheduled.py
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节是给出了一种"以战养战"以增量、持久的方式长期地爬取目标网站的一种设计思路。在面对复杂的应用时应该紧记以下几点就可以做到"化繁为简"：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">区域化爬取的目标内容，尽量让爬虫执行精准的内容爬取任务缩短执行的时长。</li>
+<li style="font-size: 20px; line-height: 38px;">碎片化爬取时间，将连续的长任务变成时间上分布的短任务。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样做就能让我们长期运作的爬虫从根本上提高其运作的效率。<br>
+<img src="http://img.mukewang.com/5cf4fad7000138b116000878.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cf4fad7000138b116000878.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注：你可以去<a href="https://github.com/DotNetAge/netease_crawler">GitHub</a>获取本章源代码</p>
+</blockquote>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/320">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    15 为网易爬虫配置存储大规模数据存储 
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/323">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    17 数据提取过程中的类型化方法
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

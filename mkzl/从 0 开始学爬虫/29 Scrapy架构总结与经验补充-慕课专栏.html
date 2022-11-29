@@ -1,0 +1,300 @@
+<html><head><meta charset="utf-8"><title>Scrapy架构总结与经验补充-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 7-1 Scrapy架构总结与经验补充
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                Scrapy架构总结与经验补充
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-10 14:36:43
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5d2441090001ab2d06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">时间像海绵里的水，只要你愿意挤，总还是有的。<p class="author">——鲁迅</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏写到这里已经将所有实战内容全部介绍完了，可能细心的读者或者读过官网文档的读者心里都会发现这么一个问题：既然我们是基于 Scrapy 技术的爬虫专栏，那为啥从来不讲 Scrapy 的架构呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于此我是有意为之的，记得当时我最初学习 Scrapy 时就是习惯性地先看完全了 Scrapy 的整体架构，试图从官方提供的架构图读懂 Scrapy 的动作机理之后再一个部分一个部分地学习，而且当时在网上能查到的学习资料也是按官网的这个套路来讲述的（大多是翻译）。无奈的是官网资料非常混乱即使看完了整个 Scrapy 架构也只是模模糊糊地了解一二，又或者是我的悟性比较低吧，总而言之我觉得学 Scrapy 一入手讲理论，讲架构在短时间内是很难入门的，甚至会不经意地走进理解的误区白白耗费生命。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">生命如此短暂为何要学习烂文档？</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">帮助其它对 Scrapy 感兴趣的朋友能更好地掌握这门技术，分享我的所得其实是驱动我去写书，写专栏的一种原动力吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏中的所有示例的设计都是根据涉及 Scrapy 架构的不同部分的应用。我不建议你去看 Scrapy 官方提供的那个所谓的架构图，那只会让你越看越懵懂。 Scrapy 如果从结构上分析可以得到以下的方框图：<br>
+<img src="http://img.mukewang.com/5d22ae690001229e08490311.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d22ae690001229e08490311.jpg" class="" style="cursor: pointer;">我们的专栏除了对引擎部分与任务管理器部分其它的 Scrapy 组件都分另在各个章节中与实际的示例一并介绍过了。而对Scrapy引擎的扩展对于一般甚至是高级的爬虫项目的应用机会也并不多，所以在本专栏中并未提及。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果要将 Scrapy 的处理流程以一个单线程的模式来讲述的话则如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d22ae7a0001deb005210547.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d22ae7a0001deb005210547.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">结之前各章节的实践我们来看看整个Scrapy的工作过程，会对你理解之前章节中内容有所帮助，也更能让你记住每个构成部件应该在什么场合中进行使用或者扩展。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一步，当我们通过<code>Scrapy crawl</code>指令起动 Scrapy ，  Scrapy 就会根据<code>settings</code>的内容将相应的组件进行实例化并且将它们动态<strong>装配</strong>起来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第二步：启用任务管理器并发式地启动多个蜘蛛例实，并调用蜘蛛让其产生网络请求<code>Request</code>，这个发出请求和处理请求的过程都必然会通过<strong>蜘蛛中间件</strong>，如果我们希望在不改变蜘蛛生成请求或者处理响应的代码之时都可以构建一个蜘蛛中间件并将其<strong>插入</strong>到任务管理器与蜘蛛之间。以下是一个蜘蛛中间件的标准代码模板, 这个模板会随你调用<code>Scrapy startproject</code>指令构造 Scrapy 项目的时候就会在<code>middlerwares.p</code>文件中自动创建：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">MySpiderMiddleware</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  
+    <span class="token keyword">def</span> <span class="token function">process_spider_input</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      当每一个响应发向蜘蛛之前都会调用此方法。应该返回一个None或引发一个异常。
+      """</span>
+        <span class="token keyword">return</span> <span class="token boolean">None</span>
+
+    <span class="token keyword">def</span> <span class="token function">process_spider_output</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">,</span> result<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      当分析结果通过蜘蛛返回之后被调用。
+      必须返回一个包括Request对象的枚举对象，字典或者数据项对象。
+      """</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> result<span class="token punctuation">:</span>
+            <span class="token keyword">yield</span> i
+
+    <span class="token keyword">def</span> <span class="token function">process_spider_exception</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">,</span> exception<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      当蜘蛛或者process_spider_input()方法引发异常后，此方法就会被调用。
+      """</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token keyword">def</span> <span class="token function">process_start_requests</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> start_requests<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      当蜘蛛发出起动请求(由start_urls生成)后，此方法将被调用。
+      """</span>
+        <span class="token keyword">for</span> r <span class="token keyword">in</span> start_requests<span class="token punctuation">:</span>
+            <span class="token keyword">yield</span> r
+
+    <span class="token keyword">def</span> <span class="token function">spider_opened</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        spider<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'Spider opened: %s'</span> <span class="token operator">%</span> spider<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">蜘蛛中间件名符其实，就是位于任务管理器与蜘蛛之间的一个可插入模块，你可以在这个位置<strong>插入代码</strong>来扩展蜘蛛的某些能力。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第三步：将生成的请求发送到一个下载器中间件的堆栈中，请求将一个一个地通过这些下载器中间件，这些中间件就可以对请求进行各种的<strong>加工</strong>，例如请求重试，附带 cookie, 增加请求的 UA，甚至可以不发出请求而直接生成响应对象返回，等等。例如就在第6章我们要使用 Splash 时，就需要引入一个针对 Splash 服务的下载器中间件，目的就是将的标准的网络请求转发到 Splash 服务，再由 Splash 借助无头浏览器去发出真正的请求对象。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第四步：如果请求被正确处理并返回，下载器就会生成一个 <code>Response</code> 向原来相反的路径进行传递，返回至下载器中间件，</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第五步：任务管理器就将会响应对象重新传递给蜘蛛中间件，接着才将 <code>Response</code> 发送给蜘蛛的 <code>parse</code> 方法对响应对象的内容进行处理与提取。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第六步，任务管理器将蜘蛛分析出来的数据项对象( Item )发送给 <code>Item</code> 堆栈，将 <code>Item</code> 对象<strong>流</strong>过由各个管道，管道就对数据进行<strong>后加工</strong>处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，如果当前项目启用了数据导出机制蜘蛛引擎就会将数据推入数据导出器完成数据最后的送出存储处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上就是 Scrapy 完整的处理流程！这个流程对于初学者如果一入手就接触只会觉得无从入手，无论哪个部分好像都很重要。将专栏的示例都动手做一次这些部分你自然就知道哪部分对你来说更重要了，不是吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Scrapy 的架构设计其实相当完美，它非常巧妙地运用<strong>单一职责原则</strong>（每个模块只负责完成一件事）将网络爬取行为细分为各个单一且可扩展的模块中，也就意味着它有着<strong>无限</strong>的可扩充性，这也是为何它在爬虫框架中的地位无可撼动的原因之一吧。</p>
+</div><div class="cl-preview-section"><h2 id="信号与扩展" style="font-size: 30px;">信号与扩展</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当你遇到了连Scrapy所设计的模块都无法满足你的需求之时，Scrapy还提供了另一种更高级的扩展方法，那就是信号机制。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Scrapy是使用信号(<code>Signals</code>)来发出事件通知，事件机制是一种另到类可以具有无限扩展能力且耦合度最低的一种方式。由于Scrapy基于多线程机制开发，通过信号机制对其它接入到Scrapy运行环境的模块发布信息与传递对象是一种非常好的方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下是Scrapy提供的标准信号:</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>engine_started</code> - 当Scrapy引擎启动爬取时发送该信号。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>engine_stopped</code> - 当Scrapy引擎停止时发送该信号(例如，爬取结束)。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>item_scraped</code> - 当item被爬取，并通过所有的数据管道（Item Pipelines）后没有被丢弃(dropped)，发送该信号。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>item_dropped</code> - 当item通过 Item Pipeline ，有些pipeline抛出 DropItem 异常，丢弃item时，该信号被发送。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>spider_closed</code> - 当某个spider被关闭时，该信号被发送。该信号可以用来释放每个spider在 spider_opened 时占用的资源。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>spider_opened</code> - 当spider开始爬取时发送该信号。该信号一般用来分配spider的资源，不过其也能做任何事。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>spider_idle</code> - 当spider进入空闲(idle)状态时该信号被发送</li>
+<li style="font-size: 20px; line-height: 38px;"><code>spider_error</code> - 当spider的回调函数产生错误时(例如，抛出异常)，该信号被发送。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>request_scheduled</code> - 当引擎调度一个 Request 对象用于下载时，该信号被发送。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>response_received</code> - 当引擎从downloader获取到一个新的 Response 时发送该信号。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>response_downloaded</code> - 当一个 HTTPResponse 被下载时，由downloader发送该信号。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那我们如何来接收这些由Scrapy发出的信号呢？其实在哪里都可以接受，不过Scrapy提供了另一种终极扩展手段，那就是 <strong>扩展(<code>Extension</code>)</strong>. 这种模块本身没有方法接口的限定，Scrapy在运行的时候也只是将配置串设定好的扩展加载进运行环境而已，但正是如此简单的模块一但与信号机制对接上就给Scrapy带来了强大的、随心所欲的扩展性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们来看看如何使用<strong>信号</strong>吧，只要我们可获取<code>crawler</code>实例就可以与特定的信号进行对接了，只要可以支持<code>from_crawler</code>方法的类就可以获取<code>crawler</code>实例了，这也是专栏中出现次数最多的一个方法之一了。那我们只要使用<code>cralwer.signals.connect()</code>方法就能将事件处理器与信号对接上了：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span>  Scrapy  <span class="token keyword">import</span> signals
+
+<span class="token keyword">def</span> <span class="token function">log_spider_open</span><span class="token punctuation">(</span>spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  spider<span class="token punctuation">.</span>log<span class="token punctuation">(</span>u<span class="token string">'蜘蛛被执行'</span><span class="token punctuation">)</span>
+  
+cralwer<span class="token punctuation">.</span>signals<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>log_spider_open<span class="token punctuation">,</span>signals<span class="token punctuation">.</span>spider_opened<span class="token punctuation">)</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述代码的意思就是将<code>signals.spider_opened</code>信号与<code>log_spider_open</code>函数连接上，当 Scrapy 发出<code>spider_opened</code>信号时<code>log_spider_open</code>函数就会被调用。就是这么简单！所有的信号都是这样连接的， Scrapy 内置信号的参数说明可以参考[Scrapy中文参考文档——信号(Signals)](https:// Scrapy -chs.readthedocs.io/zh_CN/0.24/topics/signals.html)</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">扩展就是这么一个东东了，除了可以写<code>from_crawler</code>函数而且能被 Scrapy 引导构造以外，它一无所有，但它又可以做任何事！我们就写个最简单的事件计数器，用日志输出蜘蛛被打开的次数：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span>  Scrapy  <span class="token keyword">import</span> signals
+<span class="token keyword">from</span>  Scrapy <span class="token punctuation">.</span>exceptions <span class="token keyword">import</span> NotConfigured
+
+<span class="token keyword">class</span> <span class="token class-name">SpiderOpenCloseLogging</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> item_count<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>item_count <span class="token operator">=</span> item_count
+        self<span class="token punctuation">.</span>items_scraped <span class="token operator">=</span> <span class="token number">0</span>
+
+    @<span class="token builtin">classmethod</span>
+    <span class="token keyword">def</span> <span class="token function">from_crawler</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> crawler<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      	ext <span class="token operator">=</span> cls<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment"># 连接蜘蛛被打开的信号</span>
+        crawler<span class="token punctuation">.</span>signals<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>ext<span class="token punctuation">.</span>spider_opened<span class="token punctuation">,</span> signal<span class="token operator">=</span>signals<span class="token punctuation">.</span>spider_opened<span class="token punctuation">)</span>
+
+        <span class="token comment"># 连接蜘蛛被关闭的信号</span>
+        crawler<span class="token punctuation">.</span>signals<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>ext<span class="token punctuation">.</span>spider_closed<span class="token punctuation">,</span> signal<span class="token operator">=</span>signals<span class="token punctuation">.</span>spider_closed<span class="token punctuation">)</span>
+
+        <span class="token comment"># 连接数据已被正确分析的信号</span>
+        crawler<span class="token punctuation">.</span>signals<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>ext<span class="token punctuation">.</span>item_scraped<span class="token punctuation">,</span> signal<span class="token operator">=</span>signals<span class="token punctuation">.</span>item_scraped<span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> ext
+        
+    <span class="token keyword">def</span> <span class="token function">spider_opened</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        spider<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"opened spider %s"</span> <span class="token operator">%</span> spider<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">spider_closed</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        spider<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"closed spider %s"</span> <span class="token operator">%</span> spider<span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">item_scraped</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> item<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>items_scraped <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>items_scraped <span class="token operator">%</span> self<span class="token punctuation">.</span>item_count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            spider<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token string">"scraped %d items"</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>items_scraped<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，你只要在<code>settings.py</code>文件中在<code>EXTENSIONS</code>加入上述这个扩展类它就能如常工作了：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">EXTENSIONS <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'mycrawler.extensions.SpiderOpenCloseLogging'</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="命令扩展与多开爬虫" style="font-size: 30px;">命令扩展与多开爬虫</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我在第一和第二章都分别介绍过不少的 Scrapy 常用指令，我们也可以通过 <code>Scrapy -h</code> 来查看所有的命令扩展，学到这里我们猜都可以猜到这又一定是 Scrapy 的另一个扩展点！确实 Scrapy 是无外不扩展的，所以我们可以通过继承 <code>ScrapyCommand</code> 来创建一个指令类去扩展 Scrapy 的标准指令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下为扩展指令的基本结构</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span>  Scrapy <span class="token punctuation">.</span>commands <span class="token keyword">import</span> ScrapyCommand
+
+<span class="token keyword">class</span> <span class="token class-name">MyCommand</span><span class="token punctuation">(</span>ScrapyCommand<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    requires_project <span class="token operator">=</span> <span class="token boolean">True</span>
+
+    <span class="token keyword">def</span> <span class="token function">syntax</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      输出指令的用法帮助
+      """</span>
+        <span class="token keyword">return</span> <span class="token string">"[options] &lt;spider&gt;"</span> 
+
+    <span class="token keyword">def</span> <span class="token function">short_desc</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token string">"这里是指令的简短描述"</span>
+
+    <span class="token keyword">def</span> <span class="token function">add_options</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> parser<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    	<span class="token triple-quoted-string string">"""
+    	初始化或者增加参数捷径
+    	"""</span>
+    		<span class="token keyword">pass</span>
+    
+    <span class="token keyword">def</span> <span class="token function">process_options</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">,</span> opts<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      处理额外的参数选项
+      """</span>
+    	  <span class="token keyword">pass</span>
+    	  
+    <span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">,</span> opts<span class="token punctuation">)</span><span class="token punctuation">:</span>
+      <span class="token triple-quoted-string string">"""
+      执行指令
+      """</span>
+        <span class="token keyword">pass</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">增加指令后需要在<code>settings.py</code>文件中注册自定义指令的模块：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">COMMANDS_MODULE <span class="token operator">=</span> <span class="token string">'MyCralwer.MyCommand'</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">做完配置之后就可以这样来执行上述指令了：</p>
+</div><div class="cl-preview-section"><pre><code>$  Scrapy  mycommand
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">指令结构本身并不为我们完成什么，它只是一个特殊的程序执行入口，当我们遇到在一个项目中需要同时执行多个爬虫时可以用它来引导多个爬虫。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为<code>Scrapy crawl</code>这个指令只能引导一个爬虫，如果要同时启动多个当然就要写一个自己的crawl指令了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">举一个简单的例子，如果我们有 spider1,spider2 两个爬虫，我们需要用一个指令同时来运行他们，那么就可以在指令类的<code>run</code>函数中这样来实现：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">,</span> opts<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  	self<span class="token punctuation">.</span>crawler_process<span class="token punctuation">.</span>crawl<span class="token punctuation">(</span><span class="token string">'spider1'</span><span class="token punctuation">)</span>
+  	self<span class="token punctuation">.</span>crawler_process<span class="token punctuation">.</span>cralw<span class="token punctuation">(</span><span class="token string">'spider2'</span><span class="token punctuation">)</span>
+  	self<span class="token punctuation">.</span>crawler_process<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就这么简单！你可以到度娘上查查“多开爬虫”然后就会找到一些说得讳莫如深的长文，实际上根本没那些长文说得那么复杂，只要用<code>ScrapyCommand.crawler_process.crawl()</code>方法将调用的蜘蛛加入到 Scrapy 的调度管理器，要开多少个爬虫你就执行多少次。最后调用<code>start()</code>方法一次性起动它们就OK了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但，爬虫多开在大多数情况下是一种<strong>伪命题</strong>，多开爬虫必须面对这样一个问题：<strong>共享设置</strong>，虽然爬虫有多个，如果它们的配置是不一样的呢？那就没有办法多开！</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我在初学Scrapy的时候也遇到过这样的思维困境，但只要设计对了就很少会出现多开爬虫的情况，爬虫通常会变得很单一，要爬的数据也是很单一。再复杂的数据结构或者网站结构只要多写几个爬虫就好了，共享设置只会给你带来一大堆的麻烦结果通常也只是白白浪费时间而已。</p>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过这一章，已经是完完全全地将Scrapy的全部技术内容在本专栏中过了一次。普通的、实用的、高级的包括附加的都有了。要学好 Scrapy 不要被它看似复杂的结构所迷惑，本质上 Scrapy 是个可扩充性极强的<strong>单细胞</strong>集合而已，理解 Scrapy 作者的创作思维，在这个层面上才能完全掌握 Scrapy 的本质，就当这个程序是你自己写的，谋定而后动做好设计，对不理解的内容写写测试，最后再将它们整合到一起，这样无论什么样的网站就都像你自己后花园一样，想来就来想走就走了。</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/333">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    将采集到的图片存储于阿里云oss
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/336">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    专栏福利Scrapy-plus
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

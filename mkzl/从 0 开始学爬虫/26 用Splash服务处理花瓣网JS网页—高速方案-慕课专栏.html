@@ -1,0 +1,378 @@
+<html><head><meta charset="utf-8"><title>用Splash服务处理花瓣网JS网页—高速方案-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 6-3 用Splash服务处理花瓣网JS网页—高速方案
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                用Splash服务处理花瓣网JS网页—高速方案
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-01 14:11:25
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img.mukewang.com/5d19838b00011a0f06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">横眉冷对千夫指，俯首甘为孺子牛。<p class="author">——鲁迅</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如何使用 scrapy-splash 处理重深度集成 javascript 框架的网站。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><a href="#Splash">Splash</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#scrapy-splash">scrapy-splash</a>
+<ul>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">安装配置</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#Splash%E7%9A%84%E8%AF%B7%E6%B1%82%E5%AF%B9%E8%B1%A1">SplashRequest请求对象</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E4%BD%BF%E7%94%A8Splash%E6%94%B9%E5%86%99%E7%99%BB%E5%BD%95%E9%80%BB%E8%BE%91">使用 Splash 改写登录逻辑</a></li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E5%B0%8F%E7%BB%93">小结</a></li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="splash" style="font-size: 30px;">Splash</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Splash是一个Javascript渲染服务。它是一个实现了HTTP API的轻量级浏览器，Splash是用Python实现的，同时使用Twisted和QT。Twisted（QT）用来让服务具有异步处理能力，以发挥webkit的并发能力。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们想要让爬取的Javascript网页被正确地渲染就需要借助Splash这一个在Python世界中被受欢迎的轻量极浏览器了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">由于Splash是一个Web服务端形式提供使用，所以最简单的办法不是安装一个Splash而是启动一个Splash的Docker实例：</p>
+</div><div class="cl-preview-section"><pre><code>$ docker run -p 8050:8050 scrapinghub/splash
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当Docker起动后，我们可以在浏览器中直接访问Splash的Web接口<code>http://localhost:8050</code>：<br>
+<img src="http://img.mukewang.com/5d197f9d0001674127702278.png" alt="图片描述" data-original="http://img.mukewang.com/5d197f9d0001674127702278.png" class="" style="cursor: pointer;">此时可以在界面中的地址输入框架键入花瓣网的地址,点击"Render!"就可以看到通过Splash渲染的输出结果了:<img src="http://img.mukewang.com/5d197fbc0001db7e27702278.png" alt="图片描述" data-original="http://img.mukewang.com/5d197fbc0001db7e27702278.png" class="" style="cursor: pointer;">当然这只是Splash的让我们快速了解它的可视化的途径。要操控Splash我们还得使用另一种轻量级的语言——Lua。因为Splash只能用Lua来作为宏语言对其浏览器的行为进行操控，所以我们只能快速地学习一下款的在游戏开发界极为流行的语言。Lua诞生的目标是简化C++的开发，其语言本身与Python有点类似，我们并无需要完全去掌握Lua的所有，只要知道它是怎知来操作Splash的可以了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先通一个最常用也是最基本的Lua脚本来学习Splash的使用：</p>
+</div><div class="cl-preview-section"><pre class="  language-lua"><code class="prism  language-lua"><span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span>splash<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+  splash<span class="token punctuation">:</span><span class="token function">go</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+  splash<span class="token punctuation">:</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    html <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    png <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">png</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    har <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">har</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就如同C++一样Lua必须要有一个<code>main</code>函数的入口，<code>main</code>函数带有两个主参数一个是<code>splash</code>实例，我们就它来操控浏览器的行为，<code>args</code>则是由外部传入的参数，是与其它外部程序进行参数传递的通道。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>splash:go(args.url)</code> 让浏览器直接访问<code>args.url</code>上的地址，然后<code>splash:wait(0.5)</code>是阻塞当前进程等待0.5秒，等浏览器下载完成。然后就返回一个lua table 其实就是个与python字典一样的对象。<code>splash:html()</code>是将网页的渲染结果输出成html格式的字符串，<code>splash:png()</code>就是生成一个当前浏览器显示网页的截图，最后<code>splash:har()</code>就是返回页面加载的相关信息，发生的事件，发送的网络请求以及请求的响应信息，这些信息都被存储成 <a href="http://www.softwareishard.com/blog/har-12-spec/">HAR</a> 格式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在Splash的Web入口工具上有不少的范例，单看理论不如动动手:<br>
+<img src="http://img.mukewang.com/5d197fe3000116f227442126.png" alt="图片描述" data-original="http://img.mukewang.com/5d197fe3000116f227442126.png" class="" style="cursor: pointer;">## Scrapy-Splash</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Splash只是提供了一个Web渲染服务，如果在Scrapy中直接使用，其效果会与Selenium差不多，但有了scrapy-splash开发工具包就大不一样了，它是将Scrapy与Splash完美结合一体的工具包，scrapy-splash搭载了一系列的中间件和针对Scrapy开发的扩展，以达到开箱即用的效果。</p>
+</div><div class="cl-preview-section"><h3 id="安装配置">安装配置</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://splash-cn-doc.readthedocs.io/zh_CN/latest/api.html">scrapy-splash</a>直接使用Splash的HTTP API，首先我们按照以下指令在项目中安装scrapy-splash</p>
+</div><div class="cl-preview-section"><pre><code>$ pip install scrapy-splash
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，要在Scrapy工程的配置文件settings.py中添加Splash服务器的访问地址：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">SPLASH_URL <span class="token operator">=</span> <span class="token string">'http://localhost:8050'</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">跟着我们需要添加Splash中间件，在<code>settings.py</code>文件中使用<code>DOWNLOADER_MIDDLEWARES</code>配置项指定，要加入<code>SplashCookiesMiddleware</code>和<code>SplashMiddleware</code>两个中间件，由于这个中间件要求在<code>HttpCompressionMiddleware</code>中间件之前运行，因此需要修改<code>HttpCompressionMiddleware</code>的默认优先级，具体配置如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">DOWNLOADER_MIDDLEWARES <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token string">'scrapy_splash.SplashCookiesMiddleware'</span><span class="token punctuation">:</span> <span class="token number">723</span><span class="token punctuation">,</span>
+    <span class="token string">'scrapy_splash.SplashMiddleware'</span><span class="token punctuation">:</span> <span class="token number">725</span><span class="token punctuation">,</span>
+   <span class="token string">'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware'</span><span class="token punctuation">:</span> <span class="token number">810</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认情况下，<code>HttpProxyMiddleware</code>的优先级是750，要把它放在Splash中间件后面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>SplashMiddleware</code>的作用是将请求发送至指定的Splash服务器，当Splash返回响应是能在Scrapy正常地接收。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>SplashCookiesMiddleware</code>顾名思义就是用于处理由Splash得到的cookie。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">scrapy-splash内置了针对Splash专用的重过滤器，所以我们可以按以下方式配置可以启用Splash的去重功能：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">DUPEFILTER_CLASS <span class="token operator">=</span> <span class="token string">'scrapy_splash.SplashAwareDupeFilter'</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果在开发期间想使用Splash的Http缓存功能，可以指定一个自定义的缓存后台存储介质，scrapy-splash内置了一个<code>scrapy.contrib.httpcache.FilesystemCacheStorage</code>的子类，可以在<code>settings.py</code>文件中启用它，代码如下所示。</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">HTTPCACHE_ENABLED <span class="token operator">=</span> <span class="token boolean">True</span>
+HTTPCACHE_STORAGE <span class="token operator">=</span> <span class="token string">'scrapy_splash.SplashAwareFSCacheStorage'</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">如果要在Splash中使用其他缓存存储，则需要继承这个类并将所有<code>scrapy.util.request.request_fingerprint</code>调用替换成<code>scrapy_splash.splash_request_fingerprint</code>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="splash的请求对象">Splash的请求对象</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在使用scrapy-splash之前我们先来看看Splash的工作原理，如下图:<br>
+<img src="http://img.mukewang.com/5d19800d0001021009830329.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d19800d0001021009830329.jpg" class="" style="cursor: pointer;">Splash就是scrapy与目标网站之间的一个代理，真正的发出请求与处理响应对象是由Splash内置的无头浏览器进行处理的，在scrpay中所发出的请求都会一并发向Splash所在的服务器，因此我们才需要借助scrapy-splash来简化向Splash发出间接性请求和接收间接性响应的中间件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">故，在蜘蛛中就不能使用以前的方法直接采用<code>Request</code>来发出请求，因为<code>Request</code>发出的请求都是直接发向目标网站的，所以我们就需要使用scrapy-splash提供的<code>SplashRequest</code>对象向Splash发出<strong>控制请求</strong>，再由Splash去浏览真正的网站并将Javascript渲染结果返回到的Scrapy中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开始之前我们得看看<code>SplashRequest</code>与<code>Request</code>有什么不同，<code>SplashRequest</code>是继承自<code>Request</code>，对其进行一些特殊的包装，大至用法上基本相同，只是多了一个<code>args</code>参数与Splash进行参数间的传递：：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">yield</span> SplashRequest<span class="token punctuation">(</span>url<span class="token punctuation">,</span> self<span class="token punctuation">.</span>parse_result<span class="token punctuation">,</span>
+    args<span class="token operator">=</span><span class="token punctuation">{</span>
+        <span class="token comment"># 此字典为向Splash HTTP API传送的可选参数; </span>
+        <span class="token string">'wait'</span><span class="token punctuation">:</span> <span class="token number">0.5</span><span class="token punctuation">,</span>
+        <span class="token comment"># 'url' 每个请求预先填充的目标请求地址</span>
+        <span class="token comment"># 'http_method' 用于设置请求方法，如POST、PUT</span>
+        <span class="token comment"># 'body' 设置用于POST方法时向服务端发起的请求正文</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    callback<span class="token operator">=</span>self<span class="token punctuation">.</span>parse_item<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">普通的Scrapy请求中传递splash请求<code>meta</code>关键字以实现同样的效果。</p>
+<pre class="  language-python"><code class="prism  language-python"><span class="token keyword">yield</span> scrapy<span class="token punctuation">.</span>Request<span class="token punctuation">(</span>url<span class="token punctuation">,</span> self<span class="token punctuation">.</span>parse_result<span class="token punctuation">,</span> meta<span class="token operator">=</span><span class="token punctuation">{</span>
+<span class="token string">'splash'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token string">'args'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'user_name'</span><span class="token punctuation">:</span> <span class="token string">'xxxx'</span><span class="token punctuation">,</span>
+      <span class="token string">'user_pwd'</span><span class="token punctuation">:</span> <span class="token string">'xxxx'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">'endpoint'</span><span class="token punctuation">:</span> <span class="token string">'render.html'</span><span class="token punctuation">,</span>  
+  <span class="token string">'splash_url'</span><span class="token punctuation">:</span> <span class="token string">'&lt;url&gt;'</span><span class="token punctuation">,</span>
+  <span class="token string">'splash_headers'</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>       
+  <span class="token string">'dont_process_response'</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> 
+  <span class="token string">'dont_send_headers'</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> 
+  <span class="token string">'magic_response'</span><span class="token punctuation">:</span> <span class="token boolean">False</span>  
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="使用splash改写登录逻辑">使用Splash改写登录逻辑</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1980660001b7bb27822218.png" alt="图片描述" data-original="http://img.mukewang.com/5d1980660001b7bb27822218.png" class="" style="cursor: pointer;">在scrapy中写改写代码之前我们可以先使用Splash的界面工具直观地先写出lua的登录脚本，然后直接在界面上尝试是否能渲染成功:<br>
+<img src="http://img.mukewang.com/5d1980870001eabc26722278.png" alt="图片描述" data-original="http://img.mukewang.com/5d1980870001eabc26722278.png" class="" style="cursor: pointer;">这个Lua脚本的使用就是让Splash执行以下的几个动作：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">打开花瓣网点击右上角的“登录”按钮弹出登陆对话框</li>
+<li style="font-size: 20px; line-height: 38px;">在登录对话框中填写用户名与密码</li>
+<li style="font-size: 20px; line-height: 38px;">提交表单</li>
+<li style="font-size: 20px; line-height: 38px;">等待页面正常返回后将服务器颁发的Cookie取出，作为结果传递给scrapy</li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-lua"><code class="prism  language-lua"><span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span>splash<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+  <span class="token comment">-- 打开首页</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span>splash<span class="token punctuation">:</span><span class="token function">go</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span>splash<span class="token punctuation">:</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">local</span> button <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">".login.btn"</span><span class="token punctuation">)</span>   <span class="token comment">-- 先择右上角的登录按钮</span>
+  button<span class="token punctuation">.</span><span class="token function">mouse_click</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">-- 模拟点击按钮</span>
+  
+  <span class="token comment">-- 选中弹出对话框并模拟人工填写登录表单并进行提交</span>
+  <span class="token keyword">local</span> form <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">select</span><span class="token punctuation">(</span><span class="token string">"form.mail-login"</span><span class="token punctuation">)</span>
+  <span class="token keyword">local</span> values <span class="token operator">=</span> <span class="token function">assert</span><span class="token punctuation">(</span>form<span class="token punctuation">:</span><span class="token function">form_values</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  values<span class="token punctuation">.</span>email <span class="token operator">=</span> args<span class="token punctuation">.</span>user_name
+  values<span class="token punctuation">.</span>password<span class="token operator">=</span> args<span class="token punctuation">.</span>user_pwd
+  <span class="token function">assert</span><span class="token punctuation">(</span>form<span class="token punctuation">:</span><span class="token function">fill</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">-- 填充表单</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span>form<span class="token punctuation">:</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span>splash<span class="token punctuation">:</span><span class="token function">wait</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    cookies <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">get_cookies</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">-- 将浏览器中的cookies回传</span>
+    png <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">png</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    html <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Lua脚本非常简单，语法比python还要容易，在Splash中被作为宏语言使用，具体的用法可以参考<a href="https://splash-cn-doc.readthedocs.io/zh_CN/latest/scripting-overview.html">scrapy-splash中文文档</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当上面的Lua正确执行就会看到上图中的效果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们就得在蜘蛛中向Splash发送这种控制请求，并能把Lua脚本发到Splash上执行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先用<code>SplashRequest</code>改写上一节中的登录方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> scrapy_splash<span class="token punctuation">.</span>request <span class="token keyword">import</span> SplashFormRequest<span class="token punctuation">,</span> SplashRequest
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> dateparser
+
+<span class="token keyword">class</span> <span class="token class-name">BeeSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'bee'</span>
+    lua_src <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+    function main(splash , args)
+      -- (内容同上，略去)
+    end
+    """</span>
+    
+    <span class="token keyword">def</span> <span class="token function">start_requests</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">yield</span> SplashRequest<span class="token punctuation">(</span>
+            url<span class="token operator">=</span><span class="token string">"https://huahan.com/login"</span><span class="token punctuation">,</span>
+            endpoint<span class="token operator">=</span><span class="token string">"execute"</span><span class="token punctuation">,</span> <span class="token comment"># 必须使用execute才能执行lua</span>
+            args<span class="token operator">=</span><span class="token punctuation">{</span>
+                <span class="token string">"wait"</span><span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
+                <span class="token string">"lua_source"</span><span class="token punctuation">:</span>self<span class="token punctuation">.</span>lua_src<span class="token punctuation">,</span>
+                <span class="token string">"user_name"</span><span class="token punctuation">:</span> <span class="token string">"&lt;花瓣的登录邮箱&gt;"</span><span class="token punctuation">,</span>
+                <span class="token string">"user_passwd"</span><span class="token punctuation">:</span> <span class="token string">"&lt;花瓣的登录密码&gt;"</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            callback<span class="token operator">=</span>self<span class="token punctuation">.</span>after_login
+        <span class="token punctuation">)</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了方便编写和管理lua源文件，我们可以将lua源代码写到一个独立的<code>login.lua</code>文件中，在蜘蛛中只要编写一个 <code>load_lua</code>的方法直接读取源代码文件中的内容并作为<code>lua_source</code>参数传递给Splash，并且将花瓣网的用户名与密码写到配置文件中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述代码可以改成如下方式:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> scrapy_splash<span class="token punctuation">.</span>request <span class="token keyword">import</span> SplashRequest
+<span class="token keyword">import</span> os
+
+
+<span class="token keyword">class</span> <span class="token class-name">BeeSpider</span><span class="token punctuation">(</span>scrapy<span class="token punctuation">.</span>Spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'bee'</span>
+
+    <span class="token keyword">def</span> <span class="token function">load_lua</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> lua_file<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        lua_file_name <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>dirname<span class="token punctuation">(</span>os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>abspath<span class="token punctuation">(</span>__file__<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> lua_file<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>lua_file_name<span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> lua<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> lua<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span>BeeSpider<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span>self<span class="token punctuation">.</span>name<span class="token punctuation">,</span> start_urls<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>username <span class="token operator">=</span> username
+        self<span class="token punctuation">.</span>password <span class="token operator">=</span> password
+
+    @<span class="token builtin">classmethod</span>
+    <span class="token keyword">def</span> <span class="token function">from_crawler</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> crawler<span class="token punctuation">,</span> <span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        username <span class="token operator">=</span> crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'LOGIN_USER'</span><span class="token punctuation">)</span>
+        password <span class="token operator">=</span> crawler<span class="token punctuation">.</span>settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'LOGIN_PWD'</span><span class="token punctuation">)</span>
+        spider <span class="token operator">=</span> cls<span class="token punctuation">(</span>username<span class="token operator">=</span>username<span class="token punctuation">,</span> password<span class="token operator">=</span>password<span class="token punctuation">)</span>
+        spider<span class="token punctuation">.</span>_set_crawler<span class="token punctuation">(</span>crawler<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> spider
+
+    <span class="token keyword">def</span> <span class="token function">start_requests</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">yield</span> SplashRequest<span class="token punctuation">(</span>
+            url<span class="token operator">=</span><span class="token string">"https://huahan.com/login"</span><span class="token punctuation">,</span>
+            endpoint<span class="token operator">=</span><span class="token string">"execute"</span><span class="token punctuation">,</span>
+            args<span class="token operator">=</span><span class="token punctuation">{</span>
+                <span class="token string">"wait"</span><span class="token punctuation">:</span> <span class="token number">30</span><span class="token punctuation">,</span>
+                <span class="token string">"lua_source"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>load_lua<span class="token punctuation">(</span><span class="token string">'login.lua'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"user_name"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>username<span class="token punctuation">,</span>
+                <span class="token string">"user_passwd"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>password
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            callback<span class="token operator">=</span>self<span class="token punctuation">.</span>after_login
+        <span class="token punctuation">)</span>
+        
+    <span class="token keyword">def</span> <span class="token function">after_login</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+				<span class="token keyword">pass</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当我们<code>start_requests</code>完成了花瓣网的登录后为的是拿到Cookie，这个目的与上一节使用<code>FormRequest</code>来发请求是完全一至的，不同的是我们需要在lua中通过<code>splash:get_cookies()</code>将Splash浏览器中存的Cookie重新传给Scrapy，使得我们可以在蜘蛛中得到这些Cookie，并在每将发出请求时重新带上这些Cookie来向花瓣网请求数据，这就可以完全毫无阻碍地进出花瓣网了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据第一节中分析，我们来实现<code>after_login</code>函开始对花瓣网的数据进行爬取：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">after_login</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token comment"># 加载lua脚本</span>
+  lua_main <span class="token operator">=</span> self<span class="token punctuation">.</span>load_lua<span class="token punctuation">(</span><span class="token string">'main.lua'</span><span class="token punctuation">)</span>
+  <span class="token comment"># 将登录后得到的cookies存到当前蜘蛛的cookies属性中。</span>
+  self<span class="token punctuation">.</span>cookies <span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">[</span><span class="token string">'cookies'</span><span class="token punctuation">]</span>
+  <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">yield</span> SplashRequest<span class="token punctuation">(</span>url<span class="token operator">=</span><span class="token string">'https://huaban.com/search/?q=app&amp;type=pins&amp;page=%s&amp;per_page=20'</span> <span class="token operator">%</span> i<span class="token punctuation">,</span>
+                        callback<span class="token operator">=</span>self<span class="token punctuation">.</span>parse_result<span class="token punctuation">,</span>
+                        endpoint<span class="token operator">=</span><span class="token string">'execute'</span><span class="token punctuation">,</span>
+                        args<span class="token operator">=</span><span class="token punctuation">{</span>
+                          <span class="token string">'wait'</span><span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span>
+                          <span class="token string">'cookies'</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>cookies<span class="token punctuation">,</span>
+                          <span class="token string">'lua_source'</span><span class="token punctuation">:</span> lua_main
+                        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">由于我们并不知道到底一个页面里面有多少个分页，这里为了方便只是取了从第一页到第100页的数据。如果想获得更多的数据可以作为你的一道思考题去动手尝试。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Lua脚本就应该这样来写：</p>
+</div><div class="cl-preview-section"><pre class="  language-lua"><code class="prism  language-lua"><span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span>splash<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+    splash<span class="token punctuation">:</span><span class="token function">init_cookies</span><span class="token punctuation">(</span>splash<span class="token punctuation">.</span>args<span class="token punctuation">.</span>cookies<span class="token punctuation">)</span> <span class="token operator">//</span>
+    splash<span class="token punctuation">:</span><span class="token function">go</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        cookies <span class="token operator">=</span> splash<span class="token punctuation">.</span><span class="token function">get_cookies</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        html <span class="token operator">=</span> splash<span class="token punctuation">:</span><span class="token function">html</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token keyword">end</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在Splash中我们其实是可以用Lua来编写网页元素的提取工作，直接将提取结果作为一个JSON返回到scrapy的response中，但由于Splash中来写这个提取逻辑我们又要重新学习一套新的写法，这样的成本未免过高了，那么还是使用我们在前几章中学习到的Item的提取方法来得更快，所以这里我们只是浅度地使用lua取将页面取回来进行正确的渲染之后就页面的渲染结果直接传递给蜘蛛的<code>response</code>对象。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后我们只要在<code>parse_result</code>这个方法中分析出<code>imgUrl</code>、<code>desc</code>和<code>link</code>这三个元素并生成<code>Item</code>对象返回就可以了。</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse_result</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        item <span class="token operator">=</span> HuabanItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        item<span class="token punctuation">[</span><span class="token string">'img_url'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'https:%s'</span> <span class="token operator">%</span> response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#waterfall&gt;div a.img&gt;img::attr(href)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        item<span class="token punctuation">[</span><span class="token string">'link'</span><span class="token punctuation">]</span> <span class="token operator">=</span> response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#waterfall&gt;div::attr(data-source)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span> <span class="token operator">=</span> response<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#waterfall&gt;div&gt;p.description::attr(data-raw)'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> item
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">基于Splash来开发爬虫属于比较高级的爬虫课题，而且入门难度比较高。主要体现在以下几个方面：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">需要学习LUA</li>
+<li style="font-size: 20px; line-height: 38px;">需要重新理解这种代理式的访问机制</li>
+<li style="font-size: 20px; line-height: 38px;">Splash并不一定能适用于所有的目标网站，这是由于我们复杂的网络环境所限。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过一但尝试Splash能进行成功的爬取却可以得到很不错的性能，毕竟Splash是基于Twitted这个高效的网络库开发而且可以支持多线程，在资源消耗方面相对较小，速度也可以得到一定的提高。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行Splash来爬取花瓣网的效果其实并不理想，主要在于访问的速度。在访问花瓣时总是会遇到网络超时的情况。所以接下来我们将会换成另一种更加传统和更加简单的方法来改造这个爬虫。</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/505">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    打开花瓣网的大门
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/332">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    用Chrome无头浏览器处理JS网页——简单方案
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,400 @@
+<html><head><meta charset="utf-8"><title>11 发布页 UI 界面开发-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        11 发布页 UI 界面开发
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-04 13:58:44
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img.mukewang.com/5d4cd5e4000136ac06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">学习从来无捷径，循序渐进登高峰。 <p class="author">—— 高永祚</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">发表功能是一个项目的核心之一，一个功能完备，用户体验优良的发表页面可以提升用户发表的欲望，直接影响到整个项目内容的质量和多样性，本章节将要讲解发表页面的相关UI开发，会用到 weui 和HTML5<code>&lt;input&gt;</code>的相关技术，准备好让我们进入开发。</p>
+</div><div class="cl-preview-section"><h3 id="发表页面逻辑图：">发表页面逻辑图：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先来看看页面的逻辑流程图：<br>
+<img class="" src="https://img.mukewang.com/5cedf7780001c35407820422.png" data-original="//img.mukewang.com/5cedf7780001c35407820422.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="ui效果：">UI效果：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后是最终要实现的UI效果图：<br>
+<img class="" src="https://img.mukewang.com/5cedf78b0001b09507501334.png" data-original="//img.mukewang.com/5cedf78b0001b09507501334.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="发表页面逻辑开发">发表页面逻辑开发</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">整个发表页面的UI是相对来说比较简单的，页面上的UI元素很少，下面我们一起来实现一下。</p>
+</div><div class="cl-preview-section"><h4 id="新建发布页面" style="font-size: 26px;">新建发布页面</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前端项目的 views 文件夹下新建 publish 文件夹，同时新建<code>index.vue</code>，编写template：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>header<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cancel<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cancel<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>取消<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>create weui-btn weui-btn_mini weui-btn_primary<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>publish<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>发表<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>input-content<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span>
+        <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-textarea<span class="token punctuation">"</span></span>
+        <span class="token attr-name">@input</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>oninput<span class="token punctuation">"</span></span>
+        <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>这一刻的想法..<span class="token punctuation">"</span></span>
+        <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>content<span class="token punctuation">"</span></span>
+        <span class="token attr-name">maxlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>70<span class="token punctuation">"</span></span>
+      <span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-textarea-counter<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>{{this.textCount}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>/70
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img-content<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploaderPub<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__files<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploaderFiles<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>showImg($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__input-box<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span>
+                <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploaderInputPub<span class="token punctuation">"</span></span>
+                <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__input<span class="token punctuation">"</span></span>
+                <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span>
+                <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/*<span class="token punctuation">"</span></span>
+                <span class="token attr-name">multiple</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>multiple<span class="token punctuation">"</span></span>
+              <span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__hd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__info<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploadCount<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{uploadCount}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>/5
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的 UI 基本按照 weui 的方式创建，class 和标签可以直接复制即可，主要说明一下 input 上传文件的使用：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">在手机端HTML5页面上，使用 <code>&lt;input type="file"&gt;</code> 可以实现文件上传效果。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>accept</strong>：限制上传文件的类型，<code>image/png,image/gif</code>表示只能上传图片类型，并且扩展名是png或gif，<code>image/*</code> 表示任何图片类型的文件，当然accept属性也支持 <code>.xx</code>，表示扩展名为标识的限制，例如<code>accept=".pdf,.doc"</code>。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>multiple</strong>：设置是否支持选多个文件，选择支持后，files将会得到一个数组。同时在呼起相册面板时，可以进行打勾多选。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>capture</strong>：capture 属性可以调用系统默认相机、摄像和录音功能，同时有其他取值：</p>
+<p style="font-size: 20px; line-height: 38px;">capture=“camera” 相机<br>
+capture=“camcorder” 摄像机<br>
+capture=“microphone” 录音</p>
+</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="调用-weui-图片上传组件：" style="font-size: 26px;">调用 weui 图片上传组件：</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在<code>index.vue</code>中新增一个<code>mounted</code>方法:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面这段代码是用来初始化我们的 weui 图片上传uploader组件，需要注意的是放在<code>mounted</code>里是为了保证UI已经渲染完成，这样才能找到相关的dom节点进行初始化。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">  <span class="token function">mounted</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> self <span class="token operator">=</span> <span class="token keyword">this</span>
+    weui<span class="token punctuation">.</span><span class="token function">uploader</span><span class="token punctuation">(</span><span class="token string">'#uploaderPub'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token comment">//id为dom的id</span>
+      url<span class="token punctuation">:</span> service<span class="token punctuation">.</span>baseURL <span class="token operator">+</span> <span class="token string">'post/uploadimg'</span><span class="token punctuation">,</span><span class="token comment">//上传服务的后台接口，返回值需要使用json格式</span>
+      auto<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">//选择完图片后立刻上传</span>
+      type<span class="token punctuation">:</span> <span class="token string">'file'</span><span class="token punctuation">,</span><span class="token comment">//上传类型, file为文件上传; base64为以base64上传</span>
+      fileVal<span class="token punctuation">:</span> <span class="token string">'image'</span><span class="token punctuation">,</span><span class="token comment">//文件上传域的name，这里的配置和后台接收上传图片的字段保持一致</span>
+      compress<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token comment">//压缩配置</span>
+        width<span class="token punctuation">:</span> <span class="token number">1300</span><span class="token punctuation">,</span><span class="token comment">//图片的最大宽度</span>
+        height<span class="token punctuation">:</span> <span class="token number">1300</span><span class="token punctuation">,</span><span class="token comment">//图片的最大高度</span>
+        quality<span class="token punctuation">:</span> <span class="token number">0.8</span><span class="token comment">//压缩质量, 取值范围 0 ~ 1</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onBeforeQueued<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>files<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// `this` 是轮询到的文件, `files` 是所有文件</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>
+          <span class="token punctuation">[</span><span class="token string">'image/jpg'</span><span class="token punctuation">,</span> <span class="token string">'image/jpeg'</span><span class="token punctuation">,</span> <span class="token string">'image/png'</span><span class="token punctuation">,</span> <span class="token string">'image/gif'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>type
+          <span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token comment">//只允许上传这几个类型的图片</span>
+        <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'请上传图片'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span> <span class="token comment">// 阻止文件添加</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">&gt;</span> <span class="token number">10</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'请上传不超过10M的图片'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>files<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">// 防止一下子选择过多文件</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'最多只能上传5张图片，请重新选择'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>uploadCount <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> <span class="token number">5</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'最多只能上传5张图片'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">//已经上传的图片个图</span>
+        <span class="token operator">++</span>self<span class="token punctuation">.</span>uploadCount
+
+        <span class="token comment">// return true; // 阻止默认行为，不插入预览图的框架</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onBeforeSend<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">,</span> headers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// console.log(this, data, headers);</span>
+        <span class="token comment">//将token字段放在headers里，API校验</span>
+        headers<span class="token punctuation">[</span><span class="token string">'wec-access-token'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">getCookie</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+
+        <span class="token comment">// return false; // 阻止文件上传</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onProgress<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>procent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// console.log(this, procent);</span>
+        <span class="token comment">// return true; // 阻止默认行为，不使用默认的进度显示</span>
+
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onSuccess<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>ret<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// console.log(this, ret)</span>
+        <span class="token comment">//ret.data是后台上传接口的返回json的数据</span>
+        ret<span class="token punctuation">.</span>data<span class="token punctuation">.</span>id <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>id 
+        <span class="token comment">//将选择的图片放在一个self.picList数组里</span>
+        self<span class="token punctuation">.</span>picList<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>ret<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+        <span class="token comment">// return true; // 阻止默认行为，不使用默认的成功态</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onError<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment">// console.log(this, err);</span>
+        <span class="token comment">// return true; // 阻止默认行为，不使用默认的失败态</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>监听textarea输入，动态修改剩余字数</strong>：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在<code>index.vue</code>中新增如下代码和方法:</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token operator">&lt;</span>textarea
+        <span class="token operator">...</span>
+        @input<span class="token operator">=</span><span class="token string">"oninput"</span>
+        <span class="token operator">...</span>
+      <span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>textarea<span class="token operator">&gt;</span>
+</code></pre>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token function">oninput</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>textCount <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>content<span class="token punctuation">.</span>length
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码用到了<code>oninput</code>事件，下面讲解一下相关的知识点：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">常用的监听输入事件，在PC上时，我们可能会用 <code>keyup</code> 或者 <code>keydown</code> 事件来监听，但是到了移动端，主要有下面两个事件来监听用户的输入行为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">oninput: 事件在用户输入时，value改变时触发，是实时的。通过 js 改变 value 时，不会触发。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">onchange: 事件在用户输入时，value改变（两次内容有可能还是相等的）且失去焦点时触发。通过 js 改变 value 时，不会触发。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">onpropertychange: 事件在用户输入时，value改变时触发，是实时的。通过 js 改变 value 时，会触发。IE专属。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面这些事件的介绍比较详细，针对我们这个场景，采用oninput事件最合理。下面我们来看下删除选中图片这一功能的逻辑：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在<code>index.vue</code>中新增一个<code>showImg</code>和<code>deleteImg</code>方法:</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"> <span class="token comment">/*
+  * 点击已经上传的预览图
+  */</span>
+  <span class="token function">showImg</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> target <span class="token operator">=</span> e<span class="token punctuation">.</span>target
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>target<span class="token punctuation">.</span>classList<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">'weui-uploader__file'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//找到点击的那个dom元素</span>
+      <span class="token keyword">let</span> url <span class="token operator">=</span> target
+         <span class="token comment">//通过正则找到绑定在background-image上的图片url</span>
+        <span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'style'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex">/url\((.*?)\)/</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+        <span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/"/g</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span>
+
+      <span class="token comment">//调用weui的gallery组件查看大图和是否删除的按钮</span>
+      <span class="token keyword">let</span> gallery <span class="token operator">=</span> weui<span class="token punctuation">.</span><span class="token function">gallery</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        onDelete<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+          <span class="token comment">//将删除的图片从已经上传的列表里删除</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">deleteImg</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> gallery<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">/*
+  * 删除已上传的图片
+  */</span>
+  <span class="token function">deleteImg</span> <span class="token punctuation">(</span>target<span class="token punctuation">,</span> gallery<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//从target上得到点击的那个图片的id序号</span>
+    <span class="token keyword">let</span> id <span class="token operator">=</span> target<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">'data-id'</span><span class="token punctuation">)</span>
+    <span class="token comment">//删除前给一个确认提示</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">confirm</span><span class="token punctuation">(</span><span class="token string">'确定删除该图片？'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'删除'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//从self.picList数组里找到这个图片并删除</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> len <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>picList<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> file <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>picList<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>file<span class="token punctuation">.</span>id <span class="token operator">==</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>picList<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">break</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//将图片的dom移除</span>
+    target<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//隐藏gallert图片查看器</span>
+    gallery<span class="token punctuation">.</span><span class="token function">hide</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//已上传图片个数减1</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>uploadCount<span class="token operator">--</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面这段代码主要实现了2个功能：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当我们点击已经上传的图片时，通过<code>showImg()</code>方法，会出现一个gallery图片查看器组件来查看大图。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当gallery图片查看器出现之后，在查看器的底部有一个删除按钮，点击之后通过<code>deleteImg()</code>方法将已选的图片删除。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">gallery 是一个 weui 的图片查看组件，当然功能比较单一，支持传一个图片，不过不用担心，后面我们会开发一个功能更强的图片查看器。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">className： string  自定义类名。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">onDelete：  function  点击删除图片时的回调。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">效果如下所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5cee40090001fc1307501334.png" data-original="//img.mukewang.com/5cee40090001fc1307501334.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">代码里的background-image和data-id都是由upload组件上传之后生成在页面dom里的，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5cee40880001548107590143.png" data-original="//img.mukewang.com/5cee40880001548107590143.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">OK，到此我们的发表界面的前端逻辑已经完成，后面会接着开发后端逻辑。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章主要讲解了发表页面的前端UI逻辑开发，业务逻辑比较多一些。<br>
+相关技术点:</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">HTML5中使用来实现图片上传，其中<code>accept</code>，<code>multiple</code>，<code>capture</code>属性的用法。</li>
+<li style="font-size: 20px; line-height: 38px;">weui的图片上传组件uploader使用方法以及gallery图片查看器使用方法。</li>
+<li style="font-size: 20px; line-height: 38px;">在使用weui的uploader组件之后，初始化方法要放在<code>mounted</code>里面，这样可以保证UI存在的情况下初始化成功。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/login/index.vue">Github</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/653">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            10 JSON Web Token实现用户验证
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/655">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            12 upload 图片上传接口
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

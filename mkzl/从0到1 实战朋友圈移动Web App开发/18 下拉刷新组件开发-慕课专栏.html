@@ -1,0 +1,308 @@
+<html><head><meta charset="utf-8"><title>18 下拉刷新组件开发-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        18 下拉刷新组件开发
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-28 15:37:02
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d634b33000114ab06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">我们活着不能与草木同腐，不能醉生梦死，枉度人生，要有所作为。<p class="author">——方志敏</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h1 id="朋友圈首页ui-下拉刷新组件">朋友圈首页 UI - 下拉刷新组件</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下拉刷新效果是移动 web 端独有的一种用户交互方式，大多出现在滚动列表的页面上，目的更新页面数据。相信大家都体验过微信朋友圈的下拉刷新效果，当页面滚动到顶部时，手指向下拖动，页面左上角会出现一个圆形的 icon 并有向下的位移，本章节将会模拟微信的这个下拉刷新效果，大家可以先预习一下 CSS3 的 <a href="https://www.w3school.com.cn/cssref/pr_transition.asp">transaction</a> 动画效果，下面就进入开发吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/tree/master/app/src/components/pullRefreshView/index.vue">Github</a></p>
+</div><div class="cl-preview-section"><h3 id="下拉刷新效果：">下拉刷新效果：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先来看一下实现的效果，如下图：<br>
+<img class="" src="https://img.mukewang.com/5cf52a6e0001aad100150021.gif" data-original="//img.mukewang.com/5cf52a6e0001aad100150021.gif" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下拉刷新逻辑梳理：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">当页面滚动到最顶部时，手指在屏幕中向下拖动，触发下拉刷新。</li>
+<li style="font-size: 20px; line-height: 38px;">隐藏在页面左上角的圆形 icon 随着手指向下拖动而向下发生位移，并顺时针旋转。</li>
+<li style="font-size: 20px; line-height: 38px;">当向下位移到一定临界值后，手指离开屏幕，触发正在刷新操作，圆形 icon 在固定位置自转一定角度。</li>
+<li style="font-size: 20px; line-height: 38px;">之后圆形 icon 在向上发生位移，并逆时针旋转直到隐藏起来。</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="下拉刷新实现：">下拉刷新实现：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前端项目的 components 文件夹下新建 pullRefreshView 文件夹，同时新建组件的 <code>index.vue</code>:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先需要编写下拉刷新组件的 template，这里用到 <code>&lt;slot&gt;</code>，大家如果忘记了，可以去前面章节回顾一下，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>pullRefreshView<span class="token punctuation">"</span></span> <span class="token attr-name">@touchmove</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>touchmove<span class="token punctuation">"</span></span> <span class="token attr-name">@touchstart</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>touchstart<span class="token punctuation">"</span></span> <span class="token attr-name">@touchend</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>touchend<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>circleIcon<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>circle-icon<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>circleIconInner<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>circle-icon-inner<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>slot</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>slot</span><span class="token punctuation">&gt;</span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码中，最外层使用了一个 div 用来包裹，作为事件绑定的容器，同时新建一个圆形 icon 的 div <code>.circleIcon</code>，我们将此 icon 样式设置在<em>屏幕外</em>，达到隐藏的效果，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-css"><code class="prism  language-css"><span class="token selector"><span class="token class">.circle-icon</span> </span><span class="token punctuation">{</span>
+
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> -<span class="token number">30</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下拉刷新组件的 UI 基本编写完毕，接下来就要绑定事件了，通过上述分析，加上我们之前章节开发图片查看器的原理，我们需要用到移动端 <code>touchstart</code>，<code>touchmove</code>，<code>touchend</code> 事件，可以实现下拉刷新效果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，监听 <code>touchstart</code> 事件：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">  <span class="token function">touchstart</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//手指接触屏幕起始时，记录一下位置</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragStart <span class="token operator">=</span> evt<span class="token punctuation">.</span>targetTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>clientY
+    <span class="token comment">//将圆形icon的动画效果先隐藏</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransition <span class="token operator">=</span> <span class="token string">'none'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 <code>touchstart</code> 事件中，我们主要做的是记录一些初始值，包括手指第一次接触屏幕时的位置，然后将圆形 icon 的动画效果先隐藏。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，监听 <code>touchmove</code> 事件：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">    <span class="token function">touchmove</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//如果没有touchstart设置的值，说明没进入下拉状态，不影响正常的滚动</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragStart <span class="token operator">===</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//获取手指的一个target</span>
+    <span class="token keyword">let</span> target <span class="token operator">=</span> evt<span class="token punctuation">.</span>targetTouches<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+    <span class="token comment">//根据起始位置和屏幕高度计算一个相对位移量，正值为向上拖动，负值为向下拖动</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragStart <span class="token operator">-</span> target<span class="token punctuation">.</span>clientY<span class="token punctuation">)</span> <span class="token operator">/</span> window<span class="token punctuation">.</span>screen<span class="token punctuation">.</span>height
+
+    <span class="token comment">//获取scrollTop，为了判断是否在页面顶部</span>
+    <span class="token keyword">let</span> scrollTop <span class="token operator">=</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop <span class="token operator">||</span> document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop
+    <span class="token comment">//当页面处于顶部时，才能进入下拉刷新的逻辑</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>scrollTop <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//当向下拖动时，才能进入下拉刷新的逻辑</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> evt<span class="token punctuation">.</span>cancelable<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        evt<span class="token punctuation">.</span><span class="token function">preventDefault</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token comment">//将进入下拉刷新刷新标志位true</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">=</span> <span class="token boolean">true</span>
+
+        <span class="token comment">//根据moveCount速率系数计算位移的量</span>
+        <span class="token keyword">let</span> translateY <span class="token operator">=</span> <span class="token operator">-</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage <span class="token operator">*</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>moveCount
+        
+        <span class="token comment">//当位移到一定程度，还没达到临界值时，不断去位移和旋转圆形icon</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragThreshold<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+          <span class="token comment">//计算圆形icon旋转的角度</span>
+          <span class="token keyword">let</span> rotate <span class="token operator">=</span> translateY <span class="token operator">/</span> <span class="token number">30</span> <span class="token operator">*</span> <span class="token number">360</span>
+
+          <span class="token comment">//位移和旋转圆形icon，利用translate3d和rotate属性</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransform <span class="token operator">=</span> <span class="token string">'translate3d(0,'</span> <span class="token operator">+</span> translateY <span class="token operator">+</span> <span class="token string">'px,0) rotate('</span> <span class="token operator">+</span> rotate <span class="token operator">+</span> <span class="token string">'deg)'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">//向上拖动就没有进入下拉，要清除下拉刷新刷新标志位true</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">=</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//清除下拉刷新刷新标志位true</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">=</span> <span class="token boolean">false</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 <code>touchmove</code> 事件里，我们主要做的是根据手指移动的量来实时将圆形 icon 移动并旋转，大家可以看看代码中的注释，在这里说明一下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">我们的下拉刷新触发的时机是在页面处于屏幕顶部并且手指向下拖动，这两个条件，缺一不可，在代码中，我们利用 <code>scrollTop == 0</code> 和 <code>this.pullRefresh.percentage &lt; 0</code> 来判断。</li>
+<li style="font-size: 20px; line-height: 38px;">在进入下拉刷新状态时，此时手指不断向下拖动，首先圆形 icon<code>.circleIcon</code> 会向下滚动并旋转，当滚动到临界值时就只原地旋转。</li>
+<li style="font-size: 20px; line-height: 38px;">如果手指在向上拖动，圆形 icon<code>.circleIcon</code> 就会向上滚动并旋转。</li>
+<li style="font-size: 20px; line-height: 38px;">直到手指离开屏幕前，都不会触发下拉刷新，只是圆形 icon<code>.circleIcon</code> 在不停的上下移动。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">监听 <code>touchend</code> 事件：</p>
+</div><div class="cl-preview-section"><pre class=" language-javascript"><code class="prism  language-javascript">    <span class="token function">touchend</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//如果没有touchstart设置的值，说明没进入下拉状态，不影响正常的滚动</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//在手指离开时，位移量达到临界值时，并且也有进入下拉刷新的标志位，就表明要触发正在刷新</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">abs</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragThreshold <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">//通知父元素触发正在刷新</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'onRefresh'</span><span class="token punctuation">)</span>
+
+      <span class="token comment">//给circleIconInner一个正在旋转的动画，利用css的animation实现</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIconInner<span class="token punctuation">.</span>classList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">'circle-rotate'</span><span class="token punctuation">)</span>
+
+      <span class="token comment">//700ms之后，动画结束，立刻收起</span>
+      <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIconInner<span class="token punctuation">.</span>classList<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string">'circle-rotate'</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransition <span class="token operator">=</span> <span class="token string">'330ms'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransform <span class="token operator">=</span> <span class="token string">'translate3d(0,0,0) rotate(0deg)'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">700</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//在手指离开时，位移量没有达到临界值，就自动收回，通过transition，设定一个终止值即可。</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransition <span class="token operator">=</span> <span class="token string">'330ms'</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>circleIcon<span class="token punctuation">.</span>style<span class="token punctuation">.</span>webkitTransform <span class="token operator">=</span> <span class="token string">'translate3d(0,0,0) rotate(0deg)'</span>
+
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+
+    <span class="token comment">// 重置joinRefreshFlag</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>joinRefreshFlag <span class="token operator">=</span> <span class="token keyword">null</span>
+
+    <span class="token comment">// 重置dragStart</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>dragStart <span class="token operator">=</span> <span class="token keyword">null</span>
+
+    <span class="token comment">// 重置percentage</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>pullRefresh<span class="token punctuation">.</span>percentage <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 <code>touchend</code> 事件中，我们主要是做一些动画执行的操作，大家可以看看代码中的注释，这里说明一下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">此时手指离开屏幕，位移量达到临界值时，并且也有进入下拉刷新的标志位，就表明要触发正在刷新。此时圆形 icon 原地旋转，并触发下拉刷新回调方法，延迟 700ms 后向上收起。</li>
+<li style="font-size: 20px; line-height: 38px;">我们在实现圆形 icon 时的旋转和位移动画时，用了两个 div，在 <code>touchmove</code> 时，我们主要对外层的 div 也就是 <code>ref=circleIcon</code>，来实现位移和旋转。</li>
+<li style="font-size: 20px; line-height: 38px;">在 <code>touchend</code> 时，我们主要给内层的 div 也就是 <code>ref=circleIconInner</code> 来加 <code>animation</code> 动画，因为无法给一个 div 同时使用位移旋转和 <code>animation</code> 动画，所以这里一个技巧就是给父元素设置位移和旋转，它的子元素在不设置任何 CSS 动画样式时，是会随着父元素而生效的。</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节主要模拟朋友圈实现了一个下拉刷新的动画效果。<br>
+相关技术点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">下拉刷新操作的主要用户交互流程，包括开始下拉，执行刷新，下拉结束。</li>
+<li style="font-size: 20px; line-height: 38px;">利用 CSS3 的 <code>transform</code> 的 <code>rotate</code> 可以实现一个 div 元素的旋转，结合 <code>transition</code> 可以实现旋转动画。</li>
+<li style="font-size: 20px; line-height: 38px;">在下拉刷新结束时，我们主要给内层的 div 也就是 <code>ref=circleIconInner</code> 来加 <code>animation</code> 动画，因为无法给一个 div 同时使用位移旋转和 <code>animation</code> 动画，所以这里一个技巧就是给父元素设置位移和旋转，它的子元素在不设置任何 CSS 动画样式时，是会随着父元素而生效。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/tree/master/app/src/components/pullRefreshView/index.vue">Github</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/660">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            17 图片查看器组件
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/662">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            19 评论输入框组件开发
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

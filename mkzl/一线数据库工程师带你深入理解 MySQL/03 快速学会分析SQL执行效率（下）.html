@@ -1,0 +1,543 @@
+<html><head><meta charset="utf-8"><title>03 快速学会分析SQL执行效率（下）-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        03 快速学会分析SQL执行效率（下）
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-12 11:14:57
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d3ac9770001e27206400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">当你做成功一件事，千万不要等待着享受荣誉，应该再做那些需要的事。 <p class="author">—— 巴斯德</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上一节我们学习了定位慢 SQL 及使用 explain 分析慢 SQL，我们也提到了分析慢 SQL 还有 show profile 和 trace 等方法，本节就重点补充学习这两种方法。</p>
+</div><div class="cl-preview-section"><h2 id="show-profile-分析慢查询" style="font-size: 30px;">1 show profile 分析慢查询</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有时需要确定 SQL 到底慢在哪个环节，此时 explain 可能不好确定。在 MySQL 数据库中，通过 profile，能够更清楚地了解 SQL 执行过程的资源使用情况，能让我们知道到底慢在哪个环节。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">知识扩展：可以通过配置参数 profiling = 1 来启用 SQL 分析。该参数可以在全局和 session 级别来设置。对于全局级别则作用于整个MySQL 实例，而 session 级别仅影响当前 session 。该参数开启后，后续<strong>执行的 SQL 语句都将记录其资源开销，如 IO、上下文切换、CPU、Memory</strong>等等。根据这些开销进一步分析当前 SQL 从而进行优化与调整。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们来讲一下如何使用 profile 分析慢查询，大致步骤是：确定这个 MySQL 版本是否支持 profile；确定 profile 是否关闭；开启 profile；执行 SQL；查看执行完 SQL 的 query id；通过 query id 查看 SQL 的每个状态及耗时时间。</p>
+</div><div class="cl-preview-section"><h3 id="确定是否支持-profile">1.1 确定是否支持 profile</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们进行第一步，用下面命令来判断当前 MySQL 是否支持 profile：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> @<span class="token variable">@have_profiling</span><span class="token punctuation">;</span>
+
+<span class="token operator">+</span><span class="token comment">------------------+</span>
+<span class="token operator">|</span> @<span class="token variable">@have_profiling</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------------------+</span>
+<span class="token operator">|</span> YES              <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------------------+</span>
+
+<span class="token number">1</span> <span class="token keyword">row</span> <span class="token operator">in</span> <span class="token keyword">set</span><span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从上面结果中可以看出是YES，表示支持profile的。</p>
+</div><div class="cl-preview-section"><h3 id="查看-profiling-是否关闭的">1.2 查看 profiling 是否关闭的</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">进行第二步，用下面命令判断 profiling 参数是否关闭（默认 profiling 是关闭的）：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> @<span class="token variable">@profiling</span><span class="token punctuation">;</span>
+
+<span class="token operator">+</span><span class="token comment">-------------+</span>
+<span class="token operator">|</span> @<span class="token variable">@profiling</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">-------------+</span>
+<span class="token operator">|</span>           <span class="token number">0</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">-------------+</span>
+
+<span class="token number">1</span> <span class="token keyword">row</span> <span class="token operator">in</span> <span class="token keyword">set</span><span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">结果显示为 0，表示 profiling 参数状态是关闭的。</p>
+</div><div class="cl-preview-section"><h3 id="通过-set-开启-profile">1.3 通过 set 开启 profile</h3>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">set</span> profiling<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected<span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Tips：set 时没加 global，只对当前 session 有效。</p>
+</div><div class="cl-preview-section"><h3 id="执行-sql-语句">1.4 执行 SQL 语句</h3>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">where</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1000</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="确定-sql-的-query-id">1.5 确定 SQL 的 query id</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过 show profiles 语句确定执行过的 SQL 的 query id：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">show</span> profiles<span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----------+------------+-------------------------------+</span>
+<span class="token operator">|</span> Query_ID <span class="token operator">|</span> Duration   <span class="token operator">|</span> Query                         <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----------+------------+-------------------------------+</span>
+<span class="token operator">|</span>        <span class="token number">1</span> <span class="token operator">|</span> <span class="token number">0.00063825</span> <span class="token operator">|</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">where</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1000</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----------+------------+-------------------------------+</span>
+<span class="token number">1</span> <span class="token keyword">row</span> <span class="token operator">in</span> <span class="token keyword">set</span><span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="查询-sql-执行详情">1.6 查询 SQL 执行详情</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过 show profile for query 可看到执行过的 SQL 每个状态和消耗时间：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">show</span> profile <span class="token keyword">for</span> query <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">----------------------+----------+</span>
+<span class="token operator">|</span> <span class="token keyword">Status</span>               <span class="token operator">|</span> Duration <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----------------------+----------+</span>
+<span class="token operator">|</span> starting             <span class="token operator">|</span> <span class="token number">0.000115</span> <span class="token operator">|</span>
+<span class="token operator">|</span> checking permissions <span class="token operator">|</span> <span class="token number">0.000013</span> <span class="token operator">|</span>
+<span class="token operator">|</span> Opening <span class="token keyword">tables</span>       <span class="token operator">|</span> <span class="token number">0.000027</span> <span class="token operator">|</span>
+<span class="token operator">|</span> init                 <span class="token operator">|</span> <span class="token number">0.000035</span> <span class="token operator">|</span>
+<span class="token operator">|</span> System <span class="token keyword">lock</span>          <span class="token operator">|</span> <span class="token number">0.000017</span> <span class="token operator">|</span>
+<span class="token operator">|</span> optimizing           <span class="token operator">|</span> <span class="token number">0.000016</span> <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token keyword">statistics</span>           <span class="token operator">|</span> <span class="token number">0.000025</span> <span class="token operator">|</span>
+<span class="token operator">|</span> preparing            <span class="token operator">|</span> <span class="token number">0.000020</span> <span class="token operator">|</span>
+<span class="token operator">|</span> executing            <span class="token operator">|</span> <span class="token number">0.000006</span> <span class="token operator">|</span>
+<span class="token operator">|</span> Sending <span class="token keyword">data</span>         <span class="token operator">|</span> <span class="token number">0.000294</span> <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token keyword">end</span>                  <span class="token operator">|</span> <span class="token number">0.000009</span> <span class="token operator">|</span>
+<span class="token operator">|</span> query <span class="token keyword">end</span>            <span class="token operator">|</span> <span class="token number">0.000012</span> <span class="token operator">|</span>
+<span class="token operator">|</span> closing <span class="token keyword">tables</span>       <span class="token operator">|</span> <span class="token number">0.000011</span> <span class="token operator">|</span>
+<span class="token operator">|</span> freeing items        <span class="token operator">|</span> <span class="token number">0.000024</span> <span class="token operator">|</span>
+<span class="token operator">|</span> cleaning up          <span class="token operator">|</span> <span class="token number">0.000016</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">----------------------+----------+</span>
+<span class="token number">15</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span><span class="token punctuation">,</span> <span class="token number">1</span> warning <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过以上结果，可以确定 SQL 执行过程具体在哪个过程耗时比较久，从而更好地进行 SQL 优化与调整。</p>
+</div><div class="cl-preview-section"><h2 id="trace-分析-sql-优化器" style="font-size: 30px;">2 trace 分析 SQL 优化器</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从前面学到了 explain 可以查看 SQL 执行计划，但是无法知道它为什么做这个决策，如果想确定多种索引方案之间是如何选择的或者排序时选择的是哪种排序模式，有什么好的办法吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从 MySQL 5.6 开始，可以使用 trace 查看优化器如何选择执行计划。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过trace，能够进一步了解为什么优化器选择A执行计划而不是选择B执行计划，或者知道某个排序使用的排序模式，帮助我们更好地理解优化器行为。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果需要使用，先开启 trace，设置格式为 JSON，再执行需要分析的 SQL，最后查看 trace 分析结果（在 information_schema.OPTIMIZER_TRACE 中）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开启该功能，会对 MySQL 性能有所影响，因此只建议分析问题时临时开启。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面一起来看下 trace 的使用方法。使用讲解 explain 时创建的表t1做实验。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先构造如下 SQL (表示取出表 t1 中 a 的值大于 900 并且 b 的值大于 910 的数据，然后按照 a 字段排序)：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">where</span> <span class="token number">a</span> <span class="token operator">&gt;</span><span class="token number">900</span> <span class="token operator">and</span> <span class="token number">b</span> <span class="token operator">&gt;</span> <span class="token number">910</span> <span class="token keyword">order</span>  <span class="token keyword">by</span> <span class="token number">a</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们首先用 explain 分析下执行计划：<br>
+<img class="" src="https://img.mukewang.com/5d3aa9480001b8b316420165.png" data-original="//img.mukewang.com/5d3aa9480001b8b316420165.png" alt="图片描述">通过上面执行计划中 key 这个字段可以看出，该语句使用的是 b 字段的索引 idx_b。实际表 t1 中，a、b 两个字段都有索引，为什么条件中有这两个索引字段却偏偏选了 b 字段的索引呢？这时就可以使用 trace 进行分析。大致步骤如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-sql"><code class="prism  language-sql">mysql<span class="token operator">&gt;</span> <span class="token keyword">set</span> <span class="token keyword">session</span> optimizer_trace<span class="token operator">=</span><span class="token string">"enabled=on"</span><span class="token punctuation">,</span>end_markers_in_json<span class="token operator">=</span><span class="token keyword">on</span><span class="token punctuation">;</span>
+<span class="token comment">/* optimizer_trace="enabled=on" 表示开启 trace；end_markers_in_json=on 表示 JSON 输出开启结束标记 */</span>
+Query OK<span class="token punctuation">,</span> <span class="token number">0</span> <span class="token keyword">rows</span> affected <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">where</span> <span class="token number">a</span> <span class="token operator">&gt;</span><span class="token number">900</span> <span class="token operator">and</span> <span class="token number">b</span> <span class="token operator">&gt;</span> <span class="token number">910</span> <span class="token keyword">order</span>  <span class="token keyword">by</span> <span class="token number">a</span><span class="token punctuation">;</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+</span>
+<span class="token operator">|</span> id   <span class="token operator">|</span> <span class="token number">a</span>    <span class="token operator">|</span> <span class="token number">b</span>    <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+</span>
+<span class="token operator">|</span>    <span class="token number">1</span> <span class="token operator">|</span>    <span class="token number">1</span> <span class="token operator">|</span>    <span class="token number">1</span> <span class="token operator">|</span>
+<span class="token operator">|</span>    <span class="token number">2</span> <span class="token operator">|</span>    <span class="token number">2</span> <span class="token operator">|</span>    <span class="token number">2</span> <span class="token operator">|</span>
+
+<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+
+<span class="token operator">|</span> <span class="token number">1000</span> <span class="token operator">|</span> <span class="token number">1000</span> <span class="token operator">|</span> <span class="token number">1000</span> <span class="token operator">|</span>
+<span class="token operator">+</span><span class="token comment">------+------+------+</span>
+<span class="token number">1000</span> <span class="token keyword">rows</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> information_schema<span class="token punctuation">.</span>OPTIMIZER_TRACE\G
+<span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">.</span> <span class="token keyword">row</span> <span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span><span class="token operator">*</span>
+QUERY: <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t1 <span class="token keyword">where</span> <span class="token number">a</span> <span class="token operator">&gt;</span><span class="token number">900</span> <span class="token operator">and</span> <span class="token number">b</span> <span class="token operator">&gt;</span> <span class="token number">910</span> <span class="token keyword">order</span>  <span class="token keyword">by</span> <span class="token number">a</span>    <span class="token comment">--SQL语句</span>
+TRACE: {
+  <span class="token string">"steps"</span>: <span class="token punctuation">[</span>
+    {
+      <span class="token string">"join_preparation"</span>: {				<span class="token comment">--SQL准备阶段</span>
+        <span class="token string">"select#"</span>: <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"steps"</span>: <span class="token punctuation">[</span>
+          {
+            <span class="token string">"expanded_query"</span>: <span class="token string">"/* select#1 */ select `t1`.`id` AS `id`,`t1`.`a` AS `a`,`t1`.`b` AS `b`,`t1`.`create_time` AS `create_time`,`t1`.`update_time` AS `update_time` from `t1` where ((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910)) order by `t1`.`a`"</span>
+          }
+        <span class="token punctuation">]</span> <span class="token comment">/* steps */</span>
+      } <span class="token comment">/* join_preparation */</span>
+    }<span class="token punctuation">,</span>
+    {
+      <span class="token string">"join_optimization"</span>: {			<span class="token comment">--SQL优化阶段</span>
+        <span class="token string">"select#"</span>: <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"steps"</span>: <span class="token punctuation">[</span>
+          {
+            <span class="token string">"condition_processing"</span>: {    <span class="token comment">--条件处理</span>
+              <span class="token string">"condition"</span>: <span class="token string">"WHERE"</span><span class="token punctuation">,</span>
+              <span class="token string">"original_condition"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span><span class="token punctuation">,</span>        <span class="token comment">--原始条件</span>
+              <span class="token string">"steps"</span>: <span class="token punctuation">[</span>
+                {
+                  <span class="token string">"transformation"</span>: <span class="token string">"equality_propagation"</span><span class="token punctuation">,</span>
+                  <span class="token string">"resulting_condition"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span> 		<span class="token comment">--等值传递转换</span>
+                }<span class="token punctuation">,</span>
+                {
+                  <span class="token string">"transformation"</span>: <span class="token string">"constant_propagation"</span><span class="token punctuation">,</span>
+                  <span class="token string">"resulting_condition"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span>       <span class="token comment">--常量传递转换</span>
+                }<span class="token punctuation">,</span>
+                {
+                  <span class="token string">"transformation"</span>: <span class="token string">"trivial_condition_removal"</span><span class="token punctuation">,</span>
+                  <span class="token string">"resulting_condition"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span>        <span class="token comment">--去除没有的条件后的结构</span>
+                }
+              <span class="token punctuation">]</span> <span class="token comment">/* steps */</span>
+            } <span class="token comment">/* condition_processing */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"substitute_generated_columns"</span>: {
+            } <span class="token comment">/* substitute_generated_columns */</span>   <span class="token comment">--替换虚拟生成列</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"table_dependencies"</span>: <span class="token punctuation">[</span>		<span class="token comment">--表依赖详情</span>
+              {
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"row_may_be_null"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                <span class="token string">"map_bit"</span>: <span class="token number">0</span><span class="token punctuation">,</span>
+                <span class="token string">"depends_on_map_bits"</span>: <span class="token punctuation">[</span>
+                <span class="token punctuation">]</span> <span class="token comment">/* depends_on_map_bits */</span>
+              }
+            <span class="token punctuation">]</span> <span class="token comment">/* table_dependencies */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"ref_optimizer_key_uses"</span>: <span class="token punctuation">[</span>
+            <span class="token punctuation">]</span> <span class="token comment">/* ref_optimizer_key_uses */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"rows_estimation"</span>: <span class="token punctuation">[</span>	<span class="token comment">--预估表的访问成本</span>
+              {
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"range_analysis"</span>: {
+                  <span class="token string">"table_scan"</span>: {
+                    <span class="token string">"rows"</span>: <span class="token number">1000</span><span class="token punctuation">,</span>       <span class="token comment">--扫描行数</span>
+                    <span class="token string">"cost"</span>: <span class="token number">207.1</span>       <span class="token comment">--成本</span>
+                  } <span class="token comment">/* table_scan */</span><span class="token punctuation">,</span>
+                  <span class="token string">"potential_range_indexes"</span>: <span class="token punctuation">[</span>    <span class="token comment">--分析可能使用的索引</span>
+                    {
+                      <span class="token string">"index"</span>: <span class="token string">"PRIMARY"</span><span class="token punctuation">,</span>
+                      <span class="token string">"usable"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>       <span class="token comment">--为false，说明主键索引不可用</span>
+                      <span class="token string">"cause"</span>: <span class="token string">"not_applicable"</span>
+                    }<span class="token punctuation">,</span>
+                    {
+                      <span class="token string">"index"</span>: <span class="token string">"idx_a"</span><span class="token punctuation">,</span>      <span class="token comment">--可能使用索引idx_a</span>
+                      <span class="token string">"usable"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span>
+                      <span class="token string">"key_parts"</span>: <span class="token punctuation">[</span>
+                        <span class="token string">"a"</span><span class="token punctuation">,</span>
+                        <span class="token string">"id"</span>
+                      <span class="token punctuation">]</span> <span class="token comment">/* key_parts */</span>
+                    }<span class="token punctuation">,</span>
+                    {
+                      <span class="token string">"index"</span>: <span class="token string">"idx_b"</span><span class="token punctuation">,</span>      <span class="token comment">--可能使用索引idx_b</span>
+                      <span class="token string">"usable"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span>
+                      <span class="token string">"key_parts"</span>: <span class="token punctuation">[</span>
+                        <span class="token string">"b"</span><span class="token punctuation">,</span>
+                        <span class="token string">"id"</span>
+                      <span class="token punctuation">]</span> <span class="token comment">/* key_parts */</span>
+                    }
+                  <span class="token punctuation">]</span> <span class="token comment">/* potential_range_indexes */</span><span class="token punctuation">,</span>
+                  <span class="token string">"setup_range_conditions"</span>: <span class="token punctuation">[</span>
+                  <span class="token punctuation">]</span> <span class="token comment">/* setup_range_conditions */</span><span class="token punctuation">,</span>
+                  <span class="token string">"group_index_range"</span>: {
+                    <span class="token string">"chosen"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                    <span class="token string">"cause"</span>: <span class="token string">"not_group_by_or_distinct"</span>
+                  } <span class="token comment">/* group_index_range */</span><span class="token punctuation">,</span>
+                  <span class="token string">"analyzing_range_alternatives"</span>: { <span class="token comment">--分析各索引的成本</span>
+                    <span class="token string">"range_scan_alternatives"</span>: <span class="token punctuation">[</span>
+                      {
+                        <span class="token string">"index"</span>: <span class="token string">"idx_a"</span><span class="token punctuation">,</span>	<span class="token comment">--使用索引idx_a的成本</span>
+                        <span class="token string">"ranges"</span>: <span class="token punctuation">[</span>
+                          <span class="token string">"900 &lt; a"</span>			<span class="token comment">--使用索引idx_a的范围</span>
+                        <span class="token punctuation">]</span> <span class="token comment">/* ranges */</span><span class="token punctuation">,</span>
+                        <span class="token string">"index_dives_for_eq_ranges"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">--是否使用index dive（详细描述请看下方的知识扩展）</span>
+                        <span class="token string">"rowid_ordered"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">--使用该索引获取的记录是否按照主键排序</span>
+                        <span class="token string">"using_mrr"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>  	<span class="token comment">--是否使用mrr</span>
+                        <span class="token string">"index_only"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>    <span class="token comment">--是否使用覆盖索引</span>
+                        <span class="token string">"rows"</span>: <span class="token number">100</span><span class="token punctuation">,</span>            <span class="token comment">--使用该索引获取的记录数</span>
+                        <span class="token string">"cost"</span>: <span class="token number">121.01</span><span class="token punctuation">,</span>         <span class="token comment">--使用该索引的成本</span>
+                        <span class="token string">"chosen"</span>: <span class="token boolean">true</span>          <span class="token comment">--可能选择该索引</span>
+                      }<span class="token punctuation">,</span>
+                      {
+                        <span class="token string">"index"</span>: <span class="token string">"idx_b"</span><span class="token punctuation">,</span>       <span class="token comment">--使用索引idx_b的成本</span>
+                        <span class="token string">"ranges"</span>: <span class="token punctuation">[</span>
+                          <span class="token string">"910 &lt; b"</span>
+                        <span class="token punctuation">]</span> <span class="token comment">/* ranges */</span><span class="token punctuation">,</span>
+                        <span class="token string">"index_dives_for_eq_ranges"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span>
+                        <span class="token string">"rowid_ordered"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                        <span class="token string">"using_mrr"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                        <span class="token string">"index_only"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                        <span class="token string">"rows"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+                        <span class="token string">"cost"</span>: <span class="token number">109.01</span><span class="token punctuation">,</span>
+                        <span class="token string">"chosen"</span>: <span class="token boolean">true</span>             <span class="token comment">--也可能选择该索引</span>
+                      }
+                    <span class="token punctuation">]</span> <span class="token comment">/* range_scan_alternatives */</span><span class="token punctuation">,</span>
+                    <span class="token string">"analyzing_roworder_intersect"</span>: { <span class="token comment">--分析使用索引合并的成本</span>
+                      <span class="token string">"usable"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                      <span class="token string">"cause"</span>: <span class="token string">"too_few_roworder_scans"</span>
+                    } <span class="token comment">/* analyzing_roworder_intersect */</span>
+                  } <span class="token comment">/* analyzing_range_alternatives */</span><span class="token punctuation">,</span>
+                  <span class="token string">"chosen_range_access_summary"</span>: {  <span class="token comment">--确认最优方法</span>
+                    <span class="token string">"range_access_plan"</span>: {
+                      <span class="token string">"type"</span>: <span class="token string">"range_scan"</span><span class="token punctuation">,</span>
+                      <span class="token string">"index"</span>: <span class="token string">"idx_b"</span><span class="token punctuation">,</span>
+                      <span class="token string">"rows"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+                      <span class="token string">"ranges"</span>: <span class="token punctuation">[</span>
+                        <span class="token string">"910 &lt; b"</span>
+                      <span class="token punctuation">]</span> <span class="token comment">/* ranges */</span>
+                    } <span class="token comment">/* range_access_plan */</span><span class="token punctuation">,</span>
+                    <span class="token string">"rows_for_plan"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+                    <span class="token string">"cost_for_plan"</span>: <span class="token number">109.01</span><span class="token punctuation">,</span>
+                    <span class="token string">"chosen"</span>: <span class="token boolean">true</span>
+                  } <span class="token comment">/* chosen_range_access_summary */</span>
+                } <span class="token comment">/* range_analysis */</span>
+              }
+            <span class="token punctuation">]</span> <span class="token comment">/* rows_estimation */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"considered_execution_plans"</span>: <span class="token punctuation">[</span>  <span class="token comment">--考虑的执行计划</span>
+              {
+                <span class="token string">"plan_prefix"</span>: <span class="token punctuation">[</span>
+                <span class="token punctuation">]</span> <span class="token comment">/* plan_prefix */</span><span class="token punctuation">,</span>
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"best_access_path"</span>: {          <span class="token comment">--最优的访问路径</span>
+                  <span class="token string">"considered_access_paths"</span>: <span class="token punctuation">[</span> <span class="token comment">--决定的访问路径</span>
+                    {
+                      <span class="token string">"rows_to_scan"</span>: <span class="token number">90</span><span class="token punctuation">,</span>      <span class="token comment">--扫描的行数</span>
+                      <span class="token string">"access_type"</span>: <span class="token string">"range"</span><span class="token punctuation">,</span>  <span class="token comment">--访问类型：为range</span>
+                      <span class="token string">"range_details"</span>: {
+                        <span class="token string">"used_index"</span>: <span class="token string">"idx_b"</span>  <span class="token comment">--使用的索引为：idx_b</span>
+                      } <span class="token comment">/* range_details */</span><span class="token punctuation">,</span>
+                      <span class="token string">"resulting_rows"</span>: <span class="token number">90</span><span class="token punctuation">,</span>    <span class="token comment">--结果行数</span>
+                      <span class="token string">"cost"</span>: <span class="token number">127.01</span><span class="token punctuation">,</span>          <span class="token comment">--成本</span>
+                      <span class="token string">"chosen"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span>		   <span class="token comment">--确定选择</span>
+                      <span class="token string">"use_tmp_table"</span>: <span class="token boolean">true</span>
+                    }
+                  <span class="token punctuation">]</span> <span class="token comment">/* considered_access_paths */</span>
+                } <span class="token comment">/* best_access_path */</span><span class="token punctuation">,</span>
+                <span class="token string">"condition_filtering_pct"</span>: <span class="token number">100</span><span class="token punctuation">,</span>
+                <span class="token string">"rows_for_plan"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+                <span class="token string">"cost_for_plan"</span>: <span class="token number">127.01</span><span class="token punctuation">,</span>
+                <span class="token string">"sort_cost"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+                <span class="token string">"new_cost_for_plan"</span>: <span class="token number">217.01</span><span class="token punctuation">,</span>
+                <span class="token string">"chosen"</span>: <span class="token boolean">true</span>
+              }
+            <span class="token punctuation">]</span> <span class="token comment">/* considered_execution_plans */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"attaching_conditions_to_tables"</span>: {  <span class="token comment">--尝试添加一些其他的查询条件</span>
+              <span class="token string">"original_condition"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span><span class="token punctuation">,</span>
+              <span class="token string">"attached_conditions_computation"</span>: <span class="token punctuation">[</span>
+              <span class="token punctuation">]</span> <span class="token comment">/* attached_conditions_computation */</span><span class="token punctuation">,</span>
+              <span class="token string">"attached_conditions_summary"</span>: <span class="token punctuation">[</span>
+                {
+                  <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                  <span class="token string">"attached"</span>: <span class="token string">"((`t1`.`a` &gt; 900) and (`t1`.`b` &gt; 910))"</span>
+                }
+              <span class="token punctuation">]</span> <span class="token comment">/* attached_conditions_summary */</span>
+            } <span class="token comment">/* attaching_conditions_to_tables */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"clause_processing"</span>: {
+              <span class="token string">"clause"</span>: <span class="token string">"ORDER BY"</span><span class="token punctuation">,</span>
+              <span class="token string">"original_clause"</span>: <span class="token string">"`t1`.`a`"</span><span class="token punctuation">,</span>
+              <span class="token string">"items"</span>: <span class="token punctuation">[</span>
+                {
+                  <span class="token string">"item"</span>: <span class="token string">"`t1`.`a`"</span>
+                }
+              <span class="token punctuation">]</span> <span class="token comment">/* items */</span><span class="token punctuation">,</span>
+              <span class="token string">"resulting_clause_is_simple"</span>: <span class="token boolean">true</span><span class="token punctuation">,</span>
+              <span class="token string">"resulting_clause"</span>: <span class="token string">"`t1`.`a`"</span>
+            } <span class="token comment">/* clause_processing */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"reconsidering_access_paths_for_index_ordering"</span>: {
+              <span class="token string">"clause"</span>: <span class="token string">"ORDER BY"</span><span class="token punctuation">,</span>
+              <span class="token string">"index_order_summary"</span>: {
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"index_provides_order"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>
+                <span class="token string">"order_direction"</span>: <span class="token string">"undefined"</span><span class="token punctuation">,</span>
+                <span class="token string">"index"</span>: <span class="token string">"idx_b"</span><span class="token punctuation">,</span>
+                <span class="token string">"plan_changed"</span>: <span class="token boolean">false</span>
+              } <span class="token comment">/* index_order_summary */</span>
+            } <span class="token comment">/* reconsidering_access_paths_for_index_ordering */</span>
+          }<span class="token punctuation">,</span>
+          {
+            <span class="token string">"refine_plan"</span>: <span class="token punctuation">[</span>          <span class="token comment">--改进的执行计划</span>
+              {
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"pushed_index_condition"</span>: <span class="token string">"(`t1`.`b` &gt; 910)"</span><span class="token punctuation">,</span>
+                <span class="token string">"table_condition_attached"</span>: <span class="token string">"(`t1`.`a` &gt; 900)"</span>
+              }
+            <span class="token punctuation">]</span> <span class="token comment">/* refine_plan */</span>
+          }
+        <span class="token punctuation">]</span> <span class="token comment">/* steps */</span>
+      } <span class="token comment">/* join_optimization */</span>
+    }<span class="token punctuation">,</span>
+    {
+      <span class="token string">"join_execution"</span>: {             <span class="token comment">--SQL执行阶段</span>
+        <span class="token string">"select#"</span>: <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token string">"steps"</span>: <span class="token punctuation">[</span>
+          {
+            <span class="token string">"filesort_information"</span>: <span class="token punctuation">[</span>
+              {
+                <span class="token string">"direction"</span>: <span class="token string">"asc"</span><span class="token punctuation">,</span>
+                <span class="token string">"table"</span>: <span class="token string">"`t1`"</span><span class="token punctuation">,</span>
+                <span class="token string">"field"</span>: <span class="token string">"a"</span>
+              }
+            <span class="token punctuation">]</span> <span class="token comment">/* filesort_information */</span><span class="token punctuation">,</span>
+            <span class="token string">"filesort_priority_queue_optimization"</span>: {
+              <span class="token string">"usable"</span>: <span class="token boolean">false</span><span class="token punctuation">,</span>             <span class="token comment">--未使用优先队列优化排序</span>
+              <span class="token string">"cause"</span>: <span class="token string">"not applicable (no LIMIT)"</span>     <span class="token comment">--未使用优先队列排序的原因是没有limit</span>
+            } <span class="token comment">/* filesort_priority_queue_optimization */</span><span class="token punctuation">,</span>
+            <span class="token string">"filesort_execution"</span>: <span class="token punctuation">[</span>
+            <span class="token punctuation">]</span> <span class="token comment">/* filesort_execution */</span><span class="token punctuation">,</span>
+            <span class="token string">"filesort_summary"</span>: {           <span class="token comment">--排序详情</span>
+              <span class="token string">"rows"</span>: <span class="token number">90</span><span class="token punctuation">,</span>
+              <span class="token string">"examined_rows"</span>: <span class="token number">90</span><span class="token punctuation">,</span>          <span class="token comment">--参与排序的行数</span>
+              <span class="token string">"number_of_tmp_files"</span>: <span class="token number">0</span><span class="token punctuation">,</span>     <span class="token comment">--排序过程中使用的临时文件数</span>
+              <span class="token string">"sort_buffer_size"</span>: <span class="token number">115056</span><span class="token punctuation">,</span>
+              <span class="token string">"sort_mode"</span>: <span class="token string">"&lt;sort_key, additional_fields&gt;"</span>   <span class="token comment">--排序模式（详解请看下方知识扩展）</span>
+            } <span class="token comment">/* filesort_summary */</span>
+          }
+        <span class="token punctuation">]</span> <span class="token comment">/* steps */</span>
+      } <span class="token comment">/* join_execution */</span>
+    }
+  <span class="token punctuation">]</span> <span class="token comment">/* steps */</span>
+}
+MISSING_BYTES_BEYOND_MAX_MEM_SIZE: <span class="token number">0</span>	<span class="token comment">--该字段表示分析过程丢弃的文本字节大小，本例为0，说明没丢弃任何文本</span>
+          INSUFFICIENT_PRIVILEGES: <span class="token number">0</span>    <span class="token comment">--查看trace的权限是否不足，0表示有权限查看trace详情</span>
+<span class="token number">1</span> <span class="token keyword">row</span> <span class="token operator">in</span> <span class="token keyword">set</span> <span class="token punctuation">(</span><span class="token number">0.00</span> sec<span class="token punctuation">)</span>
+<span class="token comment">------------------------------------------------</span>
+<span class="token comment">------------------------------------------------</span>
+
+
+mysql<span class="token operator">&gt;</span> <span class="token keyword">set</span> <span class="token keyword">session</span> optimizer_trace<span class="token operator">=</span><span class="token string">"enabled=off"</span><span class="token punctuation">;</span>
+<span class="token comment">/* 及时关闭trace */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里对上方的执行字段详细描述一下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">TRACE 字段中整个文本大致分为三个过程。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">准备阶段：对应文本中的 join_preparation</li>
+<li style="font-size: 20px; line-height: 38px;">优化阶段：对应文本中的 join_optimization</li>
+<li style="font-size: 20px; line-height: 38px;">执行阶段：对应文本中的 join_execution</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用时，重点关注优化阶段和执行阶段。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">由此例可以看出：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">在 trace 结果的 analyzing_range_alternatives 这一项可以看到：使用索引 idx_a 的成本为 121.01，使用索引 idx_b 的成本为 109.01，显然使用索引 idx_b 的成本要低些，因此优化器选择了 idx_b 索引；</li>
+<li style="font-size: 20px; line-height: 38px;">在 trace 结果的 filesort_summary 这一项可以看到：排序模式为&lt;sort_key, additional_fields&gt;，表示使用的是单路排序，即一次性取出满足条件行的所有字段，然后在 sort buffer 中进行排序。</li>
+</ul>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">知识扩展：</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>知识点一：MySQL 常见排序模式：</strong></p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">&lt; sort_key, rowid &gt;双路排序（又叫回表排序模式）：是首先根据相应的条件取出相应的排序字段和可以直接定位行数据的行 ID，然后在 sort buffer 中进行排序，排序完后需要再次取回其它需要的字段；</li>
+<li style="font-size: 20px; line-height: 38px;">&lt; sort_key, additional_fields &gt;单路排序：是一次性取出满足条件行的所有字段，然后在sort buffer中进行排序；</li>
+<li style="font-size: 20px; line-height: 38px;">&lt; sort_key, packed_additional_fields &gt;打包数据排序模式：将 char 和 varchar 字段存到 sort buffer 中时，更加紧缩。</li>
+</ul>
+<p style="font-size: 20px; line-height: 38px;">三种排序模式比较：</p>
+<p style="font-size: 20px; line-height: 38px;">第二种模式相对第一种模式，避免了二次回表，可以理解为用空间换时间。由于 sort buffer 有限，如果需要查询的数据比较大的话，会增加磁盘排序时间，效率可能比第一种方式更低。</p>
+<p style="font-size: 20px; line-height: 38px;">MySQL 提供了一个参数：max_length_for_sort_data，当“排序的键值对大小” &gt; max_length_for_sort_data 时，MySQL 认为磁盘外部排序的 IO 效率不如回表的效率，会选择第一种排序模式；否则，会选择第二种模式。</p>
+<p style="font-size: 20px; line-height: 38px;">第三种模式主要解决变长字符数据存储空间浪费的问题。</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>知识点二：优化器在估计符合条件的行数时有两个选择：</strong></p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">index diver：dive 到 index 中利用索引完成元组数的估算；特点是速度慢，但可以得到精确的值；</li>
+<li style="font-size: 20px; line-height: 38px;">index statistics：使用索引的统计数值，进行估算；特点是速度快，但是值不一定准确。</li>
+</ul>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">3 总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天我们分享了 show profile 和 trace 的使用方法，我们来对比一下三种分析 SQL 方法的特点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">explain：获取 MySQL 中 SQL 语句的执行计划，比如语句是否使用了关联查询、是否使用了索引、扫描行数等；</li>
+<li style="font-size: 20px; line-height: 38px;">profile：可以清楚了解到SQL到底慢在哪个环节；</li>
+<li style="font-size: 20px; line-height: 38px;">trace：查看优化器如何选择执行计划，获取每个可能的索引选择的代价。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">三种方法各有其适用场景，如果你有其它分析 SQL 的工具，欢迎在留言区分享。</p>
+</div><div class="cl-preview-section"><h2 id="问题" style="font-size: 30px;">4 问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在工作中，遇到慢查询你是如何去分析优化的？</p>
+</div><div class="cl-preview-section"><h2 id="参考资料" style="font-size: 30px;">5 参考资料</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">MySQL 5.7官方文档：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://dev.mysql.com/doc/internals/en/tracing-example.html">https://dev.mysql.com/doc/internals/en/tracing-example.html</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/682">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            02 快速学会分析SQL执行效率（上）
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/684">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            04 条件字段有索引，为什么查询也这么慢?
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

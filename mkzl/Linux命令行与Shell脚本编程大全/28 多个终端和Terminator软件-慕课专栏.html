@@ -1,0 +1,296 @@
+<html><head><meta charset="utf-8"><title>28 多个终端和Terminator软件-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 3-7 28 多个终端和Terminator软件
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                28 多个终端和Terminator软件
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-22 15:40:08
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img3.mukewang.com/5d351ef100017e6c06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">立志是事业的大门，工作是登堂入室的旅程。<p class="author">——巴斯德</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">screen 命令：合并多个终端</li>
+<li style="font-size: 20px; line-height: 38px;">Terminator 软件：地表最强“终结者”</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课前后台进程，灵活切换 中，我们学习了进程的几种状态，以及好多个与进程前后台切换有关的命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课最后，我们用一张原理图总结了进程的前后台切换，相信你应该已经掌握得不错了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课我们来学习 screen 命令，看看如何操作和合并多个终端。如果你觉得 screen 的操作比较繁琐，可以用这课后面介绍的 Terminator 软件，会更方便你管理终端。</p>
+</div><div class="cl-preview-section"><h2 id="screen-命令：合并多个终端" style="font-size: 30px;">2. screen 命令：合并多个终端</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在，我们来学习一个特殊的命令：screen。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">screen 是英语“屏幕”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">screen 这个程序（所有命令其实都是程序）也是 GNU 项目的，它的官网是 <a href="https://www.gnu.org/software/screen">https://www.gnu.org/software/screen</a> 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通常 screen 命令没有在 Linux 发行版里预装。如果你的 Ubuntu 系统里没有 screen 这个程序，那么可以如此安装：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install screen
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f29c00013d6c16561046.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f29c00013d6c16561046.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装完之后，你可以运行 screen 命令：</p>
+</div><div class="cl-preview-section"><pre><code>screen
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">会显示以下内容：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f2a60001b04621541360.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2a60001b04621541360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">按回车键会直接跳过这个介绍页。按空格键，会进入介绍页的下一页，再按空格键就会跳过介绍页。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">screen 命令用于在一个终端中打开多个终端，就好像在一个页面中开多个标签栏一样（使用过浏览器的朋友肯定有这种使用经验），很酷吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是 screen 打开的多个终端是重叠在一起的，如果你不知道，还以为只是打开了一个终端，但是我们会学习如何在各个打开的终端间切换。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">刚才，我们运行了 screen 命令，并用回车键或空格键跳过 screen 的介绍页之后，我们看到终端里好像没发生什么变化，就跟之前我们看到的终端一样。如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f2ae0001e54921621358.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2ae0001e54921621358.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那 screen 到底做了什么呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实，screen 为我们开了一个虚拟终端（Virtual Terminal），就是在当前实际的终端里又开了一个终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你再运行 screen，那么它又会新开一个虚拟终端。那么怎么退出每个新开的虚拟终端呢？可以按 Ctrl + D 或者用 exit 命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">每次你按 Ctrl + D 或运行 exit 命令，都会关闭当前所在的虚拟终端，直到最后一个虚拟终端被关闭，screen 程序退出，回到我们的实际终端里，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f2df0001006b08020302.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2df0001006b08020302.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中显示了 [screen is terminating]，表示所有 screen 开的虚拟终端都已关闭，screen 退出（terminate 是英语“终结，停止”的意思）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在我们已经知道如何退出 screen 了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们想重新回去，再输入 screen 就好了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 screen 程序中，几乎所有的操作都是以 Ctrl + a 开始的。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">以下所有的讲解中，英文字母区分大小写。也就是说：b 和 B 是不同的，前者就是按下键盘上的 b 键，B 则需要用 Shift + b。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如何操作呢？首先，按下 Ctrl + a 键，然后松开 Ctrl 键和 a 键，再按其他键来完成一定的操作。</p>
+</div><div class="cl-preview-section"><h4 id="ctrl--a-再加--号：显示帮助页面" style="font-size: 26px;">Ctrl + a 再加 ? 号：显示帮助页面</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先用 Ctrl + a 键（也就是同时按下 Ctrl 键和 a 键），然后松开这两个键，再按下 ? 号（需要 Shift + / 号）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">screen 的帮助页面就会显示：<br>
+<img src="http://img.mukewang.com/5d27f2e80001967821601362.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2e80001967821601362.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，帮助页面显示了各种操作的实现方法，都是英语。所以好好学英语，很有好处。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">帮助页总共有 2 页，可以通过第一页第一行 [Screen key bingings, page 1 of 2] 知道。目前是在 2 页中的第 1 页，按空格可以翻到下一页，按回车退出帮助页。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那怎么来阅读这个帮助页面呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如说，你想要知道 screen 的版本号，那就是 version，可以看到需要用到 v 键。但是光是按 v 键还不够，因为我们看到第一页第二行 Command key： ^A ，就是说以下所有的操作，都需要先按下 Ctrl + a 键。^ 表示 Ctrl 键。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以说，要知道 screen 的版本号，可以先按 Ctrl + a 键（也就是同时按下 Ctrl 键和 a 键），然后松开这两个键，再按下 v 键。就会在左下角显示 screen 的版本号了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，这个帮助页面还是不太容易懂，不过我们也不需要全部记住，只要会用常用的一些组合键就好了。</p>
+</div><div class="cl-preview-section"><h4 id="常用的组合按键" style="font-size: 26px;">常用的组合按键</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 c ：创建一个新的虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 w ：显示当前虚拟终端的列表。会显示在左下角，类似下图：<br>
+<img src="http://img.mukewang.com/5d27f2f40001c39207220129.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2f40001c39207220129.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此处的 <code>0$ bash 1-$ bash 2*$ bash</code> 表示此时打开了 3 个虚拟终端，都叫作 bash，编号是 0，1，2。这是因为目前终端的 Shell 是用的 Bash，之后我们第五部分会开始学习 Shell（外壳程序）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有 *（星号）的那个虚拟终端就是我们目前所在的虚拟终端，也就是第 3 个，编号是 2。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 A ：重命名当前虚拟终端。修改后的名字，你用 Ctrl + a，松开，再按 w 时就会看到。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 n ：跳转到下一个虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 p ：跳转到上一个虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 Ctrl + a ：跳转到最近刚使用的那个虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 0 ~ 9 数字键：跳转到第 0 ~ 9 号虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 "（双引号）：会让你选择跳转到哪个虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 k ：关闭当前终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上是一些常用的 screen 组合键，下面我们重点来看两个很有用的组合键，分别用于分割虚拟终端和分离 screen。</p>
+</div><div class="cl-preview-section"><h4 id="ctrl--a，松开，再按-s-或--：分割虚拟终端为多个小虚拟终端" style="font-size: 26px;">Ctrl + a，松开，再按 S 或 | ：分割虚拟终端为多个小虚拟终端</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">注意是大写的 S（是英语 split 的首字母，表示“分割，分离”）。如果这样操作一次，则当前虚拟终端被横向分割为上下两部分。如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f2fd0001cb3721621360.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f2fd0001cb3721621360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果再按这样操作，就横向分割成 3 部分，4 部分…</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到我在上面的半部分中运行了 ls 命令，下面的半部分暂时还没跳转过去操作，因此下半部分连命令行提示符也没有，空空的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那我们如何跳转到下半部分去操作呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ctrl + a，松开，再按 Tab 键。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">光标就会跳转到下半部分了，但是还是没见有命令行提示符，那是因为还没为下半部分创建虚拟终端呢。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以我们可以新建一个：Ctrl + a，松开，再按 c。或者打开一个现有的虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f30300013c8121561352.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f30300013c8121561352.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，我们用 Ctrl + a，松开，再按 c 之后，下半部分的左下角的 <code>--</code> 变成了 1 bash，说明新建了一个虚拟终端，编号是 1，也就是第 2 个（虚拟终端的编号从 0 开始）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以在这个 1 bash 的虚拟终端里运行命令，例如 top 命令，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f3090001ed4421601360.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3090001ed4421601360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么我们如何关闭新分割出来的虚拟终端呢？只要 Ctrl + a，松开，再按大写的 X。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">除了横向分割，我们当然也可以纵向分割：Ctrl + a，松开，再按 |（ Shift + \ ）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以先用 Ctrl + a，松开，再按 Tab 键，回到我们目前横向分割成两部分的上面那个虚拟终端，然后再将上面的虚拟终端纵向分割。纵向分割之后，我们再切到纵向分割出的地方，新建一个虚拟终端：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f30f00014b9f21621360.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f30f00014b9f21621360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再如法炮制，在横向的下半部分再分割出一个纵向的虚拟终端，这下我们就有四个虚拟终端了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f31600015a4121601360.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f31600015a4121601360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，我们已经创建了 4 个虚拟终端，分别是 0 bash，1 bash，2 bash 和 3 bash。</p>
+</div><div class="cl-preview-section"><h4 id="ctrl--a，松开，再按-d：分离-screen" style="font-size: 26px;">Ctrl + a，松开，再按 d：分离 screen</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们在 screen 程序中，先按 Ctrl + a，松开，再按 d，就可以使 screen 程序与当前实际终端分离了，有点类似 nohup 命令的作用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样我们就可以重回我们自己的实际终端了，而 screen 并没有退出，还在后台运行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f31e00016a4910420294.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f31e00016a4910420294.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到 [detached from 2249.pts-0.oscar-laptop]</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">表示我们的 screen 与实际终端分离（detach 是英语“分离，挣脱”的意思）了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之后如果你要重回 screen 中，可以输入：</p>
+</div><div class="cl-preview-section"><pre><code>screen -r
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就又回到刚才的 screen 的虚拟终端里了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以使好几个 screen 进入分离（detached）状态。此时如果你运行 <code>screen -r</code> 命令，那么实际终端会询问你要回到哪一个被分离出来的 screen 虚拟终端，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f3270001a3bd19660490.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3270001a3bd19660490.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，目前我的情况下，有三个候选虚拟终端，编号分别是 2249，2079 和 1766。你想要回到哪一个就用：</p>
+</div><div class="cl-preview-section"><pre><code>screen -r 编号
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就可以了。例如我要回到 2079 那个 screen，只要这样：</p>
+</div><div class="cl-preview-section"><pre><code>screen -r 2079
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你在实际终端下，输入：</p>
+</div><div class="cl-preview-section"><pre><code>screen -ls
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">则会列出当前打开着的 screen 进程：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f32d000166ea19580496.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f32d000166ea19580496.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么样，screen 是不是很有趣呢？好好练习，就会比较熟练了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用过 Emacs 或 Vim 编辑器的读者，也许觉得 screen 有点像 Emcas 或 Vim 中的分屏功能。我们以后的课程会学习 Vim 编辑器。</p>
+</div><div class="cl-preview-section"><h2 id="terminator-软件：地表最强“终结者”" style="font-size: 30px;">3. Terminator 软件：地表最强“终结者”</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我个人感觉 screen 组合键使用起来还是比较麻烦的，上手不是很容易。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">除了 screen 命令，我们还有其他的选择，例如 <a href="https://baike.baidu.com/item/tmux">tmux</a> 这个来自 OpenBSD 项目的命令，是和 screen 命令类似的。tmux 的官方文档在 <a href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">篇幅关系，我们就不演示 tmux 了，大家有兴趣可以自己去搜索网上 tmux 的安装、配置和使用的图文教程，非常多。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们这里要介绍一下我个人觉得目前在 Linux 发行版（特别是 Ubuntu）中最好用的终端软件，也就是名字和《终结者》（The Terminator）电影一样的 Terminator 软件。其自带的分屏功能非常优越，比 screen 命令的分屏方便快捷很多。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，Terminator 在其他 Linux 发行版和 macOS 操作系统下也可以安装。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你要在 Windows 系统使用 Terminator，你可以先在 Windows 的 Microsoft Store 找到 <a href="https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6?activetab=pivot:overviewtab">Ubuntu 应用</a>，下载安装。这跟我们以前演示的硬盘安装 Ubuntu 或虚拟机安装 Ubuntu 是不一样的。Windows 上的 Ubuntu 这个应用允许用户在 Windows 中使用 Ubuntu 终端并运行 Ubuntu 命令行实用程序，包括 bash，ssh，git，apt 等等。然后你在这个 Ubuntu 环境里面用 <code>sudo apt install terminator</code> 命令 来安装 Terminator 软件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 的软件图标挺好看的，长这样：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f33700011b6902200220.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f33700011b6902200220.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 的官方网站是：<a href="https://gnometerminator.blogspot.com/p/introduction.html">https://gnometerminator.blogspot.com/p/introduction.html</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">遇到 Terminator 之前，我一直用的是 tmux 或 screen。直到有一天遇到 Terminator，一时惊为天人。我毫不犹豫地把 Ubuntu 的默认终端给替换了，从此几乎只用 Terminator 作为默认终端，我的大部分同事也是如此。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 给我的感觉就是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">颜值高</li>
+<li style="font-size: 20px; line-height: 38px;">上手极为容易</li>
+<li style="font-size: 20px; line-height: 38px;">快捷键很容易记</li>
+<li style="font-size: 20px; line-height: 38px;">可以自由定制</li>
+<li style="font-size: 20px; line-height: 38px;">功能多</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你还没有用过 Terminator，强烈推荐下载使用一下，相信你会喜欢上它的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 软件是在 GNU 项目的 GPL 许可证下发布的免费软件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在 Ubuntu 下安装 Terminator，运行以下命令来安装：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install terminator
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f33e000124d320181002.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f33e000124d320181002.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装完毕之后，运行 <code>terminator</code> 命令，就会打开一个 Terminator 终端了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f3450001859923761450.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3450001859923761450.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以将 Terminator 添加到左边的快键启动栏里，右键 Terminator 的图标，选择“Add to Favorites”，Terminator 的快捷方式就添加好了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f34c0001ccf707500606.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f34c0001ccf707500606.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，初始的 Terminator 终端没有最大化，我们可以双击终端的窗口上栏来最大化（就和 Windows 下最大化窗口一样的操作），然后可以调节一下字体大小之类的设置。要设置 Terminator 软件，可以鼠标右键单击 Terminator 的终端区域，会调出菜单栏：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f3540001459218701280.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3540001459218701280.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">选择菜单栏中的 Preferences（“偏好”）来设置。点击菜单中的 Profiles，在 General 里面，将“Use the system fixed width font”（“使用系统固定大小的字体”）前面的勾去掉，然后你就可以自己选择字体和字体大小了。如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f35b0001812e21641434.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f35b0001812e21641434.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 终端的分屏操作非常简单。其实在刚才的右键调出的菜单里，也已经有分屏的操作选项了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f3690001d7de04080558.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3690001d7de04080558.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到 Split Horizontally 和 Split Vertically 两个选项。split 我们之前说过是“分割，分离”的意思，horizontally 是“横向地”的意思，vertically 是“纵向地”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，这两个选项分别是用于横向分割和纵向分割。当然了，它们也有对应的组合键，分别是 Ctrl + Shift + o 和 Ctrl + Shift + e。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我在 Ubuntu 18.04 中，用  Ctrl + Shift + o 来横向分屏的时候，没有问题。但是当用 Ctrl + Shift + e 来纵向分屏时，竟然跳出了 emoji 表情的窗口：<br>
+<img src="http://img.mukewang.com/5d27f3740001433618721120.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f3740001433618721120.png" class="" style="cursor: pointer;"><br>
+原来在新版 Ubuntu 下，Ctrl + Shift + e 这个快捷键是系统默认分配给了 emoji 表情。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，你可以给垂直分割分配另外的快捷键。因为 emoji 这个默认绑定的快捷键比较顽固，我用网上给出的一些设置方法没能将其禁用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要修改快捷键，你可以在 Preferences （“偏好”）里面的 Keybindings（“键绑定”）的菜单里面去修改：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f37d000145af18201318.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f37d000145af18201318.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">修改快捷键，只需要将鼠标点击一下 Keybinding 那一列，比如我点击一下 split_vert（垂直分割）对应的 Ctrl + Shift + e，然后它会提示你分配新的快捷键组合，此时你按下想要设置的新按键组合，即可完成设置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我暂时把它修改为 Ctrl + Shift + L。你当然可以指定不同的快捷键。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f38400014be118180440.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f38400014be118180440.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">修改之后，就可以顺畅地进行垂直分屏了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f38b0001a0c025581510.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f38b0001a0c025581510.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到我们顺利分出了四个屏幕，代表四个虚拟终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">和 screen 不同的是，Terminator 用快捷键来分割完后，在分割出的新部分里，虚拟终端是直接被创建的。不像 screen 还要切换过去，再创建新的虚拟终端。所以说 Terminator 大大简化了我们的操作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Terminator 的虚拟终端里面切换，可以用 Alt + 上下左右键。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你要关闭所在的虚拟终端，只需要用组合键 Ctrl + Shift + w。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你要开一个新的 Tab（菜单栏），只需要用组合键 Ctrl + Shift + t。可以看到，我开了一个新的 Tab，在新的 Tab 里面又可以用快捷键来进行分屏操作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你要开一个新的 Terminator 窗口，可以用快捷键 Ctrl + Shift + i。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Terminator 还有很多快捷键组合，我只是讲了比较常用的几个，你可以去 Keybindings 里面查找快捷键组合。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">screen 是一个程序，在 Debian 一族的操作系统里，你可以用 apt-get / apt 来安装。screen 命令使用户能够在一个终端中打开多个虚拟终端。</li>
+<li style="font-size: 20px; line-height: 38px;">Terminator 软件是非常好用的终端软件，可以替代 Ubuntu 自带的 Gnome 的 Terminal 软件，成为我们日常使用的终端。入门非常简单，分屏操作比 screen 要方便很多。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/521">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    27 前后台进程，灵活切换
+                                </p>
+                            </div>
+                        </a>
+                                                                                        <!-- 未买不可试读或者未开放 -->
+                            <a href="javascript:;" class="js-cantIn" data-ifopen="1" data-cantaste="1">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    29 定时和延时执行，唯慢不破
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

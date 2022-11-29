@@ -1,0 +1,268 @@
+<html><head><meta charset="utf-8"><title>27 构建消息驱动的微服务-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 10-1 27 构建消息驱动的微服务
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                27 构建消息驱动的微服务
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-24 14:39:23
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d2bed290001439306400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">人生太短，要干的事太多，我要争分夺秒。<p class="author">——爱迪生</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上篇文章和大家聊了 Spring Cloud Bus 的基本使用，同时给大家演示了如何使用 Spring Cloud Bus 实现配置文件的动态刷新，今天我们在上文的基础上，继续来学习消息驱动的微服务 Spring Cloud Stream 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据 Spring Cloud Stream 官方文档的介绍，Spring Cloud Stream 是一个用于构建消息驱动的微服务应用程序的框架。 Spring Cloud Stream 构建于 Spring Boot 之上，用于创建独立的生产级 Spring 应用程序，并使用 Spring Integration 提供与消息代理的连接。它提供了来自多个供应商的中间件的固定配置，定义了发布、订阅、分组以及分区的概念。接下来我们就来向大家介绍下 Spring Cloud Stream 的具体用法。</p>
+</div><div class="cl-preview-section"><h2 id="核心概念" style="font-size: 30px;">核心概念</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Spring Cloud Stream 中，我们的微服务通过 inputs 或者 outputs 来与 Spring Cloud Stream 中的 Binder 进行交互，而这里的 Binder 相当于微服务和消息中间件之间的一个粘合剂，这个 Binder 则可以负责与消息中间件如 RabbitMQ 或者 Kafka 进行交互，这个时候对于开发者而言，我们只需要关注微服务和 Spring Cloud Stream 之间的通信方式，即消息要怎么样发送、怎么样订阅，做好这些工作之后，剩下的事情就交给 Spring Cloud Stream 来做，它会帮助我们完成和消息中间件之间的交互。在整个过程中，有几个关键的概念，我们来了解下。</p>
+</div><div class="cl-preview-section"><h3 id="通信模型">通信模型</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Stream 应用程序由中间件驱动，应用程序通过 Spring Cloud Stream 提供的输入和输出通道与外界通信，整个过程通过中间件特定的 Binder 来实现，通道连接到外部代理，官网提供了一张比较形象的工作模型图，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f6e00001922603730310.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f6e00001922603730310.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="binder">Binder</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Stream 默认为 Kafka 和 RabbitMQ 提供了 Binder 的实现。所谓的 Binder 实际上是一个抽象的概念，如上文所说，它是应用程序和消息中间件之间的一个粘合剂。使用 Binder ，我们可以在程序运行时，动态修改消息的 destination，具体到 RabbitMQ 中就是 exchange ，具体到 Kafka 中就是 topic ，这些我们都可以通过外部属性或者其它 Spring Boot 支持的配置方式（如 application.properties 或 application.yaml）来实现，甚至不需要改变一行代码。</p>
+</div><div class="cl-preview-section"><h3 id="publish-subscribe">Publish-Subscribe</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">消息驱动最经典的模式莫过于发布订阅了（Publish-Subscribe），在这个过程中数据通过共享主题广播，消息生产者通过某一个 topic 将消息广播出去，其它的微服务则通过订阅这个 topic 来消费消息，这种模式使得消息生产者和消费者进行了极大的解耦，未来如果有新的消息生产者加进来或者新的消息消费者加进来，都不必改变项目的原有架构！</p>
+</div><div class="cl-preview-section"><h3 id="consumer-groups">Consumer Groups</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在真正的生产环境下，微服务通常都是集群化部署，而不会以单节点的方式运行在生产环境，当一个微服务进行集群化部署时，它的所有实例都会绑定到同一个消息通道的 Topic 上。 那么在默认情况下，当消息生产者发出一条消息到绑定的 Topic 上时，这条消息会产生多个副本被每个消息消费者实例接收和处理，但是更多的情况下，我们可能只需要其中一个消息消费者来消费这个消息，此时我们通过 Consumer Groups 功能就能实现这个功能，分组之后，就能够确保消息只被某一个实例消费一次。</p>
+</div><div class="cl-preview-section"><h3 id="consumer-types">Consumer Types</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Stream 支持两种类型的消费者：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">消息驱动（有时称为异步）</li>
+<li style="font-size: 20px; line-height: 38px;">轮询（有时称为同步）</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在2.0版之前，Spring Cloud Stream 仅支持异步使用者，即消息一旦可用就会传递，并且可以使用一个线程来处理它。如果需要控制处理消息的速率，需要使用同步使用者。</p>
+</div><div class="cl-preview-section"><h3 id="durability">Durability</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Stream 可以动态选择一个消息队列是持久化，还是 present。对于匿名订阅本质上是非持久的。对于某些绑定器实现（例如RabbitMQ），可以具有非持久的组订阅。</p>
+</div><div class="cl-preview-section"><h3 id="partitioning-support">Partitioning Support</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Partitioning Support 即分区支持，Spring Cloud Stream 支持在给定应用程序的多个实例之间对数据进行分区。例如在某些场景下，我们需要同一个特征的数据被同一个实例消费，这种情况下，单纯的消息分组就不能满足我的需求了，于是 Spring Cloud Stream 又引入了消息分区的概念，通过消息分区，可以确保同一特征的消息始终被同一个消息消费者处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f70900010ef504900260.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f70900010ef504900260.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="spring-cloud-stream-基本用法" style="font-size: 30px;">Spring Cloud Stream 基本用法</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面和大家大概理了一下 Spring Cloud Stream 的一些核心概念，接下来我们就来通过一个两个简单的案例向大家来演示一下 Spring Cloud Stream 中基本的消息收发机制。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么在开始学习之前，我们需要先来创建一个工程，这里我直接创建一个名为 hellostream 的工程，创建时候添加三个依赖 <code>Web</code> 、<code>RabbitMQ</code> 和 <code>Cloud Stream</code>，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f70f0001babc16881162.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f70f0001babc16881162.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Boot 创建完成后，接下来我们还需要确保 Docker 容器中的 RabbitMQ 已经在运行了，然后我们就可以来看看 Spring Cloud Stream 的一个基本用法了。</p>
+</div><div class="cl-preview-section"><h3 id="基本用法">基本用法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建完成后，首先我们来在 application.properties 中配置一下 RabbitMQ 的基本信息：</p>
+</div><div class="cl-preview-section"><pre class="  language-properties"><code class="prism  language-properties"><span class="token attr-name">spring.rabbitmq.password</span><span class="token punctuation">=</span><span class="token attr-value">guest</span>
+<span class="token attr-name">spring.rabbitmq.username</span><span class="token punctuation">=</span><span class="token attr-value">guest</span>
+<span class="token attr-name">spring.rabbitmq.host</span><span class="token punctuation">=</span><span class="token attr-value">127.0.0.1</span>
+<span class="token attr-name">spring.rabbitmq.port</span><span class="token punctuation">=</span><span class="token attr-value">5672</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们来创建一个简单的消息接收器，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@EnableBinding</span><span class="token punctuation">(</span>Sink<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MsgReceiver</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@StreamListener</span><span class="token punctuation">(</span>Sink<span class="token punctuation">.</span>INPUT<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">receive</span><span class="token punctuation">(</span>Object playload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Received:"</span><span class="token operator">+</span>playload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这里，我们首先使用了 @EnableBinding 注解实现对消息通道的绑定，哪个消息通道呢？就是参数 Sink ，事实上，这里的参数可以有多个，Sink 是一个默认定义的消息通道。接下来我们在 MsgReceiver 类中定义了 receive 方法，并在该方法上添加了 @StreamListener 注解，该注解表示该方法为消息中间件上数据流的事件监听器，Sink.INPUT 参数表示这是 input 消息通道上的监听处理器（在 Spring Cloud Stream 中可以有多个通道）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">定义完成后，启动我们的 Spring Boot 项目，启动日志中，可以看到如下信息：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f7160001728520820294.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f7160001728520820294.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看到这条日志说明我们的 Spring Boot 工程已经连接上 RabbitMQ 了。接下来我们登录 RabbitMQ 管理页面，通过管理页面发送一条消息，看看我们的 Spring Boot 工程是否能够收到这条消息，登录 RabbitMQ 消息管理页面之后，在 Queue 选项卡中，找到我们刚刚的消息通道，如下：<br>
+<img src="http://img.mukewang.com/5d27f71b0001e62b19601180.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f71b0001e62b19601180.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点进去，然后找到 Publish Message ，发送一条消息，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f7210001c2d626221624.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f7210001c2d626221624.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">发送完成后，我们发现 Spring Boot 项目的控制台已经打印出日志了，表示消息已经成功发送并且消费了。</p>
+</div><div class="cl-preview-section"><h3 id="自定义消息通道">自定义消息通道</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的案例是使用 RabbitMQ 的控制台进行消息的发送，在真正的生产环境中，这种需求一般不多，我们都是通过代码进行消息的发送。接下来我们就看看如何自定义消息通道。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们创建一个类名为 MyChannel ，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">MyChannel</span> <span class="token punctuation">{</span>
+    String INPUT <span class="token operator">=</span> <span class="token string">"mychannel-input"</span><span class="token punctuation">;</span>
+    String OUTPUT <span class="token operator">=</span> <span class="token string">"mychannel-output"</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Output</span><span class="token punctuation">(</span>OUTPUT<span class="token punctuation">)</span>
+    MessageChannel <span class="token function">output</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Input</span><span class="token punctuation">(</span>INPUT<span class="token punctuation">)</span>
+    SubscribableChannel <span class="token function">input</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">代码解释：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">首先我们定义了两个消息通道的名字，两个名字是不一样的；</li>
+<li style="font-size: 20px; line-height: 38px;">接下来定义了一个消息输出通道，什么是输出通道呢？其实就是消息发送通道；</li>
+<li style="font-size: 20px; line-height: 38px;">最后定义了一个消息输入通道，所谓的消息输入通道就是消息接收通道；</li>
+<li style="font-size: 20px; line-height: 38px;">一会我们在消息发送通道发送消息，在消息接收通道接收消息，有人可能会说这两个明明都不在同一个通道，能收到消息吗？不在同一个通道当然是收不到消息的，但是从 Sprint Cloud Finchley 版开始，默认使用通道名作为相应的实例名，因此这里我们不能使用相同的通道名，否则实例将创建失败，进而导致项目启动失败。一会我们将在 application.properties 中做一些额外配置，使消息接收通道能够收到消息。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们再定义一个消息消费者，消费我们自己通道上的消息，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@EnableBinding</span><span class="token punctuation">(</span>MyChannel<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MsgReceiver2</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@StreamListener</span><span class="token punctuation">(</span>MyChannel<span class="token punctuation">.</span>INPUT<span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">receive</span><span class="token punctuation">(</span>Object playload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Received2:"</span><span class="token operator">+</span>playload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个消息消费者的定义和我们前面的定义差不多，主要是监控的通道变了，变成了我们自己的消息通道了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后再来定义一个消息生产者，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    MyChannel myChannel<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/test1"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        myChannel<span class="token punctuation">.</span><span class="token function">output</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>MessageBuilder<span class="token punctuation">.</span><span class="token function">withPayload</span><span class="token punctuation">(</span><span class="token string">"hello stream!"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">调用 MyChannel 对象中的 output 方法，就可以成功发送一条消息出去，这条消息将在消息发送通道上发出！消息本身使用 MessageBuilder 来构建。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样消息就能成功收发了吗？理论上来说是没错的，但是运行之后你会发现收不到消息，怎么回事呢？消息发送成功没？成功了！消息接收到了吗？没有！什么原因呢？这就是我们刚刚开头说的，消息收发目前不在一个通道上，所以发出去的消息，没法收到，那么怎么办呢？很简单，只需要我们在配置文件 application.properties 中，再添加如下两行配置:</p>
+</div><div class="cl-preview-section"><pre class="  language-properties"><code class="prism  language-properties"><span class="token attr-name">spring.cloud.stream.bindings.mychannel-input.destination</span><span class="token punctuation">=</span><span class="token attr-value">javaboy-topic</span>
+<span class="token attr-name">spring.cloud.stream.bindings.mychannel-output.destination</span><span class="token punctuation">=</span><span class="token attr-value">javaboy-topic</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样就使得我们的消息收发在同一个通道上了，此时，启动 Spring Boot 项目，然后在浏览器中发送 <code>http://localhost:8080/test1</code> 请求，此时，我们可以看到 IntelliJ IDEA 控制台打印出来日志，表示消息已经被收到了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27f72b000199ea10180204.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f72b000199ea10180204.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样一个简单的例子向大家展示了自定义消息通道。</p>
+</div><div class="cl-preview-section"><h3 id="消息分组">消息分组</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">消息分组我们在文章一开头的时候和大家说过，就是一条消息默认情况下被同一个微服务的所有实例消费（该微服务集群化部署），有的时候我们只需要被其中一个实例消费即可，此时我们需要进行消息分组配置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置方式很简单，在 application.properties 中添加如下配置：</p>
+</div><div class="cl-preview-section"><pre class="  language-properties"><code class="prism  language-properties"><span class="token attr-name">spring.cloud.stream.bindings.mychannel-input.group</span><span class="token punctuation">=</span><span class="token attr-value">g1</span>
+<span class="token attr-name">spring.cloud.stream.bindings.mychannel-output.group</span><span class="token punctuation">=</span><span class="token attr-value">g1</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">表示消息输入输出通道都是属于消费组 g1 的，配置完成后，我们将 Spring Boot 项目打成 jar 包，点击右边 Maven Project 中的 package 按钮，如下：<br>
+<img src="http://img.mukewang.com/5d27f73000015f3805940594.png" alt="图片描述" data-original="http://img.mukewang.com/5d27f73000015f3805940594.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">打包成功之后，分别在定位到 jar 包所在的目录，分别执行如下两行命令，启动两个端口不同的实例：</p>
+</div><div class="cl-preview-section"><pre><code>java -jar hellostream-0.0.1-SNAPSHOT.jar --server.port=8080
+java -jar hellostream-0.0.1-SNAPSHOT.jar --server.port=8081
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">启动成功之后，我们再次调用 <code>http://localhost:8080/test1</code> 接口，发现每次消息只被一个实例消费（每次只有一个实例的控制台有日志打印出来）。</p>
+</div><div class="cl-preview-section"><h3 id="消息分区">消息分区</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">还有一个概念叫做消息分区，就是说具有相同特征的消息总是被同一个实例处理，单纯的消息分组是无法实现这个功能的。在前面的消息分组中，相同特征的消息也会被发送到不同的实例上去执行。如果想发送到一个实例上去执行，我们只需要添加如下配置即可（下面的配置是在消息分组的基础上配置的）:</p>
+</div><div class="cl-preview-section"><pre class="  language-properties"><code class="prism  language-properties"><span class="token attr-name">spring.cloud.stream.bindings.mychannel-input.consumer.partitioned</span><span class="token punctuation">=</span><span class="token attr-value">true</span>
+<span class="token attr-name">spring.cloud.stream.instance-count</span><span class="token punctuation">=</span><span class="token attr-value">2</span>
+<span class="token attr-name">spring.cloud.stream.instance-index</span><span class="token punctuation">=</span><span class="token attr-value">0</span>
+<span class="token attr-name">spring.cloud.stream.bindings.mychannel-output.producer.partition-key-expression</span><span class="token punctuation">=</span><span class="token attr-value">1</span>
+<span class="token attr-name">spring.cloud.stream.bindings.mychannel-output.producer.partitionCount</span><span class="token punctuation">=</span><span class="token attr-value">2</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">代码解释：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">首先第一行配置表示开启消息分区；</li>
+<li style="font-size: 20px; line-height: 38px;">第二行配置消息消费者实例的个数；</li>
+<li style="font-size: 20px; line-height: 38px;">第三行配置表示当前实例的下标；</li>
+<li style="font-size: 20px; line-height: 38px;">第四行配置表示这个消息将被下标为 1 的消息消费者所消费；</li>
+<li style="font-size: 20px; line-height: 38px;">第五行表示消费端的节点数量为 2；</li>
+<li style="font-size: 20px; line-height: 38px;">由于消息消费者和消息生产者在同一个项目中，因此这里的配置我写在了一起；如果消息消费者和生产者是两个项目，那么前三行消息消费者相关的配置写在消息消费者中，后两行消息生产者相关的配置写在消息生产者中。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，我们将项目重新打包，然后执行如下命令启动两个消息消费者实例：</p>
+</div><div class="cl-preview-section"><pre><code>java -jar hellostream-0.0.1-SNAPSHOT.jar --server.port=8080 --spring.cloud.stream.instance-index=0
+java -jar hellostream-0.0.1-SNAPSHOT.jar --server.port=8081 --spring.cloud.stream.instance-index=1
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">注意在启动命令中需要标记实例的 ID ，即 <code>spring.cloud.stream.instance-index</code> 参数。启动成之后，我们再次调用 <code>http://localhost:8080/test1</code> 接口发送消息，消息就只会被 ID 为 1 的实例所接收。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，本文主要向读者介绍了 Spring Cloud Stream 中的一些核心概念，使大家对于 Spring Cloud Stream 的用法有一个基本认识，然后向大家介绍了 Spring Cloud Stream 的一些基本用法，包括默认的消息发送、自定义消息通道、消息分组以及消息分区等，通过这几个案例，相信大家对于 Spring Cloud Stream 已经有了一个基本的认知。</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/514">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    26 Spring Cloud Bus 整合 RabbitMQ 与 Kafka
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/545">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    28 Spring Cloud Stream 深入实践
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

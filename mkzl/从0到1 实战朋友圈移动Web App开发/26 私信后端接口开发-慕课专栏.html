@@ -1,0 +1,367 @@
+<html><head><meta charset="utf-8"><title>26 私信后端接口开发-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        26 私信后端接口开发
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-18 10:44:20
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.mukewang.com/5d8199e300010e0206400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">理想的书籍是智慧的钥匙。<p class="author">——列夫·托尔斯泰</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">私信聊天逻辑的数据建模我相信大家应该都很熟悉了，在这里我们只实现1对1的聊天，所以需要新建2张表来，一张Message代表每一条聊天消息，一张Chat代表每一个聊天，Chat和Message是1对多的关系。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：<br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/models/Chat.js">Github-chat</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/models/Message.js">Github-mssage</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/routes/message.js">Github-mssage-route</a></p>
+</div><div class="cl-preview-section"><h3 id="表结构分析">表结构分析</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于消息表和聊天表，我们首先需要分析一下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">消息表，很好理解，用来存储每一条消息，需要有图片消息，文字消息来区分。</li>
+<li style="font-size: 20px; line-height: 38px;">对于1对1聊天，消息需要有发送者和接收者，同样需要发送时间。</li>
+<li style="font-size: 20px; line-height: 38px;">每一条消息，都需要对应有一个聊天表。</li>
+<li style="font-size: 20px; line-height: 38px;">聊天表，主要有是否删除，最新一条聊天内容时间。</li>
+<li style="font-size: 20px; line-height: 38px;">最新一条内容时间是为了在聊天列表页来排序使用。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面，我们就来看看表结构图：<br>
+<strong>Message表结构</strong>：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5cffb4aa0001f6ac04920234.png" data-original="//img.mukewang.com/5cffb4aa0001f6ac04920234.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Chat表结构</strong>：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d7669730001e7c703410210.png" data-original="//img.mukewang.com/5d7669730001e7c703410210.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="新建chatschema和messageschema">新建ChatSchema和MessageSchema</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在了解了表结构之后，我们就要创建对应的Schema，在后端项目的 models 文件夹下新增<code>Message.js</code>和<code>Chat.js</code>:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Chat.js:</strong></p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"> <span class="token keyword">var</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ChatSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  params<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>Mixed <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//聊天相关的参数，例如背景图片等等</span>
+  isDel<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> Boolean<span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span><span class="token punctuation">,</span><span class="token keyword">default</span><span class="token punctuation">:</span><span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//是否删除</span>
+  lastMsgTime<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">// 最近一条消息的时间</span>
+  fromUser<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'User'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//聊天的发起者</span>
+  toUser<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'User'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//聊天的接收者</span>
+  create<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  update<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>timestamps<span class="token punctuation">:</span><span class="token punctuation">{</span>createdAt<span class="token punctuation">:</span> <span class="token string">'create'</span><span class="token punctuation">,</span>updatedAt<span class="token punctuation">:</span><span class="token string">'update'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Chat'</span><span class="token punctuation">,</span> ChatSchema<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Message.js:</strong></p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"> <span class="token keyword">var</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> MessageSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  content<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>Mixed <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//聊天内容</span>
+  fromUser<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'User'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//发送者</span>
+  chat<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'Chat'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//聊天id关联</span>
+  toUser<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Schema<span class="token punctuation">.</span>Types<span class="token punctuation">.</span>ObjectId<span class="token punctuation">,</span> ref<span class="token punctuation">:</span> <span class="token string">'User'</span><span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//接收者</span>
+  create<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  update<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>timestamps<span class="token punctuation">:</span><span class="token punctuation">{</span>createdAt<span class="token punctuation">:</span> <span class="token string">'create'</span><span class="token punctuation">,</span>updatedAt<span class="token punctuation">:</span><span class="token string">'update'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Message'</span><span class="token punctuation">,</span> MessageSchema<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在创建<code>Chat.js</code>的时候预留了<code>isDel</code>字段，一般在数据库中，做删除操作分为软删除(逻辑删除)和硬删除(物理删除)：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>逻辑删除</strong>：即标记删除，设置一个状态字段，判断删除，该类删除主要使用于一些，用户删除，但是可能网站还会使用到的一些数据，也包含，用户删除以后还想去恢复的一部分数据。</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>物理删除</strong>：即直接删除该数据。这类的删除适用于使用之后，无意义的数据，比如我们现在注册发送的验证码等类型的数据。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般情况下，对于聊天数据这种场景，后续如果有多终端登录的情况下，我们的删除还是需要采用软删除的，所以这里添加了<code>isDel</code>字段。</p>
+</div><div class="cl-preview-section"><h3 id="发送消息接口">发送消息接口</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在后端项目 routes 文件夹下新建 message.js ，作为消息模块的路由：<br>
+下面这段代码主要是创建了一个post方法的路由，路径是/addmsg，当浏览器请求<code>http://xx.xx.xx/addmsg</code>就会进入这个方法。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/addmsg'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">//当前登录用户的id</span>
+  <span class="token keyword">var</span> myId <span class="token operator">=</span> req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id<span class="token punctuation">;</span>
+  <span class="token comment">//发送的内容</span>
+  <span class="token keyword">var</span> content <span class="token operator">=</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>content<span class="token punctuation">;</span>
+  <span class="token comment">//接收着的id</span>
+  <span class="token keyword">var</span> toUserId <span class="token operator">=</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>toUser<span class="token punctuation">;</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> chatId <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+    <span class="token comment">//首先需要查询是否已经有过聊天</span>
+    <span class="token keyword">var</span> list <span class="token operator">=</span> <span class="token keyword">await</span> Chat<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      $or<span class="token punctuation">:</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'create'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">//如果有就把chatId记录下来</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>list<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      chatId <span class="token operator">=</span> list<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>_id<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//如果没有就创建一个</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> chat <span class="token operator">=</span> <span class="token keyword">await</span> Chat<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          users<span class="token punctuation">:</span><span class="token punctuation">[</span>myId<span class="token punctuation">,</span>toUserId<span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        fromUser<span class="token punctuation">:</span> myId<span class="token punctuation">,</span>
+        toUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      chatId <span class="token operator">=</span> chat<span class="token punctuation">.</span>_id<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">//添加一条消息</span>
+    <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token keyword">await</span> Message<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      content<span class="token punctuation">:</span> content<span class="token punctuation">,</span>
+      fromUser<span class="token punctuation">:</span> req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id<span class="token punctuation">,</span><span class="token comment">//发送者的id，也就是当前登录用户的id</span>
+      chat<span class="token punctuation">:</span>chatId<span class="token punctuation">,</span><span class="token comment">//将之前的chatId外键存入的message里</span>
+      toUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">,</span><span class="token comment">//接收者的ID</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>result
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>e
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的逻辑，我们来总结一下是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在每创建一条消息时，需要知道消息内容，和消息的发送者和接收者。</li>
+<li style="font-size: 20px; line-height: 38px;">在创建前，我们需要查询<code>Chat</code>，是否它们之间已经有过聊天(两个人的聊天只可能出现在1个聊天对象里面)，如果有就找到<code>chatId</code>，没有的话需要重新创建一个。</li>
+<li style="font-size: 20px; line-height: 38px;">在创建消息<code>Message</code>时需要关联聊天<code>chatId</code>，这样我们在后面查询每个人的聊天列表时，就可以根据<code>chatId</code>查询到了。</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="mongoose条件查询">mongoose条件查询</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我们查询是否曾经有过聊天时，我们使用了条件查询<code>$or</code>和<code>$and</code>，下面就来讲解一下这个知识点:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>$and</code>:参数是一个数组，表示条件的列表，顾名思义这些条件是“并且”的关系，只有当条件都满足才可以。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">$and<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token string">'green'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> status<span class="token punctuation">:</span> <span class="token string">'ok'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>$or</code>:参数是一个数组，表示条件的列表，顾名思义这些条件是“或”的关系，只有当条件都满足1个就可以。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">$or<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">{</span> color<span class="token punctuation">:</span> <span class="token string">'green'</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> status<span class="token punctuation">:</span> <span class="token string">'not'</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>$or</code>和<code>$and</code>也可以嵌套使用：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">$or<span class="token punctuation">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>color<span class="token punctuation">:</span> <span class="token string">'green'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>status<span class="token punctuation">:</span> <span class="token string">'ok'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>color<span class="token punctuation">:</span> <span class="token string">'red'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>status<span class="token punctuation">:</span> <span class="token string">'ok'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者是：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">$and<span class="token punctuation">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> $or<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>color<span class="token punctuation">:</span> <span class="token string">'green'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>status<span class="token punctuation">:</span> <span class="token string">'ok'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> $or<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>color<span class="token punctuation">:</span> <span class="token string">'red'</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>status<span class="token punctuation">:</span> <span class="token string">'ok'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而我们代码里查询是否已经有过聊天的条件查询:</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">  $or<span class="token punctuation">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> toUserId<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">转换成熟悉的SQL就是：<br>
+<code>where (fromUser = myId and toUser = toUserId) or (fromUser = toUserId and toUser = myId)</code>有木有很熟悉。</p>
+</div><div class="cl-preview-section"><h3 id="查询聊天记录接口">查询聊天记录接口</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">消息模块的另外一个重要接口就是查询个人的聊天记录，这个聊天记录就是所有和你有关的聊天内容，在后端项目 routes 文件夹下新建message.js的路由中增加方法：<br>
+下面这段代码主要是创建了一个get方法的路由，路径是/getchathistory，当浏览器请求<code>http://xx.xx.xx/getchathistory</code>就会进入这个方法。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">/*
+* 查询聊天记录接口
+*/</span>
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/getchathistory'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  
+
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> myId <span class="token operator">=</span> req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id<span class="token punctuation">;</span>
+    <span class="token comment">// 根据发送者和接收着查询聊天记录</span>
+    <span class="token keyword">var</span> list <span class="token operator">=</span> <span class="token keyword">await</span> Message<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      $or<span class="token punctuation">:</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>toUser<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token punctuation">{</span> $and<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>fromUser<span class="token punctuation">:</span> req<span class="token punctuation">.</span>query<span class="token punctuation">.</span>toUser<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>toUser<span class="token punctuation">:</span> myId<span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">populate</span><span class="token punctuation">(</span><span class="token string">'fromUser'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'create'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+
+    <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span> <span class="token punctuation">;</span> i <span class="token operator">&lt;</span> list<span class="token punctuation">.</span>length <span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">var</span> msg <span class="token operator">=</span> JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//如果发送者id和当前登录用户id相等，表示出主人态</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id <span class="token operator">==</span> msg<span class="token punctuation">.</span>fromUser<span class="token punctuation">.</span>_id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        msg<span class="token punctuation">.</span>mine <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        msg<span class="token punctuation">.</span>mine <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      result<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>result
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>e
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里我们查询出的聊天记录是一个数组，数组的每个元素就是每条消息的内容结构，并且，我们利用<code>populate</code>特性，可以直接查出关联的用户信息。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里查询聊天记录的数据有两个思路：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">根据发送者id和接收者id查询，就是我们代码里的思路。</li>
+<li style="font-size: 20px; line-height: 38px;">根据chatID查询，例如下面的逻辑：</li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> list <span class="token operator">=</span> <span class="token keyword">await</span> Message<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  chat<span class="token punctuation">:</span> chatId
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">populate</span><span class="token punctuation">(</span><span class="token string">'fromUser'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token string">'create'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而查询出来的数据需要标识出主人态，逻辑就是发送者的id和当前登录用户的id相同，即是同一个人。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节讲解了聊天页面的发送消息接口和查询聊天记录接口的开发。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相关技术点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">逻辑删除和物理删除的概念和区别。</li>
+<li style="font-size: 20px; line-height: 38px;">讲解了在mongoose使用使用<code>$or</code>和<code>$and</code>条件查询的方法和技巧。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：<br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/models/Chat.js">Github-chat</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/models/Message.js">Github-mssage</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/routes/message.js">Github-mssage-route</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/670">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            25 底部输入框组件开发
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/672">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            27 使用 Scoket 改造后端接口
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

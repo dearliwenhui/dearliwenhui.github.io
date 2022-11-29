@@ -1,0 +1,345 @@
+<html><head><meta charset="utf-8"><title>25 底部输入框组件开发-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        25 底部输入框组件开发
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-16 10:36:36
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d7ef5120001d4df06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">人只有献身于社会，才能找出那短暂而有风险的生命的意义。<p class="author">——爱因斯坦</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在之前的朋友圈页面UI中，已经将输入框组件封装成了一个公共组件，那么接下来就要丰富这个组件的功能，让其为聊天页面服务，下面就进入开发吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：<br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/inputBar/index.vue">Github-inputBar</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/inputBar/index.vue">Github-chat</a></p>
+</div><div class="cl-preview-section"><h3 id="图片上传逻辑">图片上传逻辑</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在聊天页面中，inputBar 组件还负责图片上传逻辑，首先需要添加在前端项目的 components 文件夹下 的inputBar 文件夹的<code>index.vue</code>中，新增下面逻辑：<br>
+下面这段代码是用来初始化我们的 weui 图片上传uploader组件，需要注意的是放在<code>mounted</code>里是为了保证UI已经渲染完成，这样才能找到相关的dom节点进行初始化。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">  <span class="token function">mounted</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">let</span> self <span class="token operator">=</span> <span class="token keyword">this</span>
+    weui<span class="token punctuation">.</span><span class="token function">uploader</span><span class="token punctuation">(</span><span class="token string">'#uploader'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      url<span class="token punctuation">:</span> service<span class="token punctuation">.</span>baseURL <span class="token operator">+</span> <span class="token string">'post/uploadimgaliyun'</span><span class="token punctuation">,</span>
+      auto<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      type<span class="token punctuation">:</span> <span class="token string">'file'</span><span class="token punctuation">,</span>
+      fileVal<span class="token punctuation">:</span> <span class="token string">'image'</span><span class="token punctuation">,</span>
+      compress<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        width<span class="token punctuation">:</span> <span class="token number">1300</span><span class="token punctuation">,</span>
+        height<span class="token punctuation">:</span> <span class="token number">1300</span><span class="token punctuation">,</span>
+        quality<span class="token punctuation">:</span> <span class="token number">0.8</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      onBeforeQueued<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>files<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// `this` 是轮询到的文件, `files` 是所有文件</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'image/jpg'</span><span class="token punctuation">,</span> <span class="token string">'image/jpeg'</span><span class="token punctuation">,</span> <span class="token string">'image/png'</span><span class="token punctuation">,</span> <span class="token string">'image/gif'</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'请上传图片'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span> <span class="token comment">// 阻止文件添加</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>size <span class="token operator">&gt;</span> <span class="token number">10</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'请上传不超过10M的图片'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>files<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 防止一下子选择过多文件</span>
+          weui<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'最多只能上传1张图片，请重新选择'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// return true; // 阻止默认行为，不插入预览图的框架</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+      onBeforeSend<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>data<span class="token punctuation">,</span> headers<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// console.log(this, data, headers);</span>
+        <span class="token comment">// $.extend(data, { test: 1 }); // 可以扩展此对象来控制上传参数</span>
+        <span class="token comment">// $.extend(headers, { Origin: 'http://127.0.0.1' }); // 可以扩展此对象来控制上传头部</span>
+        headers<span class="token punctuation">[</span><span class="token string">'wec-access-token'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">getCookie</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+        <span class="token comment">// return false; // 阻止文件上传</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+      onSuccess<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>ret<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+
+        <span class="token comment">//上传图片回调</span>
+        self<span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'uploaded'</span><span class="token punctuation">,</span> ret<span class="token punctuation">)</span>
+        <span class="token comment">// return true; // 阻止默认行为，不使用默认的成功态</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里我相信大家应该很熟悉了，调用<code>weui</code>的图片上传组件来实现图片上传，这里要注意一下 uploader 的 id 和之前页面的不要重复，保证唯一。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在完成了 uploader 组件初始化后，在 inputBar 文件夹下的<code>index.vue</code>中编写图片上传面板的UI。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">新增template代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+    ...
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>opera-panel<span class="token punctuation">"</span></span> <span class="token attr-name">v-show</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>!option.noPlus<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>opera-item<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item-icon<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>upload<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>item-text<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>照片<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">display</span><span class="token punctuation">:</span>none<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploader<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+           <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploader<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>uploaderInput<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-uploader__input<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>file<span class="token punctuation">"</span></span> <span class="token attr-name">accept</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/*<span class="token punctuation">"</span></span> <span class="token punctuation">/&gt;</span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    ...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里解释一下其中的一些逻辑：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;"><code>option.noPlus</code>标志位是表明是否需要展示面板，在朋友圈页面，是不需要这个功能的，所以这里需要对应判断一下。</li>
+<li style="font-size: 20px; line-height: 38px;">将 uploader 设置成<code>display:none</code>的，来提供图片上传功能。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对应的css样式，这里之间采用 flex 的 column 布局即可：</p>
+</div><div class="cl-preview-section"><pre class="  language-css"><code class="prism  language-css"><span class="token selector"><span class="token class">.opera-panel</span> </span><span class="token punctuation">{</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">230</span>px<span class="token punctuation">;</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.opera-item</span> </span><span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span><span class="token number">66</span>px<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span><span class="token number">90</span>px<span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+  <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+  <span class="token property">flex-direction</span><span class="token punctuation">:</span> column<span class="token punctuation">;</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">12</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，需要给在输入框的右侧新建一个加好按钮<code>.plus-btn</code>，用来添加呼起图片上传面包逻辑：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+    ...
+     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>plus-btn<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>showPanel<span class="token punctuation">"</span></span> <span class="token attr-name">v-show</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>!option.noPlus<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    ...
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里也需要<code>option.noPlus</code>这个标志位来判断，对应的JavaScript逻辑如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">
+   <span class="token comment">/*
+  * 打开图片操作面板
+  */</span>
+  <span class="token function">showPanel</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>panelShow <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">$emit</span><span class="token punctuation">(</span><span class="token string">'showBottom'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">/*
+  * 关闭图片操作面板
+  */</span>
+  <span class="token function">closePanel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>panelShow <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于输入框组件本身来说，我们通过调整父元素高度的方式来显示和隐藏图片操作面板：</p>
+</div><div class="cl-preview-section"><pre class="  language-css"><code class="prism  language-css"><span class="token selector"><span class="token class">.bottom-view</span> </span><span class="token punctuation">{</span>
+   <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+   <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">56</span>px<span class="token punctuation">;</span>
+   <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+   <span class="token property">transition</span><span class="token punctuation">:</span> height <span class="token number">200</span>ms<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector"><span class="token class">.bottom-view.show</span> </span><span class="token punctuation">{</span>
+   <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100%</span><span class="token punctuation">;</span>
+   <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">285</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个我们在前端项目的 views 文件夹下的chat文件夹的<code>index.vue</code>里编写逻辑，来控制隐藏和显示，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">    <span class="token comment">/*
+    * 显示图隐藏片操作面板
+    */</span>
+    <span class="token function">showBottom</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>bottomClass<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'show'</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bottomStyle <span class="token operator">=</span> <span class="token string">''</span>
+        <span class="token comment">// this.bottomClass = this.bottomClass.replace(' show','');</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>bottomClass <span class="token operator">+=</span> <span class="token string">' show'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里看起来没什么问题，但是真正我们在手机上测试时，会发现这样的结果：<br>
+<img class="" src="https://img.mukewang.com/5cfdff6a0001616801280009.gif" data-original="//img.mukewang.com/5cfdff6a0001616801280009.gif" alt="图片描述"><br>
+当我们点开图片操作面板时，没什么问题，但是从图片面板状态直接进入输入时，会发现当键盘呼起时输入框被移动到了页面的最底部，在分析这个问题的原因时，我们先讲一个知识点：fixed定位元素在键盘呼起时的失效问题。</p>
+</div><div class="cl-preview-section"><h3 id="fixed定位元素在键盘呼起时的失效问题">fixed定位元素在键盘呼起时的失效问题</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用了<code>display:fixed;bottom:0;</code>并且在页面底部时，如果此时键盘呼起，这个元素会被顶上来，如下图：<img class="" src="https://img.mukewang.com/5cfe0747000151d307641356.png" data-original="//img.mukewang.com/5cfe0747000151d307641356.png" alt="图片描述"><br>
+如果这个元素是<code>input</code>，那么无论是否时<code>fixed</code>都会被顶上来，这个在Android和iOS上都会出现，只不过iOS上会把webview也顶上来，所以在iOS上，所有元素都会被顶上来，这个问题可以目前简单方法可以通过在键盘呼起时将<code>fixed</code>元素隐藏，键盘收回时在显示来解决。<br>
+而我们如果把输入框<code>input</code>放在底部，可以正好利用这个特性来实现我们输入框紧贴键盘的页面布局，如下图：<br>
+<img class="" src="https://img.mukewang.com/5cfe093100014b6110802340.jpg" data-original="//img.mukewang.com/5cfe093100014b6110802340.jpg" alt="图片描述"><br>
+好了下面就分析一下iOS上出现上面那个问题的原因：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">当图片操作面板展开时，我们的输入框其实并没有在底部，而是位于页面下半部分。</li>
+<li style="font-size: 20px; line-height: 38px;">此时输入框获得焦点，键盘被呼起，页面被顶起来，我们这时把高度减少，就会造成页面高度减少，输入框被挤下来。</li>
+<li style="font-size: 20px; line-height: 38px;">这个问题在android上并没有出现，原因是android并没有把页面顶起来，所以输入框始终时紧贴着键盘，无论我们怎么修改高度。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么接下来，我们就在键盘呼起时不去修改高度，保持原样，然后看一下效果：<img class="" src="https://img.mukewang.com/5cfe0a6a00013d7e01990008.gif" data-original="//img.mukewang.com/5cfe0a6a00013d7e01990008.gif" alt="图片描述"><br>
+在重新呼起键盘时，输入框能看到了，由于我们没有修改高度，又导致输入框太高了，没有紧贴键盘，这里的原因是：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">当图片操作面板展开时，我们的输入框其实并没有在底部，而是位于页面下半部分。</li>
+<li style="font-size: 20px; line-height: 38px;">之前我们讲过，位于页面下半部分的输入框，在获取到焦点，键盘呼起时，webview会被顶上来（在iOS中），所以就会看到上图的效果。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前端项目的 views 文件夹下的 chat 文件夹的<code>index.vue</code>里编写一个逻辑，代码如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">借助我们之前的方案，页面被顶上来，我们在调用<code>window.scroll()</code>，将页面顶回去。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">    <span class="token comment">/*
+    * 在图片操作面板处于展开状态时的处理逻辑
+    */</span>
+    <span class="token function">hideBottomOnPanel</span> <span class="token punctuation">(</span>h<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//将聊天界面滚动到底部，看到最新的聊天内容</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">scrollToEnd</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+
+      <span class="token comment">//此时图片操作面板处于展开状态时</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>bottomClass<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'show'</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>os<span class="token punctuation">.</span>isIOS<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token comment">//将页面在顶回去</span>
+          window<span class="token punctuation">.</span><span class="token function">scroll</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">70</span><span class="token punctuation">)</span> <span class="token comment">//键盘高度-图片操作面板高度+输入框高度</span>
+
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+          <span class="token comment">//Android无需修改，直接将图片操作面板隐藏即可</span>
+          <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">closePanel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+
+        
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最终效果：<br>
+<img class="" src="https://img.mukewang.com/5cfe0d7d00013e3603130001.gif" data-original="//img.mukewang.com/5cfe0d7d00013e3603130001.gif" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节主要讲解了聊天页面的底部输入框逻辑的开发。<br>
+相关技术点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">移动端web端<code>fixed</code>定位元素在键盘呼起时的失效问题，以及如何规避和解决。</li>
+<li style="font-size: 20px; line-height: 38px;">移动端web端如果把输入框<code>input</code>放在底部，可以正好利用这个特性来实现我们输入框紧贴键盘的页面布局。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：<br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/inputBar/index.vue">Github-inputBar</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/inputBar/index.vue">Github-chat</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/669">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            24 单条聊天内容组件
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/671">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            26 私信后端接口开发
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

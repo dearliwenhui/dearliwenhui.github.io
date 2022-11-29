@@ -1,0 +1,435 @@
+<html><head><meta charset="utf-8"><title>11 删除排序数组中的重复项-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        11 删除排序数组中的重复项
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-19 09:57:03
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d43a6730001fbec06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">人的影响短暂而微弱，书的影响则广泛而深远。<p class="author">——普希金</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="刷题内容">刷题内容</h3>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong><font color="green">难度：Easy</font></strong><br>
+原题链接：<a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/">https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/</a>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><pre><code>给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+
+示例&nbsp;1:
+给定数组 nums = [1,1,2], 
+函数应该返回新的长度 2, 并且原数组 nums 的前两个元素被修改为 1, 2。 
+你不需要考虑数组中超出新长度后面的元素。
+
+示例&nbsp;2:
+给定 nums = [0,0,1,1,1,2,2,3,3,4],
+函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
+你不需要考虑数组中超出新长度后面的元素。
+
+说明: 为什么返回数值是整数，但输出的答案是数组呢?
+
+请注意，输入数组是以“引用”方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。
+
+你可以想象内部操作如下:
+
+// nums 是以“引用”方式传递的。也就是说，不对实参做任何拷贝
+int len = removeDuplicates(nums);
+
+// 在函数里修改输入数组对于调用者是可见的。
+// 根据你的函数返回的长度, 它会打印出数组中该长度范围内的所有元素。
+for (int i = 0; i &lt; len; i++) {
+&nbsp; &nbsp; print(nums[i]);
+}
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这里我举一个生活中的例子：假如我们有一场作文评选大赛，每一位作者可以提交数篇自己的作品到举办方，举办方要给位于前100名获奖作品的作者颁发一份奖品。但是每位作者限领一份奖品，那如果一个作者有两篇作品入围了怎么办呢？这样的话我们就需要移除重复的作者。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从上面的例子我们可以知道， 100 篇获奖作品的作者是一个已经排好序的数组，每一个作者都是数组中的一个元素。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们希望in-place地移除这个数组中所有的重复元素，即在原数组上直接做完这个操作，而不是另外创建一个新数组，然后放入所有的不重复作者，我们应该怎么做呢？</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">因为已经说了是排好序的数组，所以只需要不停判断当前位置值和下一位置值是否相等。 若相等则<code>pop</code>掉当前值，否则<code>move</code>到下一位置继续做判断。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们来看下具体的代码实现：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        :type nums: List[int]
+        :rtype: int
+        """</span>
+        idx <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">while</span> idx <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># 若相等则pop掉当前值</span>
+                nums<span class="token punctuation">.</span>pop<span class="token punctuation">(</span>idx<span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span> <span class="token comment"># 否则move到下一位置继续做判断</span>
+                idx <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">return</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// len 初始化为 nums 的长度，当发现重复的元素则会递减</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span> j <span class="token operator">&lt;</span> len <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// 发现重复的元素则会将后面的元素依次前移一位</span>
+                    nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                len<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> len<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>nums <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    idx <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> idx <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            nums <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span><span class="token punctuation">:</span>idx<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token operator">...</span><span class="token punctuation">)</span> <span class="token comment">// 若相等则pop掉当前值</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token comment">// 否则move到下一位置继续做判断</span>
+            idx <span class="token operator">+=</span> <span class="token number">1</span> 
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token function">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是上面的方式有一个缺陷：我们的时间复杂度是 O(N^2)，因为每一次pop操作我们都需要将被删除元素后面的所有元素向前移动一格。那么该怎么优化一下这个算法呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实我们只需要不停地向下遍历，同时自增地分配不重复的值给前面的位置即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nums<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+        idx <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> num <span class="token keyword">in</span> nums<span class="token punctuation">:</span>
+            <span class="token comment"># 如果是第一位自然不可能重复（同时为了保证数组不越界）</span>
+            <span class="token keyword">if</span> idx <span class="token operator">&lt;</span> <span class="token number">1</span> <span class="token operator">or</span> num <span class="token operator">!=</span> nums<span class="token punctuation">[</span>idx<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> 
+                nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> num <span class="token comment"># 如果当前元素不是重复值，我们就将其分配到目前不重复元素到达的index</span>
+                idx <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">return</span> idx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 第一个数肯定不是重复的数，并且作为一个指针来计算不重复的数的个数</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果不是重复的数，就将指针 i 后移,同时将不重复的元素分配到指针 i 目前到达的位置</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+                nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// i+1 是因为需要加上第一个不重复的数</span>
+        <span class="token keyword">return</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>nums <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    idx <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> num <span class="token operator">:=</span> <span class="token keyword">range</span> nums <span class="token punctuation">{</span>
+        <span class="token comment">// 如果是第一位自然不可能重复（同时为了保证数组不越界）</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>idx <span class="token operator">&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>num <span class="token operator">!=</span> nums<span class="token punctuation">[</span>idx<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> num <span class="token comment">// 如果当前元素不是重复值，我们就将其分配到目前不重复元素到达的index</span>
+            idx <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> idx
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样的话我们的时间复杂度就是O(N)了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么继续深入问一下，如果我们允许一个作品作者最多可以得到两份奖品，我们该怎么办呢？毫无疑问，此时我们就可以允许有两个重复值，超过两次重复就不行了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么我们只要稍微改一下我们的代码就可以了(其实就是1改成2)，见下方：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nums<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+        idx <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> num <span class="token keyword">in</span> nums<span class="token punctuation">:</span>
+            <span class="token comment"># 如果是前两位自然不可能重复两次以上（同时为了保证数组不越界）</span>
+            <span class="token keyword">if</span> idx <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">or</span> num <span class="token operator">!=</span> nums<span class="token punctuation">[</span>idx<span class="token number">-2</span><span class="token punctuation">]</span><span class="token punctuation">:</span> 
+                nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> num <span class="token comment"># 如果当前元素没有重复两次以上，我们就将其assign到目前不重复元素到达的index</span>
+                idx <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">return</span> idx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 设置一个指针 i 来标志满足要求的元素个数</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> nums<span class="token punctuation">.</span>length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 前两个元素肯定不会重复两次以上</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">||</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> nums<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                i<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> i<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">removeDuplicates</span><span class="token punctuation">(</span>nums <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    idx <span class="token operator">:=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> num <span class="token operator">:=</span> <span class="token keyword">range</span> nums <span class="token punctuation">{</span>
+        <span class="token comment">// 如果是前两位自然不可能重复两次以上（同时为了保证数组不越界）</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>idx <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>num <span class="token operator">!=</span> nums<span class="token punctuation">[</span>idx<span class="token number">-2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> num <span class="token comment">// 如果当前元素没有重复两次以上，我们就将其assign到目前不重复元素到达的index</span>
+            idx <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> idx
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的问题对应 <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">LeetCode 第26题</a>，<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/">LeetCode 第80题</a>。</p>
+</div><div class="cl-preview-section"><h2 id="从排序链表中移除重复元素" style="font-size: 30px;">从排序链表中移除重复元素</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相信看完从排序数组中移除重复元素，大家也想看看如果换成排序链表的话会有什么不同，下面就让我们来看一看：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> head<span class="token punctuation">:</span> ListNode<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> ListNode<span class="token punctuation">:</span>
+        dummy <span class="token operator">=</span> head
+        <span class="token keyword">while</span> head<span class="token punctuation">:</span>
+            <span class="token keyword">while</span> head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">and</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span>val <span class="token operator">==</span> head<span class="token punctuation">.</span>val<span class="token punctuation">:</span>
+                head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>    <span class="token comment"># 删掉重复元素</span>
+            head <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span>     <span class="token comment"># 当前元素没重复，进行下一次判断</span>
+        <span class="token keyword">return</span> dummy 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ListNode dummy <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>head <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 当下一个元素不为空，并且当前元素的值与下一个元素的值相等</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>head<span class="token punctuation">.</span>next <span class="token operator">!=</span> null <span class="token operator">&amp;&amp;</span> head<span class="token punctuation">.</span>val <span class="token operator">==</span> head<span class="token punctuation">.</span>next<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 则将当前元素指向下一个元素的指针指向下一个元素的再下一个元素</span>
+                head<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 当前元素没重复，进行下一次判断</span>
+            head <span class="token operator">=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> dummy<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>head <span class="token operator">*</span>ListNode<span class="token punctuation">)</span> <span class="token operator">*</span>ListNode <span class="token punctuation">{</span>
+    dummy <span class="token operator">:=</span> head
+    <span class="token keyword">for</span> head <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> head<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Val <span class="token operator">==</span> head<span class="token punctuation">.</span>Val <span class="token punctuation">{</span>
+            head<span class="token punctuation">.</span>Next <span class="token operator">=</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Next <span class="token comment">// 删掉重复元素</span>
+        <span class="token punctuation">}</span>
+        head <span class="token operator">=</span> head<span class="token punctuation">.</span>Next <span class="token comment">// 当前元素没重复，进行下一次判断</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> dummy
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相信大家也看到了，这里我们巧妙运用了一个<code>dummy</code>节点来做我们的操作，这个方法可以很有效地避免一些边界问题，因此希望大家能够养成一个习惯，只要做到链表类的问题，就可以无脑使用一个<code>dummy</code>节点。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在又来了一个新问题，如果我们想让最终的链表中只留下之前没有重复的元素，该怎么做？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个时候我们就要用到一个<code>prev</code>指针指向前面的元素，方便我们进行比较啦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> head<span class="token punctuation">:</span> ListNode<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> ListNode<span class="token punctuation">:</span>
+        dummy <span class="token operator">=</span> prev <span class="token operator">=</span> cur <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token boolean">None</span><span class="token punctuation">)</span>
+        <span class="token keyword">while</span> head<span class="token punctuation">:</span>
+            <span class="token comment"># 如果当前是元素是重复元素</span>
+            <span class="token keyword">while</span> head <span class="token operator">and</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>val <span class="token operator">==</span> prev<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token operator">or</span> <span class="token punctuation">(</span>head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">and</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span>val <span class="token operator">==</span> head<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                prev <span class="token operator">=</span> head
+                head <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token comment"># 不停跳过重复元素</span>
+            cur<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head <span class="token comment"># cur永远指向我们的不重复元素</span>
+            cur <span class="token operator">=</span> cur<span class="token punctuation">.</span><span class="token builtin">next</span> 
+            <span class="token keyword">if</span> head<span class="token punctuation">:</span> <span class="token comment"># head也要往后走，但是注意head可能已经走到None了，因此要判断一下</span>
+                head <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span> 
+            
+        <span class="token keyword">return</span> dummy<span class="token punctuation">.</span><span class="token builtin">next</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> ListNode <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>head <span class="token operator">==</span> null <span class="token operator">||</span> head<span class="token punctuation">.</span>next <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> head<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// dummy 指向不重复的 head 结点</span>
+        ListNode dummy  <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// cur 指向当前结点</span>
+        ListNode cur  <span class="token operator">=</span> dummy<span class="token punctuation">;</span>
+        <span class="token comment">// prev 指向前一个结点</span>
+        ListNode prev  <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>head <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>next <span class="token operator">==</span> null <span class="token operator">||</span> head<span class="token punctuation">.</span>val <span class="token operator">!=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">.</span>val<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>prev <span class="token operator">==</span> null <span class="token operator">||</span> prev<span class="token punctuation">.</span>val <span class="token operator">!=</span> head<span class="token punctuation">.</span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                cur<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+                cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            prev <span class="token operator">=</span> head<span class="token punctuation">;</span>
+            head <span class="token operator">=</span> head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        cur<span class="token punctuation">.</span>next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> dummy<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go版本</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">deleteDuplicates</span><span class="token punctuation">(</span>head <span class="token operator">*</span>ListNode<span class="token punctuation">)</span> <span class="token operator">*</span>ListNode <span class="token punctuation">{</span>
+    dummy <span class="token operator">:=</span> <span class="token operator">&amp;</span>ListNode<span class="token punctuation">{</span>Val<span class="token punctuation">:</span> math<span class="token punctuation">.</span>MaxInt32<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">}</span> <span class="token comment">// 这里是为了不与后面的元素重复</span>
+    prev<span class="token punctuation">,</span> cur <span class="token operator">:=</span> dummy<span class="token punctuation">,</span> dummy
+    <span class="token keyword">for</span> head <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 如果当前是元素是重复元素</span>
+        <span class="token keyword">for</span> head <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>Val <span class="token operator">==</span> prev<span class="token punctuation">.</span>Val<span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token punctuation">(</span>head<span class="token punctuation">.</span>Next <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token operator">&amp;&amp;</span> head<span class="token punctuation">.</span>Next<span class="token punctuation">.</span>Val <span class="token operator">==</span> head<span class="token punctuation">.</span>Val<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            prev <span class="token operator">=</span> head 
+            head <span class="token operator">=</span> head<span class="token punctuation">.</span>Next <span class="token comment">// 不停跳过重复元素</span>
+        <span class="token punctuation">}</span>
+        cur<span class="token punctuation">.</span>Next <span class="token operator">=</span> head <span class="token comment">// cur永远指向我们的不重复元素</span>
+        cur <span class="token operator">=</span> cur<span class="token punctuation">.</span>Next
+        <span class="token keyword">if</span> head <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span> <span class="token comment">// head也要往后走，但是注意head可能已经走到None了，因此要判断一下</span>
+            head <span class="token operator">=</span> head<span class="token punctuation">.</span>Next
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> dummy<span class="token punctuation">.</span>Next
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的问题对应 <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/">LeetCode 第83题</a>，<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/">LeetCode 第82题</a>。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">解决完一个问题之后，我们还要多问自己几个问题来加强认识。比如我们已经知道，怎么处理从数组中移除重复元素的时候，我们可以问下自己如果允许出现一次重复呢？ 再问自己如果换成链表呢？有一个科学实验证明，重复一样的操作不如稍微改变一点的训练。因此我们做完任务后稍微改变一下再做一次，这样记得更牢，理解也更深；</li>
+<li style="font-size: 20px; line-height: 38px;">遇到一个问题的时候，我们要善于将它们归纳关联到已知的知识上。比如问你链表中移除重复元素怎么处理，我们就要往我们已知的领域，即数组移除重复元素上靠；</li>
+<li style="font-size: 20px; line-height: 38px;">善于总结自己的模版，同时牢记自己遇到过的坑。比如对于数组问题，我们需要注意越界问题；对于链表问题，加一个<code>dummy</code>，对我们的处理会更加方便。</li>
+</ol>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/731">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            10 合并两个有序链表
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/733">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            12 移除数组中的指定元素
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.mukewang.com/5dad751a00019e3605400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1908100602141755</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：853923473</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5CPxzEa" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

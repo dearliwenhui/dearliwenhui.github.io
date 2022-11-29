@@ -1,0 +1,383 @@
+<html><head><meta charset="utf-8"><title>19 RTFM 阅读那该死的手册-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-13 19 RTFM 阅读那该死的手册
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                19 RTFM 阅读那该死的手册
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-09 09:52:42
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img3.mukewang.com/5d158e1b0001494006400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">天才免不了有障碍，因为障碍会创造天才。<p class="author">——罗曼·罗兰</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">man 命令，显示使用手册</li>
+<li style="font-size: 20px; line-height: 38px;">SYNOPSIS 区域</li>
+<li style="font-size: 20px; line-height: 38px;">apropos 命令：查找命令</li>
+<li style="font-size: 20px; line-height: 38px;">其它阅读手册的方式</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课软件安装，如虎添翼 中，我们领略了 Linux 下安装软件的便捷，今天这一课也比较轻松。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Linux 下，阅读命令手册应该成为一个反射动作，一个自然而然的反应。虽说一开始要我们去看手册会有点让人生畏，但是我们学习各种 Linux 命令使用方法的最好去处就是手册了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们这个系列教程也绝不能和手册相比，因为我们的教程里对于每一个知识点，不可能做到巨细靡遗，全盘托出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，对于某个 Linux 的命令，我们不可能详尽地列出每个参数及其用法，只能举几个最常用的参数。所以，如果要深入了解一个命令，阅读命令的手册就是最好方式了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课就是为了揭开 Linux 手册的神秘面纱，带大家学习如何阅读手册。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课是系列课程中极重要的，因为如果你学会了如何阅读手册，那么大部分问题都可以自己解决。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天标题里的 RTFM 稍微有点小“暴力”，因为它是 Read The F**king Manual 的缩写，意思是“阅读那该死的手册”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个缩写经常被 Linux 高手用来回复一些初学者，并无侮辱之意，只是提醒及表示无奈，因为这些初学者的问题大多在手册中可以轻松找到解答。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就好比我们会说：“唉，这么简单的问题，百度或 Google 一下就搜索出来了，何必要问呢？”</p>
+</div><div class="cl-preview-section"><h2 id="man-命令，显示使用手册" style="font-size: 30px;">2. man 命令，显示使用手册</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">man 是 manual 的缩写，就是英语“使用手册”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">man 命令用法很简单，后接你想要显示使用手册的命令、函数等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此命令用于查看系统中自带的各种参考手册，但是手册分为好几个类别，如下所示：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">可执行程序或 Shell 命令；</li>
+<li style="font-size: 20px; line-height: 38px;">系统调用（Linux 内核提供的函数）；</li>
+<li style="font-size: 20px; line-height: 38px;">库调用（程序库中的函数）；</li>
+<li style="font-size: 20px; line-height: 38px;">文件（例如 /etc/passwd）；</li>
+<li style="font-size: 20px; line-height: 38px;">特殊文件（通常在 /dev 下）；</li>
+<li style="font-size: 20px; line-height: 38px;">游戏；</li>
+<li style="font-size: 20px; line-height: 38px;">杂项（比如 man(7)，groff(7)）；</li>
+<li style="font-size: 20px; line-height: 38px;">系统管理命令（通常只能被 root 用户使用）；</li>
+<li style="font-size: 20px; line-height: 38px;">内核子程序。</li>
+</ol>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Ubuntu 中默认的 man 手册是不全的，我们可以运行下面的命令来安装缺失的一些手册：</p>
+</blockquote>
+</div><div class="cl-preview-section"><pre><code>sudo apt-get install manpages-de  manpages-de-dev  manpages-dev glibc-doc manpages-posix-dev manpages-posix
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在终端中输入 man + 数字 + 命令/函数，即可以查到相关的命令和函数。若不加数字，那 man 命令默认从数字较小的手册中寻找相关命令和函数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如，我们想寻找 C 语言标准库中的 rand() 函数，但直接使用 man rand 得到的是一个 rand 命令的手册，此命令是用来产生一个随机数，这个内容在手册第 1 部分中：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1089900001eba421641360.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089900001eba421641360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们使用 man 3 rand 就可以得到想要的 C 语言标准库中 rand() 的用法了：</p>
+</div><div class="cl-preview-section"><pre><code>man 3 rand
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1089970001db7521541358.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089970001db7521541358.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">man 这个词本身在英语中是“男人”的意思。所以 Linux 和 Unix 世界流行着一句有趣的话：【不懂就问一问“男人”】。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，我们举个例子，用 man 命令来显示 ls 命令的使用手册：</p>
+</div><div class="cl-preview-section"><pre><code>man ls
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d10899f0001db5421661360.png" alt="图片描述" data-original="http://img.mukewang.com/5d10899f0001db5421661360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所见，运行 man ls 后，就显示了 ls 命令的使用手册，这里有你想知道的关于 ls 命令的一切。</p>
+</div><div class="cl-preview-section"><h4 id="在手册中移动" style="font-size: 26px;">在手册中移动</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来学习如何在手册页面中移动：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">键盘上的方向键：向上键和向下键可以使我们实现上一行和下一行的跳转；</li>
+<li style="font-size: 20px; line-height: 38px;">键盘上的 PgUp 和 PgDn（或者空格键）键：实现上一页和下一页的跳转；</li>
+<li style="font-size: 20px; line-height: 38px;">键盘上的 Home 和 End 键：实现开始和结尾的跳转；</li>
+<li style="font-size: 20px; line-height: 38px;">键盘上的 / 键（斜杠）：实现搜索，和之前在 less 命令中功能类似；</li>
+<li style="font-size: 20px; line-height: 38px;">键盘上的 Q 键：退出手册页。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们使用图形界面的终端来打开手册页，那么可以使用鼠标的滚轮来实现上下滚动。</p>
+</div><div class="cl-preview-section"><h4 id="手册页的不同区域" style="font-size: 26px;">手册页的不同区域</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">正如我们在上图中所看到的，手册页分为不同的区域。这些区域的名字是用大写和粗体表示，且靠左对齐：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">NAME ：英语“名字”的意思。手册页对应的命令或函数名字，后接简单描述；</li>
+<li style="font-size: 20px; line-height: 38px;">SYNOPSIS ：英语“概要，梗概，大意，摘要”的意思。使用此命令的所有方法。下面我们会详述这个区域，因为此区域的内容极为关键；</li>
+<li style="font-size: 20px; line-height: 38px;">DESCRIPTION ：英语“描述”的意思。命令的更深入的描述，这个区域也会包括所有参数及其用法。一般来说这个区域是文字最多的；</li>
+<li style="font-size: 20px; line-height: 38px;">AUTHOR ：英语“作者”的意思。命令的作者，有时候不止一个作者；</li>
+<li style="font-size: 20px; line-height: 38px;">REPORTING BUGS ：英语“报告故障”的意思。如果使用时遇到 bug（程序的缺陷），有汇报问题的联系方式，通常是邮件；</li>
+<li style="font-size: 20px; line-height: 38px;">COPYRIGHT ：英语“版权”的意思。版权，也就是用了什么许可证（Licence），大多数命令都是在 GPL 许可证之下的开源代码；</li>
+<li style="font-size: 20px; line-height: 38px;">SEE ALSO ：英语“另见”的意思。与此命令有关的其它命令，也就是扩展阅读。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般来说，前三个区域（NAME、SYNOPSIS、DESCRIPTION）是最重要的。</p>
+</div><div class="cl-preview-section"><h4 id="手册页的语言" style="font-size: 26px;">手册页的语言</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如你所见，手册页的语言全是英语。并不是所有人都精通英语，那假如你英语不好怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我只能给出一个最好的建议，也许你不会喜欢：花点时间学学英语。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不需要精通英语，但至少要会阅读，而且大胆使用金山词霸、有道词典、谷歌翻译、灵格斯翻译家等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你做编程工作，在信息技术领域做研究，那么英语可以说是必不可少的语言。虽然你可以完全不会英语，但这会变成你晋升为编程专家的阻碍。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们学习一下 SYNOPSIS 这个区域。</p>
+</div><div class="cl-preview-section"><h2 id="synopsis-区域" style="font-size: 30px;">3. SYNOPSIS 区域</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">SYNOPSIS 这个区域是手册页中很重要的一个区域，但也是最难理解的区域之一。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">SYNOPSIS 这个区域的作用就是列出使用命令的所有可能方法。简单地说，SYNOPSIS 这个区域显示了所有可能的参数组合。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有些命令的 SYNOPSIS 区域比较简单，但有些就很复杂了，会是一长串，看得人头晕。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们下面就用一些实际的例子来学习。</p>
+</div><div class="cl-preview-section"><h4 id="man-mkdir" style="font-size: 26px;">man mkdir</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们从 mkdir 命令的使用手册开始，运行：</p>
+</div><div class="cl-preview-section"><pre><code>man mkdir
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1089bf000169a921621360.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089bf000169a921621360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所见，mkdir 命令的使用手册的 NAME 区域是：</p>
+</div><div class="cl-preview-section"><pre><code>mkdir - make directories
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">make 是英语“创建”的意思，directories 是 directory（英语“目录”）的复数。所以我们知道 mkdir 命令用于创建目录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">mkdir 命令的 SYNOPSIS 区域如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1089c90001c41a08280066.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089c90001c41a08280066.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然这个 SYNOPSIS 区域比较短，但已经包含不少信息了，它告诉我们如何使用 mkdir 命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们一点点解析此 SYNOPSIS 区域：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">mkdir ：使用 mkdir 命令，我们当然必须先输入mkdir，这是很好理解的；</li>
+<li style="font-size: 20px; line-height: 38px;">[OPTION] ：option 是英语“选项”的意思，表示在 mkdir 之后，我们可以加选项参数（就是 -p，-v 之类）。在 SYNOPSIS 区域中，中括号中的内容表示可选，所以我们并不一定要添加选项参数；</li>
+<li style="font-size: 20px; line-height: 38px;">DIRECTORY ：directory 是英语“目录”的意思。就是需要用 mkdir 命令创建的目录。这个参数是必须的，因为并没有用中括号括起来。这也不难理解，因为 mkdir 命令就是用于创建目录的，那最少也要输入一个目录的名字吧；</li>
+<li style="font-size: 20px; line-height: 38px;">… ：省略号表示可以有多个此类内容。在 [OPTION] 和 DIRECTORY 后都有省略号，分别表示可以有多个选项和多个目录名，也即是说可以同时指定多个选项参数，也可以用 mkdir 同时创建多个目录。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么为什么 mkdir 使用粗体，而 OPTION 和 DIRECTORY 都是用下划线呢？</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">SYNOPSIS 区域中，粗体的文字表示要原封不动地输入，下划线的文字表示要用实际的内容替换。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这也不难理解：mkdir 命令肯定要原封不动地输入，而 DIRECTORY 就要替换成实际要创建的目录名称。</p>
+</div><div class="cl-preview-section"><h4 id="用例" style="font-size: 26px;">用例</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据 SYNOPSIS 区域的语法，我们使用 mkdir 命令时至少要输入一个创建的目录名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><pre><code>mkdir photo
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用于创建一个名为 photo 的目录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而且，DIRECTORY 之后的省略号表明我们可以同时输入多个目录名，用于同时创建多个目录，例如：</p>
+</div><div class="cl-preview-section"><pre><code>mkdir photo video music
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用于创建 photo、video、music 三个目录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们也可以加选项参数，选项参数在 DESCRIPTION 区域中：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1089d600019a4021561356.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089d600019a4021561356.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上所有的选项参数都可以替换 [OPTION]，而且可以同时写多个选项参数，例如 -pv。</p>
+</div><div class="cl-preview-section"><h4 id="man-cp" style="font-size: 26px;">man cp</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再来看一个比较复杂的 SYNOPSIS 区域的例子：cp 命令的 SYNOPSIS 区域。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们之前学过 cp 命令，它用于拷贝文件或目录。运行：</p>
+</div><div class="cl-preview-section"><pre><code>man cp
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a08000153e121581360.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a08000153e121581360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图是 cp 命令的手册，可以看到 SYNOPSIS 区域如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a130001f88809840176.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a130001f88809840176.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是否有些惊讶？一下子来了三行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么有三行而不是一行呢？原因很简单，因为没法只用一行表达清楚 cp 命令的使用方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">别担心，我们逐行来解释：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">cp [OPTION]… [-T] SOURCE DEST  拷贝源文件到目标文件。除了cp 是原封不动输入外，还必须输入 SOURCE 和 DEST 这两部分内容，分别用实际的源文件名和目标文件名代替，也可以加上一个或多个选项参数（替换 OPTION），还可以加上 -T 参数；</li>
+<li style="font-size: 20px; line-height: 38px;">cp [OPTION]… SOURCE… DIRECTORY  拷贝一个或多个源文件到目录，除了 cp 是原封不动输入外，还必须输入 SOURCE 和 DIRECTORY 这两部分内容，分别用实际的源文件名和目录名代替，也可以加上一个或多个选项参数（替换 OPTION）；</li>
+<li style="font-size: 20px; line-height: 38px;">cp [OPTION]… -t DIRECTORY SOURCE…  拷贝一个或多个源文件到目录。除了 cp 是原封不动输入外，还必须输入 DIRECTORY 和 SOURCE 这两部分内容，分别用实际的目录名和源文件名代替。与第二种方法其实效果是一样的，只不过这里把目录名放在了前面，后接需要拷贝到目录的文件名（一个或多个），但是这里的 -t 参数是必须加的，也可以加上一个或多个选项参数（替换 OPTION）。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也不难，对吧？比如我们可以这样用：</p>
+</div><div class="cl-preview-section"><pre><code>cp file.jpg file_copy.jpg
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是将 file.jpg 拷贝为 file_copy.jpg：</p>
+</div><div class="cl-preview-section"><pre><code>cp file.jpg file_copy.jpg photo/
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是将 file.jpg 和 file_copy.jpg 这两个文件拷贝到 photo 这个文件夹中。</p>
+</div><div class="cl-preview-section"><h4 id="man-apt-get" style="font-size: 26px;">man apt-get</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们最后来看一个更复杂一些的实例：apt-get 的使用手册。运行：</p>
+</div><div class="cl-preview-section"><pre><code>man apt-get
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a200001e4ad21601358.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a200001e4ad21601358.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所见，我们的 apt-get 命令的手册的 SYNOPSIS 区域如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a260001b72518280542.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a260001b72518280542.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然这次的 SYNOPSIS 区域多得有点吓人。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是比起 cp 命令，至少这个 SYNOPSIS 区域只有一行，虽然这一行很长。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们逐步分析：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">apt-get ：这个粗体部分是必须原封不动输入的，这不难理解；</li>
+<li style="font-size: 20px; line-height: 38px;">[-asqdyfmubV] ：我们可以使用 -a、-s、-q、-d、-y、-f、-m、-u、-b、-V 这些选项参数中的一个或多个。例如 -s、-sqfm、-bV等等；</li>
+<li style="font-size: 20px; line-height: 38px;">-o、-c、-t、-a ：这四个选项参数比较特别，也是可选的参数，但是如果要使用它们，必须要接上 =xxx，xxx 是参数的值；</li>
+<li style="font-size: 20px; line-height: 38px;">用大括号括起来的（从 update，到最后的 -h | --help）：大括号括起来的是一个整体，而每个部分又由 | 号隔开，说明必须要使用大括号里的某一项，但是每次只能使用一项，不能多项同时使用。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">update ：更新软件包的缓存；</li>
+<li style="font-size: 20px; line-height: 38px;">upgrade ：更新所有已安装的软件；</li>
+<li style="font-size: 20px; line-height: 38px;">install pkg ：安装 pkg 字段对应的软件包，实际使用时，用实际的软件包名替换 pkg；</li>
+<li style="font-size: 20px; line-height: 38px;">等等。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，可以仔细阅读 DESCRIPTION 区域，以便了解每个参数的不同含义。</p>
+</div><div class="cl-preview-section"><h4 id="用例-1" style="font-size: 26px;">用例</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据 apt-get 手册的 SYNOPSIS 区域语法，我们使用 apt-get 时，须要选择大括号里用一竖隔开的任意一个选项。因此，我们可以这样使用：</p>
+</div><div class="cl-preview-section"><pre><code>apt-get install xxx
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者：</p>
+</div><div class="cl-preview-section"><pre><code>apt-get update
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者：</p>
+</div><div class="cl-preview-section"><pre><code>apt-get autoclean
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是不能同时使用大括号里用 | 号隔开的两个或以上的选项。例如，下面的用法是<strong>错误</strong>的：</p>
+</div><div class="cl-preview-section"><pre><code>apt-get update install xxx    # 不正确的用法
+
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="synopsis-区域的语法总结" style="font-size: 26px;">SYNOPSIS 区域的语法总结</h4>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">粗体 ：原封不动地输入；</li>
+<li style="font-size: 20px; line-height: 38px;">下划线的部分 ：用实际的内容替换；</li>
+<li style="font-size: 20px; line-height: 38px;">[-hvc] ：表示 -h，-v 和 -c 选项都是可选的、非强制性的；</li>
+<li style="font-size: 20px; line-height: 38px;">a | b ：你可以输入 a 或者 b 选项，但是不能够同时输入 a 和 b；</li>
+<li style="font-size: 20px; line-height: 38px;">option… ：省略号表示前面的内容可以输入多个。</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="apropos-命令：查找命令" style="font-size: 30px;">4. apropos 命令：查找命令</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在使用 man 命令时，我们需要先知道我们要显示使用手册的那个命令的名字。那如果不知道那个命令叫什么，该怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这时候我们就需要请 apropos 命令上场了，apropos 是英语“关于…”的意思。其实这个单词是从法语引进的（英语中大约有 30% 的词汇来源于法语），在法语中原来是 à propos，也是“关于…”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">apropos 命令的用法很简单，只要后接一个关键字，apropos 命令就会为你在所有手册页中查找相关的命令。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">因此 apropos 命令与 man 命令有点对立的关系：man 命令用于显示命令的使用手册，而 apropos 命令用于根据手册中的关键字来找到命令。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用实际例子来学习：你想要知道如何用终端的命令来控制音量。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以这样查找：</p>
+</div><div class="cl-preview-section"><pre><code>apropos sound
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么用 sound 这个关键字呢？因为 sound 是英语“声音，音量”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a3a0001edf221621148.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a3a0001edf221621148.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所见，运行 apropos sound 之后，就列出了所有使用手册中有 sound 这个关键字的命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，左侧是命令的名字，后边是命令手册中出现关键字的句子。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们就知道了要调节音量可以用的命令是：</p>
+</div><div class="cl-preview-section"><pre><code>alsamixer
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们运行此命令：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a410001034221621360.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a410001034221621360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以用加号和减号来调节，按 Esc 键可以退出。</p>
+</div><div class="cl-preview-section"><h2 id="其它阅读手册的方式" style="font-size: 30px;">5. 其它阅读手册的方式</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽说 man 命令和 apropos 命令是最常用的两个有关手册的命令，但是还有其它查阅手册的方式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么哪些是 man 的替代品呢？</p>
+</div><div class="cl-preview-section"><h4 id="h-或---help-参数" style="font-size: 26px;">-h 或 --help 参数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大多数命令一般都接受 -h 这个参数（一般来说，–help 是它的等价参数）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-h 参数中的 h 是 help 的首字母，help 是英语“帮助”的意思，所以 -h 或 --help 参数的作用是显示帮助文档。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般来说，帮助文档没有 man 命令显示的使用手册那么详细，但是也很有用，且往往比 man 显示的手册易于阅读。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如我们要查看 apt-get 命令的帮助文档，可以这样：</p>
+</div><div class="cl-preview-section"><pre><code>apt-get -h
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a550001d25f21581360.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a550001d25f21581360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="whatis-命令" style="font-size: 26px;">whatis 命令</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">what 是英语“什么”的意思，is 是英语“是”的第三人称单数形式。因此，what is 就是“是什么”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">whatis 命令可以说是 man 命令的精简版，它只会列出 man 命令显示的手册开头部分，就是概述命令的作用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如，用 whatis 命令来查看 ls 命令的作用：</p>
+</div><div class="cl-preview-section"><pre><code>whatis ls
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a620001f2a812880336.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a620001f2a812880336.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只显示 list directory contents，就是说 ls 命令用于列出目录的内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有两行是因为第二行是 POSIX 标准的手册（因为我们之前安装了 POSIX 标准的手册，前面用 sudo apt-get install manpages-posix-dev manpages-posix 安装的）的解释。关于 POSIX 标准，我们就不细说了，感兴趣的话可以到网上搜索。</p>
+</div><div class="cl-preview-section"><h4 id="在网络上查看手册" style="font-size: 26px;">在网络上查看手册</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们不仅仅能在 Linux 系统里查找到手册，在网络上也可以找到。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你暂时不在 Linux 系统里，又想查一个命令或函数的使用手册，可以用搜索引擎如 Google 或者百度来搜索。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如，我要查看 ls 命令的手册，可以在 Google 里搜索：man ls 。一般搜索结果的第一个就是你要找的：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d108a6d00018bd723401190.png" alt="图片描述" data-original="http://img.mukewang.com/5d108a6d00018bd723401190.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在 Linux 中，命令和函数都有使用手册。每次遇到命令和函数的用法不明确的情况，都可以通过查考手册来解决；</li>
+<li style="font-size: 20px; line-height: 38px;">man 命令可以显示命令或函数的使用手册，man 后接要显示使用手册的名字，比如：man touch；</li>
+<li style="font-size: 20px; line-height: 38px;">在手册页时，我们可以用键盘上的上下箭头、PgUp、PgDn、空格来移动到手册的其它部分，用 /（斜杠）键来查找，用 q 键来退出手册；</li>
+<li style="font-size: 20px; line-height: 38px;">手册的 SYNOPSIS 区域很重要，列出了我们使用此命令的所有方法，中括号里的内容是可选的；</li>
+<li style="font-size: 20px; line-height: 38px;">apropos 命令可以用来查找有相应关键字的命令。比如我们要找和音量、声音有关的命令，可以用 apropos sound。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/472">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    18 软件安装，如虎添翼
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/474">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    20 查找文件，无所遁形
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">1</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <ul class="comments-list js-comments-list">                                                        <li class="comment clearfix">                                          <a href="//www.imooc.com/u/7683330/articles" target="_blank">                             <div class="head-img l" style="background-image:url(//img4.mukewang.com/5cd9509a00014ba808630863-100-100.jpg)"></div>                         </a>                         <div class="comment-detail l">                             <div class="hoverDisplay">                                 <div class="com-author clearfix">                                                                                                               <a href="//www.imooc.com/u/7683330/articles" target="_blank">                                         <div class="name l">我是小萌</div>                                     </a>                                                                                                                                                                                              </div>                                 <div class="com-content">                                     apt-get 那里既有可选的参数-a又有-a=xxx这个是怎么理解的呢？是如果写了-a，那一定要写成-a=xxx的形式这样的嘛？                                 </div>                                 <div class="com-other clearfix">                                                                              <!-- 没点过赞 -->                                         <div class="btn-agree js-agree l" data-commentid="946">                                                                                  <i class="imv2-thumb_up"></i>                                             <span>0</span>                                         </div>                                                                                                               <div class="btn-reply l js-reply" data-replyid="946">回复</div>                                     <!-- 没登录不显示举报 -->                                                                              <div class="btn-report l js-tip-off comment-report" data-id="946" data-uid="7683330" data-src="/read/39/article/473" data-type="15">举报</div>                                                                          <div class="time r">5天前</div>                                 </div>                             </div>                                                                                   </div>                     </li>                              </ul>                           </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

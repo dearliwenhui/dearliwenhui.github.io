@@ -1,0 +1,299 @@
+<html><head><meta charset="utf-8"><title>14 声明式服务调用 Feign-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 5-1 14 声明式服务调用 Feign
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                14 声明式服务调用 Feign
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-21 16:20:28
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img1.mukewang.com/5d035f6c00010fb706400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">你若要喜爱你自己的价值，你就得给世界创造价值。<p class="author">——歌德</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前面几篇文章中，主要和大家介绍了服务的注册与消费。在介绍过程中，我们从最最原始的手动利用 DiscoveryClient 发现服务开始，手动实现负载均衡，再到最后的自动化配置。相信经过前面几篇文章的学习，大家对微服务之间的调用应该有了一个基本的认知。但是我们前面的所有服务调用都是手动写 RestTemplate 来实现的，大家可能已经发现这样写有点麻烦，每次都要写请求 Url 、配置响应数据类型，最后还要组装参数，更重要的是这些都是一些重复的工作，代码高度相似，每个请求只有 Url 不同，请求方法不同、参数不同，其它东西基本都是一样的，既然如此，那有没有办法简化请求呢？有！这就是本文我们要聊的声明式微服务调用 Feign。不对，严格来说，应该叫 OpenFeign，为什么这么说呢？早期我们用的是叫 Netflix Feign，不过这个东西的最近一次更新还停留在 2016年7月，OpenFeign 则是 Spring Cloud 团队在 Netflix Feign 基础上开发出来的声明式服务调用组件，OpenFeign也一直在维护，具体的迁移工作，大家参考<a href="https://github.com/OpenFeign/feign/issues/373">这个 Issue</a> 。</p>
+</div><div class="cl-preview-section"><h2 id="准备工作" style="font-size: 30px;">准备工作</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">和前面几篇文章的步骤一样，首先我们还是要先搭建一个父工程，然后创建一个服务注册中心。OK，那就开始吧！ 首先创建一个名为 Feign 的 Maven 父工程，然后在父工程中创建一个 eureka 工程充当我们的服务注册中心，具体步骤我这里就不再赘述了，大家如果忘了如何搭建服务注册中心，可以参考前面的文章。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">服务注册中心搭建成功后，接下来我们还要再搭建一个 provider 用来提供服务。这个 provider 和前面 provider 的搭建也是基本一致的。 provider 搭建成功后，依然提供一个 HelloController 接口，里边配上一个 <code>/hello</code> 接口，像下面这样：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"hello "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">" !"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后分别启动服务注册中心 eureka 以及服务提供者 provider ，然后浏览器中看到如下页面，表示我们的准备工作已经 OK 啦：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dd2400012e7509480564.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd2400012e7509480564.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="基本使用" style="font-size: 30px;">基本使用</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">准备工作完成后，接下来我们创建一个 feign-consumer 微服务，不同于前面创建的 consumer ，这里的 feign-consumer 要多添加一个依赖，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dd2c0001ca7308910571.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd2c0001ca7308910571.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">项目创建成功后，添加的依赖如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>properties</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>spring-cloud.version</span><span class="token punctuation">&gt;</span></span>Greenwich.SR1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>spring-cloud.version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>properties</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-starter-netflix-eureka-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-starter-openfeign<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencyManagement</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-dependencies<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>${spring-cloud.version}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">&gt;</span></span>pom<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">&gt;</span></span>import<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencyManagement</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建完成后，首先在 application.properties 文件上添加配置，将 feign-consumer 注册到 eureka 上，如下：</p>
+</div><div class="cl-preview-section"><pre><code>spring.application.name=feign-consumer
+server.port=5002
+eureka.client.service-url.defaultZone=http://localhost:1111/eureka
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要使用 Feign ,首先在项目启动类上添加 <code>@EnableFeignClients</code> 注解表示开启 Feign 的支持，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableFeignClients</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FeignConsumerApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>FeignConsumerApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来创建一个 HelloService 接口，用来绑定 provider 提供的服务，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span><span class="token string">"provider"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里声明了一个接口，然后做了两件事：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">使用 @FeignClient(“provider”) 注解将当前接口和 provider 服务绑定， provider 是服务名，大小写不敏感；</li>
+<li style="font-size: 20px; line-height: 38px;">然后使用 SpringMVC 的 @GetMapping("/hello") 注解将 hello 方法和 provider 中的 hello 接口绑定在一起。需要注意的是，在 SpringMVC 中，在需要给参数设置默认值或者要求参数必填的情况下才需要用到 @RequestParam 注解，而在这里，这个注解一定要加。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">经过这样的步骤之后，我们就可以在一个 Controller 中注入 HelloService 接口并使用它了，而 HelloService 接口也会去调用相关的服务。我的 Controller 如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    HelloService helloService<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> helloService<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此时，启动 feign-consumer ，然后在浏览器中访问 <code>http://localhost:5002/hello?name=纯洁的微笑</code> ，显示效果如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dd3b0001eb6404510075.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd3b0001eb6404510075.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样，我们就成功在 feign-consumer 中调用了 provider 提供的服务了，是不是比之前手写 RestTemplate 调用要方便很多？</p>
+</div><div class="cl-preview-section"><h2 id="参数传递" style="font-size: 30px;">参数传递</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面和大家展示了 Feign 的基本使用。接下来和大家说说 Feign 中的参数传递问题，相信对于大多数人而言，在开发中，参数传递无非就是 key/value 形式的参数、放在 body 中的参数、放在 Url 路径上的参数以及放在请求头上的参数，这四种是较为常见的四种传参方式，因此，这里就重点和大家分享下这四种不同的传参方式在 Feign 中要如何使用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，在 Feign 工程中再创建一个 Maven 子工程叫做 commons，在 commons 中定义一个 User 类，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> Long id<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String username<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> String address<span class="token punctuation">;</span>
+    <span class="token comment">//省略getter/setter</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在 provider 和 feign-consumer 的 pom.xml 文件中分别引用该工程，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.justdojava<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>commons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.0-SNAPSHOT<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，在 provider 中添加 UserController 类，并添加如下接口，各个接口分别使用不同的方式来接收参数：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@DeleteMapping</span><span class="token punctuation">(</span><span class="token string">"/user/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">deleteUserById</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span> Long id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> User <span class="token function">getUserByName</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        User user <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">User</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        user<span class="token punctuation">.</span><span class="token function">setUsername</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> User <span class="token function">addUser</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> User user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> user<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@PutMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">updateUserById</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestHeader</span> String name<span class="token punctuation">,</span> <span class="token annotation punctuation">@RequestHeader</span> Long id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"name:"</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">";id:"</span> <span class="token operator">+</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">关于上面这一段代码，我说如下几点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">简单起见，这里我在 provider 中并未调用数据库，只是将调用的模拟结果打印出来或者返回去，证明接口调通了即可；</li>
+<li style="font-size: 20px; line-height: 38px;">在第一个删除方法中，将参数放在 Url 路径中；</li>
+<li style="font-size: 20px; line-height: 38px;">在第二个查询方法中，将参数以 key/value 的形式传递；</li>
+<li style="font-size: 20px; line-height: 38px;">在第三个添加数据的方法中，参数将以请求体的方式传递；</li>
+<li style="font-size: 20px; line-height: 38px;">在第四个更新的方法中，参数以请求头的方式传递，这种传递方式注意不能传递中文，如果是中文参数，在传递之前，可以使用 URLEncoder.encode() 方法对参数进行编码，在接收到参数之后，使用 URLDecoder.decode() 方法对参数进行解码。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">provider 定义完成后，接下来重新启动 provider ，然后我们继续在 feign-consumer 中添加调用代码，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span><span class="token string">"provider"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@DeleteMapping</span><span class="token punctuation">(</span><span class="token string">"/user/{id}"</span><span class="token punctuation">)</span>
+    <span class="token keyword">void</span> <span class="token function">deleteUserById</span><span class="token punctuation">(</span><span class="token annotation punctuation">@PathVariable</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Long id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    User <span class="token function">getUserByName</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    User <span class="token function">addUser</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> User user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@PutMapping</span><span class="token punctuation">(</span><span class="token string">"/user"</span><span class="token punctuation">)</span>
+    <span class="token keyword">void</span> <span class="token function">updateUserById</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestHeader</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">,</span> <span class="token annotation punctuation">@RequestHeader</span><span class="token punctuation">(</span><span class="token string">"id"</span><span class="token punctuation">)</span> Long id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里的调用，基本也和前面一样，无需赘述，但是有一个地方需要强调，那就是不同于 provider ，这里的参数如果是 key/value 形式的，一定要在 @RequestParam 注解中指明 name 属性，如果是在 header 中传递的，则一定要在 @RequestHeader 注解中添加 name 属性，如果参数放在 Url 路径中，那么一定需要在 @PathVariable 注解中添加 name 属性指明参数名称。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，在 feign-consumer 的 HelloController 中添加一个接口用来测试，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello2"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">hello2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    helloService<span class="token punctuation">.</span><span class="token function">deleteUserById</span><span class="token punctuation">(</span>99L<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    User u2 <span class="token operator">=</span> helloService<span class="token punctuation">.</span><span class="token function">getUserByName</span><span class="token punctuation">(</span><span class="token string">"纯洁的微笑"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>u2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    u2<span class="token punctuation">.</span><span class="token function">setId</span><span class="token punctuation">(</span>98L<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    u2<span class="token punctuation">.</span><span class="token function">setAddress</span><span class="token punctuation">(</span><span class="token string">"深圳"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    User u3 <span class="token operator">=</span> helloService<span class="token punctuation">.</span><span class="token function">addUser</span><span class="token punctuation">(</span>u2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>u3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    helloService<span class="token punctuation">.</span><span class="token function">updateUserById</span><span class="token punctuation">(</span><span class="token string">"lenve"</span><span class="token punctuation">,</span> 99L<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">调用该接口，在 provider 和 feign-consumer 中都会有日志打印出来，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dd4d0001570101990074.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd4d0001570101990074.png" class="" style="cursor: pointer;"><br>
+<img src="http://img.mukewang.com/5d00dd62000101c103740061.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd62000101c103740061.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看到如上两张图，表示我们的接口已经调用成功啦！</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节主要通过两个案例向读者介绍了声明式服务调用的一个基本用法。相信有一部分读者在读完本节后，会很容易想到 MyBatis，很多人在刚开始学习 MyBatis 的时候，并不是一上来就使用 Mapper ，而是先从简单的 SqlSessionFactory 开始，在使用的过程中，发现了大量的模板化代码，于是才有了 Mapper ，使用了动态代理启动生成调用逻辑，开发者只需要生命最最关键的部分。MyBatis 中的这一演变过程和我们这里的演变如出一辙， 直接使用 RestTemplate 也带来了大量的模板化代码，通过 Feign ，我们只需要定义一下方法中最最关键的部分，就能实现调用。那么有人要问了，用了 Feign ，我们在 RestTemplate 中使用的负载均衡还能继续用吗？答案当然是可以继续使用，关于这个问题以及 Feign 的一些高级用法，我将在下篇文章中和大伙儿分享。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文作者：纯洁的微笑、江南一点雨</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/443">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    13 服务请求负载均衡
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/445">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    15 Feign 中的继承、日志与数据压缩
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,331 @@
+<html><head><meta charset="utf-8"><title>12 用 ItemLoader 解决网页数据多样性的问题-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 4-1 12 用 ItemLoader 解决网页数据多样性的问题
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                12 用 ItemLoader 解决网页数据多样性的问题
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-14 14:35:06
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img3.mukewang.com/5ce765fe00013e4c06400360.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">学习这件事不在乎有没有人教你，最重要的是在于你自己有没有觉悟和恒心。 <p class="author">—— 法布尔</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">像网易这类新闻门户已历了多年的迭代，虽然同属新闻但不同栏目的网页数据结构都不尽相同，本节将介绍应对这类在同一网站上出现用不同结构的页面显示同一类数据的情况下巧妙地运用<code>ItemLoader</code>提取数据的方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">项目加载器提供了一种方便的机制来填充抓取的项目。即使可以使用自己的类似字典的API填充项目，项目加载器提供了一个更方便的 API，通过自动化一些常见的任务，如解析原始提取的数据，然后分配它从剪贴过程中填充他们。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">换句话说，<code>Items</code> 是承载了数据本身的容器，而 <code>ItemLoader</code> 是负责数据的收集、处理、填充。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">项目加载器旨在提供一种灵活，高效和容易的机制，通过爬虫或源格式（HTML，XML等）扩展和覆盖不同的字段解析规则，而不会成为维护的噩梦。</p>
+</div><div class="cl-preview-section"><h3 id="采用-processor-与-itemloader-加载-item-简化加载逻辑">采用 <code>Processor</code> 与 <code>ItemLoader</code> 加载 Item 简化加载逻辑</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么会有"维护的噩梦"？先来回顾一下网易爬虫的 <code>parse_item</code> 的代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    item <span class="token operator">=</span> NewsItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    selector <span class="token operator">=</span> Selector<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    item<span class="token punctuation">[</span><span class="token string">'title'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#epContentLeft&gt;h1::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 获取标题</span>
+
+    item<span class="token punctuation">[</span><span class="token string">'pub_date'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#epContentLeft .post_time_source::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> item<span class="token punctuation">[</span><span class="token string">'pub_date'</span><span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span> <span class="token comment"># 判断发布时间不为空则处理时间格式</span>
+        item<span class="token punctuation">[</span><span class="token string">'pub_date'</span><span class="token punctuation">]</span> <span class="token operator">=</span> item<span class="token punctuation">[</span><span class="token string">'pub_date'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+    item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#epContentLeft .post_desc::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span> <span class="token comment"># 判断描述不为空则对文本进行去除空格操作</span>
+        item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span> <span class="token operator">=</span> item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    item<span class="token punctuation">[</span><span class="token string">'body'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>css<span class="token punctuation">(</span><span class="token string">'#endText::text'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> item<span class="token punctuation">[</span><span class="token string">'body'</span><span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>  <span class="token comment"># 判断正文不为空则对文本进行去除空格操作</span>
+        item<span class="token punctuation">[</span><span class="token string">'body'</span><span class="token punctuation">]</span> <span class="token operator">=</span> item<span class="token punctuation">[</span><span class="token string">'body'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    item<span class="token punctuation">[</span><span class="token string">'link'</span><span class="token punctuation">]</span> <span class="token operator">=</span> response<span class="token punctuation">.</span>url
+    <span class="token keyword">return</span> item
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述代码分别对 <code>desc</code>、<code>pub_date</code>、<code>body</code> 的内容进行的去空格的操作，然后又对 <code>pub_date</code> 进行字符串的分离操作，其实这些操作都是非常之常见，因为网页上抓取下来的数据格式总是千奇百怪，更复杂的情况可能还要对提取出的字段值进行类型转换甚至计算操作。一但字段增多或页面的元素因为更新发生改变这将真的会演变成一场噩梦，代码将会变得极为难读更难以维护。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用项目加载器( <code>ItemLoader</code> )就可以彻底改变这一困局。它可以将数据值的处理规则封装到的 Item 中而在分析函数( <code>parse_item</code> )内则只保留提取规则。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要使用项目加载器( <code>ItemLoader</code> )，你必须首先实例化它。我们可以将自定义的Item类的实例化对象作为<code>item</code>参数传入 <code>ItemLoader</code> 的构造函数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后开始使用选择器获取数据到项装载程序。你可以向同一项目字段添加多个值; 项目加载器将知道如何使用适当的处理函数“加入”这些值。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们就用 <code>ItemLoader</code> 的方式来改写网易蜘蛛的<code>parse_item</code>方法，在代码中引入 ItemLoader ( <code>from scrapy.loader import ItemLoader</code> )：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    loader <span class="token operator">=</span> ItemLoader<span class="token punctuation">(</span>item<span class="token operator">=</span>NewsItem<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token operator">=</span>response<span class="token punctuation">)</span>
+    loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft&gt;h1::text'</span><span class="token punctuation">)</span>
+    loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'pub_date'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft .post_time_source::text'</span><span class="token punctuation">)</span>
+    loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'desc'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft .post_desc::text'</span><span class="token punctuation">)</span>
+    loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'body'</span><span class="token punctuation">,</span> <span class="token string">'#endText::text'</span><span class="token punctuation">)</span>
+    loader<span class="token punctuation">.</span>add_value<span class="token punctuation">(</span><span class="token string">'link'</span><span class="token punctuation">,</span>response<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+    <span class="token keyword">yield</span> loader<span class="token punctuation">.</span>load_item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果打开调试器进入断点观察 <code>loader.load_item()</code> 的结果会得到以下的数据:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">news_item <span class="token operator">=</span> <span class="token punctuation">[</span>
+	<span class="token string">'title'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'前11个月国企利润同比增长15.6% 偿债能力有所提升'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	<span class="token string">'pub_date'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'2018-12-29'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	<span class="token string">'desc'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'内容太长，此处略去'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	<span class="token string">'body'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'内容太长，此处略去'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	<span class="token string">'link'</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token string">'https://news.163.com/18/1229/13/E46QMLQH000189FH.html'</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于上述代码我们首先来解读一下 <code>ItemLoader</code> 的 <code>add_XXXX</code> 方法系列，它们一共有三个，第一个参数是声明将数据填充到 <code>NewsItem</code> 的哪个属性中，第二个参数则分别如下:</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>add_css</code> - 声明css选择器</li>
+<li style="font-size: 20px; line-height: 38px;"><code>add_xpath</code> - 声明xpath选择器</li>
+<li style="font-size: 20px; line-height: 38px;"><code>add_value</code> - 向字段直接填充一个值</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>ItemLoader</code> 通过上述的这些 <code>add_XXX</code> 方法的定义建立了与 <code>NewsItem</code> 对象的属性映射结构，当调用<code>load_item</code> 函数时 <code>ItemLoader</code> 才会一次性地将数据填充到 <code>NewsItem</code> 实例中。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注：发现三种方式填充的数据，均为<code>List</code>类型</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用 <code>ItemLoader</code> 的最大好处是将数据的结构与提取逻辑有效地分离开来：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>Item</code> 负责处理"属性值"的问题</li>
+<li style="font-size: 20px; line-height: 38px;"><code>ItemLoader</code> 则负责处理提取的逻辑</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述的代码就展示了 <code>ItemLoader</code> 处理提取逻辑的方式，那么 <code>Item</code> 又应该如何处理"值”的问题呢？这就得益于 <code>Field</code>对象在构造时传入的 <code>in_processor</code> 和 <code>out_processor</code> 了，我们又可以将之称为输入和输出处理器。</p>
+</div><div class="cl-preview-section"><h3 id="对-inout-processor-进行深度的使用分析">对 In/Out Processor 进行深度的使用分析</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">输入和输出处理器可以在Item Loader定义中声明，也可以在 <code>Item</code> 中声明，我们先来看看如何在 <code>Item</code> 中声明，以下是对 <code>NewsItem</code> 的改写：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>item <span class="token keyword">import</span> Item<span class="token punctuation">,</span> Field
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>loader<span class="token punctuation">.</span>processors <span class="token keyword">import</span> TakeFirst<span class="token punctuation">,</span> MapCompose<span class="token punctuation">,</span> Compose<span class="token punctuation">,</span> Identity<span class="token punctuation">,</span> Join
+<span class="token keyword">from</span> w3lib<span class="token punctuation">.</span>html <span class="token keyword">import</span> remove_tags
+
+<span class="token keyword">class</span> <span class="token class-name">NewsItem</span><span class="token punctuation">(</span>Item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 在NewsItem对数据进行逻辑处理</span>
+    title <span class="token operator">=</span> Field<span class="token punctuation">(</span>output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    desc <span class="token operator">=</span> Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">.</span>strip<span class="token punctuation">,</span>
+                                            stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                 output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    link <span class="token operator">=</span> Field<span class="token punctuation">(</span>output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    pub_date <span class="token operator">=</span> Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span><span class="token keyword">lambda</span> v<span class="token punctuation">:</span> v<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                                                stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                     output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    body <span class="token operator">=</span> Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span>remove_tags<span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">.</span>strip<span class="token punctuation">,</span>
+                                            stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                 output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里最大的区别就是已经不再需要对 <code>None</code> 值进行处理，对于 <code>None</code> 值， <code>ItemLoader</code> 会先作出一次处理，对于为空的值都会直接跳过不作处理以避免因为没有处理空而导致的异常。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开始使用输入/输出处理器时会感觉有点困惑：</p>
+</div><div class="cl-preview-section"><pre><code>- 到底输入/输出处理器是什么？ 
+- 应该用什么输入/输出处理器？
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们得从 <code>ItemLoader</code> 的工作原理来了解他们，输入/输出处理器实际上就是一个函数，当 <code>ItemLoader</code> 从响应内容中按我们声明的提取方法取出内容时会以一个 <code>list</code> 对象向 <code>Item</code> 赋值(相当于我们前文中使用<code>Selector.getAll()</code> )，例如:</p>
+</div><div class="cl-preview-section"><pre><code>loader.add_css('title', '#epContentLeft&gt;h1::text')
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在执行 <code>loader.load_item()</code> 后，数据项的 <code>title</code> 属性的值就会是以下这样的内容：</p>
+</div><div class="cl-preview-section"><pre><code>['在h1中的标题文字']
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当不声明 <code>Field</code> 的任何处理器时，<code>ItemLoader</code> 会使用一个 <code>Identity</code> 处理器向 <code>NewsItem['title']</code> 赋值，<code>Identity</code> 是一个什么都不做的处理器，它只是用于将来自于 <code>ItemLoader</code> 的值如实地传递给<code>NewsItem['title']</code> 属性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">输入/输出处理器就是对值的处理函数，区别只在于它们被调用的时机不同。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>简言之</strong>：当 ItemLoader 调用 <code>add_xxx</code> 函数时输入处理器就会被调用，当 <code>load_item</code> 方法被调用时所有的输出处理器就会被统一调用。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下就是 Scrapy 所提供的输入/输出处理器：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Identity</strong>：最简单的处理器，不进行任何处理，直接返回原来的数据。无参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>TakeFirst</strong>：返回第一个非空（non-null/ non-empty）值，常用于单值字段的输出处理器，无参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Compose</strong>：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">用给定的多个函数的组合，来构造的处理器。<strong>list对象（注意不是指list中的元素）</strong>，依次被传递到第一个函数，然后输出，再传递到第二个函数，一个接着一个，直到最后一个函数返回整个处理器的输出。</li>
+<li style="font-size: 20px; line-height: 38px;">默认情况下，当遇到None值（list中有None值）的时候停止处理。可以通过传递参数stop_on_none = False改变这种行为。</li>
+<li style="font-size: 20px; line-height: 38px;">每个函数可以选择接收一个loader_context参数。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>MapCompose</strong>：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">与Compose处理器类似，区别在于各个函数结果在内部传递的方式（会涉及到list对象解包的步骤）：
+<ul>
+<li style="font-size: 20px; line-height: 38px;">输入值是被迭代的处理的，List对象中的每一个元素被单独传入，第一个函数进行处理，然后处理的结果被连接起来形成一个新的迭代器，并被传入第二个函数，以此类推，直到最后一个函数。最后一个函数的输出被连接起来形成处理器的输出。</li>
+<li style="font-size: 20px; line-height: 38px;">每个函数能返回一个值或者一个值列表，也能返回None（会被下一个函数所忽略）</li>
+<li style="font-size: 20px; line-height: 38px;">这个处理器提供了很方便的方式来组合多个处理单值的函数。因此它常用于输入处理器，因为传递过来的是一个List对象。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">与 Compose 处理器类似，它也能接受Loader context。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Join</strong>：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">返回用分隔符连接后的值。分隔符默认为空格。不接受 Loader contexts。</li>
+<li style="font-size: 20px; line-height: 38px;">当使用默认分隔符的时候，这个处理器等同于如下这个</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，我们字段属性存的是单值那一般上会直接使用<code>TakeFirst</code>作为输出处理器(<code>out_processor=TakeFirst()</code>)，从处理结果列表中将第一值拿出来; 如果要对数据值进行附加处理(例如：去空格或者转类型)时就可以在<code>in_processor</code>加入处理器进行赋值前的预处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用以上的逻辑重新来理解<code>NewsItem</code>的定义：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">title <span class="token operator">=</span> Field<span class="token punctuation">(</span>output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 提取列表中第一个元素作为title的值</span>
+<span class="token comment"># 对列表中的所有值进行去空格处理，一但遇到空值就不再进行处理(输出处理器将不会工作)</span>
+desc<span class="token operator">=</span>Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">.</span>strip<span class="token punctuation">,</span>stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+           output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 与title处理相同</span>
+link <span class="token operator">=</span> Field<span class="token punctuation">(</span>output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+pub_date <span class="token operator">=</span> Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span><span class="token keyword">lambda</span> v<span class="token punctuation">:</span> v<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>                      output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 删除HTML标记，然后去空格，并且遇到空值就停止处理</span>
+body <span class="token operator">=</span> Field<span class="token punctuation">(</span>input_processor<span class="token operator">=</span>MapCompose<span class="token punctuation">(</span>remove_tags<span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">.</span>strip<span class="token punctuation">,</span>stop_on_none<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+             output_processor<span class="token operator">=</span>TakeFirst<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="从不同的页面提取同样的数据">从不同的页面提取同样的数据</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">将使用 <code>ItemLoader</code> 形式改进后的代码重新运行一次，然后打开的 <code>result.json</code> 文件查看爬取的结果，会发现以下的情况：<br>
+<img src="http://img.mukewang.com/5ce606e7000193b035842278.png" alt="图片描述" data-original="http://img.mukewang.com/5ce606e7000193b035842278.png" class="" style="cursor: pointer;">结果文件里有很多的数据只有 <code>link</code> 字段，而其它的字段全部为空！其实即使我们不用 <code>ItemLoader</code> 改写这个爬虫这种情况就早在项目开始出现了。只要将这些异常数据的URL直接在浏览器打开你就会发现问题的原因。下面我们就打开 <a href="http://play.163.com/19/0326/16/EB752019003198GK.html?from=ntesindex">http://play.163.com/19/0326/16/EB752019003198GK.html</a> 观察原网页到底是个什么情况：<br>
+<img src="http://img.mukewang.com/5ce607ff00019ed735442238.png" alt="图片描述" data-original="http://img.mukewang.com/5ce607ff00019ed735442238.png" class="" style="cursor: pointer;">很明显这个"网易爱玩"栏目与我们从一开始分析新闻栏目时的网页结构完全不同，所以我们的元素选择器根本没有办法提取到对应的内容。像网易这种经营多年门户网站不同的栏目由不同的项目组负责，甚至连开发人员也不同。可能是开发规范不一至、也可能是由于发展需要等多种我们无法估计的原因，导致同一个网站同样类别的数据会以不同的网页结构来呈现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是说我们的爬虫从解决1对1的问题(<strong>一个 <code>数据对象</code> 对应一套网页逻辑</strong>)变成了解决1对多的问题，如果在没有<code>ItemLoader</code> 的情况下，我前文所说的"维护地狱"之门将会为你打开。对每个网页的元素提取必须重做一次，对值的非空判断必须重做一次，对值的格式化必须重做一次，诸如此类。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用<code>ItemLoader</code>来处理就轻松地处理这种一对多式的爬取问题，对于新的网页元素结构需要重新分析和制作以下的映射表：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字段</th>
+<th>选择器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>title</td>
+<td><code>h1.article-h1</code></td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>pub_date</td>
+<td>无</td>
+</tr>
+<tr>
+<td>摘要</td>
+<td>desc</td>
+<td><code>.artical-summary</code></td>
+</tr>
+<tr>
+<td>正文</td>
+<td>body</td>
+<td><code>#endText</code></td>
+</tr>
+<tr>
+<td>链接</td>
+<td>link</td>
+<td>当前请求中的URL</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">将以上的关系直接补充到 <code>ItemLoader</code> 中，代码如下所示：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  loader <span class="token operator">=</span> ItemLoader<span class="token punctuation">(</span>item<span class="token operator">=</span>NewsItem<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> response<span class="token operator">=</span>response<span class="token punctuation">)</span>
+  loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft&gt;h1::text'</span><span class="token punctuation">)</span>
+  loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'pub_date'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft .post_time_source::text'</span><span class="token punctuation">)</span>
+  loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'desc'</span><span class="token punctuation">,</span> <span class="token string">'#epContentLeft .post_desc::text'</span><span class="token punctuation">)</span>
+
+  <span class="token comment"># 游戏栏目 play.163.com</span>
+  loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'title'</span><span class="token punctuation">,</span> <span class="token string">'h1.article-h1::text'</span><span class="token punctuation">)</span>
+  loader<span class="token punctuation">.</span>add_css<span class="token punctuation">(</span><span class="token string">'desc'</span><span class="token punctuation">,</span> <span class="token string">'.artical-summary::text'</span><span class="token punctuation">)</span>
+
+  loader<span class="token punctuation">.</span>add_xpath<span class="token punctuation">(</span><span class="token string">'body'</span><span class="token punctuation">,</span> <span class="token string">'//div[@id="endText"]'</span><span class="token punctuation">)</span>
+  loader<span class="token punctuation">.</span>add_value<span class="token punctuation">(</span><span class="token string">'link'</span><span class="token punctuation">,</span> response<span class="token punctuation">.</span>url<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> loader<span class="token punctuation">.</span>load_item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">修改后重新运行爬虫可以观察到异常的数据就已经能被补回来了。这种处理的思路是：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">不同的元素结构的选择器在对应的页面都可视为唯一的，在一种结构中只会起效一次(选择内容非空)，数据项中的每个属性可以借助 <code>ItemLoader</code> 的实现一个值对应多个元素提取逻辑的效果。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于网易各大栏目而言上述代码的重构是远远不够的，当然要将对方的网站彻底"扒光”的行为并不可取，毕竟爬虫能使用的资源是有限的，获取的数据也是有一定目标范围的。所以需要针对哪些栏目的结构增加提取逻辑可视需求而定，范围越是精确爬虫的爬网的总时长必然越短。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在示例的数据结构比较简单，当遇到数据提取逻辑更复杂、字段结构更多、值处理规则更多的情况就需要对<code>ItemLoader</code> 与 输入/输出处理器的运用更为灵活，例如你可以继承 <code>ItemLoader</code> 将所有提取逻辑全部封装到一个自定义的 <code>ItemLoader</code> 中便于在其它的爬虫中重用。<br>
+<img src="http://img.mukewang.com/5cf4fa6b0001566216000610.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cf4fa6b0001566216000610.jpg" class="" style="cursor: pointer;"></p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/313">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    11 编写网易爬虫NeteaseSpider让它“爬”起来
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/318">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    13 去重处理— 高性能爬虫调优技术
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">2</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <ul class="comments-list js-comments-list">                                                        <li class="comment clearfix">                                          <a href="//www.imooc.com/u/1955078/articles" target="_blank">                             <div class="head-img l" style="background-image:url(//img.mukewang.com/576b12e50001da8711111111-100-100.jpg)"></div>                         </a>                         <div class="comment-detail l">                             <div class="hoverDisplay">                                 <div class="com-author clearfix">                                                                                                               <a href="//www.imooc.com/u/1955078/articles" target="_blank">                                         <div class="name l">拙凡</div>                                     </a>                                                                                                                                                                                              </div>                                 <div class="com-content">                                     感觉好多在罗列定义，缺少对比的例子。需要反复去其他网站学习这几篇教学文章里的内容。让人感觉课程内容太过定义化。希望老师能多给一些项目例子，并且多做对比，和类比的解释。                                 </div>                                 <div class="com-other clearfix">                                                                              <!-- 没点过赞 -->                                         <div class="btn-agree js-agree l" data-commentid="434">                                                                                  <i class="imv2-thumb_up"></i>                                             <span>0</span>                                         </div>                                                                                                               <div class="btn-reply l js-reply" data-replyid="434">回复</div>                                     <!-- 没登录不显示举报 -->                                                                              <div class="btn-report l js-tip-off comment-report" data-id="434" data-uid="1955078" data-src="/read/34/article/317" data-type="15">举报</div>                                                                          <div class="time r">2019-06-03</div>                                 </div>                             </div>                                                                                   </div>                     </li>                                                        <li class="comment clearfix">                                          <a href="//www.imooc.com/u/7006703/articles" target="_blank">                             <div class="head-img l" style="background-image:url(//img.mukewang.com/5d1d6a890001f8de09600960-100-100.jpg)"></div>                         </a>                         <div class="comment-detail l">                             <div class="hoverDisplay">                                 <div class="com-author clearfix">                                                                                                               <a href="//www.imooc.com/u/7006703/articles" target="_blank">                                         <div class="name l">专杀小幕</div>                                     </a>                                                                                                                                                                                              </div>                                 <div class="com-content">                                     上一章中的泛爬代码我爬了300多条数据，换成itemLoad后只爬了50条，，这是什么原因呢？还有用本章下边的代码后又跟本章上边的爬取内容对不上，并非补充。。原理意思懂了，但是实际操作很蒙圈                                 </div>                                 <div class="com-other clearfix">                                                                              <!-- 没点过赞 -->                                         <div class="btn-agree js-agree l" data-commentid="400">                                                                                  <i class="imv2-thumb_up"></i>                                             <span>0</span>                                         </div>                                                                                                               <div class="btn-reply l js-reply" data-replyid="400">回复</div>                                     <!-- 没登录不显示举报 -->                                                                              <div class="btn-report l js-tip-off comment-report" data-id="400" data-uid="7006703" data-src="/read/34/article/317" data-type="15">举报</div>                                                                          <div class="time r">2019-05-27</div>                                 </div>                             </div>                                                                                   </div>                     </li>                              </ul>                           </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

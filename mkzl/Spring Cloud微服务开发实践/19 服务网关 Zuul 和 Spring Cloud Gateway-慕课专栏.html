@@ -1,0 +1,209 @@
+<html><head><meta charset="utf-8"><title>19 服务网关 Zuul 和 Spring Cloud Gateway-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 7-1 19 服务网关 Zuul 和 Spring Cloud Gateway
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                19 服务网关 Zuul 和 Spring Cloud Gateway
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-01 09:52:07
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d0360b1000124f906400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">先相信你自己，然后别人才会相信你。<p class="author">——屠格涅夫</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从这节课开始我们学习服务网关——学习什么是服务网关，在微服务架构中服务网关会起到什么样的作用，以及 Spring Cloud 体系内都有哪些服务网关技术，分别都有哪些特点？</p>
+</div><div class="cl-preview-section"><h2 id="什么是服务网关" style="font-size: 30px;">什么是服务网关</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在微服务架构中，整个系统是由许多微服务组成，每个微服务负责一块独立的业务，当外部系统需要调用微服务架构中的某些功能时，我们如何对外提供接口。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">微服务架构中，服务实例地址经常会发生变化，所以我们无法直接将服务地址外放出来。如果每一个微服务都直接外放接口，会导致一系列的其它问题，比如调用链过于复杂、涉及到账户、权限时不能统一处理等。另外基于高内聚低耦合的设计准则来讲，我们也应该将内部系统和外部系统做切割。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">于是在这样的场景下，就需要有一个独立的组件来处理外部的请求，这个组件就是服务网关。服务网关是为了简化前端的调用逻辑，通常情况下也会实现相关的认证逻辑，根据外部不同的请求响应不同的数据，从而简化内外部系统之间调用的复杂度。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">总结一下服务网关的作用：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">简化客户端调用复杂度，统一处理外部请求。</li>
+<li style="font-size: 20px; line-height: 38px;">数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。</li>
+<li style="font-size: 20px; line-height: 38px;">多渠道支持，针对不同的客户端提供不同的网关支持。</li>
+<li style="font-size: 20px; line-height: 38px;">遗留系统的微服务化改造，可以作为新老系统的中转组件。</li>
+<li style="font-size: 20px; line-height: 38px;">统一处理调用过程中的安全、权限问题。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图为服务网关调用示意图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00e0300001ecfb05280359.png" alt="图片描述" data-original="http://img.mukewang.com/5d00e0300001ecfb05280359.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">服务网关负责服务请求路由、组合及协议转换。客户端的所有请求都首先经过服务网关，然后由它将请求路由到合适的微服务。服务网关经常会通过调用多个微服务并合并结果来处理一个请求，它可以在系统外部与内部响应之间友好的转换。</p>
+</div><div class="cl-preview-section"><h2 id="spring-cloud-体系内的网关技术" style="font-size: 30px;">Spring Cloud 体系内的网关技术</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud 体系内的网关技术主要有 Zuul 和 Spring Cloud Gateway。Zuul 是 Netflix 公司开源的产品，也是 Spring Cloud 前几个版本默认使用的服务网关组件，但是随着 Netflix 公司一系列的停更事件，在最新的 Spring Cloud Greenwich 版本中已经不建议采用 Zuul 技术，官方建议使用 Spring Cloud Gateway 作为默认的网关技术。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来详细介绍:</p>
+</div><div class="cl-preview-section"><h2 id="zuul" style="font-size: 30px;">Zuul</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Zuul 是 Netflix 开发的一款提供动态路由的网关服务。Zuul 接收所有设备或者网站请求，根据需求将请求转发到对应的后端系统。作为一个前置服务，Zuul 旨在实现动态路由，监控，弹性和安全性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Zuul 提供了不同类型的 filter 用于处理请求，这些 filter 可以让我们实现以下功能：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">权限控制和安全性：可以识别认证需要的信息和拒绝不满足条件的请求。</li>
+<li style="font-size: 20px; line-height: 38px;">监控：与边缘位置追踪有意义的数据和统计结果，从而带来精确的生产视图。</li>
+<li style="font-size: 20px; line-height: 38px;">动态路由：根据需要动态地路由请求到后台的不同集群。</li>
+<li style="font-size: 20px; line-height: 38px;">压力测试：逐渐增加指向集群的流量，以了解性能。</li>
+<li style="font-size: 20px; line-height: 38px;">负载均衡：为每一种负载类型分配对应容量，并弃用超出限定值的请求。</li>
+<li style="font-size: 20px; line-height: 38px;">静态资源处理：直接在 zuul 处理静态资源的响应，从而避免其转发到内部集群。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Filter 是 Zuul 的核心，用来实现对外服务的控制。Filter 的生命周期有4个，分别是“PRE”、“ROUTING”、“POST”、“ERROR”，整个生命周期可以用下图来表示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00e0370001684e09600720.png" alt="图片描述" data-original="http://img.mukewang.com/5d00e0370001684e09600720.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">图片来自 Netflix 博客： <a href="https://medium.com/netflix-techblog/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee">https://medium.com/netflix-techblog/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Zuul 大部分功能都是通过过滤器来实现的，这些过滤器类型对应于请求的典型生命周期。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">PRE： 这种过滤器在请求被路由之前调用。可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。</li>
+<li style="font-size: 20px; line-height: 38px;">ROUTING：这种过滤器将请求路由到微服务。这种过滤器用于构建发送给微服务的请求，并使用 Apache HttpClient 或 Netfilx Ribbon 请求微服务。</li>
+<li style="font-size: 20px; line-height: 38px;">POST：这种过滤器在路由到微服务以后执行。这种过滤器可用来为响应添加标准的 HTTP Header、收集统计信息和指标、将响应从微服务发送给客户端等。</li>
+<li style="font-size: 20px; line-height: 38px;">ERROR：在其他阶段发生错误时执行该过滤器。 除了默认的过滤器类型，Zuul 还允许我们创建自定义的过滤器类型。例如，我们可以定制一种 STATIC 类型的过滤器，直接在 Zuul 中生成响应，而不将请求转发到后端的微服务。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在实际工作中可以根据业务的使用场景，来选择使用哪种类型的过滤器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">由于 Zuul2 不断推迟发布、以及 Netfilx 内部对开源软件支持的不稳定性，Spring Cloud 自行研发了另外一款服务网关产品 Spring Cloud GateWay，并且在最新版本中推荐使用 Spring Cloud GateWay，本系列课程重点介绍 Spring Cloud GateWay 的使用。</p>
+</div><div class="cl-preview-section"><h2 id="spring-cloud-gateway" style="font-size: 30px;">Spring Cloud Gateway</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Gateway 是 Spring 体系内的一个全新项目，该项目是基于 Spring 5.0，Spring Boot 2.0 和 Project Reactor 等技术开发，它旨在为微服务架构提供一种简单有效的统一的 API 路由管理方式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Gateway 作为 Spring Cloud 生态系统中的网关，目标是替代 Netflix Zuul，其不仅提供统一的路由方式，并且基于 Filter 链的方式提供了网关基本的功能，例如：安全、监控/指标和限流。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>特性</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">基于 Spring Framework 5，Project Reactor 和 Spring Boot 2.0</li>
+<li style="font-size: 20px; line-height: 38px;">动态路由</li>
+<li style="font-size: 20px; line-height: 38px;">Predicates 和 Filters 作用于特定路由</li>
+<li style="font-size: 20px; line-height: 38px;">集成 Hystrix 断路器</li>
+<li style="font-size: 20px; line-height: 38px;">集成 Spring Cloud DiscoveryClient</li>
+<li style="font-size: 20px; line-height: 38px;">易于编写的 Predicates 和 Filters</li>
+<li style="font-size: 20px; line-height: 38px;">限流</li>
+<li style="font-size: 20px; line-height: 38px;">路径重写</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud Gateway 中的相关概念：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Route（路由）：这是网关的基本构建块。它由一个 ID，一个目标 URI，一组断言和一组过滤器定义。如果断言为真，则路由匹配。</li>
+<li style="font-size: 20px; line-height: 38px;">Predicate（断言）：这是一个 Java 8 的 Predicate。输入类型是一个 ServerWebExchange。我们可以使用它来匹配来自 HTTP 请求的任何内容，例如 headers 或参数。</li>
+<li style="font-size: 20px; line-height: 38px;">Filter（过滤器）：这是<code>org.springframework.cloud.gateway.filter.GatewayFilter</code>的实例，我们可以使用它修改请求和响应。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>工作原理</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d0373200001292b05630715.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d0373200001292b05630715.jpg" class="" style="cursor: pointer;"><br>
+客户端向 Spring Cloud Gateway 发出请求。如果 Gateway Handler Mapping 中找到与请求相匹配的路由，将其发送到 Gateway Web Handler。Handler 再通过指定的过滤器链来将请求发送到我们实际的服务执行业务逻辑，然后返回。 过滤器之间用虚线分开是因为过滤器可能会在发送代理请求之前（“pre”）或之后（“post”）执行业务逻辑。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虚线左边的是 pre 类型过滤器，虚线右边的是 post 类型过滤器，外部请求进来后先经过 pre 类型的过滤器，再发送到代理服务，代理服务响应请求，再次经过 post  过滤器链，最后传递给前端。</p>
+</div><div class="cl-preview-section"><h2 id="spring-cloud-gateway-与-zuul-对比" style="font-size: 30px;">Spring Cloud Gateway 与 Zuul 对比</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">了解完两种网关技术之后，做一个简单的对比：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Zuul 是 Netflix 开源的产品，Spring Cloud Gateway 是 Spring 体系内的产品，和 Spring 体系融合更好。</li>
+<li style="font-size: 20px; line-height: 38px;">Zuul1 不支持长连接，比如 WebSockets；Spring Cloud Gateway 支持 WebSockets 等协议。</li>
+<li style="font-size: 20px; line-height: 38px;">作为一个服务网关产品，Spring Cloud Gateway 考虑更全面一些，增加了 Predicate、限流等技术。</li>
+<li style="font-size: 20px; line-height: 38px;">Zuul1 是基于 Servlet 框架构建，采用的是阻塞和多线程方式，即一个线程处理一次连接请求，这种方式在内部延迟严重、设备故障较多情况下会引起存活的连接增多和线程增加的情况发生。</li>
+<li style="font-size: 20px; line-height: 38px;">Spring Cloud Gateway 基于 Spring 5.0、Spring Boot 2.0 和 Project Reactor 开发，采用了 Netty 实现了异步非阻塞模型，占用资源更小，在性能方面更有优势。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">综合比较，Spring Cloud Gateway 在使用效率和性能方面更好一些，可以预期未来 Spring Cloud GateWay 的使用率会越来越高。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节为大家介绍了什么是服务网关，以及我们为什么要使用服务网关，同时介绍了 Spring Cloud 体系内的两种网关技术，以及对两种技术做了简单的对比。在最新版本中 Spring Cloud 推荐使用 Spring Cloud GateWay 作为默认的网关技术，在后面两节为大家介绍如何在项目中使用 Spring Cloud GateWay 技术。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参考：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://medium.com/netflix-techblog/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee">https://medium.com/netflix-techblog/announcing-zuul-edge-service-in-the-cloud-ab3af5be08ee</a><br>
+<a href="https://cloud.spring.io/spring-cloud-gateway/spring-cloud-gateway.html">https://cloud.spring.io/spring-cloud-gateway/spring-cloud-gateway.html</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文作者：纯洁的微笑、江南一点雨</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/448">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    18 Micrometer 实现微服务监控
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/450">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    20 Spring Cloud Gateway 快速实践
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

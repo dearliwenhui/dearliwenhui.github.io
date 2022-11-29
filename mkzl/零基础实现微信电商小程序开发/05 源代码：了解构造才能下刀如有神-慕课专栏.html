@@ -1,0 +1,239 @@
+<html><head><meta charset="utf-8"><title>05 源代码：了解构造才能下刀如有神-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/40" target="_blank">零基础实现微信电商小程序开发</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-2 05 源代码：了解构造才能下刀如有神
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                05 源代码：了解构造才能下刀如有神
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-08 10:06:40
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d1ebd390001e21106400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">才能一旦让懒惰支配，它就一无可为。<p class="author">——克雷洛夫</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节我们已经安装好了微信开发者工具，这一节我们将使用微信开发者工具，搞清楚小程序的源代码结构。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">编程语言也是一种语言，跟我们人类之间交流的中文、英文等语言类似，也遵循一定的规范。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在中文或英文中，我们都知道一篇文章是由很多句子构成的，而每一个句子又是由主语、谓语、宾语构成的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与此类似，一个小程序也是由多个页面构成的，而每一个页面则是由我们在第一章第二节“分类拆解法”中介绍过的“分类”构成，“分类”包括界面、数据和事件（如图 9 所示）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 9 一个页面的分类构成</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d202264000198e813970474.png" alt="图片描述" data-original="http://img.mukewang.com/5d202264000198e813970474.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，我们学习小程序编程语言，也可以像学习中文、英文一样，先理解语言的语法结构（即“分类”），把握整体往往可以用最快的速度入门。</p>
+</div><div class="cl-preview-section"><h2 id="小程序代码构成" style="font-size: 30px;">1. 小程序代码构成</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">小程序代码构成在微信官方的“小程序开发文档”中有详细的讲解，讲解内容可以通过以下两种方式查看：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">入口网址：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/getstart.html#%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%B0%8F%E7%A8%8B%E5%BA%8F">小程序代码构成</a>，如果微信官方文档改版导致链接失效，请按图索引。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">入口位置：在“小程序开发文档”首页，如图 10 红框标出部分。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 10 小程序代码构成微信官方讲解内容</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2023850001567415540963.png" alt="图片描述" data-original="http://img.mukewang.com/5d2023850001567415540963.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>继续阅读本节后续内容前，请先阅读微信官方的讲解内容。</strong> 从“你的第一个小程序”开始，在你已经安装好的微信开发者工具中一步步实际操作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你发现完全读不懂这些内容，也完全看不懂里面的代码，说明你缺少一些基础知识，请暂停阅读本专栏，<strong>先刷光以下 LV1 至 LV4 的地[ ke ]图[ cheng ]</strong>：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://www.imooc.com/learn/9">LV1 地图-初识HTML+CSS</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://www.imooc.com/learn/36">LV2 地图-JavaScript入门篇</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://www.imooc.com/learn/10">LV3 地图-JavaScript进阶篇</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://www.imooc.com/learn/68">LV4 地图-JSON应用场景与实战</a></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">肃清其中的小怪，然后再来本地[ zhuan ]图[ lan ]继续升级打 BOSS 。</p>
+</div><div class="cl-preview-section"><h2 id="理解小程序源代码结构" style="font-size: 30px;">2. 理解小程序源代码结构</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">按照“小程序开发文档”中“你的第一个小程序”所讲的操作方法，我们已经创建了我们的第一个小程序项目，这个小程序项目中已经包含了一个基本的 Demo。这个 Demo 的代码结构如图 11 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 11 小程序 Demo 项目结构</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2023ca0001b61d10010570.png" alt="图片描述" data-original="http://img.mukewang.com/5d2023ca0001b61d10010570.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">阅读完“小程序开发文档”中“小程序代码构成”的整个章节后，再对照小程序 Demo 项目结构，我们可以得出一个结论，小程序只有 4 种基本的代码类型，如图 12 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 12 小程序代码类型</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2023e50001b73107330297.png" alt="图片描述" data-original="http://img.mukewang.com/5d2023e50001b73107330297.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="运用“分类拆解法”理清小程序源代码结构">2.1 运用“分类拆解法”理清小程序源代码结构</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>如果在阅读中发现理解后续内容有困难，请重新阅读本专栏第一章第二节关于“分类拆解法”的内容。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相信部分同学在阅读完官方文档后，有一种似懂非懂的感觉。接下来，我们就使用“分类拆解法”的思路来进一步理清小程序的代码结构。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个小程序是由多个页面组成，每个页面又由界面、数据和事件组成。界面是在 WXSS 页面样式和 WXML 页面模板中定义的，数据是在 JS 脚本的 data 中定义的，而事件则是在 JS 脚本的事件函数中定义的，如图 13 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 13 小程序的分类组成</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d20246900015be407860421.png" alt="图片描述" data-original="http://img.mukewang.com/5d20246900015be407860421.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们具体用一个例子来理解“分类”与“代码类型”的关系。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们在已经创建的小程序项目中添加一个页面 test，如图 14 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 14 新建页面test</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2024a00001610803000222.png" alt="图片描述" data-original="http://img.mukewang.com/5d2024a00001610803000222.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后我们在 test.wxml 中添加一个静态界面元素：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>&lt;view&gt;我是静态界面元素&lt;/view&gt;</code></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加一个交互界面元素，<strong>交互界面元素与数据的绑定在小程序中的语法为" {{数据名称}} "</strong>，因此我们需要添加以下代码：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>&lt;view&gt;{{content}}&lt;/view&gt;</code></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再添加一个接收用户点击事件的按钮，<strong>界面元素与事件函数绑定在小程序中的语法为“ bindtap=‘事件函数名称’ ”</strong>，因此我们需要添加以下代码：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>&lt;button bindtap='clickEvent' &gt;点我触发事件&lt;/button&gt;</code></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们在 test.js 中定义数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 页面的初始数据
+   */</span>
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    content<span class="token punctuation">:</span> <span class="token string">"我是交互界面元素"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后我们在 test.js 中定义用户点击按钮的事件函数：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 点我触发事件button的事件函数
+   */</span>
+  clickEvent<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      content<span class="token punctuation">:</span> <span class="token string">"当用户点击按钮后，事件改变数据，数据改变交互界面元素的显示内容"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>在小程序的事件函数中改变数据的值的语法为：</strong></p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js"><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    数据名称<span class="token punctuation">:</span> 新的数据值
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">另外，为了能看到 test 页面，我们还需要在 app.json 中配置小程序的默认显示页面是 test：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token string">"pages"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"pages/test/test"</span><span class="token punctuation">,</span>
+    <span class="token string">"pages/index/index"</span><span class="token punctuation">,</span>
+    <span class="token string">"pages/logs/logs"</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">完整代码如图 15 所示，test 页面运行效果如图16所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 15 test 页面完整代码</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2024ce0001074e07270953.png" alt="图片描述" data-original="http://img.mukewang.com/5d2024ce0001074e07270953.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 16 test页面运行效果</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2024ef0001d49d08650743.png" alt="图片描述" data-original="http://img.mukewang.com/5d2024ef0001d49d08650743.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">到这里各位同学是否已经明白小程序编程是怎么一回事了呢。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>小程序编程其实很简单，我们只需要记住以下几个规则：</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>静态界面元素我们直接写在 WXML 页面模板中即可</strong>；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>交互界面元素中会变动的部分我们用" {{数据名称}} "的形式在 WXML 页面模板中定义，并在 JS 脚本的 data 中写上数据名称的初始值；</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>界面中要响应用户动作的元素，我们用“ bindtap=‘事件函数名称’ ”的形式在 WXML 页面模板中定义，并在 JS 脚本中编写事件函数要改变什么数据的值；</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>当我们编写的小程序代码在执行时，小程序的基础框架会自动将数据的值显示在页面上。</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>当用户点击我们定义了事件函数的界面元素，小程序会自动执行事件函数，事件函数的运行会改变数据的值，小程序的基础框架会自动将新的数据值显示在页面上。</strong></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是不是 so easy。对照这几个规则，回顾一下刚才我们编写的 test 页面代码，相信你已经知道小程序该怎么编程了，嘿哈。</p>
+</div><div class="cl-preview-section"><h3 id="json-页面配置与全局配置">2.2 JSON 页面配置与全局配置</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">JSON 页面配置以及全局配置 app.json 的语法相对简单固定，在实际开发中许多页面也并不需要进行配置，请参照图 17 所示，阅读“小程序开发文档”中“小程序配置”章节即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 17 小程序配置文档位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2029620001213511710590.png" alt="图片描述" data-original="http://img.mukewang.com/5d2029620001213511710590.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="小程序启动逻辑-app.js">2.3 小程序启动逻辑 app.js</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有关启动逻辑 app.js 的内容，请参照图 18 所示，阅读“小程序开发文档”中“注册小程序”章节。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 18 小程序启动逻辑文档位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2029840001a36813500599.png" alt="图片描述" data-original="http://img.mukewang.com/5d2029840001a36813500599.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="全局样式-app.wxss">2.4 全局样式 app.wxss</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">全局样式 app.wxss 的作用是减少 CSS 样式的代码量。如果我们要在多个页面都使用相同的 CSS 样式，只需要在 app.wxss 中定义一次，不需要复制粘贴到每个页面的 page.wxss中。</p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将讨论如何将“分类拆解法”整体运用在小程序开发中。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>阅读本节中列出的“小程序开发文档”相关内容，理解小程序项目创建后自带 Demo 的每一行代码的具体作用。</strong></li>
+</ul>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/40/article/562">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    04 开发环境准备：屠龙勇者得有把好武器
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/40/article/564">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    06 解剖分类拆解法详解
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,507 @@
+<html><head><meta charset="utf-8"><title>22 数据处理，慢条斯理-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 3-1 22 数据处理，慢条斯理
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                22 数据处理，慢条斯理
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-15 11:17:35
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img3.mukewang.com/5d2bf00f000155fc06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">成功的奥秘在于目标的坚定。<p class="author">——迪斯雷利</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">grep 命令：筛选数据</li>
+<li style="font-size: 20px; line-height: 38px;">sort 命令：为文件排序</li>
+<li style="font-size: 20px; line-height: 38px;">wc 命令：文件的统计</li>
+<li style="font-size: 20px; line-height: 38px;">uniq 命令：删除文件中的重复内容</li>
+<li style="font-size: 20px; line-height: 38px;">cut 命令：剪切文件的一部分内容</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课是测试题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">终于到了第三部分了，有点激动，如果前两个部分是我们的系列课程的初级篇，那么从第三部分开始，我们就要进入高级篇咯。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我也知道大家学习辛苦了，所以请对自己说：“可喜可贺，掌声给自己！”</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了好了，我重回淡定。大家看到今天的标题应该会对这一课的内容很有兴趣吧，毕竟我们每天都在跟各种数据打交道。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 的文件里也包含各种数据，所以数据处理就显得尤为重要。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之前的课中已经介绍过：大部分 Linux 的命令是基于 Unix 操作系统的模式，当然源码是重写的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此， Linux 虽是 1991 年问世的，但是其很多设计理念和命令却沿用了 20 世纪 60 年代的模式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样的事实对我们学习 Linux 的人有个好处：不必每隔一段时间就学新东西，很多知识点可以沿用很久。例如现在近 60 岁的一个 Unix 的老工程师，操作 Ubuntu 等新近 Linux 发行版基本没有什么问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你也许还是会问这个问题：为什么过了这么多年，好多 Linux 命令都没变呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那是因为没有必要变。因为大多数 Linux 命令都具有很基本的功能，而且它们在自己的岗位上敬忠职守，工作做得很棒，这些命令都是 Linux 系统的“基石”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课我们将学习好多个基本的命令，这些命令用于提取、排序、筛选文件中的各种数据，内容也是很轻松的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这些命令中，有些你以后几乎每天都会用到，例如 grep 命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，闲话说完，该动手实践了。</p>
+</div><div class="cl-preview-section"><h2 id="grep-命令：筛选数据" style="font-size: 30px;">2. grep 命令：筛选数据</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">grep 是 Globally search a Regular Expression and Print 的缩写，意思是“全局搜索一个正则表达式，并且打印”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">意思不太好理解吧？没关系，也不需要深刻理解原意。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">grep 命令的功能简单说来是在文件中查找关键字，并且显示关键字所在的行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">grep 命令极为强大，也是 Linux 中使用最多的命令之一。它的强大之处在于它不仅可以实现简单的查找，而且可以配合 <a href="http://baike.baidu.com/view/94238.htm">正则表达式</a> 来实现比较复杂的查找。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">至于什么是正则表达式，大家有兴趣可以去百度或 Google来学习一下，这是程序员需要掌握的知识点之一。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">正则表达式提供了搜索文本的一种高级方式。我们不仅在 Linux 的命令行中用到正则表达式，而且在很多的文本编辑器里也用到，在许多编程语言例如 C++，Java，PHP 等等也会用到。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们学习 grep 的简单用法。之后我们再学习如何配合正则表达式来实现复杂的查找。</p>
+</div><div class="cl-preview-section"><h4 id="grep-的简单用法" style="font-size: 26px;">grep 的简单用法</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">grep 的使用方法有很多种，我们一开始先学习最基本的用法：</p>
+</div><div class="cl-preview-section"><pre><code>grep text file
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，上面就是 grep 命令的最基本用法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">text 代表要搜索的文本，file 代表供搜索的文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用实际的例子来学习：比如我要在用户的家目录的 .bashrc 文件中搜索 alias 这个文本，而且显示所有包含alias的行。</p>
+</div><div class="cl-preview-section"><pre><code>grep alias .bashrc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240cb20001df0221101160.png" alt="图片描述" data-original="http://img.mukewang.com/5d240cb20001df0221101160.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么样，grep 命令很强大吧。如上图所见，grep 命令列出了 .bashrc 文件中所有包含 alias 的行，并且在终端中，以红色标出了每一个 alias。其实 grep 更像是一个过滤器，它可以筛选出我们要找的对象。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">少年，莫激动，此对象非彼对象~</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们要用 grep 命令在一个文件中查找用空格隔开的文本，那么就要加上双引号，例如：</p>
+</div><div class="cl-preview-section"><pre><code>grep "Hello World" file2
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="i-参数：忽略大小写">-i 参数：忽略大小写</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认的情况下，grep 命令是区分大小写的，也就是说搜索的文本将严格按照大小写来搜索。比如我搜索的文本是 text，那么就不会搜出 Text，tExt，TEXT 等等文本。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是我们可以给 grep 加上 -i 参数，使得 grep 可以忽略大小写。i 是英语 ignore 的缩写，表示“忽略”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><pre><code>grep -i alias .bashrc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240cbe00014a2e21041216.png" alt="图片描述" data-original="http://img.mukewang.com/5d240cbe00014a2e21041216.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，加了 -i 参数后，grep 的搜索结果就多了 <strong>#Alias definitions.</strong> 那一行，因为 -i 参数使得 grep 搜索不区分大小写。</p>
+</div><div class="cl-preview-section"><h4 id="n-参数：显示行号" style="font-size: 26px;">-n 参数：显示行号</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-n 参数的作用很简单，就是显示搜索到的文本所在的行号。n 是英语 number 的缩写，表示“数字，编号”。</p>
+</div><div class="cl-preview-section"><pre><code>grep -n alias .bashrc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240d1c0001e95921101166.png" alt="图片描述" data-original="http://img.mukewang.com/5d240d1c0001e95921101166.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="v-参数：只显示文本不在的行" style="font-size: 26px;">-v 参数：只显示文本不在的行</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-v 参数很有意思，v 是 invert 的缩写，表示“颠倒，倒置”。-v 参数的作用与正常 grep 的作用正好颠倒，就是只显示搜索的文本不在的那些行。</p>
+</div><div class="cl-preview-section"><pre><code>grep -v alias .bashrc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240e1000017f5421021244.png" alt="图片描述" data-original="http://img.mukewang.com/5d240e1000017f5421021244.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，这次 grep 过滤出了 .bashrc 中所有不包含 alias 的行。</p>
+</div><div class="cl-preview-section"><h4 id="r-参数：在所有子目录和子文件中查找" style="font-size: 26px;">-r 参数：在所有子目录和子文件中查找</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你不知道你要找的文本在哪个文件里，你可以用强大的 -r 参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">r 是英语 recursive 的缩写，表示“递归”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果用了 -r 参数，那么 grep 命令使用时的最后一个参数（grep text file 这个模式中的 file）需要换成 directory，也就是必须是一个目录。因为 -r 参数是让 grep 命令能够在指定目录的所有子目录和子文件中查找文本。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><pre><code>grep -r "Hello World" folder/
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">表示在 folder 这个目录的所有子目录和子文件中查找 Hello World 这个文本。当然了，以上例子中，folder 后面的斜杠（/）不是必须的，这里只是为了清楚表明 folder 是一个目录。只要 folder 是一个目录，Linux 系统是不会搞错的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 中还有一个 rgrep 的命令，它的作用相当于 grep -r 。</p>
+</div><div class="cl-preview-section"><h4 id="grep-的高级用法：配合正则表达式" style="font-size: 26px;">grep 的高级用法：配合正则表达式</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">grep 配合正则表达式就可以实现比较高级的搜索了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们首先来看一眼以下的这个表格，表格中列出了最常用的一些正则表达式的字符以及其含义：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">特殊字符</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">.</td>
+<td align="center">匹配除 “\n” 之外的任何单个字符</td>
+</tr>
+<tr>
+<td align="center">^</td>
+<td align="center">行首（匹配输入字符串的开始位置）</td>
+</tr>
+<tr>
+<td align="center">$</td>
+<td align="center">行尾（匹配输入字符串的结束位置）</td>
+</tr>
+<tr>
+<td align="center">[]</td>
+<td align="center">在中括号中的任意一个字符</td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td align="center">问号前面的元素出现零次或一次</td>
+</tr>
+<tr>
+<td align="center">*</td>
+<td align="center">星号前面的元素可能出现零次、一次或多次</td>
+</tr>
+<tr>
+<td align="center">+</td>
+<td align="center">加号前面的元素必须出现一次以上（包含一次）</td>
+</tr>
+<tr>
+<td align="center">|</td>
+<td align="center">逻辑或</td>
+</tr>
+<tr>
+<td align="center">()</td>
+<td align="center">表达式的分组（表示范围和优先度）</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，上表没有列出所有的正则表达式的字符。大家可以上网搜索，查找完整的表格。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看了上表你可能会说：“我啥也看不懂啊…”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这是正常的，正则表达式不是那么容易入门的，但也不是太难。要把正则表达式讲清楚，大概需要两课的篇幅，我们这里就不多做介绍了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，为了让 grep 命令知道我们要使用正则表达式，须要加上 -E 参数（E 是 extended regular  expression 的第一个字母，表示“扩展的正则表达式”）。例如：</p>
+</div><div class="cl-preview-section"><pre><code>grep -E Alias .bashrc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fad00015ea711540294.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fad00015ea711540294.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，Linux 也有一个命令 egrep，其效果等同 grep -E 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不要怀疑，Alias 也算是一个正则表达式，只不过没有用到上面表格中的特殊符号而已。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">到此为止，没什么新鲜的。我们用正则表达式只是和之前的搜索类似。接下来，我们才真的要用到正则表达式的特殊字符了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先来看这个例子：</p>
+</div><div class="cl-preview-section"><pre><code>grep -E ^alias .bashrc
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fb6000145f321080546.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fb6000145f321080546.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个例子中，我们用到了 ^ 这个特殊符号，上面的表格里对于 ^ 已经做了说明：行首（匹配输入字符串的开始位置）。也就是说，^ 后面的字符须要出现在一行的开始。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，就搜出了如上图中的四行，这四行都是包含 alias，并且以 alias 开头的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再来举几个例子：</p>
+</div><div class="cl-preview-section"><pre><code>grep -E [Aa]lias .bashrc
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fbf00014dee21101214.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fbf00014dee21101214.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的表格里解释了 [] 的作用，是将 [] 中的字符任取其一，因此 [Aa]lias 的意思就是既可以是 Alias，又可以是 alias。因此 grep 的搜索结果把包含 Alias 和 alias 的行都列出来了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再比如：</p>
+</div><div class="cl-preview-section"><pre><code>grep -E [0-4] .bashrc
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用于搜索包含 0 至 4 的任一数字的行。</p>
+</div><div class="cl-preview-section"><pre><code>grep -E [a-zA-Z] .bashrc
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用于搜索包含在 a 至 z 之间的任意字母或者 A 至 Z 之间的任意字母的行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其他正则表达式还有很多例子。就不一一列举了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注意：<br>
+其实在 Ubuntu 这样的 Linux 发行版中，grep 如果要和正则表达式配合，不加 -E 参数也是可以的，正则表达式始终是激活的。不过有的 Unix 发行版的系统可能不加 -E 参数就不能搜索正则表达式。因此为了兼容，我们一般来说还是加上 -E 参数比较好。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fc80001431b21100542.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fc80001431b21100542.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，我们可以看到，在 Ubuntu 这个 Linux 发行版中，grep 不加 -E 参数也能和正则表达式完美配合。</p>
+</div><div class="cl-preview-section"><h2 id="sort-命令：为文件排序" style="font-size: 30px;">3. sort 命令：为文件排序</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">sort 是英语“排序”的意思。sort 命令用于对文件的行进行排序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果学过数据结构和算法，那应该对那几个 Sorting 算法有印象，快速排序（Quick Sort），归并排序（Merge Sort），插入排序（Insertion Sort），等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了演示，我们首先用文本编辑器（可以用 nano）来创建一个文件，名叫 name.txt 比如，然后在里面写入以下的行：</p>
+</div><div class="cl-preview-section"><pre><code>John
+Paul
+Luc
+Matthew
+Mark
+jude
+Daniel
+Samuel
+Job
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">随便写几个英语常用名字就可以了。name 是英语“名字”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，我们用 sort 命令来举个例子：</p>
+</div><div class="cl-preview-section"><pre><code>sort name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fd20001fb1212320710.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fd20001fb1212320710.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，sort 命令将 name.txt 文件中的行按照首字母的英文字典顺序进行了排列。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">sort 命令并不区分大小写，小写字母开头的 jude 还是排在 John 之后。</p>
+</div><div class="cl-preview-section"><h4 id="o-参数：将排序后的内容写入新文件" style="font-size: 26px;">-o 参数：将排序后的内容写入新文件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你打开 name.txt 文件，你会发现，经过了 sort 命令的“洗礼”，name.txt 中的内容还是维持原来的顺序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">单独使用 sort 命令是不会真正改变文件内容的，只是把排序结果显示在终端上。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那我们要存储排序结果到新的文件怎么办呢？可以用 -o 参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">o 是 output 的首字母，表示“输出”，就是将排序结果输出到文件中。</p>
+</div><div class="cl-preview-section"><pre><code>sort -o name_sorted.txt name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fdd00010f7a14581284.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fdd00010f7a14581284.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，name.txt 经过 sort 命令排序之后的内容被储存在了新的文件 name_sorted.txt 中，而 name.txt 的内容是不变的。</p>
+</div><div class="cl-preview-section"><h4 id="r-参数：倒序排列" style="font-size: 26px;">-r 参数：倒序排列</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-r 参数中的 r 是 reverse 的缩写，是“相反”的意思，与普通的仅用 sort 命令正好相反。</p>
+</div><div class="cl-preview-section"><pre><code>sort -r name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240fe70001741212440702.png" alt="图片描述" data-original="http://img.mukewang.com/5d240fe70001741212440702.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="r-参数：随机排序" style="font-size: 26px;">-R 参数：随机排序</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">R 是英语 random 的首字母，表示“随机的，任意的”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-R 参数比较“无厘头”，因为它会让 sort 命令的排序变为随机，就是任意排序，也许每次都不一样。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但在有些时候，-R 参数还是很有用的。</p>
+</div><div class="cl-preview-section"><pre><code>sort -R name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了显示每次排序都是随机的，我们将以上命令运行了两次：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240ff00001e7e212481226.png" alt="图片描述" data-original="http://img.mukewang.com/5d240ff00001e7e212481226.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="n-参数：对数字排序" style="font-size: 26px;">-n 参数：对数字排序</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对数字的排序有点特殊。默认仅用 sort 命令的时候，是不区分字符是否是数字的，会把这些数字看成字符串，按照 1-9 的顺序来排序。例如 138 会排在 25 前面，因为 1 排在 2 的前面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那如果我们要 sort 命令识别整个数字，比如按照整个数值的大小顺序来说，25 应该排在 138 前面，那该怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就可以请出我们的 -n 参数了。n 是 number 的缩写。是英语“数字”的意思。-n 参数用于对数字进行排序，按从小到大排序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了演示，我们再用文本编辑器来创建一个文件，就叫 number.txt 好了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">里面随便填一些数字，每行一个：</p>
+</div><div class="cl-preview-section"><pre><code>12
+9
+216
+28
+174
+35
+68
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后用 sort 不加 -n 参数和加上 -n 参数分别测试：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d240ffd0001d60c12441020.png" alt="图片描述" data-original="http://img.mukewang.com/5d240ffd0001d60c12441020.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，不加 -n 参数时，sort 就会把这些数字看成字符串，按字符依次来排序，按照 1-9 的顺序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">加上 -n 参数，就会把各行的数字看成一个整体，按照大小从小到大来排序了。</p>
+</div><div class="cl-preview-section"><h2 id="wc-命令：文件的统计" style="font-size: 30px;">4. wc 命令：文件的统计</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">wc 是 word count 的缩写（此处 wc 不是“厕所”的意思…），word 是“单词”的意思，count 是“计算，统计”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，wc 命令看起来是用来统计单词数目的，但其实 wc 的功能不仅止于此。wc 命令还可以用来统计行数，字符数，字节数等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">跟前面的命令一样，wc 命令的用法也是后接文件名。wc 命令很有用，应该会成为你常用的命令之一。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果不加选项参数，那么 wc 命令的返回值会有些特殊，有点晦涩难懂。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><pre><code>wc name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d241007000172a408900302.png" alt="图片描述" data-original="http://img.mukewang.com/5d241007000172a408900302.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到返回值是</p>
+</div><div class="cl-preview-section"><pre><code>9 9 50 name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后的 name.txt 只是表示文件名，不需考虑。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么这三个数字：9，9，和 50 分别表示什么呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这三个数字，按顺序，分别表示：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">行数（newline counts）：newline 是英语“换行、换行符”的意思。统计行数其实就是统计换行符的数目。</li>
+<li style="font-size: 20px; line-height: 38px;">单词数（word counts）</li>
+<li style="font-size: 20px; line-height: 38px;">字节数（byte counts）：byte 是英语“字节”的意思，等于 8 个二进制位（bit）。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以用 man wc 查看 wc 的命令手册得知：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2410100001bd1016700352.png" alt="图片描述" data-original="http://img.mukewang.com/5d2410100001bd1016700352.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">wc 的命令描述是“print newline, word, and byte counts for each file”，翻成中文就是“对每个文件，打印其行数，单词数和字节数”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为我们之前创建 name.txt 时，每一行只有一个单词（英语名字），所以这里统计的行数和单词数都是 9。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">50 代表字节数。我数了一下，name.txt 里的 9 个英语单词一共包含 41 个英语字母（也就是 41 个英语字符），占用 41 个字节。再加上每行结尾的换行符（Linux 中换行符是 ‘\n’），共有 9 个换行符，占用 9 个字节。41 + 9 = 50，正好是 50 个字节。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们稍微讲一下字符和字节的一些联系和区别：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">字节（Byte 或 Octet）是计量单位，表示数据量多少，是计算机存储容量的计量单位。一个字节等于 8 位（Bit，比特位，是计算机最小的存储单位。就是 0 或 1 这样的二进制位）。</li>
+<li style="font-size: 20px; line-height: 38px;">字符（Character）是计算机中使用的文字和符号，比如 “a”、“B”、“7”、“&amp;”、“%”等。不同语言有不同的字符，一般我们中国人接触比较多的是英语和中文的字符。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">字符在不同的编码中所占字节数是不一样的。字符的编码和标准有不少，这里我们就不深入展开了，大家可以看这个链接来深入了解：<a href="https://baike.baidu.com/item/%E5%AD%97%E7%AC%A6%E9%9B%86">字符集</a> 。</p>
+</div><div class="cl-preview-section"><h4 id="l-参数：统计行数" style="font-size: 26px;">-l 参数：统计行数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了只统计行数，我们可以加上 -l 参数。l 是 line 的缩写，表示“行”。</p>
+</div><div class="cl-preview-section"><pre><code>wc -l name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24101d0001d9d309640296.png" alt="图片描述" data-original="http://img.mukewang.com/5d24101d0001d9d309640296.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="w-参数：统计单词数" style="font-size: 26px;">-w 参数：统计单词数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">w 是word 的缩写，表示“单词”。因此 -w 参数用于统计单词。</p>
+</div><div class="cl-preview-section"><pre><code>wc -w name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2410270001f4fd09840298.png" alt="图片描述" data-original="http://img.mukewang.com/5d2410270001f4fd09840298.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="c-参数：统计字节数" style="font-size: 26px;">-c 参数：统计字节数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不知道为什么是 c，因为 byte 或者 octet（都表示“字节”）的首字母都不是 c 啊。也许 c 是 character（英语“字符”的意思）的缩写吧。</p>
+</div><div class="cl-preview-section"><pre><code>wc -c name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2410310001530109800286.png" alt="图片描述" data-original="http://img.mukewang.com/5d2410310001530109800286.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="m-参数：统计字符数" style="font-size: 26px;">-m 参数：统计字符数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不知道为什么是 m，因为 character（英语“字符”）的首字母不是 m ：</p>
+</div><div class="cl-preview-section"><pre><code>wc -m name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24103b000150e309860298.png" alt="图片描述" data-original="http://img.mukewang.com/5d24103b000150e309860298.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了加深理解，我们来测试一下。创建一个只包含中文字符的文本文件，可以起名叫 chinese.txt（chinese 是“中文”的意思）。在里面写入：</p>
+</div><div class="cl-preview-section"><pre><code>你好吗
+我很好
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这 6 个汉字。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用 wc 命令来统计一下 chinese.txt 的字节数和字符数：</p>
+</div><div class="cl-preview-section"><pre><code>wc -c chinese.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><pre><code>wc -m chinese.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d2410450001231e10400564.png" alt="图片描述" data-original="http://img.mukewang.com/5d2410450001231e10400564.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，chinese.txt 包含的字节数是 20，字符数是 8。为什么呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实这是因为使用的是 Unicode 标准 的 UTF-8 编码方式。中文字符占 3 个字节，一共有 6 个中文字符，6 * 3 = 18，再加上 2 个换行符占 2 个字节，18 + 2 = 20。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">字符数则是 6 + 2 = 8 个。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以用 file 命令来确定文件的类型，运行：</p>
+</div><div class="cl-preview-section"><pre><code>file chinese.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><pre><code>file name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24104d00012f0c10541282.png" alt="图片描述" data-original="http://img.mukewang.com/5d24104d00012f0c10541282.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，chinese.txt 的编码是 UTF-8 Unicode，name.txt 的编码是 ASCII。</p>
+</div><div class="cl-preview-section"><h2 id="uniq-命令：删除文件中的重复内容" style="font-size: 30px;">5. uniq 命令：删除文件中的重复内容</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有时候，文件中包含重复的行，我们想要将重复的内容删除，</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这时，uniq 命令就显得很有用了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">uniq 是英语 unique 的缩写，表示“独一无二的”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了演示，我们创建一个文件 repeat.txt（repeat 是英语“重复”的意思），里面写入如下排序好的内容（因为 uniq 命令有点“呆”，只能将连续的重复行变为一行）：</p>
+</div><div class="cl-preview-section"><pre><code>Albert
+China
+France
+France
+France
+John
+Matthew
+Matthew
+patrick
+Steve
+Vincent
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，有三个 France 连在一起，两个 Matthew 连在一起。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用 uniq 命令来处理看看：</p>
+</div><div class="cl-preview-section"><pre><code>uniq repeat.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24105c00011a3d09920662.png" alt="图片描述" data-original="http://img.mukewang.com/5d24105c00011a3d09920662.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，三个连续的 France 只剩下一个了，两个连续的 Matthew 也只剩一个了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">和 sort 命令类似，uniq 命令并不会改变原文件的内容，只会把处理后的内容显示出来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果想将处理后的内容储存到一个新文件中，可以使用如下的方法：</p>
+</div><div class="cl-preview-section"><pre><code>uniq repeat.txt unique.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24106300011e5812841328.png" alt="图片描述" data-original="http://img.mukewang.com/5d24106300011e5812841328.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="c-参数：统计重复的行数" style="font-size: 26px;">-c 参数：统计重复的行数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-c 参数用于显示重复的行数，如果是独一无二的行，那么数目就是 1。c 是 count 的缩写，表示“统计，计数”。</p>
+</div><div class="cl-preview-section"><pre><code>uniq -c repeat.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d24106e0001a37710680652.png" alt="图片描述" data-original="http://img.mukewang.com/5d24106e0001a37710680652.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="d-参数：只显示重复行的值" style="font-size: 26px;">-d 参数：只显示重复行的值</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">-d 参数只显示重复的行的值。d 是 duplicated 的缩写，表示“重复的”。</p>
+</div><div class="cl-preview-section"><pre><code>uniq -d repeat.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d241077000188e110640334.png" alt="图片描述" data-original="http://img.mukewang.com/5d241077000188e110640334.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="cut-命令：剪切文件的一部分内容" style="font-size: 30px;">6. cut 命令：剪切文件的一部分内容</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">cut 是英语“剪切”的意思。大家平时肯定有剪切文本内容的经历吧，一般剪切之后还会把剪切的内容粘贴到某处。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">cut 命令用于对文件的每一行进行剪切处理。</p>
+</div><div class="cl-preview-section"><h4 id="c-参数：根据字符数来剪切" style="font-size: 26px;">-c 参数：根据字符数来剪切</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">c 是 character 的缩写，表示“字符”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，我们要 name.txt 的每一行只保留第 2 至第 4 个字符。可以这样做：</p>
+</div><div class="cl-preview-section"><pre><code>cut -c 2-4 name.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d241084000140e110940706.png" alt="图片描述" data-original="http://img.mukewang.com/5d241084000140e110940706.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，篇幅有限，我们不可能对每个命令的每个参数和每种用法都做详细介绍。大家可以用 man 命令来查询各个命令的手册，深入学习。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">grep 命令应该算是在文件中查找关键字最常用的工具了。</li>
+<li style="font-size: 20px; line-height: 38px;">grep 命令可以通过正则表达式来查找。一开始正则表达式会比较难记，但是功能很强大。我们可以调用 egrep 命令，其等价于 grep -E。</li>
+<li style="font-size: 20px; line-height: 38px;">sort 命令用于为文件中的行按字母顺序排序。使用 -n 参数可以按照数字顺序排序。</li>
+<li style="font-size: 20px; line-height: 38px;">wc 命令可以统计文件中行数，单词数或者字节数。</li>
+<li style="font-size: 20px; line-height: 38px;">uniq 命令可以用于删除文件中重复的内容。</li>
+<li style="font-size: 20px; line-height: 38px;">cut 命令用于剪切文件的一部分内容。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/475">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    21 测试题
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/517">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    23 流和输出重定向，心之所向
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

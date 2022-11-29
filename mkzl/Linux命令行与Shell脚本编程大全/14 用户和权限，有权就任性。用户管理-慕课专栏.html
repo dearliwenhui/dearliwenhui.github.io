@@ -1,0 +1,306 @@
+<html><head><meta charset="utf-8"><title>14 用户和权限，有权就任性。用户管理-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-8 14 用户和权限，有权就任性。用户管理
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                14 用户和权限，有权就任性。用户管理
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-17 16:33:28
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d158c37000123a006400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">时间像海绵里的水，只要你愿意挤，总还是有的。<p class="author">——鲁迅</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">sudo 命令：以 root 身份运行命令</li>
+<li style="font-size: 20px; line-height: 38px;">用户管理的命令</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课文件的复制、移动、删除和链接 中，我们学了不少文件操作的知识。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第二部分的前几课我们讲解了终端、命令行、文件和目录、文件操作，都算是 Linux 的重要基础。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课和下一课我们来讲一个极为重要的内容，可以说是 Linux 基础中的重点：用户和权限。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们知道 Linux 是一个多用户系统，可以实现多人同时不同地点地登录一个 Linux 系统，而每个人有不同的权限，这些权限规定了每个人能够做什么，不能够做什么。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就好比一个市政厅，虽然可以有很多人同时在里面办公，但是不同层级的人能够做的事是不一样的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">正因为多用户这个特性，所以更要严加管理每个用户，以防止互相干扰，甚至越权行为。因为万一有居心叵测的用户拥有了高度权限，对所有用户岂不是一种威胁么。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，Linux 系统中的每个用户都有自己独立的账号，而且其账号受着权限的制约。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">是不是觉得跃跃欲试，我保证这一课会很有意思的。<br>
+而且再提一次，这两课极为重要。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="sudo-命令：以-root-身份运行命令" style="font-size: 30px;">2. sudo 命令：以 root 身份运行命令</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我们安装 Ubuntu 系统的时候，到了最后几步，安装程序会让我们创建自己的用户名。比如，我就创建了名为 oscar 的用户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在大多数的 Linux 发行版中（Ubuntu 是一个 Linux 发行版），我们都建议初学者创建一个权利有限的账户。我的 oscar 这个用户就是权限有限的账户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也许你会问：“等一下，有没有搞错？这个 Linux 系统是我安装的，我还不能想干什么就干什么了？为什么我的权利是有限的？那我还怎么任性啊？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是的，而且这是一种安全机制。当然了，当我们在终端中使用命令行的时候，我们随时可以说：我想要切换到什么都可以做的用户身份。但是，默认情况下，我们是没有为所欲为的权限的，这会比较安全。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为有些命令会对 Linux 系统的稳定性和安全性造成威胁。具有有限的权限，意味着我们不能随随便便就运行一些可怕的命令，例如那个“草木为之含悲，风云因而变色”的命令：</p>
+</div><div class="cl-preview-section"><pre><code>rm -rf /
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在上一课讲过，rm -rf / 这个命令会删除你所有的东西。所以江湖上人人闻之色变，除了颤抖还是颤抖。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们先了解一下 Linux 中用户是如何组织的，然后再来学习如何变身为超级用户。</p>
+</div><div class="cl-preview-section"><h4 id="linux-下的用户组织" style="font-size: 26px;">Linux 下的用户组织</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Linux 中，理论上说来，我们可以创建无数个用户。但是这些用户是被划分到不同的群组里面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有一个用户，名叫 root，是一个很特殊的用户。字“大管家”，号“超级用户”，又号“有权任性”。因为在 Linux 系统中，它可以做任何事情。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用下图来演示一下 Linux 中用户组织的一般可能形式：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079c20001d34f13900974.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079c20001d34f13900974.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中的群组，可以有好多不同的，我们举了“家人”和“朋友”两个例子而已。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我们装完 Linux 系统后，假如我们创建的个人用户叫做 oscar，那么这时系统中只有两个用户：root 和 oscar。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">root 用户是默认会创建的，因为是系统的大管家，超级用户。</li>
+<li style="font-size: 20px; line-height: 38px;">oscar 则是我自己创建的用户。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们只在必要时才会切换为 root 身份。这一课中你将学习到的几个命令须要 root 身份才能运行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其它时候，我们都是用有限权限的用户：oscar（当然，这是我的情况。你的用户名应该是与我不同的）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一简单的保护措施大大地提高了 Linux 系统的安全性，有效防止误操作或是病毒的攻击。因为如果你是以个人用户身份登录系统，被病毒控制了电脑，那么它也只能做有限的事，不能为所欲为。但假如你以 root 用户登录系统，那么劫持你的病毒就可以胡作非为了，甚至毁了你的系统。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">例外：Ubuntu 系统是 Linux 系统中一个特例，它默认不允许以 root 用户登录系统。root 用户存在，但是你不能直接登录。我们接下来会学习如何间接登录 root。Ubuntu 的开发者解释说他们考虑到对于初学者，能登录 root 用户太危险。</p>
+</blockquote>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">秘：其实我们还是可以通过设置来允许 Ubuntu 直接登录 root 的。你可以百度 / Google。我就不把此方法告诉大家了，免得毁了系统来扔我鸡蛋。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="sudo-命令：暂时成为-root" style="font-size: 26px;">sudo 命令：暂时成为 root</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认地，我们是以个人用户身份登录 Ubuntu 系统。在我的情况，是 oscar 这个用户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 中默认不允许在开机时直接以 root 用户登录，那么我们要如何来运行一些只有 root 才有权利运行的命令呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">别担心，我们可以使用 sudo 这个命令暂时成为 root，当一天的皇帝也是很开心的嘛。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">sudo 是英语 Substitute User DO 的缩写，substitute 是“替换，代替，替身”的意思，user 是“用户”的意思，do 就是“做”的意思。所以连在一起就是“替换用户来执行…”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，如果我们要运行只有 root 才可以运行的命令，那么可以在此命令前面加上 sudo 命令，如下：</p>
+</div><div class="cl-preview-section"><pre><code>sudo command
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">终端会提示你输入密码，至少第一次会要求输入密码。此密码就是你个人用户的密码。在我的情况，就是我的 oscar 这个账户的密码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，我们可以用 sudo 命令配合 date 命令运行一下（放心，运行 date 命令不会有什么危险）：</p>
+</div><div class="cl-preview-section"><pre><code>sudo date
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079d4000111b308700360.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079d4000111b308700360.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，在我们输入 sudo date 后，回车，终端要求我们输入个人用户的密码，就是那一行：</p>
+</div><div class="cl-preview-section"><pre><code>[sudo] password for oscar:
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">意思是输入 oscar 这个用户的密码（password 是英语“密码”的意思）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我输入了 oscar 账户的密码，输入密码时是看不到任何字符的，这是为了安全。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">输入密码之后，回车，date 命令的运行结果就显示给我们了，还记得我们的 date 命令么？是的，它用于显示当前日期和时间。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，date 这个命令不一定要是 root 用户才能执行，所以没什么特别，只是给大家一个印象，如何用 sudo 命令暂时切换为 root 身份。</p>
+</div><div class="cl-preview-section"><h4 id="sudo-su-命令：一直成为-root" style="font-size: 26px;">sudo su 命令：一直成为 root</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有的人当一天皇帝就知足了，但有的人想要当得更久一些，甚至“向天再借五百年”，怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只需要使用 sudo su 这个组合命令，就可以一直成为 root 用户了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079de00017b4f08500332.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079de00017b4f08500332.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">终端会要求我们输入个人用户的密码，就是那一行：</p>
+</div><div class="cl-preview-section"><pre><code>[sudo] password for oscar:
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，运行了 sudo su 之后，我们的命令行提示符从 oscar@oscar-laptop:~$ 变成了 root@oscar-laptop:/home/oscar#。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你还记得我们在命令行那一课里讲到的如何阅读命令行提示符，你就会很容易明白此时我们已经完成了“逆袭”：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从普通用户升级为 root 用户了！（从命令行提示符的第一个 root 可以看出，还有结尾处的 # 也表明此时是 root 身份）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个时候就要小心了，因为此时你已经可以为所欲为了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，如果你感觉有点不适应，讶异于幸福来得太突然，还留恋原来的身份，那么可以退出 root 用户，重新回到个人用户身份，用 exit 命令就可以完成（exit 是英语“退出，离开”的意思）。如果用 Ctrl + d 的组合键，效果是一样的：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079e60001132809480388.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079e60001132809480388.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，当我们身为 root 时，只要运行 exit 命令，就随时可以回到个人用户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 以外的其它 Linux 发行版，也许切换到 root 账户，不是用 sudo su，而是只需要 su 就可以了。当然我们比较建议再加一个横线，用：</p>
+</div><div class="cl-preview-section"><pre><code>su -
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样不仅能切换为 root，还可以直接定位到 root 的家目录。而且可以直接使用 root 才能用的那些命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 中则是：</p>
+</div><div class="cl-preview-section"><pre><code>sudo su -
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079f00001477408380390.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079f00001477408380390.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述命令在 Ubuntu 中不仅能切换为 root，还可以直接定位到 root 的家目录。由 pwd 命令的结果可知。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">sudo -i 命令也有类似效果：</p>
+</div><div class="cl-preview-section"><pre><code>sudo -i
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1079f70001bebe08360398.png" alt="图片描述" data-original="http://img.mukewang.com/5d1079f70001bebe08360398.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="用户管理的命令" style="font-size: 30px;">3. 用户管理的命令</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然你已经学会了如何暂时或一劳永逸地成为 root 用户，那么我们就可以来学习一些只有 root 用户才能运行的命令了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">adduser 命令就是其中之一。</p>
+</div><div class="cl-preview-section"><h4 id="adduser-命令：添加新用户" style="font-size: 26px;">adduser 命令：添加新用户</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">adduser 这个命令，我们很容易理解其作用，因为完全可以顾名思义：add 是英语“添加”的意思，user 是英语“用户”的意思，因此 adduser 就是用于添加用户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用法也很简单，adduser 命令后接我们要创建的用户名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你使用你的个人用户身份来运行这条命令，终端会提示你没有权限：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a040001e28615100312.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a040001e28615100312.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，我们在 oscar 这个用户的身份下，运行 adduser thomas，表示我们想要创建一个新用户，叫做 thomas。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是不能运行，终端提示“adduser: Only root may add a user or group to the system”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这句英语翻出来就是“adduser：只有 root 用户才能往系统里添加用户或群组”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">太看不起人了，我不变身为钢铁侠你以为我只是托尼·斯塔克是吧？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以我只能穿上 sudo su 这套“钢衣”，先变身为钢铁侠，再来运行 adduser thomas 这个命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a0b0001e19014680620.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a0b0001e19014680620.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，我们成为 root 之后，运行 adduser thomas 就没问题了，显示 thomas 用户被添加，用户名是 thomas，群组是 thomas，创建 /home/thomas 这个 thomas 的家目录，然后终端命令停在这一行：</p>
+</div><div class="cl-preview-section"><pre><code>Enter new UNIX password：
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">意思是“请为 thomas 这个用户创建一个密码”。enter 是“输入”的意思，new 是“新的”的意思，password 是“密码”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以看到上面这句话中有 UNIX 的字样，我想这个命令应该从 UNIX 时代已经存在了吧。毕竟 Linux 是承袭 UNIX 的，很多命令是一样的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们随便填写，然后回车，会让我们再输入一遍密码确认。接着是一些配置信息，比如 thomas 这个用户的全名、房间号、工作电话、家庭电话、其它等等。我们通通可以不填写，用回车键略过，到了最后终端会提示：</p>
+</div><div class="cl-preview-section"><pre><code>Is the information correct ? [Y/n]
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">意思是“以上这些信息都正确吗？[正确请输入 y / 不正确请输入 n]”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们输入 y，回车。thomas 用户就正式创建好了。可以看一下此时 /home 目录里的内容，发现多了一个 thomas 目录，也就是 thomas这个用户的家目录。如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a160001923b15181362.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a160001923b15181362.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="passwd-命令：修改密码" style="font-size: 26px;">passwd 命令：修改密码</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果之后你对设定的密码不满意，那么可以用 passwd 命令来修改当前密码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">passwd 命令是 password 这个英语单词的缩写，表示“密码”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用法也类似 adduser，只要在其后加上需要修改密码的那个用户名，例如：</p>
+</div><div class="cl-preview-section"><pre><code>passwd thomas
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a2100016c8d11840402.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a2100016c8d11840402.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Enter new UNIX password 的意思是“输入新的密码”</li>
+<li style="font-size: 20px; line-height: 38px;">Retype new UNIX password 的意思是“再输入一遍密码”</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">输入两次相同的新密码之后，可以看到提示：password updated successfully，意思是“密码更新成功”。</p>
+</div><div class="cl-preview-section"><h4 id="deluser：删除用户" style="font-size: 26px;">deluser：删除用户</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">聪明如你一定会说：“既然有添加用户的命令，那么一定也有删除账户的命令。”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是的，我们可以用 deluser 命令来删除已创建的账户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">deluser 是 delete 和 user 的缩写，delete 是英语“删除”的意思，user 是“用户”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用法同 adduser，在后面接你要删除的用户名。例如：</p>
+</div><div class="cl-preview-section"><pre><code>deluser thomas
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a2d00015a3112280524.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a2d00015a3112280524.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">“Removing user ‘thomas’…” 表示“正在删除 thomas 这个用户”；</li>
+<li style="font-size: 20px; line-height: 38px;">“Warning: group ‘thomas’ has no more members” 表示“提示/警告：thomas 这个群组已经没有任何成员了”；</li>
+<li style="font-size: 20px; line-height: 38px;">Done 表示“完成”。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，运行 deluser thomas 这个命令，终端不会提示你确认是否删除，而是直接删除了用户thomas。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">所以，deluser 这个命令还是要谨慎使用。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为如果你删除的是你的个人用户。例如，我以 root 用户身份运行 deluser oscar，那么会删除 oscar 这个账户。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么就会陷入囧境：在下次系统启动时你就不能以 oscar 登录了，而 Ubuntu 默认又不允许 root 登录，你就会不知所措了。当然，还是会有解决办法的，只是比较麻烦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">单单用 deluser 命令，不加参数的话，只会删除用户，但是不会删除在 /home 目录中的用户家目录。如果你想要连此用户的家目录也一并删除，可以加上 --remove-home 这个参数，如下：</p>
+</div><div class="cl-preview-section"><pre><code>deluser --remove-home thomas
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样，不仅删除了 thomas 这个用户，连 /home/thomas 这个目录也会删除。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过，我们上面因为已经用 deluser thomas 来删除了 thomas 这个用户，你如果再运行 deluser --remove-home thomas，系统会提示“/usr/sbin/deluser: The user `thomas’ does not exist.”，表示“/usr/sbin/deluser: thomas 这个用户不存在”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以我们只能手动去删除它的家目录了：</p>
+</div><div class="cl-preview-section"><pre><code>rm -rf /home/thomas/
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d107a370001b98915800774.png" alt="图片描述" data-original="http://img.mukewang.com/5d107a370001b98915800774.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可怜的 thomas，连家也被一锅端了，这会是真的以“托马斯全旋”彻底地告别了我们。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注意：adduser 和 deluser 命令只是 Debian 一族（包括 Ubuntu）才有的命令。其它的 Linux 发行版，一般来说，添加用户和删除用户是用 useradd 和 userdel 命令。<br>
+而且，用 useradd 添加用户之后，在默认的情况下，该账号是暂时被封锁的， 也就是说，该账号是无法登录，须要用 passwd 命令来给新创建的用户设置密码之后才可以使用。</p>
+</blockquote>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在 Linux 系统中，每一个用户都有自己独立的账户；</li>
+<li style="font-size: 20px; line-height: 38px;">用户是被分组的；</li>
+<li style="font-size: 20px; line-height: 38px;">存在一个超级用户，也就是一般说的大管家，它有权利做任何事情，它就是 root；</li>
+<li style="font-size: 20px; line-height: 38px;">有一些命令要能运行，须要先切换到 root 身份，我们可以用 sudo 这个命令来实现此切换。比如以下这些命令就需要在前面再加一个 sudo ：adduser（用于添加新用户），deluser（用于删除用户）。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/467">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    13 文件的复制，移动，删除和链接
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/469">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    15 群组的管理和文件权限管理
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

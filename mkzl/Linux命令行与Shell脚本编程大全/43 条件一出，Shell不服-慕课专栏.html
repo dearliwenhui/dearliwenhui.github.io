@@ -1,0 +1,674 @@
+<html><head><meta charset="utf-8"><title>43 条件一出，Shell不服-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        43 条件一出，Shell不服
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-26 11:04:47
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.mukewang.com/5d4d0876000154d406400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">每个人都是自己命运的主宰。<p class="author">——斯蒂尔斯</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="内容简介">内容简介</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">if : 最简单的条件</li>
+<li style="font-size: 20px; line-height: 38px;">条件测试</li>
+<li style="font-size: 20px; line-height: 38px;">case : 测试多个条件</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="前言">1. 前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课 <a href="">带你玩转Linux和Shell编程 | 第五部分第四课：变量在手，Shell不愁</a> 有不少内容。这一课我们轻松一下，来聊聊条件语句。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的标题有点“任性”。主要是想到了一个对联：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">说你行，你就行，不行也行。<br>
+说不行，就不行，行也不行。<br>
+横批：不服不行</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此“条件一出，Shell 不服不行”。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">读者：“好冷的笑话…”</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于所有编程语言，做决定是很重要的。如果程序员不决定程序做什么，那么程序基本只会一直做同样的事情，就很无趣了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而条件语句就是用于帮助程序做决定的。在我们的 Shell 脚本中，条件语句可以做以下“抉择”：</p>
+</div><div class="cl-preview-section"><pre><code>如果，变量的值等于 xxx ，
+
+那么，这样做；
+
+否则，那样做。
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你学过某一门编程语言，例如 C 语言，C++ 或 Java，那么对于条件语句的原理应该很熟悉了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">即使你没学过其它编程语言，那也不必担心，跟着我们学完这课，保证你了然于胸。</p>
+</div><div class="cl-preview-section"><h3 id="if--最简单的条件">2. if : 最简单的条件</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最常用的条件语句就是 if 条件语句。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">if 是英语“如果”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">if 条件语句的基本格式是这样的：</p>
+</div><div class="cl-preview-section"><pre><code>if [ 条件测试 ]
+then 
+    做这个
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">fi 是 if 的反转写法，表示“if 语句结束”。then 是英语“那么”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“做这个”只有在“条件测试”为真时，才会被执行。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注意：方括号 <code>[]</code> 中的 <code>条件测试</code> 两边必须要空一格。不能写成 <code>[test]</code>，而要写成 <code>[ test ]</code>。<br>
+唉，Shell 就是这么任性，你不服都不行！</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，if 语句的基本写法还有一种，那就是把 then 写在 <code>if [ 条件测试 ]</code> 后面，如下：</p>
+</div><div class="cl-preview-section"><pre><code>if [ 条件测试 ]; then
+    做这个
+fi
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">用这种写法时，在 if 条件判断和 then 之间要加一个分号。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们写 Shell 程序时，需要把“条件测试”换成我们真实要测试的条件，一般来说都是测试变量的值。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以通过例子来学习，首先创建一个叫做 condition.sh 的文件（ condition 是英语“条件”的意思）。</p>
+</div><div class="cl-preview-section"><pre><code>vim condition.sh
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在里面输入以下内容：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+name="Enming"
+
+if [ $name = "Enming" ]
+then
+   echo "Hello $name !"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">在 Shell 语言中，“等于”是用一个等号（ = ）来表示的，这和大多数主流编程语言不同。C 语言中“等于”是用两个等号（ == ）来表示的。但 Shell 中用两个等号来表示“等于”的判断也是可以的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上例中，因为变量 name 的值等于 “Enming”，因此会输出 “Hello Enming !”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d48107700011c9c11400332.png" data-original="//img.mukewang.com/5d48107700011c9c11400332.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，我们也可以测试两个变量，例如：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+name1="Enming"
+name2="Oscar"
+
+if [ $name1 = $name2 ]
+then
+   echo "You two have the same name !"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“You two have the same name” 是英语“你们俩有相同的名字”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行上面的程序，可以看到什么也没有显示，因为 Enming 和 Oscar 这两个字符串不相同。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d48107f0001b34109580242.png" data-original="//img.mukewang.com/5d48107f0001b34109580242.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="else--否则" style="font-size: 26px;">else : 否则</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然有“如果”的条件判断，那么也会存在条件不成立的时候，就好比上面那个程序中，Enming 和 Oscar 这两个字符串不相同的情况。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们已经知道表示“如果”的关键字是 if，那么表示“否则”的关键字应该就是 else 咯？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">没错。因为 else 就是英语“否则”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，if 和 else 两者配合的逻辑是这样的：</p>
+</div><div class="cl-preview-section"><pre><code>if [ 条件测试 ]
+then
+    做这个
+else
+    做那个
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是：如果“条件测试”为真，那么“做这个”被执行；否则，“做那个”被执行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来看例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+name1="Enming"
+name2="Oscar"
+
+if [ $name1 = $name2 ]
+then
+    echo "You two have the same name !"
+else
+    echo "You two have different names !"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d481087000143e109720288.png" data-original="//img.mukewang.com/5d481087000143e109720288.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“You two have different names” 是英语“你们有不同的名字”的意思。</p>
+</div><div class="cl-preview-section"><h4 id="elif--否则，如果" style="font-size: 26px;">elif : 否则，如果</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般来说 if 和 else 已经能满足我们的大部分条件判断需要了，但有些时候，存在好几种情况。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">光是 if 和 else 表示的两种对立的情况已经不足以满意要求了，因此我们再来学习一个关键字：elif 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">elif 是 else if 的缩写，表示“否则 - 如果”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">if， elif 和 else 三者配合的逻辑是这样的：</p>
+</div><div class="cl-preview-section"><pre><code>if [ 条件测试 1 ]
+then
+    做事情 1
+elif [ 条件测试 2 ]
+then
+    做事情 2
+elif [ 条件测试 3 ]
+then
+    做事情 3
+else
+    做其他事情
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ $1 = "Matthew" ]
+then
+    echo "Hello Matthew !"
+elif [ $1 = "Mark" ]
+then
+    echo "Hello Mark !"
+elif [ $1 = "Luke" ]
+then
+    echo "Hello Luke !"
+elif [ $1 = "John" ]
+then
+    echo "Hello John !"
+else
+    echo "Sorry, I do not know you."
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“Sorry, I do not know you” 是英语“对不起，我不认识你”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d48109000010b9612720728.png" data-original="//img.mukewang.com/5d48109000010b9612720728.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们可以写任意多个 elif 语句，但是 if 语句必须要有且只能有一个，else 语句不一定要有且最多只能有一个。</p>
+</blockquote>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们可以有单独由 if 语句组成的条件语句，也可以有 <code>if ... else ...</code> 组成的条件语句，也可以有 <code>if ... elif ... else...</code> 组成的条件语句，也可以有 <code>if ... elif ...</code> 组成的语句。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，你如果把 else 那个语句去掉，变成：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ $1 = "Matthew" ]
+then
+    echo "Hello Matthew !"
+elif [ $1 = "Mark" ]
+then
+    echo "Hello Mark !"
+elif [ $1 = "Luke" ]
+then
+    echo "Hello Luke !"
+elif [ $1 = "John" ]
+then
+    echo "Hello John !"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也是可以的。只是在这种情况下，你输入除了那四个字符串以外的其他参数，Shell 脚本将没有任何输出：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d48109900015e5311560250.png" data-original="//img.mukewang.com/5d48109900015e5311560250.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="条件测试">3. 条件测试</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在我们来看看我们都能做哪些“条件测试”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之前的例子，我们只比较了字符串，但其实我们远可以做比这更复杂的条件测试。</p>
+</div><div class="cl-preview-section"><h4 id="不同的测试类型" style="font-size: 26px;">不同的测试类型</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Bash 中我们可以做三种测试：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">测试字符串</li>
+<li style="font-size: 20px; line-height: 38px;">测试数字</li>
+<li style="font-size: 20px; line-height: 38px;">测试文件</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们通过例子一一来学习。</p>
+</div><div class="cl-preview-section"><h4 id="测试字符串" style="font-size: 26px;">测试字符串</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们之前的课程已经说过：在 Shell 中，所有的变量都是字符串。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，要做字符串的测试非常简单。记住以下表格：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">条件</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">$string1 = $string2</td>
+<td align="center">两个字符串是否相等。Shell 大小写敏感，因此 A 和 a 是不一样的。</td>
+</tr>
+<tr>
+<td align="center">$string1 != $string2</td>
+<td align="center">两个字符串是否不同。</td>
+</tr>
+<tr>
+<td align="center">-z $string</td>
+<td align="center">字符串 string 是否为空。z 是 zero 的首字母，是英语“零”的意思。</td>
+</tr>
+<tr>
+<td align="center">-n $string</td>
+<td align="center">字符串 string 是否不为空。n 是英语 not 的首字母，是英语“不”的意思。</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ -z $1 ]
+then
+    echo "No parameter"
+else
+    echo "There is at least one parameter"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“No parameter” 是英语“没有参数”的意思。<br>
+“There is at least one parameter” 是英语“至少有一个参数”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4810aa00012e2715140614.png" data-original="//img.mukewang.com/5d4810aa00012e2715140614.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="测试数字" style="font-size: 26px;">测试数字</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">尽管 Shell 把所有变量都看成字符串，但是我们还是可以做数字的条件测试。记住以下表格：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">条件</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">$num1 -eq $num2</td>
+<td align="center">两个数字是否相等。和判断字符串所用的符号（ = ）不一样。eq 是 equal 的缩写，是英语“等于”的意思。</td>
+</tr>
+<tr>
+<td align="center">$num1 -ne $num2</td>
+<td align="center">两个数字是否不同。ne 是 not equal 的缩写，是英语“不等于”的意思。</td>
+</tr>
+<tr>
+<td align="center">$num1 -lt $num2</td>
+<td align="center">数字 num1 是否小于 num2。lt 是 lower than 的缩写，是英语“小于”的意思。</td>
+</tr>
+<tr>
+<td align="center">$num1 -le $num2</td>
+<td align="center">数字 num1 是否小于或等于 num2。le 是 lower or equal 的缩写，是英语“小于或等于”的意思。</td>
+</tr>
+<tr>
+<td align="center">$num1 -gt $num2</td>
+<td align="center">数字 num1 是否大于 num2。gt 是 greater than 的缩写，是英语“大于”的意思。</td>
+</tr>
+<tr>
+<td align="center">$num1 -ge $num2</td>
+<td align="center">数字 num1 是否大于或等于 num2。ge 是 greater or equal 的缩写，是英语“大于或等于”的意思。</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ $1 -ge 10 ]
+then
+    echo "You have entered a number greater than 10 or equal to 10"
+else
+    echo "You have entered a number lower than 10"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">“You have entered a number greater than 10 or equal to 10” 是英语“你输入了一个比 10 更大或等于 10 的数字”的意思。</li>
+<li style="font-size: 20px; line-height: 38px;">“You have entered a number lower than 10” 是英语“你输入了一个比 10 更小的数字”的意思。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4810b200010a0414960508.png" data-original="//img.mukewang.com/5d4810b200010a0414960508.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="测试文件" style="font-size: 26px;">测试文件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相比于主流编程语言，Shell 的一大优势就是可以非常方便地测试文件：文件存在吗？我们可以写入文件吗？这个文件比那个文件修改时间更早还是更晚？等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下表非常丰富：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">条件</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">-e $file</td>
+<td align="center">文件是否存在。e 是 exist 的首字母，表示“存在”。</td>
+</tr>
+<tr>
+<td align="center">-d $file</td>
+<td align="center">文件是否是一个目录。因为 Linux 中一切都是文件，目录也是文件的一种。d 是 directory 的首字母，表示“目录”。</td>
+</tr>
+<tr>
+<td align="center">-f $file</td>
+<td align="center">文件是否是一个文件。f 是 file 的首字母，表示“文件”。</td>
+</tr>
+<tr>
+<td align="center">-L $file</td>
+<td align="center">文件是否是一个符号链接文件。L 是 link 的首字母，表示“链接”。</td>
+</tr>
+<tr>
+<td align="center">-r $file</td>
+<td align="center">文件是否可读。r 是 readable 的首字母，表示“可读的”。</td>
+</tr>
+<tr>
+<td align="center">-w $file</td>
+<td align="center">文件是否可写。w 是 writable 的首字母，表示“可写的”。</td>
+</tr>
+<tr>
+<td align="center">-x $file</td>
+<td align="center">文件是否可执行。x 是 executable 的首字母，表示“可执行的”。</td>
+</tr>
+<tr>
+<td align="center">$file1 -nt $file2</td>
+<td align="center">文件 file1 是否比 file2 更新。nt 是 newer than 的缩写，表示“更新的”。</td>
+</tr>
+<tr>
+<td align="center">$file1 -ot $file2</td>
+<td align="center">文件 file1 是否比 file2 更旧。ot 是 older than 的缩写，表示“更旧的”。</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+read -p 'Enter a directory : ' file
+
+if [ -d $file ]
+then
+    echo "$file is a directory"
+else
+    echo "$file is not a directory"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：<br>
+<img class="" src="https://img.mukewang.com/5d4810bc00012ed809780528.png" data-original="//img.mukewang.com/5d4810bc00012ed809780528.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的程序就是测试输入的参数是不是一个目录。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">‘Enter a directory’ 表示“输入一个目录”。</li>
+<li style="font-size: 20px; line-height: 38px;">‘is a directory’ 表示“是一个目录”。</li>
+<li style="font-size: 20px; line-height: 38px;">‘is not a directory’ 表示“不是一个目录”。</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="一次测试多个条件" style="font-size: 26px;">一次测试多个条件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在一个条件测试中，我们可以同时测试多个条件。需要用到两种符号：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">&amp;&amp;</td>
+<td align="center">两个 &amp;。表示“逻辑与”。此符号两端的条件必须全为真，整个条件测试才为真；只要有一个不为真，整个条件测试为假。</td>
+</tr>
+<tr>
+<td align="center">II</td>
+<td align="center">两个竖线。表示“逻辑或”。此符号两端的条件只要有一个为真，整个条件测试就为真；只有两个都为假，整个条件测试才为假。</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ $# -ge 1 ] &amp;&amp; [ $1 = 'love' ]
+then
+    echo "Great !"
+    echo "You know the password"
+else
+    echo "You do not know the password"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“Great ! You know the password” 是英语“好极了！你知道密码”的意思。<br>
+“You do not know the password” 是英语“你不知道密码”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4810c40001459810980454.png" data-original="//img.mukewang.com/5d4810c40001459810980454.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的测试检验了两个条件：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">参数是否至少有 1 个 （ <code>$#</code> 大于或等于 1 ）</li>
+<li style="font-size: 20px; line-height: 38px;">第一个参数是否等于 love（ <code>$1</code> 是否等于 love ）。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">love 表示“爱”，hate 表示“恨”。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">在做多个条件的判断时，是按照从左到右的顺序判断的，如果前一个条件已经足以决定整个条件测试的真或假，那么后面的条件就不会被判断。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如 <code>[ 2 -ge 1 ] || [ 3 -gt 2 ]</code> 中，2 是大于等于 1 的，因此，<code>2 -ge 1</code> 已经为真，整个条件语句肯定为真，<code>3 -gt 2</code> 就不需要被判断了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而 <code>[ 2 -ge 4 ] &amp;&amp; [ 5 -gt 2 ]</code> 中，2 是小于 4 的，因此，<code>2 -ge 4</code> 已经为假，整个条件语句肯定为假，<code>5 -gt 2</code> 就不需要被判断了。</p>
+</div><div class="cl-preview-section"><h4 id="反转测试" style="font-size: 26px;">反转测试</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以用“否定”来反转测试条件，要用到感叹号（ <code>!</code> ）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+read -p 'Enter a file : ' file
+
+if [ ! -e $file ]
+then
+    echo "$file does not exist"
+else
+    echo "$file exists"
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">条件测试中我们写了 <code>! -e $file</code>，表示“如果文件 file 不存在”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">exist 是英语“存在”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4810cc0001c59909540514.png" data-original="//img.mukewang.com/5d4810cc0001c59909540514.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="case--测试多个条件">4. case : 测试多个条件</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之前，我们写过一个例子，用来演示多个条件测试的情况：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+if [ $1 = "Matthew" ]
+then
+    echo "Hello Matthew !"
+elif [ $1 = "Mark" ]
+then
+    echo "Hello Mark !"
+elif [ $1 = "Luke" ]
+then
+    echo "Hello Luke !"
+elif [ $1 = "John" ]
+then
+    echo "Hello John !"
+else
+    echo "Sorry, I do not know you."
+fi
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个程序当然没有错，但是它只对同一个变量做测试（我们输入的参数 1），却用了这么多 <code>elif... then...</code> 未免略显繁琐，也不是很好理解。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">像这样的情况，我们可以用 case 语句来实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">case 是英语“情况”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面的程序可以改写成这样：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+case $1 in
+    "Matthew")
+        echo "Hello Matthew !"
+        ;;
+    "Mark")
+        echo "Hello Mark !"
+        ;;
+    "Luke")
+        echo "Hello Luke !"
+        ;;
+    "John")
+        echo "Hello John !"
+        ;;
+    *)
+        echo "Sorry, I do not know you."
+        ;;
+esac
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行之后与之前的程序效果一样。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来分析一下上面的程序，因为有很多新的内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>case $1 in</code> ：<code>$1</code> 表示我们要测试的变量是输入的第一个参数。in 是英语“在…之中”的意思。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>"Matthew")</code> ：测试其中一个 case，也就是 <code>$1</code> 是否等于 <code>"Matthew"</code>。当然，我们也可以用星号来做通配符来匹配多个字符，例如 <code>"M*")</code> 可以匹配所有以 M 开头的字符串。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>;;</code> ：类似于主流编程语言中的 <code>break;</code>，表示结束 case 的读取，程序跳转到 esac 后面执行。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>*)</code> ：相当于 if 条件语句的 else，表示“否则”，就是“假如不等于上面任何一种情况”。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>esac</code> ：是 case 的反写，表示 case 语句的结束。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">其实 case 语句就相当于主流编程语言中的 switch 语句。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们也可以在 case 语句的匹配项中做“或”的匹配，但是不是用两个竖线（逻辑或）了，而是用一个竖线。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来看一个例子：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+
+case $1 in
+    "dog" | "cat" | "pig")
+        echo "It is a mammal"
+        ;;
+    "pigeon" | "swallow")
+        echo "It is a bird"
+        ;;
+    *)
+        echo "I do not know what it is"
+        ;;
+esac
+</code></pre>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">“It is a mammal” 是英语“这是一只哺乳动物”的意思。dog 是“狗”，cat 是“猫”，pig 是“猪”。这三种动物都属于哺乳动物。</li>
+<li style="font-size: 20px; line-height: 38px;">“It is a bird” 是英语“这是一只鸟”的意思。pigeon 是“鸽子”，swallow 是“燕子”。这两种动物都属于鸟类。</li>
+<li style="font-size: 20px; line-height: 38px;">“I do not know what it is” 是英语“我不知道这是什么”的意思。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4810dd0001337c11700840.png" data-original="//img.mukewang.com/5d4810dd0001337c11700840.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="总结">5. 总结</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">我们可以用下面的语法来做条件测试：<code>if, then, [ [ elif, then, fi ] else, ] fi</code>；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">我们可以测试字符串，也可以测试数字，也可以测试文件。例如文件存在吗？文件是否可执行？等等；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">如果需要，我们可以综合好几种测试，用 <code>&amp;&amp;</code> （逻辑与），<code>||</code> （逻辑或）符号；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">感叹号（ <code>!</code> ）表示条件“否”，用于反转条件测试；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当我们对同一个变量做好多测试时，一般用 case 语句比 if 语句更直观。</p>
+</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/536">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            42 变量在手，Shell不愁
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/538">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            44 循环往复，Shell开路
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                <div class="bottom-line">
+                    <div class="line"></div>
+                    <div class="bottom-tip">千学不如一看，千看不如一练</div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.mukewang.com/5d5a70bc000165cb05400598.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907221925272456</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：812552418</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=50iMJcL" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

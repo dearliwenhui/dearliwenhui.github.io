@@ -1,0 +1,509 @@
+<html><head><meta charset="utf-8"><title>14 高效的布隆过滤器 - RedisBloomDupeFilter-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 4-3 14 高效的布隆过滤器 - RedisBloomDupeFilter
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                14 高效的布隆过滤器 - RedisBloomDupeFilter
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-14 14:35:30
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5cebc9c00001593206400360.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">学习从来无捷径，循序渐进登高峰。 <p class="author">—— 高永祚</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在高速的<code>RedisDupeFilter</code>去重过滤器的基础上，如果采用布隆算法进行优化在面对亿级以上爬取量的目标网站就显得更加游刃有余。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">布隆过滤器（Bloom Filter）是由Burton Howard Bloom于1970年提出的，它是一种space efficient的概率型数据结构，用于判断一个元素是否在集合中。在垃圾邮件过滤的黑白名单方法、爬虫（Crawler）的网址判重模块等场景中经常被用到。哈希表也能用于判断元素是否在集合中，但是布隆过滤器只需要哈希表的1/8或1/4的空间复杂度就能完成同样的任务。布隆过滤器可以插入元素，但不可以删除已有元素。元素越多，false positive rate（误报率）越大，但是false negative（漏报）是不可能的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在爬虫中使用布隆过滤器可以实现高效去重。布隆过滤器可以用于快速检索一个元素是否在集合中。布隆过滤器实际上是一个很长的二进制向量和一系列随机映射函数（Hash函数）。而一般判断一个元素是否在集合中的做法是：用需要判断的元素和集合中的元素进行比较，大部分数据结 构如链表、树，都是这么实现的。</p>
+</div><div class="cl-preview-section"><h3 id="优点">优点</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相比于其他数据结构，布隆过滤器在空间和时间方面都有巨大的优势。布隆过滤器存储空间和插入/查询时间都是常数O(k)。另外，散列函数相互之间没有关系，方便由硬件并行实现。布隆过滤器不需要存储元素本身，在某些对保密要求非常严格的场合中非常有优势。<br>
+布隆过滤器可以表示全集，其他任何数据结构都不能；k和 m相同，使用同一组散列函数的两个布隆过滤器的交并来源请求运算可以使用位操作进行。</p>
+</div><div class="cl-preview-section"><h4 id="确定性" style="font-size: 26px;">确定性</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当使用相同大小和数量的哈希函数时，某个元素通过布隆过滤器得到的是正反馈还是负反馈的结果是确定的。对于某个元素x，如果它现在可能存在，那五分钟之后、一小时之后、一天之后、甚至一周之后的状态都是可能存在的。当我得知这一特性时有一点惊讶。因为布隆过滤器是概率性的，其结果显然应该存在某种随机因素，难道不是吗？确实不是。它的概率性体现在我们无法判断究竟哪些元素的状态是可能存在的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">换句话说，过滤器一旦做出可能存在的结论后，结论就不会发生变化。</p>
+</div><div class="cl-preview-section"><h4 id="布隆过滤器的容量" style="font-size: 26px;">布隆过滤器的容量</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">布隆过滤器需要事先知道要插入元素的个数。如果并不知道或者很难估计元素的个数，情况就不太妙。也可以随机指定一个很大的容量，但这样会浪费许多存储空间，存储空间是我们试图优化的首要任务，也是选择使用布隆过滤器的原因之一。一种解决方案是创建一个能够动态适应数据量的布隆过滤器，但是在某些应用场景下这个方案无效。有一种可扩展布隆过滤器，它能够调整容量来适应不同数量的元素。它能弥补一部分短板。</p>
+</div><div class="cl-preview-section"><h4 id="空间效率" style="font-size: 26px;">空间效率</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果想在集合中存储一系列的元素，有很多种不同的做法。可以把数据存储在HashMap，随后在HashMap中检索元素是否存在，HashMap插入和查询的效率都非常高。但是，由于HashMap直接存储内容，所以空间利用率并不高。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果希望提高空间利用率，我们可以在元素插入集合之前做一次哈希变换。还有其他方法吗？我们可以用位数组来存储元素的哈希值。我们也允许在位数组中存在哈希冲突。这正是布隆过滤器的工作原理，它们就是基于允许哈希冲突的位数组，可能会造成一些误报。在布隆过滤器的设计阶段就允许哈希冲突的存在，否则空间使用就不够紧凑了。</p>
+</div><div class="cl-preview-section"><h3 id="缺点">缺点</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是布隆过滤器的缺点和优点一样明显。误算率是其中之一。随着存入的元素数量增加，误算率随之增加。但如果元素数量太少，则使用散列表。<br>
+另外，一般情况下不能从布隆过滤器中删除元素。我们很容易想到把位数组变成整数数组，每插入一个元素相应的计数器加1，这样删除元素时将计数器减掉就可以了。然而要保证安全地删除元素并非如此简单。首先我们必须保证删除的元素的确在布隆过滤器中。这一点单凭过滤器是无法保证的。另外计数器回绕也会造成问题。在降低误算率方面有不少方法，出现了很多布隆过滤器的变种。</p>
+</div><div class="cl-preview-section"><h4 id="误报" style="font-size: 26px;">误报</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">布隆过滤器能够“拍着胸脯”说某个元素“肯定不存在”，但是对于一些元素它们会说“可能存在”。针对不同的应用场景，这有可能会是一个巨大的缺陷，或是无关紧要的问题。如果在检索元素是否存在时不介意引入误报情况，那么就应当考虑用布隆过滤器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">另外，如果随意地减小了误报比率，哈希函数的数量就要相应地增加，插入和查询时的延时也会相应地增加。本节的另一个要点是，如果哈希函数是相互独立的，并且输入元素在空间中均匀地分布，那么理论上真实误报率就不会超过理论值。否则，由于哈希函数的相关性和更频繁的哈希冲突，布隆过滤器的真实误报比例会高于理论值。</p>
+</div><div class="cl-preview-section"><h4 id="布隆过滤器的构造和检索" style="font-size: 26px;">布隆过滤器的构造和检索</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在使用布隆过滤器时，我们不仅要接受少量的误报率，还要接受速度方面的额外时间开销。相比于HashMap，对元素做哈希映射和构建布隆过滤器时必然存在一些额外的时间开销。</p>
+</div><div class="cl-preview-section"><h4 id="无法返回元素本身" style="font-size: 26px;">无法返回元素本身</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">布隆过滤器并不会保存插入元素的内容，只能检索某个元素是否存在。因为存在哈希函数和哈希冲突，我们无法得到完整的元素列表。这是它相对于其他数据结构的最显著优势，空间的使用率也造成了这块短板。</p>
+</div><div class="cl-preview-section"><h4 id="删除某个元素" style="font-size: 26px;">删除某个元素</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">想从布隆过滤器中删除某个元素可不是一件容易的事情，我们无法撤回某次插入操作，因为不同项目的哈希结果可以被索引在同一位置。如果想撤消插入，只能记录每个索引位置被置位的次数，或是重新创建一次。两种方法都有额外的开销。基于不同的应用场景，若要删除一些元素，我们更倾向于重建布隆过滤器。</p>
+</div><div class="cl-preview-section"><h2 id="布隆过滤器的算法" style="font-size: 30px;">布隆过滤器的算法</h2>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">创建一个m位BitSet，先将所有位初始化为0，然后选择k个不同的哈希函数。第i个哈希函数对字符串str哈希的结果记为h（i，str），且h（i，str）的范围是0到m-1 。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>第一步：加入字符串</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面是每个字符串处理的过程，首先是将字符串str“记录”到BitSet中：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于字符串str，分别计算<code>h（1，str）</code>、<code>h（2，str）</code>…… <code>h（k，str）</code>。然后将BitSet的第<code>h（1，str）</code>、<code>h（2，str</code>）…… <code>h（k，str）</code>位设为1。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://www.imooc.com/assets/bloomfilter.jpg" alt="" data-original="http://www.imooc.com/assets/bloomfilter.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>第二步：检查字符串是否存在</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面是检查字符串str是否被BitSet记录过的过程：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于字符串str，分别计算<code>h（1，str）</code>、<code>h（2，str</code>）…… <code>h（k，str</code>）。然后检查BitSet的第<code>h（1，str）</code>、<code>h（2，str）</code>…… <code>h（k，str）</code>位是否为1，若其中任何一位不为1，则可以判定str一定没有被记录过。若全部位都是1，则“认为”字符串str存在。<br>
+　　<br>
+若一个字符串对应的Bit不全为1，则可以肯定该字符串一定没有被BloomFilter记录过（这是显然的，因为字符串被记录过，其对应的二进制位肯定全部被设为1了）。<br>
+　　<br>
+若一个字符串对应的Bit全为1（实际上是不为100%的），则肯定该字符串被BloomFilter记录过（因为有可能该字符串的所有位都刚好被其他字符串所对应）。这种将该字符串划分错的情况，称为“假阳性”（false positive）。</p>
+</div><div class="cl-preview-section"><h2 id="布隆过滤器的参数选择" style="font-size: 30px;">布隆过滤器的参数选择</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>哈希函数的选择</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">哈希函数的选择对性能的影响应该是很大的，一个好的哈希函数要能近似等概率地将字符串映射到各个Bit。选择k个不同的哈希函数比较麻烦，一种简单的方法是选择一个哈希函数，然后送入k个不同的参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">** m、n、k如何取值**</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">可能把不属于这个集合的元素误认为属于这个集合（假阳性，False Positive）。</li>
+<li style="font-size: 20px; line-height: 38px;">不会把属于这个集合的元素误认为不属于这个集合（假阴性，False Negative）。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">哈希函数的个数k取10，位数组大小m设为字符串个数n的20倍时，假阳性发生的概率是0.0000889，即10万次的判断中，会存在9次误判，对于一天1亿次的查询，误判的次数为9000次。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">哈希函数的个数k、位数组大小m、加入的字符串数量n的关系可以参考下表。</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>m/n</th>
+<th>k</th>
+<th>k=17</th>
+<th>k=18</th>
+<th>k=19</th>
+<th>k=20</th>
+<th>k=21</th>
+<th>k=22</th>
+<th>k=23</th>
+<th>k=24</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>15.2</td>
+<td>2.67e-05</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>15.9</td>
+<td>1.61e-05</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>16.6</td>
+<td>9.84e-06</td>
+<td>1e-05</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>17.3</td>
+<td>6.08e-06</td>
+<td>6.11e-06</td>
+<td>6.27e-06</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>18</td>
+<td>3.81e-06</td>
+<td>3.76e-06</td>
+<td>3.8e-06</td>
+<td>3.92e-06</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>18.7</td>
+<td>2.41e-06</td>
+<td>2.34e-06</td>
+<td>2.33e-06</td>
+<td>2.37e-06</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>19.4</td>
+<td>1.54e-06</td>
+<td>1.47e-06</td>
+<td>1.44e-06</td>
+<td>1.44e-06</td>
+<td>1.48e-06</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td>20.1</td>
+<td>9.96e-07</td>
+<td>9.35e-07</td>
+<td>9.01e-07</td>
+<td>8.89e-07</td>
+<td>8.96e-07</td>
+<td>9.21e-07</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>20.8</td>
+<td>6.5e-07</td>
+<td>6e-07</td>
+<td>5.69e-07</td>
+<td>5.54e-07</td>
+<td>5.5e-07</td>
+<td>5.58e-07</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>21.5</td>
+<td>4.29e-07</td>
+<td>3.89e-07</td>
+<td>3.63e-07</td>
+<td>3.48e-07</td>
+<td>3.41e-07</td>
+<td>3.41e-07</td>
+<td>3.48e-07</td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>22.2</td>
+<td>2.85e-07</td>
+<td>2.55e-07</td>
+<td>2.34e-07</td>
+<td>2.21e-07</td>
+<td>2.13e-07</td>
+<td>2.1e-07</td>
+<td>2.12e-07</td>
+<td>2.17e-07</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">上表引用自http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="布隆过滤器的python实现">布隆过滤器的Python实现</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">了解实现原理后，我们可以用“已有的轮子”来将布隆过滤器接入至Scrapy中。pybloomfiltermmap（<a href="https://github.com/axiak/pybloomfiltermmap">https://github.com/axiak/pybloomfiltermmap</a> ）是Python世界中比较有名的布隆过滤器，按以下方式在命令行安装：</p>
+</div><div class="cl-preview-section"><pre><code>$ pip install pybloomfiltermmap
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">pybloomfiltermmap的使用非常简单，它提供了一个<code>BloomFilter</code>类，在实例化时只需要输入布隆过滤器的大小与误判率与缓存文件名即可。先来看一个基本的使用示例，具体代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> fruit <span class="token operator">=</span> pybloomfilter<span class="token punctuation">.</span>BloomFilter<span class="token punctuation">(</span><span class="token number">100000</span><span class="token punctuation">,</span> <span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token string">'/tmp/words.bloom'</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> fruit<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token string">'pear'</span><span class="token punctuation">,</span> <span class="token string">'orange'</span><span class="token punctuation">,</span> <span class="token string">'apple'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span>
+<span class="token number">3</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token string">'mike'</span> <span class="token keyword">in</span> fruit
+<span class="token boolean">False</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token string">'apple'</span> <span class="token keyword">in</span> fruit
+<span class="token boolean">True</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>update</code>方法是将需要判断的字符串加入布隆过滤器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来就可以将其集成至Scrapy中，编写一个<code>BloomDupeFilter</code>，使Scrapy能支持布隆去重，具体代码如下所示。</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> pybloomfilter <span class="token keyword">import</span> BloomFilter
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>request <span class="token keyword">import</span> request_fingerprint
+
+<span class="token keyword">class</span> <span class="token class-name">BloomDupeFilter</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>bloomfilter <span class="token operator">=</span> BloomFilter<span class="token punctuation">(</span><span class="token number">100000</span><span class="token punctuation">,</span><span class="token number">0.1</span><span class="token punctuation">,</span><span class="token string">'request_seen.bloom'</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">request_seen</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        fp <span class="token operator">=</span> request_fingerprint<span class="token punctuation">(</span>request<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> fp <span class="token keyword">in</span> self<span class="token punctuation">.</span>bloomfilter<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">True</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>bloomfilter<span class="token punctuation">.</span>add<span class="token punctuation">(</span>fp<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span> 
+
+    <span class="token keyword">def</span> <span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+        msg <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">"已过滤的重复请求: %(request)s"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>debug<span class="token punctuation">(</span>msg<span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">'request'</span><span class="token punctuation">:</span> request<span class="token punctuation">}</span><span class="token punctuation">,</span> extra<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'spider'</span><span class="token punctuation">:</span> spider<span class="token punctuation">}</span><span class="token punctuation">)</span>
+        spider<span class="token punctuation">.</span>crawler<span class="token punctuation">.</span>stats<span class="token punctuation">.</span>inc_value<span class="token punctuation">(</span><span class="token string">'dupefilter/filtered'</span><span class="token punctuation">,</span> spider<span class="token operator">=</span>spider<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>BloomDupeFilter</code>与<code>RFPDupeFilter</code>相比运行速度是有所提升的，但是由于其持久化方式仍然采用文件形式，加入文件时会将所有数据一次性地加载到系统的内存中，一旦文件体积变得越来越大，仍然无法逃脱晒爆内存的窘境。</p>
+</div><div class="cl-preview-section"><h2 id="编写布隆过滤器-redisbloomdupefilter" style="font-size: 30px;">编写布隆过滤器 <code>RedisBloomDupeFilter</code></h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要摆脱超大的持久化文件撑爆内存的问题，最佳的解决办法还是将布隆过滤器持久化数据保存到数据库中。如果完全理解了布隆过滤器的算法与实现思路，则一定会发现Redis可以作为布隆过滤器的数据载体，Redis和布隆过滤器简直就是天生一对！Redis原生就有BitSet类型，非常容易操控。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先需要实现一个HashMap：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">HashMap</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> m<span class="token punctuation">,</span> seed<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>m <span class="token operator">=</span> m
+        self<span class="token punctuation">.</span>seed <span class="token operator">=</span> seed
+    
+    <span class="token keyword">def</span> <span class="token function">hash</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        哈希算法
+        :param value: Value
+        :return: Hash Value
+        """</span>
+        ret <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            ret <span class="token operator">+=</span> self<span class="token punctuation">.</span>seed <span class="token operator">*</span> ret <span class="token operator">+</span> <span class="token builtin">ord</span><span class="token punctuation">(</span>value<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>self<span class="token punctuation">.</span>m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> ret
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后是基于Redis实现的布隆过滤器：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">BLOOMFILTER_HASH_NUMBER <span class="token operator">=</span> <span class="token number">6</span>
+BLOOMFILTER_BIT <span class="token operator">=</span> <span class="token number">30</span>
+
+<span class="token keyword">class</span> <span class="token class-name">BloomFilter</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> server<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token string">'bloomfilters'</span><span class="token punctuation">,</span> bit<span class="token operator">=</span>BLOOMFILTER_BIT<span class="token punctuation">,</span> hash_number<span class="token operator">=</span>BLOOMFILTER_HASH_NUMBER<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        构造 BloomFilter
+        :param server: Redis 服务器地址
+        :param key: 布隆过滤器在Redis使用的键名
+        :param bit: m = 2 ^ bit - 指定内存空间
+        :param hash_number: 进行Hash的数量
+        """</span>
+        <span class="token comment"># 默认 1 &lt;&lt; 30 = 10,7374,1824 = 2^30 = 128MB, 最大过滤的请求指纹数为：2^30/hash_number = 1,7895,6970 </span>
+        self<span class="token punctuation">.</span>m <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> bit
+        self<span class="token punctuation">.</span>seeds <span class="token operator">=</span> <span class="token builtin">range</span><span class="token punctuation">(</span>hash_number<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>server <span class="token operator">=</span> server
+        self<span class="token punctuation">.</span>key <span class="token operator">=</span> key
+        self<span class="token punctuation">.</span>maps <span class="token operator">=</span> <span class="token punctuation">[</span>HashMap<span class="token punctuation">(</span>self<span class="token punctuation">.</span>m<span class="token punctuation">,</span> seed<span class="token punctuation">)</span> <span class="token keyword">for</span> seed <span class="token keyword">in</span> self<span class="token punctuation">.</span>seeds<span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">exists</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        判断数据是否存
+        :param value:
+        :return:
+        """</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> value<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span>
+        exist <span class="token operator">=</span> <span class="token boolean">True</span>
+        <span class="token keyword">for</span> <span class="token builtin">map</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>maps<span class="token punctuation">:</span>
+            offset <span class="token operator">=</span> <span class="token builtin">map</span><span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+            exist <span class="token operator">=</span> exist <span class="token operator">&amp;</span> self<span class="token punctuation">.</span>server<span class="token punctuation">.</span>getbit<span class="token punctuation">(</span>self<span class="token punctuation">.</span>key<span class="token punctuation">,</span> offset<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> exist
+    
+    <span class="token keyword">def</span> <span class="token function">insert</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        将数据插入到布隆过滤器的键值存储空间内
+        :param value:
+        :return:
+        """</span>
+        <span class="token keyword">for</span> f <span class="token keyword">in</span> self<span class="token punctuation">.</span>maps<span class="token punctuation">:</span>
+            offset <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>server<span class="token punctuation">.</span>setbit<span class="token punctuation">(</span>self<span class="token punctuation">.</span>key<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后接入Scrapy的过滤器框架：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> redis <span class="token keyword">import</span> Redis
+<span class="token keyword">from</span> redis_bloomfilter <span class="token keyword">import</span> BloomFilter
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>request <span class="token keyword">import</span> request_fingerprint
+<span class="token keyword">import</span> logging 
+
+<span class="token keyword">class</span> <span class="token class-name">RedisBloomDupeFilter</span><span class="token punctuation">(</span>BaseDupeFilter<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> host<span class="token operator">=</span><span class="token string">'localhost'</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">6379</span><span class="token punctuation">,</span> db<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> blockNum<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token string">'bloomfilter'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>redis <span class="token operator">=</span> Redis<span class="token punctuation">(</span>host<span class="token operator">=</span>host<span class="token punctuation">,</span> port<span class="token operator">=</span>port<span class="token punctuation">,</span> db<span class="token operator">=</span>db<span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>bit_size <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> <span class="token number">31</span>  <span class="token comment"># Redis的String类型最大容量为512M，现使用256M</span>
+        self<span class="token punctuation">.</span>seeds <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">31</span><span class="token punctuation">,</span> <span class="token number">37</span><span class="token punctuation">,</span> <span class="token number">61</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>key <span class="token operator">=</span> key
+        self<span class="token punctuation">.</span>blockNum <span class="token operator">=</span> blockNum
+        self<span class="token punctuation">.</span>hashfunc <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> seed <span class="token keyword">in</span> self<span class="token punctuation">.</span>seeds<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>hashfunc<span class="token punctuation">.</span>append<span class="token punctuation">(</span>SimpleHash<span class="token punctuation">(</span>self<span class="token punctuation">.</span>bit_size<span class="token punctuation">,</span> seed<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+    @<span class="token builtin">classmethod</span>
+    <span class="token keyword">def</span> <span class="token function">from_settings</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> settings<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        _port <span class="token operator">=</span> settings<span class="token punctuation">.</span>getint<span class="token punctuation">(</span><span class="token string">'REDIS_PORT'</span><span class="token punctuation">,</span> <span class="token number">6379</span><span class="token punctuation">)</span>
+        _host <span class="token operator">=</span> settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'REDIS_HOST'</span><span class="token punctuation">,</span> <span class="token string">'127.0.0.1'</span><span class="token punctuation">)</span>
+        _db <span class="token operator">=</span> settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'REDIS_DUP_DB'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        key <span class="token operator">=</span> settings<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'BLOOMFILTER_REDIS_KEY'</span><span class="token punctuation">,</span> <span class="token string">'bloomfilter'</span><span class="token punctuation">)</span>
+        block_number <span class="token operator">=</span> settings<span class="token punctuation">.</span>getint<span class="token punctuation">(</span>
+            <span class="token string">'BLOOMFILTER_BLOCK_NUMBER'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> cls<span class="token punctuation">(</span>_host<span class="token punctuation">,</span> _port<span class="token punctuation">,</span> _db<span class="token punctuation">,</span> blockNum<span class="token operator">=</span>block_number<span class="token punctuation">,</span> key<span class="token operator">=</span>key<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">request_seen</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        fp <span class="token operator">=</span> request_fingerprint<span class="token punctuation">(</span>request<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>fp<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">True</span>
+
+        self<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>fp<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">False</span>
+
+    <span class="token keyword">def</span> <span class="token function">exists</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> str_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> str_input<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span>
+        m5 <span class="token operator">=</span> md5<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        m5<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">(</span>str_input<span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        _input <span class="token operator">=</span> m5<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        ret <span class="token operator">=</span> <span class="token boolean">True</span>
+        name <span class="token operator">=</span> self<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>_input<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>blockNum<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> f <span class="token keyword">in</span> self<span class="token punctuation">.</span>hashfunc<span class="token punctuation">:</span>
+            loc <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>_input<span class="token punctuation">)</span>
+            ret <span class="token operator">=</span> ret <span class="token operator">&amp;</span> self<span class="token punctuation">.</span>redis<span class="token punctuation">.</span>getbit<span class="token punctuation">(</span>name<span class="token punctuation">,</span> loc<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> ret
+
+    <span class="token keyword">def</span> <span class="token function">insert</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> str_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        m5 <span class="token operator">=</span> md5<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        m5<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">(</span>str_input<span class="token punctuation">)</span><span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token string">'utf-8'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        _input <span class="token operator">=</span> m5<span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        name <span class="token operator">=</span> self<span class="token punctuation">.</span>key <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">(</span>_input<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>blockNum<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> f <span class="token keyword">in</span> self<span class="token punctuation">.</span>hashfunc<span class="token punctuation">:</span>
+            loc <span class="token operator">=</span> f<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>_input<span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>redis<span class="token punctuation">.</span>setbit<span class="token punctuation">(</span>name<span class="token punctuation">,</span> loc<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> request<span class="token punctuation">,</span> spider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        msg <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">"已过滤的重复请求: %(request)s"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>debug<span class="token punctuation">(</span>msg<span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token string">'request'</span><span class="token punctuation">:</span> request<span class="token punctuation">}</span><span class="token punctuation">,</span> extra<span class="token operator">=</span><span class="token punctuation">{</span><span class="token string">'spider'</span><span class="token punctuation">:</span> spider<span class="token punctuation">}</span><span class="token punctuation">)</span>
+        spider<span class="token punctuation">.</span>crawler<span class="token punctuation">.</span>stats<span class="token punctuation">.</span>inc_value<span class="token punctuation">(</span>
+            <span class="token string">'redisbloomfilter/filtered'</span><span class="token punctuation">,</span> spider<span class="token operator">=</span>spider<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">布隆过滤器配置：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">REDIS_DUP_DB <span class="token operator">=</span> <span class="token number">0</span>
+BLOOMFILTER_HASH_NUMBER <span class="token operator">=</span> <span class="token number">6</span>
+BLOOMFILTER_BIT <span class="token operator">=</span> <span class="token number">30</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">基于Redis的Bloomfilter去重，既用上了Bloomfilter的海量去重能力，又用上了Redis的可持久化能力，基于Redis也方便分布式机器的去重。在使用的过程中，要估算好待去重的数据量，根据上面的表，适当地调整seed的数量和blockNum数量（seed越少去重速度越快，但漏失率越大）。<br>
+<img src="http://img.mukewang.com/5cf4faa40001cd3816000858.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cf4faa40001cd3816000858.jpg" class="" style="cursor: pointer;"></p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/318">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    13 去重处理— 高性能爬虫调优技术
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/320">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    15 为网易爬虫配置存储大规模数据存储 
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

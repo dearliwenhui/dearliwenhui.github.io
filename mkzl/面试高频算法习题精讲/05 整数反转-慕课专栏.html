@@ -1,0 +1,263 @@
+<html><head><meta charset="utf-8"><title>05 整数反转-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        05 整数反转
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-09 10:02:29
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d43a1710001d49506400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">对自己不满是任何真正有才能的人的根本特征之一。<p class="author">——契诃夫</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="刷题内容">刷题内容</h3>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong><font color="green">难度: Easy</font></strong><br>
+原题连接：<a href="https://leetcode-cn.com/problems/reverse-integer/%E3%80%82">https://leetcode-cn.com/problems/reverse-integer/。</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="内容描述" style="font-size: 26px;">内容描述</h4>
+</div><div class="cl-preview-section"><pre><code>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。
+
+示例 1:
+输入: 123
+输出: 321
+
+示例 2:
+输入: -123
+输出: -321
+
+示例 3:
+输入: 120
+输出: 21
+
+注意:假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="题目详解" style="font-size: 26px;">题目详解</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这道题目要求我们<strong>将一个有符号整数进行反转</strong>，也就是说 64 这个数字再反转后会变为 46 ，个位数反转到十位数，十位数反转到个位数。如果给出的整数是负数的话，整数的符号不能变。在这道题中我们要注意以下几点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">整数会有负数的情况；</li>
+<li style="font-size: 20px; line-height: 38px;">题目中要求的有符号整数是一个 32 位整数(32 位整数的取值范围：-2147483648~2147483647，超出此范围即为溢出)，如果将整数反转后发生了溢出情况，那么要返回 0 ；</li>
+<li style="font-size: 20px; line-height: 38px;">最后一位是 0 的情况下要舍弃，例如 120 反转后为 21 。</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="解题方案">解题方案</h3>
+</div><div class="cl-preview-section"><h4 id="思路1：时间复杂度-olgx--空间复杂度-o1" style="font-size: 26px;">思路1：时间复杂度: O(lgx)  空间复杂度: O(1)</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">翻转数字问题需要注意的就是溢出问题，为什么会存在溢出问题呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们<code>int</code>型的数值范围是 <code>-2147483648～2147483647 (-2^31 ~ 2^31 - 1)</code>， 那么如果我们要翻转 <code>1000000009</code> 这个在数值范围内的数，得到 <code>9000000001</code>，但翻转后的数就超过了范围，这个情况就是<strong>溢出</strong>，这个时候程序返回 0 即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果输入的是负数，就递归调用原函数，参数变成 <code>-x</code> 即可，代码大致执行流程如下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">首先判断 x 是否为负数，如果是负数先取绝对值然后<a href="%5Bhttps://baike.baidu.com/item/%E9%80%92%E5%BD%92%5D(https://baike.baidu.com/item/%E9%80%92%E5%BD%92)">递归</a>取反，最后再将结果转换为负数即可；</li>
+<li style="font-size: 20px; line-height: 38px;"><code>res</code> 为最后结果，最开始等于 0 。<code>x % 10</code>(例如：<code>123 % 10 = 3</code>) 取出最后一位数。每次得到最后一位数字，并将其作为结果中的当前最高位；</li>
+<li style="font-size: 20px; line-height: 38px;">判断结果 <code>res</code> 是否溢出，如果溢出则返回 0 。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面来看详细代码：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Python beats 69.76%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">reverse</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">:</span> <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> x <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">:</span> <span class="token comment"># 判断是否为负数</span>
+            <span class="token keyword">return</span> <span class="token operator">-</span>self<span class="token punctuation">.</span>reverse<span class="token punctuation">(</span><span class="token operator">-</span>x<span class="token punctuation">)</span> <span class="token comment"># 如果是负数则取绝对值调用自身，最后将结果转为负数</span>
+        res <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">while</span> x<span class="token punctuation">:</span> <span class="token comment"># 每次得到最后一位数字，并将其作为结果中的当前最高位</span>
+            res <span class="token operator">=</span> res <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> x <span class="token operator">%</span> <span class="token number">10</span>
+            x <span class="token operator">//=</span> <span class="token number">10</span>
+        <span class="token keyword">return</span> res <span class="token keyword">if</span> res <span class="token operator">&lt;=</span> <span class="token number">0x7fffffff</span> <span class="token keyword">else</span> <span class="token number">0</span> <span class="token comment"># 如果溢出就返回0</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java beats 100%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">reverse</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">2147483648</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//如果不做这个判断，下面的x=-x将会报错</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 判断是否为负数</span>
+            <span class="token keyword">return</span> <span class="token operator">-</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token operator">-</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 如果是负数则取绝对值调用自身，最后将结果转为负数</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 每次得到最后一位数字，并将其作为结果中的当前最高位</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>res <span class="token operator">&gt;</span> <span class="token number">214748364</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 处理溢出</span>
+                <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            res <span class="token operator">=</span> res <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> x <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            x <span class="token operator">/=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> res <span class="token operator">&lt;=</span> <span class="token number">0x7fffffff</span> <span class="token operator">?</span> res <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 如果溢出就返回0</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go beats 96.66%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">reverse</span><span class="token punctuation">(</span>x <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token builtin">int</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> x <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token punctuation">{</span> <span class="token comment">// 如果是负数就取反递归再取反</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token operator">-</span>x<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">var</span> res <span class="token builtin">int</span>
+    <span class="token keyword">for</span> x <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">{</span> <span class="token comment">// 每次得到最后一位数字，并将其作为结果中的当前最高位</span>
+        res <span class="token operator">=</span> res <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> x <span class="token operator">%</span> <span class="token number">10</span>
+        x <span class="token operator">/=</span> <span class="token number">10</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> res <span class="token operator">&lt;=</span> <span class="token number">0x7fffffff</span> <span class="token punctuation">{</span> <span class="token comment">// 如果溢出就返回0</span>
+        <span class="token keyword">return</span> res
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism ++  language-c">class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">int</span> <span class="token function">reverse</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">2147483648</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">//如果不做这个判断，下面的x=-x将会报错</span>
+            <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 判断是否为负数</span>
+            <span class="token keyword">return</span> <span class="token operator">-</span><span class="token function">reverse</span><span class="token punctuation">(</span><span class="token operator">-</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 如果是负数则取绝对值调用自身，最后将结果转为负数</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> res <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>x <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 每次得到最后一位数字，并将其作为结果中的当前最高位</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>res <span class="token operator">&gt;</span> <span class="token number">214748364</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 处理溢出</span>
+                <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            res <span class="token operator">=</span> res <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">+</span> x <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">;</span>
+            x <span class="token operator">/</span><span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> res <span class="token operator">&lt;=</span> <span class="token number">0x7fffffff</span> <span class="token operator">?</span> res <span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 如果溢出就返回0</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各版本代码虽然语法不同，但是核心代码还是一样的。即使你看不懂上面的代码，那就看一下思路就好，不管用哪种语言实现都是可以的。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">时刻注意特殊情况——为负数怎么办；为0怎么办；为空怎么办。</li>
+<li style="font-size: 20px; line-height: 38px;">合理运用写完的函数，机智一点，不要碰到负数又去实现一个负数的版本，直接递归调用原函数就可以了。</li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/724">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            04 两数之和
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/726">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            06 回文数
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5dad751a00019e3605400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1908100602141755</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：853923473</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5CPxzEa" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

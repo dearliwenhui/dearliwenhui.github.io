@@ -1,0 +1,185 @@
+<html><head><meta charset="utf-8"><title>18 反向代理的配置和实例-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        18 反向代理的配置和实例
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-02-06 18:42:01
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.sycdn.imooc.com/5e3955630001e57006400391.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">构成我们学习最大障碍的是已知的东西，而不是未知的东西。 —— 贝尔纳<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="前言">前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在上一篇文章中介绍了<code>代理</code>的概念，包括什么是<code>正向代理</code>, 什么是<code>反向代理</code>。本文我们就在前面的基础之上学习一下如何配置反向代理。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">其实<code>反向代理</code>一般情况下和<code>负载均衡</code>配合使用，我们会在后面介绍<code>负载均衡</code>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="反向代理模块介绍">反向代理模块介绍</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>nginx</code>的<code>反向代理</code>功能主要是由<code>ngx_http_proxy_module</code>模块实现的。这个模块有很多指令，详细的指令可以参考<a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">Nginx文档</a>。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955970001e39811661384.png" data-original="//img1.sycdn.imooc.com/5e3955970001e39811661384.png" alt="图片描述"><br>
+工作中我们经常用到的只有几个，我们熟悉这些就行了，下面就是一些线上服务器的配置:<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955a00001f21908380360.png" data-original="//img1.sycdn.imooc.com/5e3955a00001f21908380360.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="proxy_pass-指令" style="font-size: 26px;"><code>proxy_pass</code> 指令</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实<code>proxy_pass</code>的用法很多，这个指令可以把特定的请求<code>反向代理</code>到一个<code>服务器组</code>(这里牵涉到负载均衡，我们在后面的文章中会介绍)，也可以代理到一个<code>IP</code>，一个<code>URL</code>等。<br>
+这个指令是<code>ngx_http_proxy_module</code>模块的核心指令，它实现了反向代理的功能。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们这里只介绍这一个指令，通过这个指令，配合例子，我们就基本可以抓住<code>反向代理</code>的核心了。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="实例">实例</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们会使用一个非常非常简单的例子，这个例子主要是为了帮助大家进一步理解<code>反向代理</code>的含义，加深这个概念。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">反向代理是<code>Nginx</code>非常重要的功能，我们无论怎么强调都不为过。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了实现反向代理，我们需要在机器上面启动两个<code>nginx</code>进程，一个作为<code>前端机</code>(也即是接收客户端请求的服务器)。一个作为<code>反向代理</code>机，也即是实际完成工作的服务器。这也是我们实际工作中经常用到的模式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们创建一个<code>nginx_proxy.conf</code>文件，作为<code>反向代理</code>机的配置文件。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955a9000146de18621526.png" data-original="//img1.sycdn.imooc.com/5e3955a9000146de18621526.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后配置一个<code>前端机</code>：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955b20001a5e118941462.png" data-original="//img1.sycdn.imooc.com/5e3955b20001a5e118941462.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后启动两个<code>nginx</code>进程：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955ba0001e83a15640138.png" data-original="//img1.sycdn.imooc.com/5e3955ba0001e83a15640138.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们查看<code>nginx</code>进程：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955c20001122828740354.png" data-original="//img1.sycdn.imooc.com/5e3955c20001122828740354.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们分别打开<code>前端机</code>和<code>反向代理机</code>的访问日志，然后请求<br>
+<code>curl http://localhost/hello.html</code>，如下：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955ca00016cc818461206.png" data-original="//img1.sycdn.imooc.com/5e3955ca00016cc818461206.png" alt="图片描述"><br>
+我们可以从日志中看到这个过程：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e3955d30001929228720472.png" data-original="//img1.sycdn.imooc.com/5e3955d30001929228720472.png" alt="图片描述"><br>
+其实从日志中我们可以看到，我们请求了<code>前端机</code>, 但是<code>前端机</code>把请求转发给了<code>反向代理</code>机，而后者才是真正处理请求的机器。</p>
+</div><div class="cl-preview-section"><h3 id="总结">总结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在本文中通过大量的图片和一个实例，配和上一篇文章，让大家加深对<code>反向代理</code>的理解。<br>
+其实<code>反向代理</code>和<code>负载均衡</code>是非常亲密的关系，大家在后面的学习中会深刻的理解到这一点。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1540">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            17 什么是正向代理？什么又是反向代理？
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1592">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            19 何为负载均衡：人多力量大
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

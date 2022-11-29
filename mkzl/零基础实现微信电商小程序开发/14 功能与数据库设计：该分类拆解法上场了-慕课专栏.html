@@ -1,0 +1,500 @@
+<html><head><meta charset="utf-8"><title>14 功能与数据库设计：该分类拆解法上场了-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/40" target="_blank">零基础实现微信电商小程序开发</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 5-2 14 功能与数据库设计：该分类拆解法上场了
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                14 功能与数据库设计：该分类拆解法上场了
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-23 11:39:15
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img1.mukewang.com/5d2fdb430001386106400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">青年是学习智慧的时期，中年是付诸实践的时期。 <p class="author">—— 卢梭</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前一节，我们完成了用户成长体系的业务设计，本节我们将根据业务设计进行用户成长体系的功能与数据库设计。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">除上节整理的业务规则外，我们还需要一个页面来展示用户的成长值、等级与特权，在前一章也给出了页面效果图，如图 1 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 1 用户成长体系页面</strong><br>
+<img src="http://img.mukewang.com/5d3469fb0001a85609001600.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d3469fb0001a85609001600.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="功能设计" style="font-size: 30px;">1. 功能设计</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">功能设计是按照业务设计的内容整理出我们需要开发实现的功能点清单，功能点清单可以从三个不同的维度分析得到。</p>
+</div><div class="cl-preview-section"><h3 id="客户端页面维度">1.1 客户端页面维度</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">客户端页面维度可以使用“分类拆解法”的拆解步骤，拆解结果就是功能点清单。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>在本节仅给出拆解结果，拆解过程请回顾第二章第三节对“分类拆解法”的详细讲解内容。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>请各位同学自己动手实践，按照拆解步骤拆解图 1 的用户成长体系页面，然后将自己的拆解结果与本节列出的拆解结果进行对照总结。这是本节内容的实践环节。</strong></p>
+</div><div class="cl-preview-section"><h4 id="页面拆解为子部件" style="font-size: 26px;">1.1.1 页面拆解为子部件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">拆解步骤的第一步是将页面拆解为多个子部件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">图 1 中的用户成长体系页面可以拆解为 3 个子部件，3 个子部件之间由灰色色块区隔。3 个子部件从上到下分别为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">子部件 1 ：用户的当前用户等级与成长值显示</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 2 ：用户当前用户等级的特权显示</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 3 ：用户成长体系介绍</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="子部件拆解为显示元素" style="font-size: 26px;">1.1.2 子部件拆解为显示元素</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">每个子部件需要继续拆解为多个显示元素。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 1 的显示元素从左到右依次为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">用户的微信头像</li>
+<li style="font-size: 20px; line-height: 38px;">用户的微信昵称</li>
+<li style="font-size: 20px; line-height: 38px;">用户的等级图标</li>
+<li style="font-size: 20px; line-height: 38px;">用户的当前成长值</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 的显示元素从上到下依次为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">标题：我的权益</li>
+<li style="font-size: 20px; line-height: 38px;">用户当前等级特权内容显示</li>
+<li style="font-size: 20px; line-height: 38px;">用户等级提升还需要多少成长值</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 3 的显示元素从上到下依次为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">标题：成长体系</li>
+<li style="font-size: 20px; line-height: 38px;">所有用户等级的水平列表显示</li>
+<li style="font-size: 20px; line-height: 38px;">显示用户当前选中的用户等级的成长值范围</li>
+<li style="font-size: 20px; line-height: 38px;">显示用户当前选中的用户等级的等级特权内容</li>
+<li style="font-size: 20px; line-height: 38px;">显示成长值获取规则说明</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="显示元素拆解为分类" style="font-size: 26px;">1.1.3 显示元素拆解为分类</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">每个显示元素需要继续拆解为多个分类（界面、数据、事件）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 1 的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的微信头像</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为微信用户头像</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的微信昵称</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为微信用户昵称</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的等级图标</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户当前等级和用户等级图标颜色</p>
+<p style="font-size: 20px; line-height: 38px;">用户等级是计算值，根据用户当前成长值，从用户等级与等级特权表（见上一节 4. 完整的用户成长体系）中计算得出</p>
+<p style="font-size: 20px; line-height: 38px;">用户等级图标颜色在用户等级与等级特权表中，该表数据需要从云数据库中获取</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的当前成长值</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户当前成长值，该数据需要从云数据库中获取</p>
+<p style="font-size: 20px; line-height: 38px;">用户的当前成长值是成长值获取记录表中每一条记录中的成长值之和</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标题：我的权益</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，无事件，无数据</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户当前等级特权内容显示</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户当前等级对应的特权内容</p>
+<p style="font-size: 20px; line-height: 38px;">特权内容在用户等级与等级特权表中，该表数据需要从云数据库中获取</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户等级提升还需要多少成长值</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户升级所需成长值</p>
+<p style="font-size: 20px; line-height: 38px;">用户升级所需成长值是计算值，由用户下一等级最低所需成长值 - 用户当前成长值计算得出</p>
+<p style="font-size: 20px; line-height: 38px;">用户下一等级最低所需成长值在用户等级与等级特权表中，该表数据需要从云数据库中获取</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 3 的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">标题：成长体系</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，无事件，无数据</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">所有用户等级的水平列表显示</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，事件为用户屏幕滑动事件与用户点击屏幕事件，数据为所有用户等级的名称与等级图标</p>
+<p style="font-size: 20px; line-height: 38px;">用户屏幕滑动事件的事件响应为：根据用户向左或向右滑动屏幕的方向，显示更低或更高用户等级的名称与图标</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击屏幕事件的事件响应为：将用户点击选中的用户等级图标和文字放大显示，其余用户等级正常显示，同时修改第三个显示元素的数据为用户点击的用户等级的成长值范围，修改第四个显示元素的数据为用户点击的用户等级的等级特权内容</p>
+<p style="font-size: 20px; line-height: 38px;">所有用户等级的名称与等级图标在用户等级与等级特权表中，该表数据需要从云数据库中获取</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">显示用户当前选中的用户等级的成长值范围</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户当前选中的用户等级对应的成长值范围，该数据内容由第二个显示元素的用户点击屏幕事件决定</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">显示用户当前选中的用户等级的等级特权内容</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户前选中的用户等级对应的特权内容，该数据内容由第二个显示元素的用户点击屏幕事件决定</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">显示成长值获取规则说明</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，无事件，无数据</p>
+<p style="font-size: 20px; line-height: 38px;">成长值获取规则说明内容可直接写在 WXML 页面模板中</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="服务端后台功能维度">1.2 服务端后台功能维度</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">服务端后台功能是指与用户交互无关的，仅在小程序服务端执行的功能。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在用户成长体系中，仅在小程序服务端执行的功能是成长值风控功能，具体功能点即前述风控规则：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">单日最大同步微信运动步数获得的成长值上限为 100000（正常用户单日走路超过十万步的几率很小，单日微信运动步数大于十万可以认为是异常行为）</li>
+<li style="font-size: 20px; line-height: 38px;">单日最大发表笔记获得的成长值上限为  30000（正常用户单日发表笔记超过 30 篇的几率很小，单日发表笔记超过 30 篇可以认为是异常行为）</li>
+<li style="font-size: 20px; line-height: 38px;">每个用户的每次成长值变动都需要进行前面两条规则的判断，如果触发规则，自动锁定用户账号，同时在风控日志中记录这次用户账号锁定操作及锁定原因</li>
+<li style="font-size: 20px; line-height: 38px;">被锁定用户在打开小程序任何页面时，自动跳转到账号锁定提示页面，以此来实现禁止用户执行任何操作</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="与其他功能模块的关系维度">1.3 与其他功能模块的关系维度</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在用户成长体系中，成长值来源包括微信运动步数同步、积分兑换商品、发表 UGC 社区笔记，因此用户成长体系包含以下与其他功能模块相关的功能点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">用户在 <strong>UGC 社区</strong> 发表笔记时，需要增加该用户 1000 成长值，在成长值获取记录表中增加一条数据记录，同时需进行成长值风控规则校验</li>
+<li style="font-size: 20px; line-height: 38px;">用户在 <strong>商城</strong> 使用积分支付购买商品时，每支付1积分，增加 1 成长值，在成长值获取记录表中增加一条数据记录，同时需进行成长值风控规则校验</li>
+<li style="font-size: 20px; line-height: 38px;">用户在 <strong>微信运动步数同步</strong> 时，每获得一个新的运动步数，增加 1 成长值，在成长值获取记录表中增加一条数据记录，同时需进行成长值风控规则校验</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">除此之外，用户等级特权也与其他功能模块相关，具体功能点为：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">用户在 <strong>商城</strong> 中使用积分支付购买商品时，用户实际支付的积分为  商品原价格 * 用户等级特权享受的购物折扣</li>
+<li style="font-size: 20px; line-height: 38px;">用户在 <strong>付费会员体系</strong> 中使用积分支付购买会员套餐时，用户实际支付的积分为 付费会员套餐原价格 - 用户等级特权享受的积分减免</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="数据库设计" style="font-size: 30px;">2. 数据库设计</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从功能设计中，我们整理出需要从云数据库获取的数据包括：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户当前总成长值</p>
+<p style="font-size: 20px; line-height: 38px;">用户当前总成长值是一个数据字段，因此不用单独设计一个数据库集合来存储，可以作为用户信息表 <code>user</code> 中的一个数据字段 <code>growthValue</code></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户锁定标志</p>
+<p style="font-size: 20px; line-height: 38px;">用户锁定标志是一个数据字段，因此不用单独设计一个数据库集合来存储，可以作为用户信息表 <code>user</code> 中的一个数据字段 <code>isLocked</code></p>
+<p style="font-size: 20px; line-height: 38px;">由此我们可以制定<strong>用户表 <code>user</code> 的初步表结构：</strong></p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td>字符串</td>
+<td>记录ID，云数据库自动生成</td>
+</tr>
+<tr>
+<td>_openid</td>
+<td>字符串</td>
+<td>用户OpenID</td>
+</tr>
+<tr>
+<td>date</td>
+<td>时间</td>
+<td>用户注册时间*</td>
+</tr>
+<tr>
+<td>growthValue</td>
+<td>数字</td>
+<td>用户当前总成长值</td>
+</tr>
+<tr>
+<td>isLocked</td>
+<td>布尔</td>
+<td>用户锁定标志</td>
+</tr>
+</tbody>
+</table>
+</div><p style="font-size: 20px; line-height: 38px;">*<strong>用户注册时间即用户首次打开小程序的时间，用户第一次打开小程序时，将在用户表 <code>user</code>  中增加一条该用户的记录。具体实现方式见本章第五节。</strong></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户等级与等级特权表</p>
+<p style="font-size: 20px; line-height: 38px;">用户等级与等级特权表除了上一节 4. 完整的用户成长体系 中列出的用户等级名称、成长值范围、等级特权字段，在功能设计中还包括了用户等级图标颜色。</p>
+<p style="font-size: 20px; line-height: 38px;">成长值范围是两个数据字段，等级的最小成长值和等级的最大成长值。等级特权是一个数组，里面记录了每一个特权的特权名称，特权描述以及特权折扣。</p>
+<p style="font-size: 20px; line-height: 38px;">此外，为了方便页面显示，还可以添加一个用户是否选中用户等级的标志（参见 6.1.3 显示元素拆解为分类 中 子部件 3 的显示元素的事件描述）。</p>
+<p style="font-size: 20px; line-height: 38px;">因此，<strong>用户等级与等级特权表 <code>level</code> 的表结构为</strong>：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>数字</td>
+<td>用户等级ID</td>
+</tr>
+<tr>
+<td>title</td>
+<td>字符串</td>
+<td>用户等级名称</td>
+</tr>
+<tr>
+<td>isSelect</td>
+<td>布尔值</td>
+<td>用户等级是否被选中的标志</td>
+</tr>
+<tr>
+<td>minGrowthValue</td>
+<td>数字</td>
+<td>等级的最小成长值</td>
+</tr>
+<tr>
+<td>maxGrowthValue</td>
+<td>数字</td>
+<td>等级的最大成长值</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>字符串</td>
+<td>等级的图标颜色</td>
+</tr>
+<tr>
+<td>bonus</td>
+<td>数组</td>
+<td>等级特权数组*</td>
+</tr>
+</tbody>
+</table>
+</div><p style="font-size: 20px; line-height: 38px;">*数组中每一条记录为一个特权信息，包括三个字段：特权名称 <code>name</code>、特权描述 <code>desc</code> 以及特权折扣 <code>discount</code> 。</p>
+<p style="font-size: 20px; line-height: 38px;">用户等级与等级特权表 <code>level</code> 在云数据库中存储的 Json 数据格式为：</p>
+<pre class="  language-js"><code class="prism  language-js">  <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>  <span class="token comment">//用户等级ID</span>
+  title<span class="token punctuation">:</span> <span class="token string">"幼稚园"</span><span class="token punctuation">,</span>  <span class="token comment">//用户等级名称</span>
+  isSelect<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>  <span class="token comment">//用户等级是否被选中的标志</span>
+  minGrowthValue<span class="token punctuation">:</span> <span class="token number">20000</span><span class="token punctuation">,</span>  <span class="token comment">//等级的最小成长值</span>
+  maxGrowthValue<span class="token punctuation">:</span> <span class="token number">49900</span><span class="token punctuation">,</span>  <span class="token comment">//等级的最大成长值</span>
+  icon<span class="token punctuation">:</span> <span class="token string">"brown"</span><span class="token punctuation">,</span>  <span class="token comment">//用户等级的图标颜色</span>
+  bonus<span class="token punctuation">:</span> <span class="token punctuation">[</span>  <span class="token comment">//等级特权</span>
+      <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"创作笔记"</span><span class="token punctuation">,</span> desc<span class="token punctuation">:</span> <span class="token string">""</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"优享折扣"</span><span class="token punctuation">,</span> desc<span class="token punctuation">:</span> <span class="token string">"98折"</span><span class="token punctuation">,</span> discount<span class="token punctuation">:</span> <span class="token number">0.98</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">"会费立减"</span><span class="token punctuation">,</span> desc<span class="token punctuation">:</span> <span class="token string">"5千积分"</span><span class="token punctuation">,</span> discount<span class="token punctuation">:</span> <span class="token number">5000</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+<p style="font-size: 20px; line-height: 38px;"><strong>完整的用户等级与等级特权表数据在源代码 <code>\membership-miniprogram\dataservice\level_data.json</code> 文件中，各位同学可在云数据库中新建 <code>level</code> 数据库集合，然后导入该 Json 文件即可。</strong></p>
+<p style="font-size: 20px; line-height: 38px;">如果你已经完成上一节的实践环节，建立好了你自己的完整用户成长体系，你可以参考源代码中的 Json 文件格式编写你自己的用户等级与等级特权表数据，然后上传到 <code>level</code> 数据库集合。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">成长值获取记录表</p>
+<p style="font-size: 20px; line-height: 38px;">成长值获取记录表应该包含成长值来源、获得的成长值、用户 OpenID、获取成长值时间等基本的数据记录字段。</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>成长值获取记录表 <code>user_growth_value</code> 的表结构为</strong>：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td>字符串</td>
+<td>记录ID，云数据库自动生成</td>
+</tr>
+<tr>
+<td>_openid</td>
+<td>字符串</td>
+<td>用户OpenID</td>
+</tr>
+<tr>
+<td>date</td>
+<td>时间</td>
+<td>获取成长值时间</td>
+</tr>
+<tr>
+<td>changeGrowthValue</td>
+<td>数字</td>
+<td>获得的成长值</td>
+</tr>
+<tr>
+<td>operation</td>
+<td>字符串</td>
+<td>成长值来源*</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>数字</td>
+<td>微信运动数据ID**</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>字符串</td>
+<td>商城订单ID**</td>
+</tr>
+<tr>
+<td>noteId</td>
+<td>字符串</td>
+<td>笔记ID**</td>
+</tr>
+</tbody>
+</table>
+</div><p style="font-size: 20px; line-height: 38px;">*成长值来源包括微信运动、购买商品、发表笔记。</p>
+<p style="font-size: 20px; line-height: 38px;">**微信运动数据ID、商城订单ID、笔记ID用于记录是用户的哪一个动作获取了成长值，主要用于风控异常用户的数据排查。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">风控异常日志表</p>
+<p style="font-size: 20px; line-height: 38px;">风控异常日志应该包含用户 OpenID、检查到异常的时间、检查到的异常类型、触发的风控规则上限值等基本的数据记录字段。</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>风控异常日志表 <code>risk</code> 的表结构为</strong>：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_id</td>
+<td>字符串</td>
+<td>记录ID，云数据库自动生成</td>
+</tr>
+<tr>
+<td>_openid</td>
+<td>字符串</td>
+<td>用户OpenID</td>
+</tr>
+<tr>
+<td>date</td>
+<td>时间</td>
+<td>检查到异常的时间</td>
+</tr>
+<tr>
+<td>event</td>
+<td>字符串</td>
+<td>检查到的异常类型*</td>
+</tr>
+<tr>
+<td>maxLimit</td>
+<td>数字</td>
+<td>触发的风控规则上限值</td>
+</tr>
+<tr>
+<td>riskTime</td>
+<td>字符串</td>
+<td>哪一天获得的成长值超过上限</td>
+</tr>
+<tr>
+<td>riskVaule</td>
+<td>字符串</td>
+<td>当天获得了多少超限成长值</td>
+</tr>
+</tbody>
+</table>
+</div><p style="font-size: 20px; line-height: 38px;">*异常类型包括微信运动、购买商品、发表笔记。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将实现同步微信运动步数获得成长值的功能，并在云数据库中存贮成长值获取记录。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>请结合第二章第三节对“分类拆解法”的详细讲解内容，拆解图 1 的用户成长体系页面，然后将自己的拆解结果与本节列出的拆解结果进行对照总结。</strong></li>
+</ul>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/40/article/572">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    13 业务设计：如何让用户有不断升级的动力
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/40/article/574">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    15 开发实现同步微信运动步数获得成长值
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

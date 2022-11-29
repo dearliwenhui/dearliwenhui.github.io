@@ -1,0 +1,347 @@
+<html><head><meta charset="utf-8"><title>07 登录页 UI 界面开发-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        07 登录页 UI 界面开发
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-07-31 17:37:19
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d3173580001be1e06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">生活的理想，就是为了理想的生活。<p class="author">——张闻天</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各位同学，下面的章节就要进入我们真正的项目页面的逻辑开发了，我们首先从最简单的登录页面开始，相信大家已经准备好了相关的环境，我们这就开始写代码！</p>
+</div><div class="cl-preview-section"><h3 id="登录页面逻辑图：">登录页面逻辑图：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在开始开发一个页面之前，我们首先需要梳理一下整个页面的逻辑流程，下面这张图就是登录页面的流程：<br>
+<img class="" src="https://img.mukewang.com/5cea75940001060e06120230.png" data-original="//img.mukewang.com/5cea75940001060e06120230.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">首先需要输入手机号进行登录。这里我们省去了注册的步骤，而是每次登录采用手机短信验证的方式。</li>
+<li style="font-size: 20px; line-height: 38px;">手机号输入成功需要先获取验证码，填上验证码后进行登录。</li>
+<li style="font-size: 20px; line-height: 38px;">校验成功后就表明登录成功，然后需要将当前用户的信息设置在vuex的store中。</li>
+<li style="font-size: 20px; line-height: 38px;">校验失败则重新尝试，这里我们有限频逻辑，会在后面章节中讲解。</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="ui效果：">UI效果：</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图是整个页面最终的实现效果：<br>
+<img class="" src="https://img.mukewang.com/5cea5b320001a3d707501334.png" data-original="//img.mukewang.com/5cea5b320001a3d707501334.png" alt="图片描述"><br>
+整个登录页面的UI是相对来说比较简单的，页面上的UI元素很少，下面就进入开发。</p>
+</div><div class="cl-preview-section"><h3 id="引入weui">引入weui</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">weui 主要由2部分组成，<code>weui.css</code> 和 <code>weui.js</code>，其中 <code>weui.css</code> 主要是提供了常用组件的样式，例如按钮，输入框等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而 <code>weui.js</code> 则提供了组件的 JavaScript 调用封装，提供给我们 JavaScript 接口来调用 weui 的组件，例如弹出框，图片上传组件等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们需要安装下载 weui，这里我们采用源码引入的方式：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>weui.css下载</strong>：下载地址：<a href="https://github.com/Tencent/weui/tree/master/dist/style">GitHub</a><br>
+<strong>weui.js下载</strong>：下载地址：<a href="https://github.com/Tencent/weui.js">GitHub</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在前端项目的public文件夹下，新建lib文件夹，存放 weui 的资源文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">修改 index.html，引入 <code>weui.min.js</code>：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">&lt;script type="text/javascript" class="lazyload" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC" data-original="&lt;%= BASE_URL %&gt;<span class="token script language-javascript">lib<span class="token operator">/</span>weui<span class="token operator">/</span>weui<span class="token punctuation">.</span>min<span class="token punctuation">.</span>js"<span class="token operator">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前端项目的入口文件 main.js 中，引入 <code>weui.min.css</code> :</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">import</span> <span class="token string">'./assets/weui.min.css'</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里解释以下为何在 index.html 引入 <code>weui.min.js</code> 而在  main.js 引入 <code>weui.min.css</code>：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>weui.min.js</code>属于第三方的依赖，我们在index.html引入可以直接使用一个全局变量<code>window.weui</code>，这样不必在每个页面使用时引入，比较方便，并且我们安装<code>weui.min.js</code>也是直接采用下载的方式来引入，并没有放在 node_modules 里来使用。当然，如果各位想通过 node_modules 引入也是完全可以的。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>weui.min.css</code>也是第三方的样式，我们在 main.js 引入是为了让 webpack 帮助我们进行打包，这样可以让<code>postcss-px-to-viewport</code>对<code>weui.min.css</code>的单位进行转换。</li>
+</ul>
+</div><div class="cl-preview-section"><h3 id="创建login.vue">创建login.vue</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前端项目新建一个 components 文件夹，用来存放一些页面的公共组件，同时新建 login 文件夹，并且新建 <code>index.vue</code>，然后开始编写我们的 UI 了，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>close<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>close<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>手机号登录<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell weui-cell_vcode<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__hd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-label<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>手机号<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-input<span class="token punctuation">"</span></span> <span class="token attr-name">maxlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>11<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tel<span class="token punctuation">"</span></span> <span class="token attr-name">pattern</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>^\d{11}$<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>请输入手机号<span class="token punctuation">"</span></span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>phoneNum<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__ft<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">v-show</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>timeCode == 60<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-vcode-btn<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>getCode<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>获取验证码<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-show</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>timeCode != 60<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>time-code weui-vcode-btn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{timeCode}}s<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell weui-cell_vcode vcode-input scale-1px<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__hd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-label<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>验证码<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>code<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-input<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>number<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>请输入验证码<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-btn weui-btn_primary<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>javascript:<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>signUp<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>确定<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的UI基本通过weui的方式创建，class 和标签可以直接复制即可，这也是 weui 的方便之处，需要注意的是给手机号的 <code>&lt;input&gt;</code>，绑定<code>v-model="phoneNum"</code>，可以利用 vue 的双向绑定特性在代码里操作 <code>this.phoneNum</code> 即可。后面有很多类似的逻辑，大家要理解好这里。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">登录页面主要由两个交互：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">登录验证逻辑。</li>
+<li style="font-size: 20px; line-height: 38px;">手机验证码获取逻辑。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>登录验证逻辑</strong>：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">// 判断手机号和验证码都有值才发送请求</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>phoneNum <span class="token operator">&amp;&amp;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>code<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token comment">//发送登录请求</span>
+ <span class="token keyword">let</span> resp <span class="token operator">=</span> <span class="token keyword">await</span> service<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'users/signup'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+   phoneNum<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>phoneNum<span class="token punctuation">,</span>
+   code<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>code
+ <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>resp<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment">// 登录成功后，将当前用户的数据存入store，以便后续使用</span>
+   <span class="token keyword">this</span><span class="token punctuation">.</span>$store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'setUser'</span><span class="token punctuation">,</span> resp<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+   <span class="token comment">// 返回上一页</span>
+   <span class="token keyword">this</span><span class="token punctuation">.</span>$router<span class="token punctuation">.</span><span class="token function">go</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+ weui<span class="token punctuation">.</span><span class="token function">topTips</span><span class="token punctuation">(</span><span class="token string">'请输入验证码或手机号码'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+    
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>手机验证码获取逻辑</strong>：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">async</span> <span class="token function">getCode</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 验证手机号是否合法</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token regex">/^\d{11}$/</span><span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>phoneNum<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    weui<span class="token punctuation">.</span><span class="token function">topTips</span><span class="token punctuation">(</span><span class="token string">'请输入正确手机号'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>phoneNum<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//发送获取验证码请求</span>
+    <span class="token keyword">let</span> resp <span class="token operator">=</span> <span class="token keyword">await</span> service<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'users/phonecode'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      phoneNum<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>phoneNum
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>resp<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      weui<span class="token punctuation">.</span><span class="token function">toast</span><span class="token punctuation">(</span><span class="token string">'验证码已发送'</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+      <span class="token comment">//动态倒计时</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">countTimeCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+    
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>更新倒计时秒数</strong>：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">   <span class="token keyword">this</span><span class="token punctuation">.</span>clearFlag <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+     <span class="token comment">//倒计时结束后，重制标志位</span>
+     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>timeCode <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token keyword">this</span><span class="token punctuation">.</span>timeCode <span class="token operator">=</span> <span class="token number">60</span>
+       <span class="token function">clearInterval</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>clearFlag<span class="token punctuation">)</span>
+       <span class="token keyword">return</span>
+     <span class="token punctuation">}</span>
+     <span class="token comment">//秒数每次减1</span>
+     <span class="token keyword">this</span><span class="token punctuation">.</span>timeCode<span class="token operator">--</span>
+   <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token comment">// 1s调用1次</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里需要注意一下，一旦在 vue 里有使用到 <code>setTimeout</code> 或者是 <code>setInterval</code> 时，要注意在组件销毁时，要清除这些定时器标志位，例如下面这段代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token function">beforeDestroy</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">clearInterval</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>clearFlag<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="登录校验拦截器">登录校验拦截器</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所谓登录校验拦截器，就是指当前端发起一些 api 请求时，有些请求时需要登录态的，有些并不需要，所以，当前端的登录态过期即 cookie 过期，或者是后端返回失效时，我们需要拿到这个时机，去添加我们的逻辑，借助axios，可以轻松实现，代码如下：<br>
+在前端的项目中新建一个 util 文件下，然后新建一个 service.js，对 axios 做一下2次封装：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js"><span class="token keyword">let</span> service <span class="token operator">=</span> axios<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  baseURL<span class="token punctuation">:</span> baseURL<span class="token punctuation">,</span>
+  withCredentials<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  timeout<span class="token punctuation">:</span> <span class="token number">30000</span> <span class="token comment">// 请求超时时间</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 添加respone拦截器</span>
+service<span class="token punctuation">.</span>interceptors<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>
+  response <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">===</span> <span class="token number">1000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      router<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'login'</span><span class="token punctuation">,</span>
+        name<span class="token punctuation">:</span> <span class="token string">'login'</span><span class="token punctuation">,</span>
+        params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      weui<span class="token punctuation">.</span><span class="token function">topTips</span><span class="token punctuation">(</span><span class="token string">'请先登录'</span><span class="token punctuation">)</span>
+      <span class="token comment">//发现登录过期，将本地缓存的用户信息清除</span>
+      window<span class="token punctuation">.</span>localStorage<span class="token punctuation">.</span><span class="token function">removeItem</span><span class="token punctuation">(</span><span class="token string">'cuser'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>code <span class="token operator">!==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      weui<span class="token punctuation">.</span><span class="token function">topTips</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>msg <span class="token operator">||</span> <span class="token string">'接口请求失败'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> response<span class="token punctuation">.</span>data
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  error <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">reject</span><span class="token punctuation">(</span>error<span class="token punctuation">.</span>response<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们后续的 api 请求，都会调用这个 service.js，同时采用 <code>interceptors.response</code>，来给每个请求返回添加拦截器，如果登录态过期，就让用户重新登录即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">同时，这里还添加了数据错误提示，即如果后端返回一个非正常的错误码，前端页面给出通用的 tips 提示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后别忘了补充一下 get 和 post 方法，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">function</span> <span class="token keyword">get</span> <span class="token punctuation">(</span>url<span class="token punctuation">,</span> params <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token keyword">return</span> <span class="token function">service</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    url<span class="token punctuation">:</span> url<span class="token punctuation">,</span>
+    method<span class="token punctuation">:</span> <span class="token string">'get'</span><span class="token punctuation">,</span>
+    headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'wec-access-token'</span><span class="token punctuation">:</span> <span class="token function">getCookie</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    params
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 封装post请求</span>
+<span class="token keyword">function</span> <span class="token function">post</span> <span class="token punctuation">(</span>url<span class="token punctuation">,</span> data <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 默认配置</span>
+  <span class="token keyword">let</span> sendObject <span class="token operator">=</span> <span class="token punctuation">{</span>
+    url<span class="token punctuation">:</span> url<span class="token punctuation">,</span>
+    method<span class="token punctuation">:</span> <span class="token string">'post'</span><span class="token punctuation">,</span>
+    headers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">'Content-Type'</span><span class="token punctuation">:</span> <span class="token string">'application/json;charset=UTF-8'</span><span class="token punctuation">,</span>
+      <span class="token string">'wec-access-token'</span><span class="token punctuation">:</span> <span class="token function">getCookie</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    data<span class="token punctuation">:</span> data
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token function">service</span><span class="token punctuation">(</span>sendObject<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里我们采用将后端返回的 token 放在 header 里面，来防止 CSRF，我们会在后面的章节具体讲解。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章主要讲解了一些通用样式和组件的引入，和登录页面相关的逻辑，整个登录页面的UI相对比较简单。<br>
+相关知识点如下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">使用 v-model 结合 <code>&lt;input&gt;</code> 来实现 vue 中双向绑定。</li>
+<li style="font-size: 20px; line-height: 38px;">一旦在vue里有使用到 <code>setTimeout</code> 或者是 <code>setInterval</code>时，要注意在组件销毁时，要清除这些定时器。</li>
+</ol>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/649">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            06 初始化后端项目
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/714">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            vuex 和 async/await 使用说明
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

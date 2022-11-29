@@ -1,0 +1,349 @@
+<html><head><meta charset="utf-8"><title>39 Vim岂是池中物，宝剑锋从磨砺出-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="display: block; width: 1134px;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        <div class="map">
+                            <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                            <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                            <a href="" target="_blank">
+                                <span>
+                                    / 5-1 39 Vim岂是池中物，宝剑锋从磨砺出
+                                </span>
+                            </a>
+                        </div>
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        39 Vim岂是池中物，宝剑锋从磨砺出
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-08 09:41:19
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d48e6650001052706400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">人生太短，要干的事太多，我要争分夺秒。<p class="author">——爱迪生</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div><div class="cl-preview-section"><h3 id="内容简介">内容简介</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">安装 Vim</li>
+<li style="font-size: 20px; line-height: 38px;">Vim 的各种编辑模式</li>
+<li style="font-size: 20px; line-height: 38px;">基本操作（移动，写入，保存，等等）</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="前言">1. 前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课是 <a href="">带你玩转Linux和Shell编程 | 第四部分测试题</a> 。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">终于来到系列课程的第五部分了。<br>
+在这个部分里，我们要把前面四部分所学的知识总结起来，并学习新的知识：Shell 脚本。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Shell 脚本是一个整合在 Linux 系统里的“小”编程语言。它是系统的重要元素，我们不得不学习。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然而，要编写程序，我们需要使用一个更配得上“编程”这个名词的文本编辑器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然我们已经学习了 Nano 这个文本编辑器，但是我们也说过，Nano 比较基础，要“傍大腿”就要傍“肥美多汁”的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，这一课我们先来学习编辑器中的神器：Vim。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Linux 文本编辑器的江湖中，有两件上古流传的“神器”：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Vim : Vi 文本编辑器的进阶版，是 Vi iMproved 的缩写，表示“改进了的 Vi”。Vi 非常流行，在大多数基于 Unix 演进的操作系统中一般是默认安装的，Linux 便是其中之一。Vim 从名字即可知道比 Vi 编辑器更加先进。Vim 的官网是 <a href="https://www.vim.org">https://www.vim.org</a> 。</li>
+<li style="font-size: 20px; line-height: 38px;">Emacs : 著名的开源先驱 Richard Stallman（GNU 项目的奠基人，我们以前的课已经介绍过）所开发的文本编辑器（后来有很多人参与改进）。一般没有默认安装在 Linux 系统中，但是可以用 apt 等包管理软件轻松安装。Emacs 可以安装很多插件，做很多事情，比如浏览网页、听音乐、看视频等等。基本你想得到的都可以做，除了不能当你女朋友… Emacs 的官网是 <a href="https://www.gnu.org/software/emacs">https://www.gnu.org/software/emacs</a> 。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这两件“神器”也引发了追随者的派别之争，经常可以看到这两个门派的粉丝（“咦，我们这是古装剧啊，怎么出现粉丝了。好吧，穿越回现代”）“掐架”，硬要说明自己拥护的编辑器比另一个好，搞得选择文本编辑器像选择信仰一般（是的，我知道，这些 crazy programmers（疯狂的程序员）。我本人可是很理智的程序员好嘛～ “真的吗？”…）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但不可讳言，选择一个自己惯用的文本编辑器确实很重要，因为你需要不断用这个神器“打怪练级”才能提高。一开始要是选错就不好了，万一不小心练了“辟邪剑谱”…</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般我们很少看到有人两种神器都练的。不过我练了两种（“闲得发慌型”），说实话个人更偏爱 Emacs（不过目前工作中还是主要用 Vim，为了配合我同事们，他们基本都用 Vim）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课和下一课我们先介绍 Vim， 第三课我们才开始 Shell 之旅。</p>
+</div><div class="cl-preview-section"><h3 id="安装-vim">2. 安装 Vim</h3>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Vim 还是 Emacs？Emacs 还是 Vim？好纠结…</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是你会说：“你说了上面这些，对我选择 Vim 还是 Emacs 的决定并没有什么用啊。”</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">好吧，那我就给一个比较实际的建议：<br>
+尽量用你身边的 Linux 高手或同事或同学朋友用得最多的那个文本编辑器。<br>
+因为你们经常要交流，而且身边的朋友可以给你更好的使用建议，或者推荐一些技巧和插件什么的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我任职过的几个公司，大部分同事都是用 Vim 的，我也一直用 Vim。但之前在某个法国公司工作时，技术老总“强制”每个人用 Emacs（我晕… 法国不是崇尚“自由、平等、博爱”吗？），然后我只好去学了 Emacs，并且竟然喜欢上了 Emacs… “哎呀，真香”。所以现在 Vim 和 Emacs 都可以用。</p>
+</div><div class="cl-preview-section"><h4 id="安装并启动-vim" style="font-size: 26px;">安装并启动 Vim</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在大部分 Linux 发行版中，Vim 是默认安装的。但是不保证有个别 Linux 发行版没有默认安装 Vim（比如 Ubuntu 中没有默认安装 Vim）。安装 Vim，只需要在终端中输入以下命令：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install vim
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt-get install vim
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">顺便提一下 apt 和 apt-get 的区别：<br>
+在 <a href="https://debian-handbook.info/browse/stable/sect.apt-get.html">这个页面</a> 有以下陈述：<br>
+"APT is a vast project, whose original plans included a graphical interface. It is based on a library which contains the core application, and apt-get is the first front end — command-line based — which was developed within the project. apt is a second command-line based front end provided by APT which overcomes some design mistakes of apt-get."<br>
+翻译成中文大致意思是：<br>
+“APT 是一个大型项目，最初的计划包含了开发一个图形界面。它是基于一个库，这个库包含了核心应用，apt-get 是第一个基于命令行的前端（apt-get 是在 APT 这个项目中被开发的）。apt 是第二个基于命令行的前端，也是在 APT 项目中被开发的，它修正了 apt-get 的一些设计错误。”</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面这段英文，简而言之就是：apt 和 apt-get 大致来说很相似，许多命令也是相同的，不过 apt 比 apt-get 更优一些。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装完 Vim 之后，我们只需要运行以下命令就可以启动 Vim 了：</p>
+</div><div class="cl-preview-section"><pre><code>vim
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，如果你输入 vi，那么运行的会是 vi 编辑器。但是我们肯定更推荐 vim 啦。</p>
+</div><div class="cl-preview-section"><h4 id="vimtutor--vim-的教程程序" style="font-size: 26px;">vimtutor : Vim 的教程程序</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于新手，Vim 的开发者们也很贴心，它们在 Vim 中内嵌了一个教程小程序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个程序只需要输入以下命令就可以执行：</p>
+</div><div class="cl-preview-section"><pre><code>vimtutor
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">vimtutor 是 vim 和 tutorial 的缩写，tutorial 是英语“教程”的意思，因此，vimtutor 就是“Vim 教程”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你输入 vimtutor 显示没有此命令，那么你可以安装 vim-common 这个包。不过一般 vimtutor 都已经随 Linux 发行版安装了。运行后如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4808130001ca6621681392.png" alt="图片描述" data-original="http://img.mukewang.com/5d4808130001ca6621681392.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你英语好，其实基本的 Vim 操作通过这个 vimtutor 的程序已经可以练习并掌握，因为它其实就是运行 vim 程序，然后打开了一个预先定义好的帮助文档。你可以在里面“打怪升级”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般跟着这个 vimtutor 练手，大概 30 分钟就可以完成了。完成后你对 Vim 的操作就有了基本认识。当然了，这个教程只是入门，不可能介绍 Vim 的所有元素和可能性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要退出这个 Vim 教程，只需要输入：</p>
+</div><div class="cl-preview-section"><pre><code>:q
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是“冒号 + 小写的 q”（q 是 quit 的首字母，是英语“退出”的意思），再按回车，就退出了。</p>
+</div><div class="cl-preview-section"><h3 id="vim-的各种编辑模式">3. Vim 的各种编辑模式</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们运行 Vim。之前我们已经演示过了，只需要在命令行输入以下命令：</p>
+</div><div class="cl-preview-section"><pre><code>vim
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Vim 就会乖乖地运行起来，如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809430001b19421621394.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809430001b19421621394.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Vim 说到底是一个程序，或者说是一个软件。但是 Vim 不像一般我们熟悉的文本编辑器那么容易上手。例如 Windows 中的记事本，一打开就可以编辑文字，点击保存就可以保存内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当时我入门 Vim 花了点时间，相信对于大家来说，也需要一点“磨合期”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">刚开始接触 Vim，如果我们不解释什么的话，你也许会迷失方向。甚至，你可能连怎么退出 Vim 都不清楚（别笑，我第一次也碰到这个情况）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要知道，Vim 有三种不同的工作模式：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">交互模式：Interactive Mode。这是 Vim 的默认模式，每次我们运行 Vim 程序的时候，就会进入这个模式。在这个模式中，你不能输入文本（是的，我知道，这有点不符合文本编辑器的“一贯作风”）。因此，别乱按键盘上的字母，你也许会把情况搞得一团糟。交互模式是很强大的，它可以让我们在文本间移动，删除一行文本，复制粘贴文本，跳转到指定行，撤销操作，等等。你在键盘上按键也许会触发特定操作（按下 u 这个字母键，就是撤销最近的一次操作。因为 u 是 undo 的首字母，是英语“撤销”的意思）。</li>
+<li style="font-size: 20px; line-height: 38px;">插入模式：Insert Mode。这就是我们熟悉的文本编辑器的“一贯作风”。我们输入文本，文本就被插入到光标所在之处。为了进入这个模式，有几种方法，最常用的方法是按字母键 i（i 是 insert 的首字母，是英语“插入”的意思）。为了退出这种模式，只需要按下 Esc 键（一般在键盘左上角）。Esc 是 escape 的缩写，是英语“脱离，逃脱”的意思。</li>
+<li style="font-size: 20px; line-height: 38px;">命令模式：Command Mode。也有称之为底线命令模式（Last line mode）的。这个模式下，我们可以运行一些命令，例如“退出”、“保存”等等。也可以用这个模式来激活一些 Vim 的配置（例如语法高亮、显示行号等等）。甚至我们还可以发送一些命令给终端命令行，例如 ls、locate、cp等等。为了进入这个模式，需要首先处于交互模式（Interactive Mode）下，然后按下冒号键（在一般的键盘上是要按下 Shift 键 + 分号键）。输入命令后，再按回车，就会执行此命令。执行命令后，就又回到交互模式了。</li>
+</ol>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">小结一下：<br>
+Vim 拥有三种模式：交互模式、插入模式、命令模式。一开始启动 Vim 的时候，默认是进入交互模式的。这三种模式中，我们最熟悉的肯定是插入模式，这也是一般文本编辑器的模式，比如 Windows 系统的记事本。其它两种模式（交互模式和命令模式），也许我们一下子有点难以接受。可以用下图来概括：</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d48094d0001210009280916.png" alt="图片描述" data-original="http://img.mukewang.com/5d48094d0001210009280916.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是，聪明如你也许要发问：“为什么要在一个文本编辑器里插入如此多的模式呢？为什么没有菜单呢？为什么不用一个图形界面的文本编辑器呢？用一个鼠标不是更方便吗？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上都是好问题。但我只能先尝试着回答你，当然你也要对我够信任：如果 Vim 的开发者创建了这么多看似复杂的模式，那肯定是有其用意的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实际上，正是有了这三个模式，Vim 才会如此强大。在下面的课中，我们会慢慢展示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你会发现 Vim 可以实现一般的文本编辑器所不能做的操作，例如：删除当前字符；从光标开始处剪切文本直到行末，将剪贴板中的文本粘贴四次；跳转到第 100 行；跳转到最后一行等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上所列举的所有操作，都只需要键盘就可以，完全不需要鼠标。因此，你也许有一天会感叹：“一入 Vim 深似海，从此鼠标是路人”。但是，一开始并不轻松，因为大部分按键都是需要记住的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这和学习“盲打”有点像。很多年前，我在电脑上打字是用一根指头并且眼睛得偷瞄键盘。后来学了编程，感觉用一根指头打字实在是太没效率了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，我从网上搜了“盲打”的示意图，逼着自己把十根手指放在键盘的特定位置。一开始练习“盲打”的时候，输入速度比我用“一阳指”时还慢。但是渐渐地，就“健指如飞”了，打字效率绝对提高一个数量级。到最后，就达到了“人键合一”的境界，简直就是…</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809560001798e05000200.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809560001798e05000200.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">入门 Vim 也是如此。一开始不轻松，但是渐渐地，它会成为你编程的生产力工具，大大提高效率。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，有些人还是偏爱图形界面。Vim 也有一个图形界面的版本，称为 gVim（Gnome Vim 的缩写）。你可以安装 gVim（即使你是在 KDE 桌面系统下）。gVim 的功能和 Vim 是基本一样的。gVim 也有 Windows 版本，如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d48095d0001c54312800800.png" alt="图片描述" data-original="http://img.mukewang.com/5d48095d0001c54312800800.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到 gVim 有菜单和工具栏，和一般的文本编辑器类似，但我更偏爱命令行形式的 Vim。</p>
+</div><div class="cl-preview-section"><h3 id="基本操作（移动，写入，保存，等等）">4. 基本操作（移动，写入，保存，等等）</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们会通过几个步骤来一点点认识 Vim。这些步骤会从简单到复杂，但是我还是很厚道的（“真的吗？”… ），会慢慢来，不会一下子把你塞成一个“胖子”。</p>
+</div><div class="cl-preview-section"><h4 id="打开-vim" style="font-size: 26px;">打开 Vim</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你在终端命令行中输入 <code>vim</code>，不加任何参数，回车后 Vim 就会被运行起来，我们之前也见过其庐山真面目了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你也可以用 Vim 来打开一个文件，只需要在 vim 后面再加文件名，如下：</p>
+</div><div class="cl-preview-section"><pre><code>vim 文件名
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果文件不存在，那么会被创建。</p>
+</div><div class="cl-preview-section"><h4 id="i-：插入文本" style="font-size: 26px;">i ：插入文本</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们从一个空白文件开始（就是在命令行输入 <code>vim</code>，然后回车）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先按下键盘上的字母键 i（小写的 i），这样我们就从初始的交互模式进入了插入模式，就可以开始键入文本了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809670001eed721601400.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809670001eed721601400.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注意看：左下角有一个 <code>-- INSERT --</code>，说明我们就处在 Insert Mode（插入模式）中。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以在里面输入几行文本，就像我一样，然后按 Esc 键，回到交互模式。你会看到左下角的 <code>-- INSERT --</code> 消失了，我们就重新回到了交互模式：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d48096e0001684521641400.png" alt="图片描述" data-original="http://img.mukewang.com/5d48096e0001684521641400.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我输入的这段英语的大致意思是“Linux 用户，你们好！我输入了几行文字，填充一下屏幕。你们可以看到，一旦切换到输入模式，写入文字也没有那么复杂嘛”。</p>
+</div><div class="cl-preview-section"><h4 id="移动-：h-j-k-l-（上下左右移动）" style="font-size: 26px;">移动 ：h, j, k, l （上下左右移动）</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Vim 的交互模式下，我们可以在文本中移动光标。我们可以用四个键来实现上、下、左、右的移动。如下表所示：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">按键</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">h</td>
+<td align="center">向左移动一个字符</td>
+</tr>
+<tr>
+<td align="center">j</td>
+<td align="center">向下移动一个字符</td>
+</tr>
+<tr>
+<td align="center">k</td>
+<td align="center">向上移动一个字符</td>
+</tr>
+<tr>
+<td align="center">l</td>
+<td align="center">向右移动一个字符</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809780001709a04180406.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809780001709a04180406.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，除了这四个键，我们也可以用键盘上的四个方向键来移动，效果是一样的。而且，在插入模式下，要上下左右移动也只能用方向键了。</p>
+</div><div class="cl-preview-section"><h4 id="和--：移动到行首和行末" style="font-size: 26px;">0 和 $ ：移动到行首和行末</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在交互模式下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">为了将光标定位到一行的开始位置，我们只需要按下数字键 0 即可。当然了，键盘上的“Home”键也有相同效果。但是我们还是建议用 0 键，毕竟不用隔那么老远去按 Home 键。</li>
+<li style="font-size: 20px; line-height: 38px;">为了将光标定位到一行的末尾，我们只需要按下美元符号键 $ 即可。当然了，键盘上的“End”键也有相同效果。但是我们还是建议用 $ 键，毕竟不用隔那么老远去按 End 键。</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="w-：一个单词一个单词地移动" style="font-size: 26px;">w ：一个单词一个单词地移动</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在交互模式下，按字母键 w（w 是 word 的首字母，是英语“单词”的意思），我们可以一个单词一个单词地移动，有时候比一个字符一个字符地移动可高效多了。</p>
+</div><div class="cl-preview-section"><h4 id="w-：保存文件" style="font-size: 26px;"><code>:w</code> ：保存文件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了保存文件，我们首先要进入交互模式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">按下冒号键（<code>:</code>），以进入命令模式，然后按下 w（w 是 write 的首字母，是英语“写入”的意思）键，再输入你要保存的文件名字，因为目前我们还没有创建文件，只是从 Vim 的交互模式进入插入模式后直接写入的上面那些文本，如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809820001530621581402.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809820001530621581402.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，我给文件起名叫 myFile，是 my 和 file 的缩合，my 是英语“我的”的意思，file 是英语“文件”的意思，因此 myFile 表示“我的文件”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后再回车，如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d48098a000170cf21601390.png" alt="图片描述" data-original="http://img.mukewang.com/5d48098a000170cf21601390.png" class="" style="cursor: pointer;"><br>
+可以看到，左下角显示了 <code>"myFile" [New] 5L, 152C written</code>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这句话是什么意思呢？一一来分析：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>"myFile"</code>：刚才用 w 命令来保存的文件名。表示“我的文件”</li>
+<li style="font-size: 20px; line-height: 38px;"><code>[New]</code>：new 是英语“新的”的意思，表示这个文件是新创建的</li>
+<li style="font-size: 20px; line-height: 38px;"><code>5L</code>：L 是 line 的首字母，是英语“行”的意思，因此 5L 表示文件中有 5 行</li>
+<li style="font-size: 20px; line-height: 38px;"><code>152C</code>：C 是 character 的首字母，是英语“字符”的意思，因此 152C 表示文件中有 152 个字符</li>
+<li style="font-size: 20px; line-height: 38px;"><code>written</code>：英语“已经写入”的意思</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，上面这一行文字就表示“写入了 5 行文本，一共是 152 个字符，文件名是 myFile，这个文件是新建的”。</p>
+</div><div class="cl-preview-section"><h4 id="q-：退出" style="font-size: 26px;"><code>:q</code> ：退出</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在，我们已经编辑并且保存了文件，就可以退出 Vim 了，只需要先按下冒号键，以进入命令模式，再按下 q 键，再回车。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果在退出之前又修改了文件，没有用 <code>:w</code> 来保存，就直接想用 <code>:q</code> 退出 Vim。那么 Vim 会显示一个红字标明的错误信息，如下图所示（因为我新写入了 “Really ?” 这几个字符。“Really ?” 表示“真的吗？”）：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d4809920001f76a21641400.png" alt="图片描述" data-original="http://img.mukewang.com/5d4809920001f76a21641400.png" class="" style="cursor: pointer;"><br>
+错误信息是 “E37：No write since last change (add ! to override)”，意思是“37号错误：最近一次修改没有被写入（添加 <code>!</code> 来无视，也就是不保存修改）”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Vim 会阻止我们在没保存更改的情况下退出。当然，你也可以强制 Vim 退出，而不保存刚做的修改，只需要在 <code>:q</code> 后面加一个感叹号，<code>:q!</code>，作用是“强制退出，不保存修改”。</p>
+</div><div class="cl-preview-section"><h4 id="wq-：保存然后退出" style="font-size: 26px;"><code>:wq</code> ：保存然后退出</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相信机智如你应该猜到了，这是两个命令的组合： w 和 q。w 用于保存刚做的修改，q 用于退出。因此，即使你刚做了修改，Vim 也不会报错了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>:x</code> 和 <code>:wq</code> 有同样效果。我偏爱用 <code>:x</code>，因为输入一个字符 x 毕竟比输入两个字符 wq 要快。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为篇幅关系，接下去的内容我们下一课继续。下一课我们会讲 Vim 的标准和高级操作，并一起配置 Vim。</p>
+</div><div class="cl-preview-section"><h3 id="总结">5. 总结</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Vim 是基于终端命令行的十分强大的文本编辑器，较 Nano 这样的文本编辑器有更多可能。它的强有力竞争对手是 Emacs；</li>
+<li style="font-size: 20px; line-height: 38px;">在 Vim 中，有三种模式：交互模式、插入模式、命令模式；</li>
+<li style="font-size: 20px; line-height: 38px;">Vim 的默认模式是交互模式，进入插入模式需要按 i 键，从插入模式回到交互模式按 Esc 键；</li>
+<li style="font-size: 20px; line-height: 38px;">在交互模式中，按冒号键（<code>:</code>）可以进入命令模式，例如 <code>:w</code> 用于保存文件，<code>:q</code> 用于退出 Vim，<code>:wq</code> 用于保存并退出 Vim，<code>:q!</code> 用于不保存最近修改的内容且强制退出 Vim。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/532">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            38 测试题
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/534">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            40 Vim的标准和高级操作，配置Vim
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+                <div class="bottom-line">
+                    <div class="line"></div>
+                    <div class="bottom-tip">千学不如一看，千看不如一练</div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img.mukewang.com/5d5a70bc000165cb05400598.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907221925272456</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：812552418</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=50iMJcL" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

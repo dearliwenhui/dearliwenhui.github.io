@@ -1,0 +1,263 @@
+<html><head><meta charset="utf-8"><title>23 业务设计：付费会员的套餐有门道-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        23 业务设计：付费会员的套餐有门道
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-13 17:02:49
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d4ce9bf00010f5406400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">完成工作的方法，是爱惜每一分钟。<p class="author">——达尔文</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一章我们已经设计并实现了积分体系，本章将完成付费会员体系的详细设计，并开发实现付费会员体系。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第四章中我们已经知道了付费会员体系的主要功能需求如下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">付费会员特权
+<ul>
+<li style="font-size: 20px; line-height: 38px;">付费会员特权是吸引用户购买付费会员的核心。付费会员特权首先要具有超过最高用户等级特权的折扣率，即开通付费会员才可享受积分兑换商品的最低折扣Z。其次，付费会员特权最好还具有免费用户无法享受的独特特权，比如同步微信运动步数获得 2 倍积分。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">付费会员套餐划分
+<ul>
+<li style="font-size: 20px; line-height: 38px;">付费会员还需要设计不同期限付费模式，如按月、按季度、按半年、按年付费等。同时，付费会员期限越长，单月付费价格应该越便宜，这样才能激励用户购买更长期限的付费会员，增加应用营收。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">积分开通付费会员
+<ul>
+<li style="font-size: 20px; line-height: 38px;">在项目中我们以积分作为“货币”来支付付费会员的费用。在支付时需要用付费会员套餐价格减去用户等级对应的 “开通付费会员省 Y 积分” 作为实际支付价格。</li>
+</ul>
+</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">基于以上内容，我们对付费会员体系的业务进行进一步的详细设计。</p>
+</div><div class="cl-preview-section"><h2 id="付费会员名称" style="font-size: 30px;">1. 付费会员名称</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">业务设计的第一步是给我们的付费会员体系取一个好听、好记、朗朗上口的名字，例如京东的付费会员体系叫 “PLUS会员” ，小红书的付费会员体系叫 “小红卡会员”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我给专栏的付费会员体系取了一个名字，叫做“小M卡会员”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各位同学也请给你的付费会员体系取一个好名字。 ：）</p>
+</div><div class="cl-preview-section"><h2 id="付费会员特权" style="font-size: 30px;">2. 付费会员特权</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>付费会员设计的核心之一是要让用户产生 “购买付费会员所花的钱，很快就能赚回来” 的感觉，这种心理预期的产生就要靠付费会员特权的设计来实现。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">付费会员特权一般需要包括免费用户无法享受的独特权益，比如各类视频网站的付费会员都享有去除广告的特权。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此外，在有用户成长体系的场景中，还可以包含一些超过最高用户等级特权的独特权益，比如各类电商平台的付费会员可以享受比免费会员更高的折扣。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下是我设计的付费会员特权，供各位同学参考：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">特权 1 ：购物享 7 折优惠</li>
+<li style="font-size: 20px; line-height: 38px;">特权 2 ：微信运动步数同步获得2倍积分</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">特权 1 的 7 折优惠比用户最高等级特权 7.5 折优惠的折扣力度更大，而且要升到用户最高等级需要一个漫长的过程。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">特权 2 则是付费用户才能享受的独特权益，由于积分是用于购物的，微信运动步数同步获得的积分更多就意味着购买付费用户所花费的积分能很快赚回来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>"赚" 不仅仅是指省钱，可以是省时间、更方便等等。“很快就能赚回来” 的感觉需要针对你自己小程序应用的目标客户群体来精心设计，达到更大比例用户看到特权，一算账就觉得划算，然后立马掏钱的效果 。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各位同学也可以按自己的理解来设计自己的付费会员特权。</p>
+</div><div class="cl-preview-section"><h2 id="付费会员套餐" style="font-size: 30px;">3. 付费会员套餐</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与付费会员特权的设计类似，付费会员套餐的设计也需要使用一些市场营销的小技巧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">**设计不同期限会员套餐的根本目的就是促销。**一个客户如果只买一个月的付费会员，很可能下一个月他就因为各种各样的原因不买了。“反正他都很可能不续费，那不如趁他好不容易产生一次冲动消费心理时，让他多掏点钱呗，落袋为安比什么都强不是”，一阵奸笑声传来…</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下是我设计的付费会员套餐体系，供各位同学参考：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>付费会员套餐类型</th>
+<th>会员有效期（月）</th>
+<th>原价（积分）</th>
+<th>优惠价（积分）</th>
+<th>平均每月价格（积分）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>月卡会员</td>
+<td>1</td>
+<td>20,000</td>
+<td>20,000</td>
+<td>20,000</td>
+</tr>
+<tr>
+<td>季卡会员</td>
+<td>3</td>
+<td>60,000</td>
+<td>57,000</td>
+<td>19,000</td>
+</tr>
+<tr>
+<td>半年卡会员</td>
+<td>6</td>
+<td>120,000</td>
+<td>108,000</td>
+<td>18,000</td>
+</tr>
+<tr>
+<td>年卡会员</td>
+<td>12</td>
+<td>240,000</td>
+<td>192,000</td>
+<td>16,000</td>
+</tr>
+<tr>
+<td>3年卡会员</td>
+<td>36</td>
+<td>720,000</td>
+<td>468,000</td>
+<td>13,000</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个体系中可以明确感知到“购买时间越长，每个月的单价越便宜”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各位同学也可以按自己的理解来设计自己的付费会员套餐体系。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">如果你想要开发自己的小程序应用，并想用它赚钱，这几章介绍的用户成长体系、积分体系和付费会员体系的设计套路是你的必备 “忽悠” 基本功，请专心修炼。</p>
+<p style="font-size: 20px; line-height: 38px;">如果你只想做一个个安安静静的佛系程序员，了解了用户成长体系、积分体系和付费会员体系的套路，或许，在下一次被五花八门的 APP 和小程序中的营销套路忽悠之前，你会有那么一秒钟的思考：我愿意上套吗？</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="支付" style="font-size: 30px;">4. 支付</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在专栏中我们以积分作为支付“货币”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>任何支付都需要包括以下业务规则：</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>当用户的积分余额足够时，用户才能支付成功</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>每一笔支付需要有支付记录，供对账等后续业务使用</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>在服务器端完成整个支付逻辑，服务器端提供支付接口供客户端调用</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>客户端不处理支付逻辑，客户端只负责调用支付接口发起支付，并接收和显示支付接口返回的支付结果</strong></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在付费会员的支付中还有以下业务规则：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">实际支付价格 = 付费会员套餐标价 - 用户等级特权对应的 “开通付费会员省Y积分”</li>
+<li style="font-size: 20px; line-height: 38px;">当用户成功支付后，需要为用户开通付费会员，付费会员有效期为购买套餐对应的付费会员有效期</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将根据本节整理的业务规则，对付费会员体系的功能与数据库进行设计。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>请以从本专栏内容中学到的知识为基础，结合你自己的理解和想法，设计属于你自己的付费会员体系。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/581">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            22 坏人请走开：开发实现积分体系风控规则
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/583">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            24 功能与数据库设计
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

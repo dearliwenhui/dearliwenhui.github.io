@@ -1,0 +1,319 @@
+<html><head><meta charset="utf-8"><title>04 与新朋友 Nginx 友好交流-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        04 与新朋友 Nginx 友好交流
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-08-10 14:52:41
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.sycdn.imooc.com/5ddbad6d0001f1af06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">人的一生可能燃烧也可能腐朽，我不能腐朽，我愿意燃烧起来！——奥斯特洛夫斯基<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="必备知识">必备知识</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章内容开始之前，我们先说一下 Unix/Linux 环境下软件安装的两种方法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a03000185c812900414.png" data-original="//img1.sycdn.imooc.com/5ddb3a03000185c812900414.png" alt="图片描述"><br>
+包管理工具是 Linux 发行版提供的官方安装软件的方法，它可以自动帮我们解决各种依赖，让软件安装变得更简单。不过官方的安装源不会实时更新，可能安装的不是最新版本。作为一个专业的程序猿，我们当然要使用<strong>逼格更高的源码安装</strong>方法了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">之所以推荐使用源码安装，是因为这样会让我们对软件的一些特性有更大的灵活性控制。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="源码安装简介" style="font-size: 30px;">源码安装简介</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Unix/Linux 环境下，如果使用源码安装软件的话，一般会经过三个步骤，即<code>configure</code>、<code>make</code>、<code>make install</code>。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>configure 的作用：</strong></p>
+<p style="font-size: 20px; line-height: 38px;">这一步一般是用来生成<code>Makefile</code>文件，为下面的<code>make</code>做准备。一般情况下，<code>configure</code>后面会带一些参数，对编译和安装进行控制。比如说，一般会有一个<code>prefix</code>参数，用于控制程序的安装路径；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>make 的作用：</strong><br>
+这一步就是对程序中的源文件进行编译，生成可执行文件。这个命令其实就是执行第一步生成的<code>Makefile</code>文件，按照文件的规则自动的编译源文件；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>make install 的作用：</strong></p>
+<p style="font-size: 20px; line-height: 38px;">这个命令是执行<code>Makefile</code>文件中的<code>install</code>标签内容。用来安装上一步生成的可执行文件。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><code>Makefile</code> 文件包含了很多规则，作为<code>Unix/Linux</code>开发，我们应该对这些内容进行简单的了解，至少应该能够知道这些东西是干什么的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="安装步骤" style="font-size: 30px;">安装步骤</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在安装之前，我们要进行一些准备工作，包括操作系统、<code>nginx</code> 源代码等。</p>
+</div><div class="cl-preview-section"><h3 id="操作系统">操作系统</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于绝大多数互联网公司来说，服务器操作系统应该都是 Linux 系列，我们本文使用的操作系统是 Centos。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">如果自己没有<code>Linux</code>操作系统的话，我们也可以安装一个虚拟机，或者使用大名鼎鼎的<code>Docker</code>，下载一个<code>Centos</code>镜像即可。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="获取-nginx源代码">获取 nginx源代码</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">打开<a href="http://nginx.org/">nginx官网</a>，点击右侧列表的 download 进入源码下载页面。我们可以看到 Nginx 提供了三种版本的下载，分别是 <strong>开发版本、稳定版本、过期版本</strong>。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3a1600011d0b16561250.png" data-original="//img1.sycdn.imooc.com/5ddb3a1600011d0b16561250.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们选择当前最新的稳定版本 nginx-1.16.1。<br>
+nginx-1.16.1 是 linux 版本的源码，nginx/Windows-1.16.1 是 windows 版本的源码。两个 pgp 分别是对应平台版本源码经过 PGP 加密之后的签名，我们可以通过这个签名验证下载的内容是否正确。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">右键点击 nginx-1.16.1，选择复制链接地址，然后通过 wget 下载源码。</p>
+</div><div class="cl-preview-section"><pre class="  language-shell"><code class="prism  language-shell">wget http://nginx.org/download/nginx-1.16.1.tar.gz
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a230001c50c28060572.png" data-original="//img1.sycdn.imooc.com/5ddb3a230001c50c28060572.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">解压源码：</p>
+</div><div class="cl-preview-section"><pre class="  language-shell"><code class="prism  language-shell">tar -zxvf nginx-1.16.1.tar.gz
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a3300014e7715881276.png" data-original="//img1.sycdn.imooc.com/5ddb3a3300014e7715881276.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="编译源代码">编译源代码</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面进入到刚才解压的 nginx 源码目录中开始对源码进行编译。在文章的开头我们说过，一般情况下，Linux 的软件在编译的时候要经过三个步骤，configure/make以及make install，而 nginx 也不例外。</p>
+</div><div class="cl-preview-section"><h3 id="configure步骤">configure步骤</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前面介绍过，<code>configure</code>脚本的作用就是生成<code>Makefile</code>文件。这个脚本可以带一些参数，用于控制程序的编译行为。我简单的总结了一下<code>configure</code>执行的命令参数，如下所示：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3a3f0001993f13280498.png" data-original="//img1.sycdn.imooc.com/5ddb3a3f0001993f13280498.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们通过执行<code>configure --help</code>来查看完整的命令参数。我们截取一部分，如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a4b00013dd314601410.png" data-original="//img1.sycdn.imooc.com/5ddb3a4b00013dd314601410.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们列举几个比较重要的命令参数：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>1) 通用配置选项</strong></p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--prefix=&lt;PATH&gt;</code></td>
+<td><code>nginx</code>的前缀路径</td>
+<td>其他路径都依赖于该路径，默认为<code>/usr/local/nginx</code></td>
+</tr>
+<tr>
+<td><code>--sbin-path=&lt;PATH&gt;</code></td>
+<td>生成的可执行程序保存路径</td>
+<td>默认为 <code>prefix</code> + <code>/sbin/nginx</code></td>
+</tr>
+<tr>
+<td><code>--conf-path=&lt;PATH&gt;</code></td>
+<td>配置文件路径</td>
+<td>默认为 <code>prefix</code> + <code>/conf/nginx.conf</code></td>
+</tr>
+<tr>
+<td><code>--error-log-path=&lt;PATH&gt;</code></td>
+<td>错误日志路径</td>
+<td>默认为 <code>prefix</code> + <code>/logs/error.log</code></td>
+</tr>
+<tr>
+<td><code>--pid-path=&lt;PATH&gt;=&lt;PATH&gt;</code></td>
+<td><code>pid</code>文件的保存路径</td>
+<td>默认为 <code>prefix</code> + <code>/logs/nginx.pid</code></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>2) 第三方模块</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第三方模块分为两种，一种是默认自动编译到<code>nginx</code>可执行文件中的模块，一种是没有自动编译到<code>nginx</code>可执行文件中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于前者，我们可以使用<code>--without-XXX_module</code>的方式来取消自动编译。比如<code>--without-http_gzip_module</code>就是不再将<code>gzip</code>压缩模块编译到<code>nginx</code>中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于后者，我们可以使用<code>--with--XX_module</code>的方式将模块编译到可执行程序中。比如我们可以通过<code>--with-http_geoip_module</code>命令将地理位置的<code>geoip</code>模块编译到最终的<code>nginx</code>可执行程序中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">了解了上面的一些基本内容之后，我们就可以进行<code>configure</code>过程了。执行下面的命令：</p>
+</div><div class="cl-preview-section"><pre class="  language-sh"><code class="prism  language-sh">./configure --prefix=/usr/local/nginx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以在屏幕上看到输出一大堆的信息，这些带<code>checking</code>字样的是<code>configure</code>脚本自动判断当前操作系统的一些特性，比如获取当前操作系统的内核版本号，是否支持<code>epoll</code>，判断<code>int</code>类型的长度等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a560001d7f117261256.png" data-original="//img1.sycdn.imooc.com/5ddb3a560001d7f117261256.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">突然，在最下面出现了一个触目惊心的<code>error</code>，这就尴尬了：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a6a0001e1f219080548.png" data-original="//img1.sycdn.imooc.com/5ddb3a6a0001e1f219080548.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从上面错误信息里面，我们可以看出来，nginx先后从 /usr/local/，/usr/include/pcre/，/usr/pkg/，/opt/local/四个位置中找 PCRE 模块，但是都没有找到，所以就报错了。那么什么是 PCRE 模块呢？</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><code>Q1:</code> <code>PCRE</code>是什么？<br>
+<code>A1:</code> <code>PCRE</code>的全称是<code>Perl Compatible Regular Expressions</code>，是一个兼容<code>perl</code>的正则表达式库，使用<code>c</code>语言实现，性能非常的高。<code>nginx</code>使用<code>PCRE</code>实现了<code>http rewrite</code>功能。</p>
+<p style="font-size: 20px; line-height: 38px;"><code>Q2:</code> <code>http rewrite</code>是啥？<br>
+<code>A2:</code> 不要着急，我们后面的文章会告诉你~~~</p>
+<p style="font-size: 20px; line-height: 38px;"><code>Q3:</code>为什么要从四个位置查找呢？<br>
+<code>A3:</code>: 因为不同的操作系统，软件安装的默认目录是不同的，<code>nginx</code>为了兼容不同的平台，所以要从不同的位置查找</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">报错信息里面也给了三种解决办法：<br>
+① 禁用<code>rewrite</code>模块，即执行<code>configure</code>的时候，指定<code>--without-http_rewrite_module</code>；<br>
+② 将<code>PCRE</code>模块安装到默认的系统目录中，这样<code>nginx</code>就可以自动的从默认位置找到<code>PCRE</code>模块；<br>
+③ 使用源码编译<code>PCRE</code>，将编译后的文件放到自定义的目录中，在<code>configure</code>的时候通过<code>--with-pcre=&lt;path&gt;</code>的方式。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">同志们，不要害怕<code>error</code>，优秀软件的<code>error</code>会告诉你很多信息~~~</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">知道了错误的原因，我们就可以很轻松地搞定它了，我们使用上面的第②种解决办法，将<code>PCRE</code>库安装到系统默认的位置。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3a760001d86816580716.png" data-original="//img1.sycdn.imooc.com/5ddb3a760001d86816580716.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装成功之后，我们重新执行上面的<code>./configure --prefix=/usr/local/nginx</code>命令，可以发现，能够找到<code>PCRE</code>库了。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3a8500015aeb14240456.png" data-original="//img1.sycdn.imooc.com/5ddb3a8500015aeb14240456.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是尴尬的是，<code>configure</code>又双叒叕报错了~~<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3a90000155ac18880332.png" data-original="//img1.sycdn.imooc.com/5ddb3a90000155ac18880332.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看错误信息，这次是因为<code>zlib</code>库没有找到。和<code>pcre</code>错误信息相同，这次也给出了三种解决办法，我们同样适用第②种解决办法安装<code>zlib</code>库。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3a9a000143f116900666.png" data-original="//img1.sycdn.imooc.com/5ddb3a9a000143f116900666.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再次执行<code>configure</code>命令，这个问题就解决了。并且成功的创建了<code>Makefile</code>文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3aa300012c5917721170.png" data-original="//img1.sycdn.imooc.com/5ddb3aa300012c5917721170.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="make步骤" style="font-size: 26px;"><code>make</code>步骤</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">经过上一步的<code>configure</code>，已经生成了<code>Makefile</code>文件，我们就可以通过执行<code>make</code>命令对<code>nginx</code>进行编译，如下：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3ab30001efbe14360634.png" data-original="//img1.sycdn.imooc.com/5ddb3ab30001efbe14360634.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="make-install步骤" style="font-size: 26px;"><code>make install</code>步骤</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">编译成功之后，就剩下最后一步<code>安装</code>了。执行<code>make install</code>命令就行了：<br>
+<img class="" src="./images/make-install.png" data-original="./images/make-install.png" alt=""></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">这一步可能需要<code>root</code>权限</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="测试">测试</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">经过上面的重重考验，我们终于自己编译了一个<code>nginx</code>源码，生成了一个可执行文件，下面我们就测试一下我们的劳动成果吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在<code>configure</code>的时候指定了<code>--prefix=/usr/local/nginx</code>，那么默认情况下最终生成的可执行文件，配置文件，错误日志文件等都会在这个目录下，我们看一下这个目录的结构：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3abf0001268f15041318.png" data-original="//img1.sycdn.imooc.com/5ddb3abf0001268f15041318.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="启动nginx">启动<code>nginx</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>nginx</code>启动的时候可以带很多参数，如下图：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3ad80001475d12900750.png" data-original="//img1.sycdn.imooc.com/5ddb3ad80001475d12900750.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其中常用的就是 <code>-t</code>，<code>-c</code>, <code>-p</code>， <code>-g</code>，<code>-s</code>这几个。<br>
+<code>-c</code>: 指定<code>nginx</code>启动时使用的配置文件，默认为<code>/usr/local/nginx/conf/nginx.conf</code>；<br>
+<code>-t</code>: 测试配置文件的语法是否正确；<br>
+<code>-p</code>: 指定<code>nginx</code>服务器使用的文件的路径前缀，默认为<code>/usr/local/nginx</code>；<br>
+<code>-g</code>: 通过命令行指定一些全局配置选项；<br>
+<code>-s</code>: 向<code>nginx</code>进程发送信号。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以通过直接执行<code>nginx</code>可执行文件(不带任何参数)来启动<code>nginx服务</code>。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3b470001813323660596.png" data-original="//img1.sycdn.imooc.com/5ddb3b470001813323660596.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">这种情况下使用的是默认的配置文件，即<code>/usr/local/nginx/conf/nginx.conf</code>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们也可以通过<code>curl</code>命令来查看<code>nginx</code>是否启动成功。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3b5d0001efab18561484.png" data-original="//img1.sycdn.imooc.com/5ddb3b5d0001efab18561484.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="停止nginx">停止<code>nginx</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>nginx</code>提供了两种方法来停止服务：优雅关闭和快速关闭。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb3b6d0001d81910920246.png" data-original="//img1.sycdn.imooc.com/5ddb3b6d0001d81910920246.png" alt="图片描述"><br>
+<code>快速关闭:</code> <code>nginx</code>强制停止服务，<code>master</code>和<code>worker</code>进程收到信号之后，会立即结束运行。<br>
+<code>优雅关闭:</code> <code>nginx</code>会按照下面的步骤停止服务：<br>
+<code>1).</code> 关闭监听端口，停止接收新的连接；<br>
+<code>2).</code> <code>Nginx</code>处理完当前的所有。剩余请求；<br>
+<code>3).</code> 停止<code>Nginx</code>服务</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实这两种方式都是对<code>kill</code>命令的一个封装，我们也可以直接使用<code>kill</code>命令完成相同的功能。只不过<code>kill</code>命令要知道<code>nginx</code>的<code>master</code>进程的<code>pid</code>，我们可以结合<code>ps</code>命令来查找进程号。<br>
+其实还有一种方法来获取<code>master</code>进程的<code>pid</code>，那就是<code>nginx.pid</code>文件，这个文件的内容就是<code>master</code>进程的<code>pid</code>，大家知道这种方法就行了，尽量使用<code>nginx</code>提供的<code>-s</code>命令。</p>
+</div><div class="cl-preview-section"><h3 id="重新加载配置文件">重新加载配置文件</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当配置文件发生改变之后，牛逼的<code>nginx</code>可以不用断开服务，直接重新加载配置就行了。</p>
+</div><div class="cl-preview-section"><pre class="  language-sh"><code class="prism  language-sh">nginx -s reload
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文介绍了一下<code>nginx</code>安装过程，以及一些<code>nginx</code>常用的命令。希望大家学习愉快！</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1231">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            03 HTTP 请求与响应
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1234">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            05 Linux 的 IO 原理
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

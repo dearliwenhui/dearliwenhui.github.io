@@ -1,0 +1,322 @@
+<html><head><meta charset="utf-8"><title>26 下一个排列-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        26 下一个排列
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-10 09:53:06
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d7701f900018d1006400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">读一本好书，就是和许多高尚的人谈话。<p class="author">——歌德</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h2 id="刷题内容" style="font-size: 30px;">刷题内容</h2>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>难度: Medium</strong><br>
+<a href="https://leetcode-cn.com/problems/next-permutation/">https://leetcode-cn.com/problems/next-permutation/</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="题目描述" style="font-size: 26px;">题目描述</h4>
+</div><div class="cl-preview-section"><pre><code>实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+
+如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+
+必须原地修改，只允许使用额外常数空间。
+
+以下是一些例子，输入位于左侧列，其相应输出位于右侧列。
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="解题方案" style="font-size: 30px;">解题方案</h2>
+</div><div class="cl-preview-section"><h4 id="思路：时间复杂度-o-n-空间复杂度-o-1" style="font-size: 26px;">思路：时间复杂度: O (N) 空间复杂度: O (1)</h4>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><em><strong>引子</strong></em>：十进制数怎么求下一个数？</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如 1099，从最后一位 9 开始寻找，发现 9 不存在下一个数字，于是看倒数第二位，倒数第二位同样是 9 也不存在下一个数字。看倒数第 3 位，是 0，下一个数字是 1，于是把倒数第三位变成下一个数字 1，再把后面两位变成最小的两个数字，也就是 00，于是 1099 的下一个数就是 1100。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后我们总结出来的步骤：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">从后面开始，寻找第一个有下一个数字的数字，假设该位置为倒数第 i 位。我们把倒数第 i 位变成它的下一个数字</li>
+<li style="font-size: 20px; line-height: 38px;">将 <code>倒数第 1 位 - 第 i-1 位变成最小的数字</code>，也就是 0</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，什么是全排列呢？上过高中的同学肯定都知道，回顾一下：<a href="https://baike.baidu.com/item/%E5%85%A8%E6%8E%92%E5%88%97">全排列</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里题目需要我们获得下一个更大的排列，那么我们想一下，在所有位元素固定的情况下，如何让这个排列数字更大呢？自然是把大一点的数字放在前面比较好啦。但由于我们只是去找下一个更大的排列，而不仅仅是找到一个更大的就行，所以我们要将最合适的一个较大的数字和前面一个较小的数字换一下位置。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">如果一个序列是递减的，那么它不具有下一个排列。因为他就是最大的排列</li>
+<li style="font-size: 20px; line-height: 38px;">如果一个序列是递增的，那么它是最小的排列</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">算法具体流程：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">从后面开始，寻找第一个有下一个数字的数字，假设该位置为倒数第 i 位。这里要注意，由于从开头到倒数第 i+1 位，数字不变，因此倒数第 i 位能选的数字只能是倒数第 i 位后面的数字</li>
+<li style="font-size: 20px; line-height: 38px;">将倒数第 i 位变成它的取值范围内的下一个数字</li>
+<li style="font-size: 20px; line-height: 38px;">将倒数第 1 位 - 第 i-1 位变成最小的排列，也就是，数字升序（由于倒数第 i 位后面的数字是降序的，所以可以利用这个性质来实现 o (n) 的算法来实现升序）</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来看一个具体的例子，一个排列为 124653</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们倒着往前找，遇到 4 小于 6 的情况停止，因为 4 后面有比它大的数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">并且我们可以知道：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">124653 和它的下一个排列的公共前缀为 12 (因为 4653 存在下一个排列，所以前面的数字 12 保持不变)</li>
+<li style="font-size: 20px; line-height: 38px;">4 后面的元素是递减的 (上面介绍的终止条件是前一个元素小于后一个元素，这里是 4&lt;6)</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在，我们开始考虑如何找到 4653 的下个排列，首先明确 4 后面的几个数字中至少有一个大于 4.</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">4 肯定要和 653 这 3 个数字中大于 4 的数字中 (6，5) 的某一个进行交换。这里就是 4 要和 6，5 中的某一个交换，很明显要和 5 交换，如果找到这样的元素呢，因为我们知道 4 后面的元素是递减的，所以在 653 中从后面往前查找，找到第一个大于 4 的数字，这就是需要和 4 进行交换的数字。这里我们找到了 5，交换之后得到的临时序列为 5643.，交换后得到的 643 也是一个递减序列。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以得到的 4653 的下一个临时序列为 5643，但是既然前面数字变大了 (4653—&gt;5643)，后面的自然要变为升序才行，变换 5643 得到 5346.</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以 124653 的下一个序列为 125346.</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再来一个例子，比如 125430</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">从末尾开始，找到 decreasing subsequence，5430，因为来调 5430 无论怎么调，都不可能有比它更小的，数也被自然的分成两部分 (1,2) 和 （5，4，3，0)</li>
+<li style="font-size: 20px; line-height: 38px;">下一步是找这个 sequence 里面第一个比前面部分，比 2 大的，3，也很容易理解，因为下一个必定是 (1,3) 打头</li>
+<li style="font-size: 20px; line-height: 38px;">交换 3 和 2 ，变成 (1,3,5,4,2,0), 再把后面的部分 reverse，得到后面部分可得到的最小的</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个时候，得到下一个 sequence 130245</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们来看下具体的代码实现：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>python beats 99.89%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">nextPermutation</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nums<span class="token punctuation">:</span> List<span class="token punctuation">[</span><span class="token builtin">int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        Do not return anything, modify nums in-place instead.
+        """</span>
+        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        idx <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 从后往前看</span>
+            <span class="token keyword">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> nums<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># 找到第一个比后面元素小的元素nums[i]</span>
+                idx <span class="token operator">=</span> i
+                <span class="token keyword">break</span>
+        <span class="token keyword">if</span> idx <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span> <span class="token comment"># 如果这个元素不是第一个元素，说明整个num不是递减序列</span>
+            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> idx<span class="token number">-1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 把nums[i]和它后面最后一个大于它的元素交换一下位置</span>
+                <span class="token keyword">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> nums<span class="token punctuation">[</span>idx<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>idx<span class="token number">-1</span><span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>idx<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+                    <span class="token keyword">break</span>
+
+        nums<span class="token punctuation">[</span>idx<span class="token punctuation">:</span><span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token comment"># 后面的元素都需要变成升序才行</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++ beats 98.83%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c">class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">void</span> <span class="token function">nextPermutation</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token comment">//寻找从右边开始第一个比右边小的数</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>idx <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">&gt;=</span> nums<span class="token punctuation">[</span>idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            idx<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>idx <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> next <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token comment">//寻找nums[idx]的下一个数</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>next <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                next<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">//交换nums[idx]和nums[next]</span>
+            <span class="token keyword">int</span> temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">//将nums[idx+1..]倒过来</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+            left<span class="token operator">++</span><span class="token punctuation">;</span>
+            right<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>java beats 89.89%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">nextPermutation</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token comment">//寻找从右边开始第一个比右边小的数</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>idx <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">&gt;=</span> nums<span class="token punctuation">[</span>idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            idx<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>idx <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> next <span class="token operator">=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token comment">//寻找nums[idx]的下一个数</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>next <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                next<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">//交换nums[idx]和nums[next]</span>
+            <span class="token keyword">int</span> temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">//将nums[idx+1..]倒过来</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right <span class="token operator">=</span> nums<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> temp <span class="token operator">=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+            left<span class="token operator">++</span><span class="token punctuation">;</span>
+            right<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>go beats 100%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">nextPermutation</span><span class="token punctuation">(</span>nums <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">)</span>  <span class="token punctuation">{</span>
+	n <span class="token operator">:=</span> <span class="token function">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+	idx <span class="token operator">:=</span> n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">;</span>
+	<span class="token comment">//寻找从右边开始第一个比右边小的数</span>
+	<span class="token keyword">for</span> idx <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">&gt;=</span> nums<span class="token punctuation">[</span>idx <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+		idx<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">if</span> idx <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+		next <span class="token operator">:=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+		<span class="token comment">//寻找nums[idx]的下一个数</span>
+		<span class="token keyword">for</span> next <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">&lt;=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token punctuation">{</span>
+			next<span class="token operator">--</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token comment">//交换nums[idx]和nums[next]</span>
+		temp <span class="token operator">:=</span> nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		nums<span class="token punctuation">[</span>idx<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		nums<span class="token punctuation">[</span>next<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//将nums[idx+1..]倒过来</span>
+	left <span class="token operator">:=</span> idx <span class="token operator">+</span> <span class="token number">1</span>
+	right <span class="token operator">:=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">for</span> left <span class="token operator">&lt;</span> right <span class="token punctuation">{</span>
+		temp <span class="token operator">:=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">=</span> temp<span class="token punctuation">;</span>
+		left<span class="token operator">++</span><span class="token punctuation">;</span>
+		right<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这道题的难点在于如何十进制数怎么求下一个数？同学们吧过程仔细的多看几遍，然后动手敲，敲第一遍的时候不要看代码，硬着头皮上。这样会对你的算法能力有很大的促进。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/746">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            25 盛水最多的容器
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/748">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            27 搜索旋转排序数组
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img.mukewang.com/5dad751a00019e3605400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1908100602141755</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：853923473</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5CPxzEa" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

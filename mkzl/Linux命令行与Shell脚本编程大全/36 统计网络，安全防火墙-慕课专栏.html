@@ -1,0 +1,464 @@
+<html><head><meta charset="utf-8"><title>36 统计网络，安全防火墙-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="display: block; width: 1134px;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        <div class="map">
+                            <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                            <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                            <a href="" target="_blank">
+                                <span>
+                                    / 4-6 36 统计网络，安全防火墙
+                                </span>
+                            </a>
+                        </div>
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        36 统计网络，安全防火墙
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-01 11:34:58
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d3ecd0a0001f1af06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">只有在那崎岖的小路上不畏艰险奋勇攀登的人,才有希望达到光辉的顶点。<p class="author">——马克思</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div><div class="cl-preview-section"><h3 id="内容简介">内容简介</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">netstat : 网络统计</li>
+<li style="font-size: 20px; line-height: 38px;">iptables / nftables ：防火墙</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+<li style="font-size: 20px; line-height: 38px;">第四部分第七课预告</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="前言">1. 前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课 <a href="">带你玩转Linux和Shell编程 | 第四部分第五课：IP地址和分析网络</a> 中，我们了解了 IP 地址和域名的知识，还学习了 ifconfig 命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课我们接着来学习 netstat 和 iptables 这两个很强大的命令。</p>
+</div><div class="cl-preview-section"><h3 id="netstat--网络统计">2. netstat : 网络统计</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">netstat 命令很好记，它由两部分组成：net 和 stat。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">net 是 network 的缩写，表示“网络”。stat 是 statistics 的缩写，表示“统计”。所以顾名思义就是“对网络信息进行统计”啦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">假如你没有一些网络方面的知识，那么 netstat 命令的输出可能难以理解，但是也没那么难。假如你要了解你的电脑正在网络上做什么，那么 netstat 是不二选择。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">netstat 可以显示很多信息，但是我们可以用参数来控制显示信息的种类和样式。下面介绍几个常用的参数吧。</p>
+</div><div class="cl-preview-section"><h4 id="netstat--i--网络接口的统计信息" style="font-size: 26px;">netstat -i : 网络接口的统计信息</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，试试 i 参数吧：</p>
+</div><div class="cl-preview-section"><pre><code>netstat -i
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">会显示一张统计列表，列出你电脑的所有网络接口的一些统计信息：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec6a700010c7020920456.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec6a700010c7020920456.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，列出了两行信息：enp0s3 和 lo 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课中我们在讲解 ifconfig 时，已经分析过，其中 enp0s3 是新版本的 Ethernet（以太网）接口的名字，不再是 eth0。lo 则和旧版一样，还是表示 Local Loopback（本地回环）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">RX 是 receive（表示“接收”）的缩写，TX 是 transmit（表示“发送”）的缩写。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">RX-OK : 在此接口接收的包中正确的包数。OK 表示“没问题，好的”；</li>
+<li style="font-size: 20px; line-height: 38px;">RX-ERR : 在此接口接收的包中错误的包数。ERR 是 error 的缩写，表示“错误”；</li>
+<li style="font-size: 20px; line-height: 38px;">RX-DRP : 在此接口接收的包中丢弃的包数。DRP 是 drop 的缩写，表示“丢掉”；</li>
+<li style="font-size: 20px; line-height: 38px;">RX-OVR : 在此接口接收的包中没能接收的包数。OVR 是 over 的缩写，表示“结束”。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">类似的，TX-OK、TX-ERR、TX-DR 和 TX-OVR 则表示在此接口放送的包中对应的包数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://baike.baidu.com/item/MTU">MTU</a> 是 Maximum Transmission Unit 的缩写，表示“最大传输单元”，是指一种通信协议的某一层上面所能通过的最大数据包大小（以字节为单位）。</p>
+</div><div class="cl-preview-section"><h4 id="netstat--uta--列出所有开启的连接" style="font-size: 26px;">netstat -uta : 列出所有开启的连接</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行：</p>
+</div><div class="cl-preview-section"><pre><code>netstat -uta
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec7b300015dfb21601292.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec7b300015dfb21601292.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参数 uta 分别表示：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">-u : 显示 UDP 连接（u 是 udp 的首字母）</li>
+<li style="font-size: 20px; line-height: 38px;">-t : 显示 TCP 连接（t 是 tcp 的首字母）</li>
+<li style="font-size: 20px; line-height: 38px;">-a : 不论连接的状态如何，都显示（a 是 all 的首字母）</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">TCP 和 UDP 是两种不同的协议，用于在网络上传输数据。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">UDP（User Datagram Protocol，“用户数据报协议”）一般用于网络游戏，音频通讯（例如 Skype）。除此之外，一般来说 TCP（Transmission Control Protocol，“传输控制协议”）是最常用的。一般在互联网上都是用 TCP/IP 协议。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们也可以只显示 TCP 连接的信息：</p>
+</div><div class="cl-preview-section"><pre><code>netstat -ta
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者只显示 UDP 连接的信息（不常用）：</p>
+</div><div class="cl-preview-section"><pre><code>netstat -ua
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再来看看上面图片中 state（“状态”）那一列的信息，有好几种不同状态：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">ESTABLISHED：与远程电脑的连接已建立，establish 是英语“建立”的意思；</li>
+<li style="font-size: 20px; line-height: 38px;">TIME_WAIT : 连接正在等待网络上封包的处理，一旦处理完毕就开始关闭连接。time 是英语“时间”的意思，wait 是英语“等待”的意思；</li>
+<li style="font-size: 20px; line-height: 38px;">CLOSE_WAIT ：远程服务器中止了连接（也许你太久没什么动作，处在不活跃状态）。close 是英语“关闭”的意思；</li>
+<li style="font-size: 20px; line-height: 38px;">CLOSED ：连接没有被使用，关闭了；</li>
+<li style="font-size: 20px; line-height: 38px;">CLOSING ：连接正在关闭，但有些数据还没有发送完毕；</li>
+<li style="font-size: 20px; line-height: 38px;">LISTEN ：监听着可能进入的连接。此时连接还没有被使用。listen 是英语“听”的意思。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，状态还不止这几种，其它的可以在 netstat 的命令手册中找到（用 <code>man netstat</code> 来查看）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们再来看看端口的信息，就是上面图片中冒号（:）之后的数据。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">事实上，我们连接其它电脑，可以透过不同的端口（port），有点类似门户。比如我去朋友家，可能进他们的厨房门、书房门、地下室门等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不同的端口用处不同。进厨房门可能看看做菜如何，进书房门可能一窥书香，进地下室门可能去品品葡萄酒。反正卧室门是不可以随便进的~</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">摘自百度百科：<br>
+“端口”是英文 port 的意译，可以认为是设备与外界通讯交流的出口。<br>
+端口可分为虚拟端口和物理端口。<br>
+其中虚拟端口指计算机内部或交换机路由器内的端口，不可见。例如计算机中的 80 端口、21 端口、23 端口等。<br>
+物理端口又称为接口，是可见端口，例如计算机背板的 RJ45 网口，交换机路由器集线器等 RJ45 端口。电话使用的 RJ11 插口也属于物理端口的范畴。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec7be0001d06912260970.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec7be0001d06912260970.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">80 端口是为 HTTP（HyperText Transport Protocol，“超文本传输协议”）开放的，此为上网冲浪使用次数最多的协议，主要用于 WWW（World Wide Web，“万维网”）传输信息的协议。可以通过 HTTP 地址（即常说的“网址”）加 <code>:80</code> 来访问网站，因为浏览网页服务默认的端口号都是 80，因此只需输入网址即可，不用输入<code>:80</code>了；</li>
+<li style="font-size: 20px; line-height: 38px;">21 端口用于 FTP（File Transfer Protocol，“文件传输协议”）服务，FTP 服务主要是为了在两台计算机之间实现文件的上传与下载。上一课我们学习过 FTP 相当的知识；</li>
+<li style="font-size: 20px; line-height: 38px;">110 端口是为 POP3（Post Office Protocol version 3 的缩写，表示“邮件协议 第三版”）服务开放的，用于收发电子邮件。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以加上 -n 参数，假如你想让端口信息以数字的形式显示，而不是像前面的截图中那样有点看不懂的状态，比如 http、https、nfs、mysql 等等。</p>
+</div><div class="cl-preview-section"><h4 id="netstat--lt--列出状态是-listen-的统计信息" style="font-size: 26px;">netstat -lt : 列出状态是 LISTEN 的统计信息</h4>
+</div><div class="cl-preview-section"><pre><code>netstat -lt
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="netstat--s--列出总结性的统计信息" style="font-size: 26px;">netstat -s : 列出总结性的统计信息</h4>
+</div><div class="cl-preview-section"><pre><code>netstat -s
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">还有更多命令选项就用 <code>man netstat</code> 来查看吧。</p>
+</div><div class="cl-preview-section"><h3 id="iptables--nftables-：防火墙">3. iptables / nftables ：防火墙</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在既然我们已经知道如何分析网络传输，我们就“趁热打铁”，学习如何用防火墙来过滤网络传输吧。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 下比较著名的防火墙是 iptables。它有点年纪了，已经服役十几年。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">iptables 命令可以制定一些规则，规定其它电脑可以使用哪些端口来连接你的电脑（对应“入”），以及你的电脑可以连接哪些端口（对应“出”）。也可以通过 IP 地址来过滤。类似下图所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec7ca00011f3f13721048.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec7ca00011f3f13721048.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如，我想要拦截所有 FTP 的连接，那么我可以用 iptables 封锁 21 端口。</p>
+</div><div class="cl-preview-section"><h4 id="安装-iptables-防火墙" style="font-size: 26px;">安装 iptables 防火墙</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果没有安装 iptables ，需要先安装（我的 Ubuntu 系统已经自带了 iptables 命令）：</p>
+</div><div class="cl-preview-section"><pre><code># CentOS 执行：
+sudo yum install iptables
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># Debian / Ubuntu 执行：
+sudo apt install iptables
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="iptables-的使用需要-root-身份" style="font-size: 26px;">iptables 的使用需要 root 身份</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了使用 iptables，你需要切换到 root 身份：</p>
+</div><div class="cl-preview-section"><pre><code>sudo su
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者你在下面我们执行的那些命令前每次加 sudo 也是可以的。</p>
+</div><div class="cl-preview-section"><h4 id="iptables--l--显示所有规则" style="font-size: 26px;">iptables -L : 显示所有规则</h4>
+</div><div class="cl-preview-section"><pre><code>iptables -L
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec7d200010c1214060784.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec7d200010c1214060784.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到三个区域：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>Chain INPUT</code> : 对应控制“进入”的网络传输的规则，input 是英语“输入”的意思。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>Chain FORWARD</code> : 对应控制“转发”的网络传输的规则，forward 是英语“转发”的意思。</li>
+<li style="font-size: 20px; line-height: 38px;"><code>Chain OUTPUT</code> : 对应控制“出去”的网络传输的规则，output 是英语“输出”的意思。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">暂时我们还没有制定任何规则，我们慢慢来学习。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">1、清除已有 iptables 规则（慎用）：</p>
+</div><div class="cl-preview-section"><pre><code>iptables -F
+iptables -X
+iptables -Z
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2、开放指定的端口：</p>
+</div><div class="cl-preview-section"><pre><code># 允许本地回环接口（即运行本机访问本机）
+iptables -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 允许已建立的或相关连的通行
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 允许所有本机向外的访问
+iptables -A OUTPUT -j ACCEPT
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 允许访问 22 端口
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 允许访问 80 端口
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 允许 FTP 服务的 21 和 20 端口
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A INPUT -p tcp --dport 20 -j ACCEPT
+# 如果有其它端口的话，规则也类似，稍微修改上述语句就行。
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 禁止其它未允许的规则访问（注意：如果 22 端口未加入允许规则，SSH 链接会直接断开。）
+## 1）. 用 DROP 方法
+iptables -A INPUT -p tcp -j DROP
+## 2）. 用 REJECT 方法
+iptables -A INPUT -j REJECT
+iptables -A FORWARD -j REJECT
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">3、屏蔽 IP：</p>
+</div><div class="cl-preview-section"><pre><code># 屏蔽单个 IP 的命令是
+iptables -I INPUT -s 123.45.6.7 -j DROP
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 封整个段，即从 123.0.0.1 到 123.255.255.254 的命令
+iptables -I INPUT -s 123.0.0.0/8 -j DROP
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 封 IP 段从 123.45.0.1 到 123.45.255.254 的命令
+iptables -I INPUT -s 124.45.0.0/16 -j DROP
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 封 IP 段从 123.45.6.1 到 123.45.6.254 的命令是
+iptables -I INPUT -s 123.45.6.0/24 -j DROP
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">4、查看已添加的 iptables 规则：</p>
+</div><div class="cl-preview-section"><pre><code>iptables -L -n
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">5、删除已添加的 iptables 规则：</p>
+</div><div class="cl-preview-section"><pre><code># 将所有 iptables 以序号标记显示，执行：
+iptables -L -n --line-numbers
+</code></pre>
+</div><div class="cl-preview-section"><pre><code># 要删除 INPUT 里序号为 8 的规则，执行：
+iptables -D INPUT 8
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">6、iptables 的开机启动及规则保存：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">CentOS 上可能会存在安装好 iptables 后，iptables 并不开机自动启动，可以执行一下：</p>
+</div><div class="cl-preview-section"><pre><code># 将其加入开机启动
+chkconfig --level 345 iptables on
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">CentOS 上可以执行：</p>
+</div><div class="cl-preview-section"><pre><code># 保存规则
+service iptables save
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Debian / Ubuntu 上 iptables 是不会一直保存规则的。需要按如下步骤进行，让网卡关闭时保存 iptables 规则，启动时加载 iptables 规则：</p>
+</blockquote>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">如果当前用户不是 root，即使使用了 sudo，也会提示你没有权限，无法保存。所以执行本命令，你必须使用 root 用户；</li>
+<li style="font-size: 20px; line-height: 38px;">可以使用 <code>sudo su</code> 转到 root 用户；</li>
+<li style="font-size: 20px; line-height: 38px;">为了重启服务器后，规则自动加载，我们创建如下文件:</li>
+</ol>
+</div><div class="cl-preview-section"><pre><code>sudo nano /etc/network/if-pre-up.d/iptables
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个 iptables 文件里的初始内容是：</p>
+</div><div class="cl-preview-section"><pre><code>#!/bin/bash
+iptables-save &gt; /etc/iptables.rules
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加执行权限：</p>
+</div><div class="cl-preview-section"><pre><code>chmod +x /etc/network/if-pre-up.d/iptables
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">附上基础规则：</p>
+</div><div class="cl-preview-section"><pre class="  language-shell"><code class="prism  language-shell">*filter
+:INPUT ACCEPT [106:85568]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [188:168166]
+:RH-Firewall-1-INPUT - [0:0]
+
+# 允许本地回环接口(即运行本机访问本机)
+-A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
+
+# 允许已建立的或相关联的通行
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# 允许所有本机向外的访问
+-A OUTPUT -j ACCEPT
+
+# 允许 PPTP 拨号到外网
+-A INPUT -p tcp -m tcp --dport 1723 -j ACCEPT
+
+# 仅特定主机访问 Rsync 数据同步服务
+-A INPUT -s 8.8.8.8/32 -p tcp -m tcp --dport 873 -j ACCEPT
+
+# 仅特定主机访问 WDCP 管理系统
+-A INPUT -s 6.6.6.6/32 -p tcp -m tcp --dport 8080 -j ACCEPT
+
+# 允许访问 SSH
+-A INPUT -p tcp -m tcp --dport 1622 -j ACCEPT
+
+# 允许访问 FTP
+-A INPUT -p tcp -m tcp --dport 21 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 20 -j ACCEPT
+
+# 允许访问网站服务
+-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+
+# 禁止所有未经允许的连接
+-A INPUT -p tcp -j DROP
+
+#注意：如果 22 端口未加入允许规则，SSH 链接会直接断开。
+#-A INPUT -j REJECT
+#-A FORWARD -j REJECTCOMMIT
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的步骤有点麻烦，可以使用以下方法直接载入：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">用文本编辑器来创建文件 <code>sudo nano /etc/iptables.test.rules</code>，复制上面的规则粘贴到文件中，保存文件；</li>
+<li style="font-size: 20px; line-height: 38px;">加载规则，使之生效。注意，iptables 不需要重启，加载一次规则就可以。<code>sudo iptables-restore &lt; /etc/iptables.test.rules</code>；</li>
+<li style="font-size: 20px; line-height: 38px;">查看最新的配置，应该所有的设置都生效了。<code>sudo iptables -L -n</code>；</li>
+<li style="font-size: 20px; line-height: 38px;">保存生效的配置，让系统重启的时候自动加载有效配置（iptables 提供了保存当前运行的规则功能）<code>iptables-save &gt; /etc/iptables.rules</code>。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的操作看着都很复杂，因为我们还没学习脚本语言。第五部分我们就会学习 Shell 脚本。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你想提前试试，也可以看 Ubuntu 官方的关于保存和配置开机加载 iptables 规则的文章（英文的）：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://help.ubuntu.com/community/IptablesHowTo#Saving_iptables">https://help.ubuntu.com/community/IptablesHowTo#Saving_iptables</a> 。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们也见识到了，iptables 的配置相当繁复，普通用户简直望而却步。<br>
+幸好，有一些软件可以帮助我们减轻痛苦。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="ufw---uncomplicated-firewall" style="font-size: 26px;">UFW - Uncomplicated Firewall</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">UFW 是 Uncomplicated Firewall 的缩写，uncomplicated 是英语“不复杂的，简单的”的意思，firewall 是“防火墙”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">顾名思义 UFW 这个软件是“简单的防火墙”，比 iptables 简单很多。但 UFW 并不是在每个 Linux 发行版中都有的，幸好 Ubuntu 中自带了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行 UFW 需要 root 身份：</p>
+</div><div class="cl-preview-section"><pre><code>sudo ufw xxx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其中 xxx 表示参数。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Ubuntu 官方 UFW 文档：<a href="https://help.ubuntu.com/community/UFW">https://help.ubuntu.com/community/UFW</a> ；</li>
+<li style="font-size: 20px; line-height: 38px;">中文 Ubuntu 官方 UFW 文档：<a href="https://wiki.ubuntu.org.cn/Ufw%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97">UFW使用指南</a> 。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，还有更好的图形界面的 UFW：<strong>GUFW</strong>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu 官方 GUFW 文档：<a href="https://help.ubuntu.com/community/Gufw">https://help.ubuntu.com/community/Gufw</a> 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">GUFW 一般 Ubuntu 中没有自带，需要安装：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install gufw
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装完之后，运行以下命令来启动：</p>
+</div><div class="cl-preview-section"><pre><code>sudo gufw
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d3ec7e10001c32d10161384.png" alt="图片描述" data-original="http://img.mukewang.com/5d3ec7e10001c32d10161384.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Status ：表示“状态”。如果是 OFF，则防火墙没有激活。ON 则防火墙已激活。</li>
+<li style="font-size: 20px; line-height: 38px;">Incoming ：表示“进来”。</li>
+<li style="font-size: 20px; line-height: 38px;">Outgoing ：表示“出去”。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其它的选项，可以参考使用手册。</p>
+</div><div class="cl-preview-section"><h4 id="nftables" style="font-size: 26px;">nftables</h4>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">新的防火墙子系统 / 包过滤引擎 nftables 在 Linux 3.13 中替代了有十多年历史的 iptables。iptables / netfilter 是在 2001 年加入到 2.4 内核中。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">诞生于 2008 年的 nftables 设计替代 iptables，它提供了一个更简单的 Kernel ABI (Application Binary Interface)，减少重复代码，改进错误报告，更有效支持过滤规则。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">除了 iptables，nftables 还将替代 ip6tables、arptables 和 ebtables。Linux 内核的第一代包过滤机制是 ipfwadm（1.2.1 内核，1995 年），之后是 ipchains（1999 年），iptables。nftables 是第四代。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你的 Ubuntu 里面没有 nftables，那就运行下面的命令来安装：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install nftables
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">nftables 引入了一个新的命令行工具 nft。nft 是 iptables 及其衍生指令（ip6tables，arptables）的超集。nft 的运行也需要 root 权限。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">同时，nft 拥有完全不同的语法。如果你习惯于 iptables，这是个不好的消息。但是有一个兼容层允许你使用 iptables，而过滤是由内核中的 nftables 完成的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是基本的原理是类似的，nftables 比 iptables 更方便，使用更有效率，可以把一些命令合并。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如，你想用 iptables 记录并丢弃一个包，你必须写两条规则，一条记录，一条丢弃：</p>
+</div><div class="cl-preview-section"><pre><code>iptables -A FORWARD -p tcp --dport 22 -j LOG
+iptables -A FORWARD -p tcp --dport 22 -j DROP
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用 nft，你可以把两个目标合并到一起：</p>
+</div><div class="cl-preview-section"><pre><code>nft add rule filter forward tcp dport 22 log drop
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，假如你的 Linux 内核版本是 3.13 之前的，那就继续使用 iptables；如果 Linux 内核版本是 3.13 版之后，那就用 nftables吧（其实 nftables 要从 Linux 内核版本 3.15 版才开始比较成熟）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">nft 还有更多命令选项，就用 <code>man iptables</code> 和 <code>man nftables</code> / <code>man nft</code> 来查看吧。</p>
+</div><div class="cl-preview-section"><h3 id="总结">4. 总结</h3>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">netstat 命令会列出你电脑上打开的连接，说明当下哪些端口正打开着，一个端口就好比引导出入你电脑的门户。</li>
+<li style="font-size: 20px; line-height: 38px;">可以用 iptables 命令来拦截进入某些端口的连接，它是一个很不错的防火墙。但是配置比较复杂。iptables 配置很繁琐，可以用 UFW 软件来减轻压力。从 Linux 3.13 开始，nftables 命令替代了 iptables。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/529">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            35 IP地址和分析网络
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/39/article/531">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            37 源码编译，安装便利
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                <div class="bottom-line">
+                    <div class="line"></div>
+                    <div class="bottom-tip">千学不如一看，千看不如一练</div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a70bc000165cb05400598.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907221925272456</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：812552418</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=50iMJcL" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

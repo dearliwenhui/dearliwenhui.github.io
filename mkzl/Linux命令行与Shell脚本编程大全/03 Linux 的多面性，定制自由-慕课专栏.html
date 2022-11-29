@@ -1,0 +1,322 @@
+<html><head><meta charset="utf-8"><title>03 Linux 的多面性，定制自由-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 1-3 03 Linux 的多面性，定制自由
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                03 Linux 的多面性，定制自由
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-04 19:03:12
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img.mukewang.com/5d1489870001b2be06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">知识犹如人体的血液一样宝贵。<p class="author">——高士其</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">Linux 的多面性</li>
+<li style="font-size: 20px; line-height: 38px;">下载 Ubuntu，烧写之</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大家好，上两课 掀起你的盖头来，Linux之初见 和GNU项目和Linux的不同发行版，摩登时代中，我们认识了“霸气侧漏”的 Linux 操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也知道了它的吉祥物：企鹅，叫 Tux（"燕尾服"的意思），而且它是一只雄性的企鹅，爷们，24K，纯的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddc59000157f513440742.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc59000157f513440742.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们还学习了什么是操作系统、Linux 的历史和不同的 Linux 发行版。也确定了我们后续课程要使用的 Linux 发行版：Ubuntu。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">幸好，在各个 Linux 发行版（每个发行版还有不同版本号）之间，一般我们的程序都是可移植的。因此，你也可以用自己喜欢的 Linux 发行版来学习本课程，不一定非要用 Ubuntu。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么，这一课我们继续来感受 Linux 的“霸气”。</p>
+</div><div class="cl-preview-section"><h2 id="linux-的多面性" style="font-size: 30px;">2. Linux 的多面性</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说起 Linux 的一个霸气点，不能不再提到它的免费性啊。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“贪婪”的微软 Windows 可是很贵的，一个操作系统要几百美元。再来几个如 Office 那样动辄几百美元的软件，难怪比尔·盖茨笑不动了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们的 Linux 却是免费的，就是这么狂拽酷炫。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那什么是 Linux 的多面性呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一面已经说了：免费。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么其它方面呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，如果你之前看过一些 Linux 系统的使用截图，那么你会发现，相比 Windows 系统的易辨认性，Linux 系统可是“千奇百怪”。因为 Linux 是开源的么，你可以定制。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你还没看过 Linux 的使用截图，你可能没太多概念，就可能会问这样一个问题：“Linux 比 Windows 好看还是难看啊？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">毕竟当今时代，“颜值”是很重要的。我们必须重视内"芯"，也要注重打扮得体。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个问题也难回答，因为你会发现，有些人的 Linux 系统界面很美观、大方，貌似比 Windows 好看；但有些人的 Linux 界面就呆板一些，没有那么绚丽。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们很容易改变 Linux 的外观，虽然你说 Windows 也可以随意改变外观啊。但是 Windows 改变的不过是颜色，图标之类，不是“彻底”的改变。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不论你安装的是哪一个 Linux 发行版（Ubuntu、CentOS、Fedora、RedHat、Mint等等），你都会发现有两种使用 Linux 的方式：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">命令行界面（类似 DOS 操作系统）；</li>
+<li style="font-size: 20px; line-height: 38px;">图形界面（类似 Windows 操作系统）。</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="命令行界面" style="font-size: 26px;">命令行界面</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">命令行界面对于初学者来说，是有点“令人生畏”的，因为它看上去并不那么“友好”。可以见下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddc6a00013cf206400480.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc6a00013cf206400480.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">命令行界面的背景颜色一般是黑色，不过也不一定。我们可以配置其他颜色。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过有一点特别令 Linux 初学者头痛的就是：命令行界面里鼠标几乎不起作用，基本操作都是用键盘来完成。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那你要问了：“难道我必须要用这么‘坑爹’的命令行界面吗？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然不是啦。之前不是介绍了，Linux 下有两种模式吗？还有一种图形界面模式。这是 Linux 的两面性，有点类似奥斯卡得奖影片《双面俏佳人》。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在一般的 Linux 发行版，默认安装的都是图形界面了，而图形界面中你也可以调出命令行界面来操作，也就是我们平时所说的“终端”（Terminal），不是电影《终结者》（Terminator）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我很喜欢 Ubuntu 的终端，默认的颜色是有点紫红色的，很美：<br>
+<img src="http://img.mukewang.com/5d1ddc70000101d207870409.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc70000101d207870409.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相比黑不溜秋的传统命令行界面，紫红色的美物是不是令人爱不释手呢。我每次用 Ubuntu 的终端心情都很好。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那问题来了：既然有那么方便绚丽的图形界面，为什么我们还要用命令行界面或终端呢？为什么要“一入终端深似海，一夜回到解放前”呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那是因为命令行很强大。很多时候，特别是 Linux 程序员（你也马上要成为了… 快趁还没沦为 Linuxer 时在 Windows 上多玩几盘 Dota、LOL 吧），不用终端还真不行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有些工作，就是要用命令行才能做，而且快捷方便。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">命令行也是提升“B格”的利器，之后的课程会看到这一点。</p>
+</div><div class="cl-preview-section"><h4 id="图形界面" style="font-size: 26px;">图形界面</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于从 Windows 操作系统转过来的初学的朋友来说，Linux 的图形界面就友好得多了。而且也很相似，都是用鼠标来操作窗口，而左上角或右上角都会有一个叉叉供你关闭窗口。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是 Linux 却存在不少种图形界面。虽然种类不少，但是它们都基于一个程序：X（是的，就叫 X）。X 程序是 Linux 图形界面的基石，不禁让我想起了《X 战警》里的 X 教授。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 X 程序之上，插入了另一个程序，叫做“桌面管理器”。桌面管理器的作用是管理窗口，以及它们的外观、选项等等。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注意：在Windows 下并没有“桌面管理器”这个概念。虽然我们可以改变 Windows 的外观，但很局限不是吗？我们只能换换 Windows 的“皮肤”。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于 Linux，基于不同的“桌面管理器”，外观和功能就大相径庭。</p>
+</div><div class="cl-preview-section"><h4 id="主流的桌面管理器" style="font-size: 26px;">主流的桌面管理器</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">按照惯例，我们不会一次性把所有的桌面管理器都列出来，因为数目很多。我们只介绍四个最常用的：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Gnome</li>
+<li style="font-size: 20px; line-height: 38px;">KDE</li>
+<li style="font-size: 20px; line-height: 38px;">XFCE</li>
+<li style="font-size: 20px; line-height: 38px;">Unity（已经停止开发）</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的 Gnome、KDE 和 Unity 是三个使用最广泛的桌面管理器，功能全面，比较耗系统资源。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而 XFCE 是一个轻量级的开源桌面系统，使用率仅次于 KDE 与 Gnome，可以运行在配置不高的电脑上。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你的电脑可以运行 Windows 系统，那么运行 Unity、KDE 或 Gnome 应该是不成问题的。如果电脑不是那么强大，可以试试 XFCE。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么我们要说到桌面管理器（或者称为“桌面系统”）呢？因为 Ubuntu 给了我们一些选择的余地，而我们需要从中选择一个最适合自己的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu 18.04 默认用的是 Gnome 桌面管理器（我刚开始用 Ubuntu 的时候，用的是 Ubuntu 10.04，那时还没有 Unity，是 Gnome。从 Ubuntu 11.04 开始，Ubuntu 团队自研的 Unity 取代了 Gnome 作为默认桌面管理器。从 17.10 版开始又改回了 Gnome，因为 Ubuntu 放弃了 Unity 桌面管理器项目）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">目前 Ubuntu 18.04 的桌面管理器，我感觉是融合了 Unity 和 Gnome 的样式，颜值还是很在线的，也有点类似苹果 macOS 的风格。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是，Ubuntu 还有其他版本，基于 KDE 桌面系统的称为 KUbuntu，基于 XFCE 桌面系统的称为 XUbuntu。<br>
+<img src="http://img.mukewang.com/5d1ddc8d0001f1d805380294.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc8d0001f1d805380294.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过本课只讨论基于 Gnome 的 Ubuntu，原因有以下几点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Kubuntu 和 Xubuntu 不是官方版本；</li>
+<li style="font-size: 20px; line-height: 38px;">Gnome 是 Ubuntu 默认的桌面环境，而其它的只是变体；</li>
+<li style="font-size: 20px; line-height: 38px;">Gnome 使用人数最多，容易得到技术支持。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图是 Ubuntu 18.04 的 Gnome 桌面大致印象：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddc9300018e4815860820.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc9300018e4815860820.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="ubuntu-kylin" style="font-size: 26px;">Ubuntu Kylin</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">目前，对于我们中国用户，Ubuntu 已经有一个专门的中文版本，称为“优麒麟”，Ubuntu Kylin。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddc9a0001139f06100340.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddc9a0001139f06100340.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之前国人自己研发了一个麒麟操作系统（Kylin OS），虽说是自己研发，但其实很大程度上参考了 FreeBSD 操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu Kylin 是由 CSIP（软件与集成电路促进中心）、Canonical（发布和维护 Ubuntu 社区的公司）和中国国防科技大学联合组建的 CCN 开源创新联合实验室开发的一款为中国市场定制的增强版 Ubuntu 桌面系统，和 Kylin OS 没有太多直接关系。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu Kylin 本质上是 Ubuntu 的官方中国定制版本，它的目标是为了给中国用户更好的操作体验。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Ubuntu 的官方网站是：<a href="https://www.ubuntu.com">https://www.ubuntu.com</a>；</li>
+<li style="font-size: 20px; line-height: 38px;">Ubuntu 的中文网站：<a href="https://cn.ubuntu.com">https://cn.ubuntu.com</a>；</li>
+<li style="font-size: 20px; line-height: 38px;">优麒麟的官网： <a href="http://www.ubuntukylin.com">http://www.ubuntukylin.com</a>。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，我们也不要在选哪个桌面管理器上花费太多精力，用默认的 Gnome 就好了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">毕竟，不同版本的 Ubuntu，其桌面管理器不尽相同，命令行界面却是一样的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddca00001da2905320399.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddca00001da2905320399.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="下载-ubuntu，烧写之" style="font-size: 30px;">3. 下载 Ubuntu，烧写之</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要获得 Ubuntu，可以去 Ubuntu 的官网下载。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Ubuntu 的下载页面：<a href="https://www.ubuntu.com/download">https://www.ubuntu.com/download</a> ；</li>
+<li style="font-size: 20px; line-height: 38px;">优麒麟的下载页面：<a href="http://www.ubuntukylin.com/downloads">http://www.ubuntukylin.com/downloads</a> 。</li>
+</ul>
+</div><div class="cl-preview-section"><h4 id="lts" style="font-size: 26px;">LTS</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">截止到 2019 年 4 月 24 日，最新的 Ubuntu版本是19.04。不过最新的 LTS 版本是18.04。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddca700018ea402770223.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddca700018ea402770223.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么什么是 LTS 呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">请看以下表格：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcae00016a7306470794.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcae00016a7306470794.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面表格中我们可以看到，直到目前为止，Ubuntu 一共有 7 个 LTS 版本（版本号后面标注 LTS 的）：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">6.06、8.04、10.04、12.04、14.04、16.04、18.04</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">长期支持版本的维护年份一般是 3~5 年：桌面版 3 年，服务器版 5 年。但从 12.04 版开始，LTS 的桌面版和服务器版都有 5 年的维护。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">LTS 是 Long Term Support（长期支持）的意思。其它非 LTS 版本则没有那么久的维护和支持。比如 15.04 和 15.10 就只有 9 个月的维护期。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu 版本的命名规则是根据正式版发行的年月命名，例如 Ubuntu 18.04 就意味着 2018 年 4 月发行的 Ubuntu。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu 各版本的代号是形容词加上动物名称，而且这 2 个词的英文首字母一定是相同的。从 Ubuntu 6.06 开始，两个词的首字母按照英文字母表的排列顺序取用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">老外真的很有趣，软件命名都这么萌。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">目前 Ubuntu 有 4 个版本（是不是有点晕了，不急，慢慢理解）：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">云版（Cloud）</li>
+<li style="font-size: 20px; line-height: 38px;">服务器版（Server）</li>
+<li style="font-size: 20px; line-height: 38px;">桌面版（Desktop）</li>
+<li style="font-size: 20px; line-height: 38px;">物联网版（IOT）</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们本课程只学习和讨论桌面版，也就是我们平时桌面电脑的版本。</p>
+</div><div class="cl-preview-section"><h4 id="烧写刻录-ubuntu" style="font-size: 26px;">烧写/刻录 Ubuntu</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 官网的下载页面，我们可以下载 Ubuntu 的桌面版，就下载 Ubuntu 18.04 好了，毕竟是 LTS 版，有 5 年的支持和维护呢。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先进入 Ubuntu 桌面版的下载页面：<a href="https://www.ubuntu.com/download/desktop">https://www.ubuntu.com/download/desktop</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcb60001afd411990609.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcb60001afd411990609.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点击 Download（英语“下载”的意思）标签，稍等一会就自动开始下载了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下载之后，得到一个 .iso （镜像文件）文件，大概 2 GB。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcbc0001061701700174.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcbc0001061701700174.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后我们就可以开始制作 Ubuntu 安装盘了（为我们下一课介绍如何硬盘安装 Ubuntu 做准备。再下一课我们会介绍比较简单的在虚拟机中安装 Ubuntu，不需要制作安装盘。如果你只想用虚拟机安装 Ubuntu 的方法来方便快速地开启本课程的学习，那么下面的内容就可以略过，而且下一课“硬盘安装 Ubuntu”也只需要看一下磁盘分区的原理即可），安装盘有两种形式：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">光盘</li>
+<li style="font-size: 20px; line-height: 38px;">U盘</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以前可能用光盘形式的多一些，因为安装 Ubuntu 用光盘更方便。我以前安装 Ubuntu 10.04 就是用的光盘形式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是，现在 U 盘安装更可取。因为新的电脑很多都没有光驱了，比如苹果的 MacBook。而且现在 U 盘安装也很方便了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而且有的光盘是不能反复刻录的，你刻录（或称“烧写”）了 Ubuntu 系统，以后就不能刻其他东西了，很浪费。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不像 U 盘，你不需要 Ubuntu 系统了，还可以格式化，另作他用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">至于怎么制作光盘或 U 盘的安装盘，Ubuntu 的官网都给出对应图文教程了，只可惜全是英语… 在 <a href="https://www.ubuntu.com/download/desktop">https://www.ubuntu.com/download/desktop</a> 这个页面的最下面：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcc200016b1012020488.png" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcc200016b1012020488.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“How to burn a DVD on xxx”是如何制作光盘安装盘的教程，而“How to create a bootable USB stick on xxx”是如何制作 U 盘安装盘的教程。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为目前一般都是 U 盘安装，我们就来看一下 U 盘安装如何烧写好了。光盘安装的请自行百度。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">英语好的朋友直接看官网教程就好了，以下是给英语不是那么好的朋友（以 Windows 为例）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，如何在 Windows 系统上制作一个 USB 安装盘：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">英文版：<a href="https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows">https://www.ubuntu.com/download/desktop/create-a-usb-stick-on-windows</a></li>
+<li style="font-size: 20px; line-height: 38px;">中文版：<a href="http://www.ubuntu.org.cn/download/desktop/create-a-usb-stick-on-windows">http://www.ubuntu.org.cn/download/desktop/create-a-usb-stick-on-windows</a></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你是 macOS，那么对应教程在 <a href="https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-macos">https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-macos</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来看看如何烧录 Ubuntu 到 USB 中：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">首先，在电脑中插入一个空白的 U 盘（不空白也行，反正之后都要格式化的），大小至少 2 GB；</li>
+<li style="font-size: 20px; line-height: 38px;">要将 Ubuntu 的镜像文件（还记得我们之前下载好的ubuntu-18.04.2-desktop-amd64.iso 文件吗？）烧写入 U 盘，有一个很好用的软件可以帮助我们，名叫：Rufus。官方网站是 <a href="https://rufus.ie">https://rufus.ie</a> 我们下载它并且安装；</li>
+</ul>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">有的朋友喜欢用 UltraISO 或 Universal USB Installer，也是很棒的软件；<br>
+下面的图示中用的是 Rufus 配合 Ubuntu 16.04，但是 Ubuntu 18.04 也是一样操作。</p>
+</blockquote>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">打开 Rufus 这个软件，在"Device"下拉菜单中选择你的 U 盘，如下图：<br>
+<img src="http://img.mukewang.com/5d1ddcc90001972005150570.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcc90001972005150570.jpg" class="" style="cursor: pointer;"></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">点击上图中光碟图样的小按钮（就在那个 Create a bootable disk using 右边），然后选择你下载的 ubuntu-18.04.2-desktop-amd64.iso 文件：</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddccf00010d4f08190577.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddccf00010d4f08190577.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点击 Open（打开），再点击 Start（开始）。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">会弹出要安装 Syslinux 软件的确认窗口，点击 Yes：</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcd60001fef307220580.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcd60001fef307220580.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">然后选择要写入的模式，是从 ISO 格式写入，因此选择默认的 Write in ISO Image mode (Recommended)：</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddcdf0001926e05620579.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddcdf0001926e05620579.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">它会提示你 USB 首先会被格式化，里面的数据会先被抹除，选择“OK”：</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddce50001d4c107050582.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddce50001d4c107050582.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">最后，它就会开始烧录 Ubuntu 系统到你的 USB 中了，耐心等待一会即可：</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1ddceb0001dc4505130575.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d1ddceb0001dc4505130575.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">成功将 Ubuntu 烧录到 U 盘之后，下一课我们就可以演示如何将 Ubuntu 安装到你主机的硬盘里了。</p>
+</div><div class="cl-preview-section"><h2 id="title小结---" style="font-size: 30px;"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; --></h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Linux 是免费的，这是相比 Windows 和 macOS 的最大优势之一；</li>
+<li style="font-size: 20px; line-height: 38px;">Linux 有两种不同的使用方式：命令行界面和图形界面；</li>
+<li style="font-size: 20px; line-height: 38px;">命令行界面很强大（之后会看到）但是难以“驯服”，初学者一般会从图形界面开始着手；</li>
+<li style="font-size: 20px; line-height: 38px;">图形界面就和 Windows 与 macOS 下的操作比较类似了，我们可以用鼠标来操作各种窗口；</li>
+<li style="font-size: 20px; line-height: 38px;">图形界面有不同的变体，我们称之为“桌面管理器”，比较常用的有：Gnome、KDE、Unity、XFCE 等；</li>
+<li style="font-size: 20px; line-height: 38px;">要获得 Ubuntu 系统很简单，只需要下载 .iso 文件（磁盘镜像）。如果你要用硬盘安装的形式来安装 Ubuntu，就把它烧写（或称“刻录”）到光盘或者 U 盘中。如果要用虚拟机的方式来安装 Ubuntu，则不必烧写到光盘或 U 盘中。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/456">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    02 GNU项目和Linux的不同发行版，摩登时代
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/458">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    04 硬盘安装Ubuntu，磁盘分区概念多
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

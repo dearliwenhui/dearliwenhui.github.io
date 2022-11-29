@@ -1,0 +1,365 @@
+<html><head><meta charset="utf-8"><title>45 无小程序不营销：自定义转发与模板消息-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        45 无小程序不营销：自定义转发与模板消息
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-10-12 13:39:04
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d907a4a0001836a06400360.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">一个不注意小事情的人，永远不会成功大事业。<p class="author">——戴尔·卡耐基</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">任何一个商业小程序在完成开发上线后都需要持续的营销和运营，一个完整的商业小程序应该具备为运营服务的能力（发送模板消息）和为营销服务的能力（自定义转发内容）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节将为项目添加发送模板消息和自定义转发内容的能力。</p>
+</div><div class="cl-preview-section"><h2 id="发送模板消息" style="font-size: 30px;">1. 发送模板消息</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在微信官方的 “小程序开发文档” 中对模板消息有详细解的讲解，请各位同学先阅读、理解官方内容后再继续阅读本节后续内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>模板消息讲解的文档位置如下：</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>入口网址：<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/template-message.html">模板消息</a>，如果微信官方文档改版导致链接失效，请按图索骥。</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>入口位置：在 “小程序开发文档” 的 “指南” -&gt; “开放能力” -&gt; “消息”，如图 4 红框标出部分。</strong></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 4 模板消息文档位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907ac00001858414030780.png" data-original="//img.mukewang.com/5d907ac00001858414030780.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们以在商品详情页面购买商品后发送模板消息为例，按照官方文档 “使用说明” 的三个步骤，实现购买商品成功后发送模板消息通知。</p>
+</div><div class="cl-preview-section"><h3 id="步骤一：获取模板-id">1.1 步骤一：获取模板 ID</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">模板消息开发的第一步是选择一个模板，并得到模板消息 ID，具体步骤如下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">打开<a href="https://mp.weixin.qq.com/">微信公众平台</a>，登录小程序管理后台</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">点击 “功能” -&gt; “模板消息” 打开模板消息管理界面（如图 5 所示）</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">在模板消息管理界面中切换到 “模板库” 标签搜索我们需要的模板，在商品详情页面购买商品是使用积分支付，我们可以搜索 “积分兑换成功通知”，在搜索结果中点击 “选用” 来配置模板消息字段（如图 5 所示）</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>图 5 选择模板</strong></p>
+<p style="font-size: 20px; line-height: 38px;"><img class="" src="https://www.imooc.com/image/5-%E6%A8%A1%E6%9D%BF%E6%B6%88%E6%81%AF%E9%80%89%E6%8B%A9.png" data-original="/image/5-%E6%A8%A1%E6%9D%BF%E6%B6%88%E6%81%AF%E9%80%89%E6%8B%A9.png" alt=""><img class="" src="https://img.mukewang.com/5d907af60001912d12590592.png" data-original="//img.mukewang.com/5d907af60001912d12590592.png" alt="图片描述"></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">在模板消息配置界面中选择 “积分兑换成功通知” 需要显示的字段，我们可以选择商品名称、消费时间、消费积分、剩余积分四个字段（如图 6 所示），选择好后点击提交创建模板</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>图 6 选择模板消息字段</strong></p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907b470001a45c12570936.png" data-original="//img.mukewang.com/5d907b470001a45c12570936.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">创建好模板后，在模板消息管理界面中我们会看到刚刚创建的模板，点击右侧的 “详情” 按钮后会显示该模板的详情，在模板详情中可以查看模板 ID 与模板数据格式（如图 7 所示）</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>图 7 积分兑换成功通知模板详情</strong></p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907b7b0001809b12590754.png" data-original="//img.mukewang.com/5d907b7b0001809b12590754.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="步骤二：配置页面的-form-组件获取-formid">1.2 步骤二：配置页面的 form 组件获取 formId</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在小程序管理后台配置好模板并得到模板 ID 后，按照官方文档的讲解，我们需要修改商品详情页面的 “立即购买” 按钮，获取 formId。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第八章第六节中 “立即购买” 按钮的 WXML 页面模板代码为：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">bindtap</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>onPayButtonClick<span class="token punctuation">'</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bg-red submit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>立即购买<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为发送模板消息，需要修改为使用 form 组件，设置属性 <code>report-submit</code> 为 <code>true</code> ：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">bindsubmit</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">'</span>onPayButtonClick<span class="token punctuation">'</span></span> <span class="token attr-name">report-submit</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>true<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bg-red submit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">form-type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>立即购买<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样修改后即可在购买商品按钮的点击事件 <code>onPayButtonClick</code> 中获取 formId ：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">formId<span class="token punctuation">:</span> event<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>formId
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="步骤三：调用接口下发模板消息">1.3 步骤三：调用接口下发模板消息</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在云开发中，我们可以使用 <a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/openapi/openapi.html">“云调用”</a> 的方式发送模板消息：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">第一步，将 formId 传给云函数（在购买商品按钮的点击事件 <code>onPayButtonClick</code> 中向云函数多传递一个 formId 参数）：</p>
+<pre class="  language-js"><code class="prism  language-js">  onPayButtonClick<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+      <span class="token comment">//...略，详见专栏源代码</span>
+      
+            <span class="token comment">//调用云函数执行购买商品操作</span>
+            wx<span class="token punctuation">.</span>cloud<span class="token punctuation">.</span><span class="token function">callFunction</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+              name<span class="token punctuation">:</span> <span class="token string">'payProduct'</span><span class="token punctuation">,</span>
+              data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                productsIndex<span class="token punctuation">:</span> productsIndex<span class="token punctuation">,</span>
+                <span class="token comment">//向云函数多传递一个 formId 参数</span>
+                formId<span class="token punctuation">:</span> event<span class="token punctuation">.</span>detail<span class="token punctuation">.</span>formId <span class="token comment">//用于发送模板消息，详见https://developers.weixin.qq.com/miniprogram/dev/api-backend/templateMessage.send.html</span>
+              <span class="token punctuation">}</span><span class="token punctuation">,</span>
+              success<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  
+      <span class="token comment">//...略，详见专栏源代码                </span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">第二步，在第八章第五节实现的商城支付接口云函数 <code>payProduct</code> 的 config.json 文件中配置云调用发送模板消息的权限：</p>
+<pre class="  language-js"><code class="prism  language-js"><span class="token punctuation">{</span>
+  <span class="token string">"permissions"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"openapi"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token string">"templateMessage.send"</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">第三步，在第八章第五节实现的商城支付接口云函数 <code>payProduct</code> 的 index.js 中增加 formId 入参，并在支付成功后增加调用 <code>templateMessage.send</code> 接口发送模板消息的逻辑：</p>
+<pre class="  language-js"><code class="prism  language-js"><span class="token comment">//... 略，详见第八章第五节或专栏源代码</span>
+
+<span class="token comment">// 云函数入口函数</span>
+<span class="token comment">/**
+ * 商城支付接口，支付积分购买商品
+ * @param {data} 要购买的商品信息
+ * {
+ *    data:{
+ *      productsIndex,    //[] 用户购买的商品的商品ID数组
+ *      formId:  //用于发送模板消息
+ *    }
+ *  }
+ * @return {object} 支付结果
+ * {
+ *    data,    //bool 支付成功或失败
+ *    errMsg   //如果支付失败，该字段包含支付失败的具体错误信息
+ * }
+ */</span>
+exports<span class="token punctuation">.</span>main <span class="token operator">=</span> <span class="token keyword">async</span><span class="token punctuation">(</span>event<span class="token punctuation">,</span> context<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+<span class="token comment">//... 略，详见第八章第五节或专栏源代码</span>
+
+<span class="token comment">//-----------------------------------------功能点 8 -----------------begin</span>
+
+    <span class="token comment">//... 略，详见第八章第五节或专栏源代码</span>
+    
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>updateUserResult<span class="token punctuation">.</span>stats<span class="token punctuation">.</span>updated <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+      <span class="token comment">//------------------------在支付成功后发送模板消息“积分兑换成功通知”------begin</span>
+      <span class="token comment">//发送模板消息，详见https://developers.weixin.qq.com/miniprogram/dev/api-backend/templateMessage.send.html</span>
+      <span class="token keyword">var</span> name <span class="token operator">=</span> products<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>bookname
+      <span class="token comment">//如果是购物车合并支付多个商品，模板消息只显示第一件商品名称</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>products<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        name <span class="token operator">=</span> name <span class="token operator">+</span> <span class="token string">'等'</span> <span class="token operator">+</span> products<span class="token punctuation">.</span>length<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'件商品'</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment">//调用 templateMessage.send 接口发送模板消息</span>
+        <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> cloud<span class="token punctuation">.</span>openapi<span class="token punctuation">.</span>templateMessage<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          <span class="token comment">//模板消息发送给谁</span>
+          touser<span class="token punctuation">:</span> wxContext<span class="token punctuation">.</span>OPENID<span class="token punctuation">,</span>
+          <span class="token comment">//用户点击模板消息打开什么页面</span>
+          page<span class="token punctuation">:</span> <span class="token string">'/pages/membership/pages/my/index/index'</span><span class="token punctuation">,</span>
+          <span class="token comment">//模板消息数据</span>
+          data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token comment">//商品名称 {{ keyword1.DATA }}</span>
+            keyword1<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              value<span class="token punctuation">:</span> name
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token comment">//消费时间 { { keyword2.DATA } }</span>
+            keyword2<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              value<span class="token punctuation">:</span> <span class="token function">formatTime</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token comment">//消费积分 { { keyword3.DATA } }</span>
+            keyword3<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              value<span class="token punctuation">:</span> paymentFee<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'积分'</span>
+            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+            <span class="token comment">//剩余积分 { { keyword4.DATA } }</span>
+            keyword4<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              value<span class="token punctuation">:</span> newPoint<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'积分'</span>
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          <span class="token comment">//模板ID</span>
+          templateId<span class="token punctuation">:</span> <span class="token string">'gS97oBUmt6mk_1odD2JA9yAoX90Hw4CXw1GcnKBZdJU'</span><span class="token punctuation">,</span>
+          <span class="token comment">//formId</span>
+          formId<span class="token punctuation">:</span> event<span class="token punctuation">.</span>formId<span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">err</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//------------------------在支付成功后发送模板消息“积分兑换成功通知”------end</span>
+        
+      result <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      errMsg <span class="token operator">=</span> <span class="token string">"支付异常，如有疑问请联系客服"</span>
+    <span class="token punctuation">}</span>
+<span class="token comment">//-----------------------------------------功能点 8 -----------------end</span>
+
+<span class="token comment">//... 略，详见第八章第五节或专栏源代码</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在完成以上步骤后，我们可以按以下步骤部署并测试模板消息发送结果：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">重新上传最新的云函数（在云函数 <code>payProduct</code> 上点击右键，选择 “上传并部署：云端安装依赖”）；</li>
+<li style="font-size: 20px; line-height: 38px;">在微信开发者工具中点击预览按钮生成小程序预览二维码，用手机扫描预览二维码打开小程序；</li>
+<li style="font-size: 20px; line-height: 38px;">在小程序中打开一个商品的商品详情页面，单击 “立即购买” 按钮购买该商品；</li>
+<li style="font-size: 20px; line-height: 38px;">在页面提示支付成功后，如果程序无误，我们即可在微信的服务通知中看到如图 8 所示的模板消息。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 8 接收到的模板消息截图</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907ba70001efe609001600.jpg" data-original="//img.mukewang.com/5d907ba70001efe609001600.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="自定义转发内容" style="font-size: 30px;">2. 自定义转发内容</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">小程序的每一个页面都可以转发，前提是在页面中定义 <a href="https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareAppMessage-Object-object"><code>onShareAppMessage</code> 事件</a> （<strong>只有定义了该事件处理函数，用户点击小程序的右上角菜单才会显示 “转发” 按钮</strong>），该事件说明在微信官方的 “小程序开发文档” 中的位置如图 9 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 9 onShareAppMessage 事件说明文档位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907bcb0001345e14090926.png" data-original="//img.mukewang.com/5d907bcb0001345e14090926.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们想要实现用户在商品详情页面点击小程序的右上角菜单后显示 “转发” 按钮，我们只需要在 product.js 的 <code>page</code> 中添加 <code>onShareAppMessage</code> 事件即可：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 用户点击小程序的右上角菜单显示“转发”按钮
+   */</span>
+  onShareAppMessage<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//自定义商品的转发内容，详见onShareAppMessage的官方说明文文档https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      <span class="token comment">//转发内容的标题</span>
+      title<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>productInfo<span class="token punctuation">.</span>bookname<span class="token punctuation">,</span> 
+      <span class="token comment">//转发内容的图片</span>
+      imageUrl<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>productInfo<span class="token punctuation">.</span>coverimg<span class="token punctuation">,</span>
+      <span class="token comment">//用户点击转发内容打开什么页面</span>
+      path<span class="token punctuation">:</span> <span class="token string">'/pages/membership/pages/shop/product/product?index='</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>productInfo<span class="token punctuation">.</span>index
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实现该事件后，用户点击 “转发” 按钮分享给朋友的转发内容如图 10 所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 10 转发内容截图</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907be00001251110801013.jpg" data-original="//img.mukewang.com/5d907be00001251110801013.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="专栏源代码" style="font-size: 30px;">3. 专栏源代码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏源代码已上传到 GitHub ，请访问以下地址获取：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/liujiec/Membership-ECommerce-Miniprogram">https://github.com/liujiec/Membership-ECommerce-Miniprogram</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节源代码内容在图 11 红框标出的位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 11 本节源代码位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907bf50001e54007320813.png" data-original="//img.mukewang.com/5d907bf50001e54007320813.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将通过配置底部菜单栏将各个功能模块组合成一个完整的小程序，并编写异常提示页面。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><strong>使用从本节学到的模板消息发送方法，修改第七章的付费会员支付页面和付费会员支付接口，实现用户购买付费会员成功后发送模板消息 “开通会员成功通知” ，如碰到问题，请阅读本专栏源代码（ payMembership 云函数与 membershipplan 页面）学习如何实现。</strong></p>
+<p style="font-size: 20px; line-height: 38px;"><strong>“开通会员成功通知” 的 模板详情如图 12 所示。</strong></p>
+<p style="font-size: 20px; line-height: 38px;"><strong>图 12 开通会员成功通知模板详情</strong></p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d907c130001382f12570755.png" data-original="//img.mukewang.com/5d907c130001382f12570755.png" alt="图片描述"></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/603">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            44 我的，都是我的：开发实现个人中心页面
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/605">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            46 最后一块拼图：底部菜单与错误提示页面
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

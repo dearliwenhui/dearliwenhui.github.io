@@ -1,0 +1,428 @@
+<html><head><meta charset="utf-8"><title>23 流和输出重定向，心之所向-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 3-2 23 流和输出重定向，心之所向
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                23 流和输出重定向，心之所向
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-15 15:18:37
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img.mukewang.com/5d2c11cb0001e91306400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">每个人的生命都是一只小船，理想是小船的风帆。<p class="author">——张海迪</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">“&gt; 和 &gt;&gt;”：重定向到文件</li>
+<li style="font-size: 20px; line-height: 38px;">“2&gt;，2&gt;&gt;，2&gt;&amp;1”：重定向错误输出</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课数据处理，慢条斯理 ，我们学习了不少文件和数据处理的命令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课和下一课，我们将一起来学一些非常有用的内容：流、管道、重定向，三管齐下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这两课会相当有意思，内容也很多，而且有可能颠覆你的三“观”（毕竟三管齐下，不颠覆三观也难）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这三个名称，听上去就怪怪的。什么流，管道，重定向，都是什么啊。不过相信学完这课和下一课，大家能够有拨云见雾的感觉。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">到目前为止，我们已经学习了不少 Linux 的命令了，也已经比较熟悉命令行的用法了。其最基本用法是这样的：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在终端输入命令（比如输入 ls 命令）</li>
+<li style="font-size: 20px; line-height: 38px;">命令的运行结果显示在终端中</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是我们还不知道的是：其实我们可以重定向命令的运行结果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">重定向，是什么意思呢？简单来说，就是我们可以把本来要显示在终端的命令结果，输送到别的地方：到文件中或者作为其他命令的输入（命令的链接，或者叫命令管道）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">把两个命令连起来使用，一个命令的输出作为另一个命令的输入，这就构成了管道。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">管道的英语是 pipeline。你可以想象一个个水管，连接起来，一个水管流出来的水（输出），如果接上另一个水管，水是不是就流入另一个水管，成为另一个水管的输入了？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，在计算机科学中，流（英语是 stream）的含义是比较难理解的，也比较丰富，不同的情况下含义也不太一样，如果把它比作水流可能不完全。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">知乎上就有一篇帖子，大家可以看看：<a href="http://www.zhihu.com/question/27996269">如何理解编程语言中「流」（stream）的概念？</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们常可以看到这样的字样：位元流，字节流，资料流，视频流，音频流，流媒体，流算法，流处理，数据流挖掘等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在维基百科中，流的简单定义是这样的，供大家参考：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">In computer science, a stream is a sequence of data elements made available over time. A stream can be thought of as items on a conveyor belt being processed one at a time rather than in large batches.</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上这段英语翻译过来大致意思是（有点难翻译… 我尽力了）：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">在计算机科学中，流是时间上可用的一系列数据元素。我们可以把流比喻成传送带上的物件，每个时间点传输一个，而不是多个打包传输。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">还是不太容易理解对吧？没事，学完这课和下一课应该就理解了，因为有大量实例和图解帮助你。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面说了，我们会学习如何把命令的输出结果重定向到其他地方：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">哪里：文件或者另一个命令的输入</li>
+<li style="font-size: 20px; line-height: 38px;">如何实现：通过在命令间插入特定的符号（这些符号可以被称为“重定向流”符号）。下面我们会学到，有好几种符号。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以用下图来做一个小结：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e86e0001c17f14800872.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e86e0001c17f14800872.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，命令的输出可以有三个去向：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">终端</li>
+<li style="font-size: 20px; line-height: 38px;">文件</li>
+<li style="font-size: 20px; line-height: 38px;">其他命令的输入</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">到目前为止，我们只用过第一种形式：把命令的输出结果显示在终端。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们岂能就此罢休呢，肯定要乘胜追击啊，一不做二不休啊。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">重定向流从 Unix 时代就已经是很重要的概念了，后来 Linux 出现，重定向流的原理依旧被沿用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">重定向流将会改变我们看待终端命令行的方式，所以这课很重要。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">借着这一课，我们将把我们的命令行的造诣提升到另一个层级。如果之前是命令行的“小学”，那么这一课学完就基本可以“初中毕业”了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你也许看到过一些 Linux 高手输入命令，经常会输入一大串，然后回车。这一大串命令中很可能就用到了我们学的流、管道和重定向。</p>
+</div><div class="cl-preview-section"><h2 id="“-和-”：重定向到文件" style="font-size: 30px;">2. “&gt; 和 &gt;&gt;”：重定向到文件</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先从最简单的开始。最简单的操作就是把命令的输出结果重定向到文件中，就不会在终端显示命令运行结果了。</p>
+</div><div class="cl-preview-section"><h4 id="准备工作：再谈-cut-命令" style="font-size: 26px;">准备工作：再谈 cut 命令</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在开始学习 &gt; 和 &gt;&gt; 这两个符号的用法之前，我们需要创建一些文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在创建文件之前，我们来谈谈 cut 命令的进阶用法。cut 是英语“剪切”的意思，用于从文件中剪切出一部分内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课中我们学习了 cut 命令，但没有深入讲解，只讲了基本的用法（-c 参数：根据字符数来剪切）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在让我们学习一下 cut 命令的其他参数。</p>
+</div><div class="cl-preview-section"><h4 id="cut-命令进阶：根据分隔符来剪切" style="font-size: 26px;">cut 命令进阶：根据分隔符来剪切</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们来看一种特殊的文件形式：CSV 格式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">CSV 是 Comma Separated Values 的缩写，翻成中文是“逗号分隔值”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下摘自<a href="https://baike.baidu.com/item/CSV/10739">百度百科</a>：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">逗号分隔值（Comma-Separated Values，CSV，有时也称为字符分隔值，因为分隔字符也可以不是逗号），其文件以纯文本形式存储表格数据（数字和文本）。<br>
+纯文本意味着该文件是一个字符序列，不含必须像二进制数字那样被解读的数据。<br>
+CSV 文件由任意数目的记录组成，记录间以某种换行符分隔；每条记录由字段组成，字段间的分隔符是其它字符或字符串，最常见的是逗号或制表符。<br>
+通常，所有记录都有完全相同的字段序列。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">CSV 文件的后缀名是 .csv，通常可以被 Excel 等软件打开，打开之后会把分隔符隔开的各个数值填充到表格里。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来构建一个 CSV 文件，因为要用逗号作为分隔符，来学习 cut 命令的进阶使用：根据分隔符来剪切。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">假设我们有一个人数不多的班级，作为老师我们需要统计新近一次考试的成绩。为此我们制作了一个表格，并按照顺序把数据写入表格。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们的 CSV 文件的内容可以如下，我们用文本编辑器来编写这个 CSV 文件，并且取名：notes.csv （note 是英语“成绩”的意思）。</p>
+</div><div class="cl-preview-section"><pre><code>Mark,95 / 100,很不错
+Matthew,30 / 100,跟平时一样水
+Maria,70 / 100,有进步
+Luke,54 / 100,接近平均分了
+John,68 / 100,不错，但还可以更好
+Samuel,100 / 100,总是那么完美
+David,40 / 100,退步挺大呀
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8860001724409540610.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8860001724409540610.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">上面的“跟平时一样水”中的“水”表示“不怎么样，很一般，有点糟糕”。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，我们的 notes.csv 文件中每一行由三部分组成，每部分由一个逗号分隔：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">学生名字</li>
+<li style="font-size: 20px; line-height: 38px;">成绩（满分是 100 分）</li>
+<li style="font-size: 20px; line-height: 38px;">评语</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在假如我们要从 notes.csv 文件中提取名字那一列，怎么办呢？我们不能用 cut 命令的 -c 参数啊，毕竟每个名字的字符数不相等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">聪明如你应该想到了。是的，我们看到文件中每一行的每一部分是用分隔符来隔开的，所以我们可以这样做：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">需要用到两个参数：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">-d 参数：d 是 delimiter 的缩写，是英语“分隔符”的意思。用于指定用什么分隔符（比如逗号、分号、双引号等等）。</li>
+<li style="font-size: 20px; line-height: 38px;">-f 参数：f 是 field 的缩写，是英语“区域”的意思。表示剪切下用分隔符分隔的哪一块或哪几块区域。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们的 notes.csv 文件是用逗号来分隔三个部分的，我们要剪切下来的是名字那一列，也就是第一部分。因此我们可以这样使用：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 1 notes.csv
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e88f0001a2d112020618.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e88f0001a2d112020618.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么样，很不错吧。我们通过 cut 命令的两个参数就实现了从 notes.csv 文件中剪切下第一部分（“名字”那一列）的想法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那如果我们只想剪切下评语部分呢？评语是第三部分，可以用以下命令：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 3 notes.csv
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e896000119e711920622.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e896000119e711920622.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那如果我们要第一和第三部分呢？可以这样：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 1,3 notes.csv
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e89c0001858112560608.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e89c0001858112560608.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">同样地，我们可以用</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 2- notes.csv 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">来剪切第二部分直到最后的内容：<br>
+<img src="http://img.mukewang.com/5d27e8a30001b9cc12340610.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8a30001b9cc12340610.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，现在准备工作做好了，我们可以来学习重定向流符号了。</p>
+</div><div class="cl-preview-section"><h4 id="：重定向到新的文件" style="font-size: 26px;">&gt; ：重定向到新的文件</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们知道虽然刚才用 cut 命令从 notes.csv 文件中剪切出来一些部分，但原始的 notes.csv 文件是不变的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们现在想要将剪切出来的部分储存到一个文件中，而不是像之前那样显示在终端里。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了方便演示，我们可以在家目录下新建一个 redirect 目录，redirect 是英语“重定向”的意思。将之前的 notes.csv 文件放到这个目录下，再用 cd redirect 命令定位到这个目录。</p>
+</div><div class="cl-preview-section"><pre><code>cd ~     # 单独用 cd 也可以定位到用户的家目录
+mkdir redirect
+mv notes.csv redirect
+cd redirect
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们需要用到 &gt; 这个神奇的符号。如果你是美式键盘，那么可以在句号那个键找到这个符号，在句号的上面。所以要输入这个符号，可以用 Shift 加上句号那个键。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个符号可以将命令的输出结果重定向到你选择的文件中。例如：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 1 notes.csv &gt; students.txt
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">student 是英语“学生”的意思，students 就是复数啦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你运行上述命令，那么终端不会有任何显示。因为我们将 cut 命令的运行结果（剪切了名字那一列）重定向到 students.txt 文件中了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8b00001881818160756.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8b00001881818160756.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，我们用 cat 命令打印了 student.txt 文件的内容，正是 <code>cut -d , -f 1 notes.csv</code> 这句命令的运行结果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用 ls 命令查看 redirect 目录下的文件，发现多了一个 students.txt 文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么样，&gt; 这个符号很有用吧。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">使用时要小心，因为 &gt; 符号会把输出重定向到文件中。如果此文件不存在，则新建一个文件；<br>
+如果此文件已经存在，那就会把文件内容覆盖掉（清除原有内容，然后写入文件），而且是不会征求用户确认的！</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有时候，我们既不想将命令的输出显示在终端，又不想将其储存到文件中，怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 中有一个俗称“黑洞”的文件，就是</p>
+</div><div class="cl-preview-section"><pre><code>/dev/null
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">null 是英语“无，空”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">/dev/null 文件是特殊文件，不是一个目录，此文件具有唯一的属性：它总是空的。它能使发送到 /dev/null 的任何数据作废，就好像这些数据掉进了无底的黑洞一般。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，假如我们不需要在终端显示刚才那个 cut 命令的结果，也不想存储到文件里，那么可以这么做：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 1 notes.csv &gt; /dev/null
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，整个世界都清净了…</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8ba0001cafc17340648.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8ba0001cafc17340648.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="重定向到文件末尾" style="font-size: 26px;">&gt;&gt; : 重定向到文件末尾</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们已经知道，单独一个 &gt; 符号可以实现重定向到新的文件（覆盖文件内容），那么两个连在一起的 &gt; 符号有什么作用呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">&gt;&gt; 的作用与 &gt; 是类似的，不过它不会像 &gt; 那么危险（如果文件已经存在，&gt; 符号会覆盖文件内容），而是将重定向的内容写入到文件末尾，起到追加的作用。如果文件不存在，文件也会被创建。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们就来实践一下：</p>
+</div><div class="cl-preview-section"><pre><code>cut -d , -f 1 notes.csv &gt;&gt; students.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为我们上一个例子中已经用 &gt; 符号来重定向名字那列的内容到 students.txt 文件中了，所以上面的命令会追加同样内容到 students.txt 的末尾。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8c30001a72618501034.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8c30001a72618501034.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用 cat 命令打印了 students.txt 文件的内容，可以看到有两遍 notes.csv 中名字列的内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">&gt;&gt; 符号在很多情况下非常有用，比如你不在电脑前，而你又想让终端为你记录程序运行的结果，就可以在一个日志文件的末尾一直写入。例如：</p>
+</div><div class="cl-preview-section"><pre><code>command &gt;&gt; results.log
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的 command 代表某个命令或一行命令。</p>
+</div><div class="cl-preview-section"><h4 id="小结" style="font-size: 26px;">小结</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们方才学习了两个重定向流符号：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">&gt; ：重定向到文件中。如果文件已存在，则覆盖文件内容；文件不存在，则创建文件。</li>
+<li style="font-size: 20px; line-height: 38px;">&gt;&gt; ：重定向到文件末尾。如果文件不存在，则创建文件。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以用下图演示两个符号的原理：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8ce00018c9e12960712.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8ce00018c9e12960712.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="“2，2，21”：重定向错误输出" style="font-size: 30px;">3. “2&gt;，2&gt;&gt;，2&gt;&amp;1”：重定向错误输出</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">怎么样，流的重定向是不是很有趣？那么我们继续学习其他的重定向流符号。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们首先来学点新知识。</p>
+</div><div class="cl-preview-section"><h4 id="stdin，stdout，stderr-：标准输入，标准输出，标准错误输出" style="font-size: 26px;">stdin，stdout，stderr ：标准输入，标准输出，标准错误输出</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这三个又是什么呢？这一课新东西果然多。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般学编程，到某个阶段，总应该会碰到这三位“仁兄”的。既然逃不了，不如把它学好。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于我们的终端命令行，我们从键盘向终端输入数据，这是标准输入，也就是 stdin。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">终端接收键盘输入的命令，会产生两种输出：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">标准输出：stdout。指终端输出的信息（不包括错误信息）。</li>
+<li style="font-size: 20px; line-height: 38px;">标准错误输出：stderr。指终端输出的错误信息。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一个 stdout 就是我们到目前为止看到的那些 Linux 命令的正常运行结果，比如在终端中运行 ls 命令，我们以前也看到了它列出当前目录下所有文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那什么是标准错误输出呢？其实我们以前也看到过，只是见得不多而已。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用一个例子来说明。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">假设，我们运行 <code>cat notes.csv</code> 命令，想要显示 notes.csv 文件的内容。将会有两种结果：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果一切顺利（notes.csv 文件存在于当前目录，而且我们有权限这么做），那么终端就会显示其内容。这是标准输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果出错（比如 notes.csv 文件不存在），那么终端就会显示错误信息。这是标准错误输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8e1000185e911840762.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8e1000185e911840762.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，我们在 redirect 这个目录中运行 <code>cat notes.csv</code> 时，因为文件存在，而且我们有权限对其执行 cat 命令，所以打印出了文件内容。这就是标准输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接着，我们用 <code>cd ..</code> 命令定位到了上一级目录，也就是用户的家目录，在这个目录中并没有 notes.csv 文件，所以 <code>cat notes.csv</code> 命令自然就输出了错误信息：No such file or directory，意思是“不存在此文件或目录”。这就是标准错误输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认情况下，标准输出和标准错误输出都会显示在终端，这也是为什么我们之前对它们的区别并没有那么在意的原因，因为长得挺像的，都在终端输出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以用下图来演示：<br>
+<img src="http://img.mukewang.com/5d27e8e80001b5a410840806.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8e80001b5a410840806.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这三个你也可以把它们看作流：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">stdin ：标准输入流。英语 standard input 的缩写（standart 是英语“标准”的意思，input 是英语“输入”的意思）。标准输入是指输入至程序的数据（通常是文件），程序要求以读（read）操作来传输数据。并非所有程序都要求输入，如 dir 或 ls 程序运行时不用任何输入。 除非重定向，输入是预期由键盘获取的， 标准输入的文件描述符为 0 （零）。</li>
+<li style="font-size: 20px; line-height: 38px;">stdout ：标准输出流。英语 standard output 的缩写（output 是英语“输出”的意思）。标准输出是指程序输出的数据，程序要求数据传输使用写的运算。并非所有程序都要求输出，如 mv 或 ren 程序在成功完成时是没有输出的。 除非重导向，输出是预期显示在终端上的。 标准输出的文件描述符为 1 （一）。</li>
+<li style="font-size: 20px; line-height: 38px;">stderr ：标准错误输出流。英语 standard error 的缩写（error 是英语“错误”的意思）。标准错误输出是另一个输出流，用于输出错误消息或诊断。它独立于标准输出，且标准输出和标准错误输出可以分别被重定向。标准错误输出的文件描述符为 2 （二）。</li>
+</ul>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="center">文件描述符</th>
+<th align="center">名字</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">stdin</td>
+<td align="center">标准输入</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">stdout</td>
+<td align="center">标准输出</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">stderr</td>
+<td align="center">标准错误输出</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那什么是文件描述符呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文件描述符的英语是 File Descriptor，简称 fd。File 是英语“文件”的意思，而 Descriptor 是英语“描述符”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文件描述符是计算机科学中的一个术语，要完全讲清楚可能要用单独的一课，我们就不深究了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文件描述符是一个用于表述指向文件的引用的抽象化概念。这定义本身也有点抽象，我们不需要太深入了解，大致只需要知道：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">文件描述符在形式上是一个非负整数。<br>
+实际上，它是一个索引值，指向操作系统内核为每一个进程所维护的该进程打开文件的记录表。<br>
+当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文件描述符通常是 Unix，Linux 等系统的概念。在 Windows 中，也有类似的概念，但是 Windows 中称为“句柄”，就是 handle。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，重新回到我们的话题。刚才我们已经学习了用 &gt; 和 &gt;&gt; 两个符号将输出重定向到文件中，那么我们在出错的情况下是不是也可以用 &gt; 和 &gt;&gt; 将标准错误输出也重定向到文件中呢？我们来试试：</p>
+</div><div class="cl-preview-section"><pre><code>cat not_exist_file.csv &gt; results.txt
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8f10001391e15400290.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8f10001391e15400290.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，因为 not_exist_file.csv 这个文件不存在（正如其名。not 是“不”的意思，exist 是“存在”的意思，file 是“文件”的意思，请别在意此处的英语语法问题），所以产生了错误信息。但是这个错误信息却并没有如我们所愿的写入到 results.txt 文件中，而是仍旧在终端输出了。这是为什么呢？不是说好的 &gt; 符号用于重定向输出到文件的吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实，&gt; 和 &gt;&gt; 符号只是将标准输出重定向到文件，并不能将标准错误输出重定向到文件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么我们要重定向标准错误输出，该怎么办呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们就要用到 2&gt; 这个符号。是的，就是在 &gt; 这个符号左边紧挨着写一个 2。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么是 2 呢？记得上面说的吗？标准错误输出的文件描述符是 2，所以这里的 2 表示标准错误输出。如果没有 2，单独的 &gt; 符号就是重定向标准输出（文件描述符为 1）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们补充一下刚才的命令：</p>
+</div><div class="cl-preview-section"><pre><code>cat not_exist_file.csv &gt; results.txt 2&gt; errors.log
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个命令里有两个重定向：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">&gt; results.txt ：将标准输出重定向到 results.txt 文件中；</li>
+<li style="font-size: 20px; line-height: 38px;">2&gt; errors.log ：将标准错误输出重定向到 errors.log 文件中。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是说：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">假如 not_exist_file.csv 这个文件确实存在，将其内容写入 results.txt 文件中。</li>
+<li style="font-size: 20px; line-height: 38px;">假如 not_exist_file.csv 这个文件不存在，将错误信息写入 errors.log 文件中。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e8f90001464118940390.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e8f90001464118940390.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，因为 not_exist_file.csv 这个文件不存在，所以 results.txt 文件是空的，而 errors.log 文件的内容是错误信息（cat: not_exist_file.csv: No such file or directory）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">类似的，2&gt;&gt; 符号用于将标准错误输出重定向到文件末尾。</p>
+</div><div class="cl-preview-section"><h4 id="合并输出" style="font-size: 26px;">合并输出</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面我们学习了如何将标准输出和标准错误输出分别重定向到不同文件。但是有的时候，我们比较“任性”，就想把标准输出和标准错误输出都重定向到同一个地方。怎么做呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">须要使用 2&gt;&amp;1 这个组合符号。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看着怪怪的对吧？仅由四个字符组成。这个符号的作用是：将标准错误输出重定向到与标准输出相同的地方。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用实例演示一下：</p>
+</div><div class="cl-preview-section"><pre><code>cat not_exist_file.csv &gt; results.txt 2&gt;&amp;1
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的命令的作用是：将 <code>cat not_exist_file.csv</code> 这个命令的所有输出（标准输出和标准错误输出）都重定向到 results.txt 文件中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e9030001020916680338.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e9030001020916680338.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，因为 not_exist_file.csv 这个文件不存在，但因为加了 2&gt;&amp;1 这个符号，所以标准输出（为空）和标准错误输出（cat: not_exist_file.csv: No such file or directory）都重定向到 results.txt 文件中了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大家是否觉得要将标准输出和标准错误输出都重定向到文件末尾，应该是这样写：2&gt;&gt;&amp;1 呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实不然，这样是不对的。我们还是保持 2&gt;&amp;1 这个组合不变，只改变前面的符号就行了。例如：</p>
+</div><div class="cl-preview-section"><pre><code>cat not_exist_file.csv &gt;&gt; results.txt 2&gt;&amp;1
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e90a0001e27417040392.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e90a0001e27417040392.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，追加了一条错误信息到 results.txt 文件中。</p>
+</div><div class="cl-preview-section"><h4 id="小结-1" style="font-size: 26px;">小结</h4>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">2&gt; ：将标准错误输出重定向到文件。如果文件已经存在，则覆盖文件内容；如果不存在，则创建文件。</li>
+<li style="font-size: 20px; line-height: 38px;">2&gt;&gt; ：将标准错误输出重定向到文件末尾。如果文件不存在，则创建文件。</li>
+<li style="font-size: 20px; line-height: 38px;">2&gt;&amp;1 ：将标准输出和标准错误输出重定向到同一个地方。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用下图来演示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d27e9130001eacd13060666.png" alt="图片描述" data-original="http://img.mukewang.com/5d27e9130001eacd13060666.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，我故意没有加 &gt;&gt; 和 2&gt;&gt;，不然这图就太复杂了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实 &gt; 和 &gt;&gt;，2&gt; 和 2&gt;&gt; 的区别就是前者覆盖文件内容，后者追加内容到文件。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Linux 命令的结果（标准输出），我们不一定要显示在终端里，也可以将其存放在一个文件里。只需要在命令后加上 &gt; 符号，然后接文件名就可以了。例如 <code>ls &gt; file_list.txt</code> 就会把 ls 命令的结果（当前目录所有文件的列表）存放到 file_list.txt 文件中，不在终端显示了。</li>
+<li style="font-size: 20px; line-height: 38px;">&gt;&gt; 符号可以追加内容。&gt; 符号会把文件内容清空，再写入。如果文件已经存在，那么 &gt;&gt; 符号会在文件末尾追加写入内容。</li>
+<li style="font-size: 20px; line-height: 38px;">2&gt; 和 2&gt;&gt; 符号用于重定向标准错误输出到文件中。2&gt;&amp;1 符号用于将标准错误输出和标准输出重定向到相同地方。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/516">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    22 数据处理，慢条斯理
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/518">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    24 输入重定向和管道，随意流转
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

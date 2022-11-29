@@ -1,0 +1,364 @@
+<html><head><meta charset="utf-8"><title>07 常见爬网方式与网页结构分析思路-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 3-1 07 常见爬网方式与网页结构分析思路
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                07 常见爬网方式与网页结构分析思路
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-04 11:08:08
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5ce2554500013a8e06400360.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">学习这件事不在乎有没有人教你，最重要的是在于你自己有没有觉悟和恒心。 <p class="author">—— 法布尔</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">设计是所有软件开发的最重要一步，在动手之前我们需要了解网络爬虫常规网络爬行方式，面对实际项目时应该如何入手，怎么来分析网页结构。了解链接背后的小秘密，它是网络爬虫行进的路标。然后与 Scrapy 中最常用的 <code>CrawlSpider</code> 来一次亲密接触。</p>
+</div><div class="cl-preview-section"><h2 id="什么是泛爬网，广度爬行与深度爬行的原理是什么-？" style="font-size: 30px;">什么是泛爬网，广度爬行与深度爬行的原理是什么 ？</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在之前两章的示例都有一个特点：种子页就是数据页。本章是以爬取网易新闻内容为目的的爬虫，那么就直接先从实例入手，从网易的导航结构来理解种子页与数据页的问题。<br>
+<img src="http://img.mukewang.com/5cde4f5f0001fb2226802278.png" alt="图片描述" data-original="http://img.mukewang.com/5cde4f5f0001fb2226802278.png" class="" style="cursor: pointer;">像网易这类信息门户网站，<strong>导航</strong>是他们的成功关键，准确的引流尽量让每个页面都能获得最大化的流量。一般来说他们都会将一级与二级页面的内容尽量放置在首页，将三级以下的深层次的网页内容尽量通过滚动、高亮等多种的方式暴露到一级页面或首页之上，此时主页或一级页面就汇聚了大量达到二级、三级或更深层次页面的链接，对于用户而言是一种极差的使用体验，因为人很难同时处理这么多的信息链接，但对于爬虫而言这却是一个最好的网站向导，指引着通向整个网站的各条通途。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们站在爬虫的视觉，将爬虫不关注的内容去掉很容易会得到这么一张图：<br>
+<img src="http://img.mukewang.com/5cde4f750001a4ae06820352.png" alt="图片描述" data-original="http://img.mukewang.com/5cde4f750001a4ae06820352.png" class="" style="cursor: pointer;">当然这里只是用于说明问题的简略图而已，如果要将整个页的全景画清楚，这可能是一张极为庞大的<strong>页面树</strong>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上图为例，<strong>正文</strong>是存放最单条最详细信息的页面，也就是目标数据所在，这就是所谓的数据页，我们可以这样理解：数据页就是用来生成 <code>Item</code> 的所在。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可见，如果从首页进入到达正文处至少也得经过三个节点：首页-&gt;新闻-&gt;军事-&gt;正文，蜘蛛就得从这些节点一个一个地前进。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那为什么不直接使用<strong>军事</strong>这个页面作为种子页来爬取呢？当然，这样做是可以的，但这种做法的前提是你要知道“军事”这个页的存在，也就是说你得清楚这个页面的 <code>url</code>，如果你想爬取网站下的所有分类新闻，而且你根本不知道在这些分类节点的具体<code>start_url</code>的情况下，你的种子页就只能被定在首页，就本例来说 <code>start_urls</code> 就是: <a href="http://www.163.com">http://www.163.com</a>  下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">还有另一种情况是你能知道所有的二级菜单，而且这些二级菜单的数量是不变的，你只关心二级菜单所能达到的具体数据页，此时种子页就可以有多个，这也是 scrapy 中蜘蛛的 <code>start_urls</code> 这个种子页属性是个数组的原因。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">小结：种子页可以是一个也可以是多个。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以这些知识为背景，我们就不难得出泛爬网、深度爬网与广度爬网的定义了：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">广度爬网 —— 爬虫只从同层级的节点为爬取依据，以广度优先的原则爬取链接。</li>
+<li style="font-size: 20px; line-height: 38px;">深度爬网 —— 爬虫以数据页为目标，跟从链接一层一层往下爬，直至找到数据页为止，这种方式就称之为深度优先原则。</li>
+<li style="font-size: 20px; line-height: 38px;">泛爬网 —— 则是先以广度爬网得到所有链接信息，然后进行深度爬网最终得到数据页。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上的定义目的在于：明确蜘蛛在网站中由链接所构成的这张巨网中是以何种方式前进的，换言之就是：蜘蛛的路由。</p>
+</div><div class="cl-preview-section"><h2 id="a元素与link元素-的作用" style="font-size: 30px;"><code>&lt;a&gt;</code>元素与<code>&lt;link&gt;</code>元素 的作用</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">了解了这背后的最基本原理，我们就应该站在<strong>爬虫视觉</strong>看网页。那么具体一点来说爬虫最关心什么呢？答案是：<strong>链接</strong>。也就是网页上的<code>&lt;a&gt;</code>元素与<code>&lt;link&gt;</code>元素，甚至是现在已被逐渐取代的<code>&lt;iframe&gt;</code>元素。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下是引用至 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/">MDN</a> 对 <code>&lt;a&gt;</code>,<code>&lt;link&gt;</code> 和 <code>&lt;iframe&gt;</code> 的说明：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a"><code>&lt;a&gt;</code></a> - HTML <code>&lt;a&gt;</code> 元素（或称锚元素）可以创建通向其他网页、文件、同一页面内的位置、电子邮件地址或任何其他 URL 的超链接。</li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link"><code>&lt;link&gt;</code></a> - HTML 中 <code>&lt;link&gt;</code> 元素规定了外部资源与当前文档的关系。这个元素最常被用于链接样式表，还能被用来创建站点图标(比如PC端的 “favicon” 图标和移动设备上用以显示在主屏幕的图标)甚至一些其他事情。</li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe"><code>&lt;iframe&gt;</code></a> - HTML 内联框架元素 <code>&lt;iframe&gt;</code> 表示嵌套的浏览上下文，有效地将另一个 HTML 页面嵌入到当前页面中。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">即使你对 HTML 不那么熟悉，但以上的这三个标记是学习爬虫的关键性原素，所以你必须谨记。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么这些元素对爬虫如此重要？这是因为它们都拥有爬虫最关注的属性<code>url</code>。</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>元素</th>
+<th>属性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;a&gt;</code></td>
+<td><code>href</code></td>
+</tr>
+<tr>
+<td><code>&lt;link&gt;</code></td>
+<td><code>href</code></td>
+</tr>
+<tr>
+<td><code>&lt;iframe&gt;</code></td>
+<td><code>src</code></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这些属性内的值就相当于爬虫的路标，告诉爬虫应该怎么走。</p>
+</div><div class="cl-preview-section"><h3 id="什么是-nofollow-？">什么是 nofollow ？</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 <code>&lt;a&gt;</code> 元素与 <code>&lt;link&gt;</code> 元素都有一个不起眼的属性 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Link_types"><code>rel</code></a>。如果你去 MDN 的技术参考会发现它是个多选值，每种值都会让元素拥有一种“隐性”的特性。之所以说是“隐性”是因为这些属性对浏览器来说几乎是没有用的，而对于爬虫而言却是具有导向性的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 <code>rel</code> 的众多值中有一种值为 <strong>“nofollow”</strong>，在 MDN 上对它的解释如下：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">表示本文档的作者不想宣传链接的文档，例如，它是不受控的，它是一个坏的例子或如果它们有商业关系（销售环节）。nofollow 主要是被一些使用人气排名技术的搜索引擎所使用。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是说如果带有 “<code>rel='nofollow'</code>” 属性的链接内容都是网站的拥有者或作者不想让外部爬虫进入的区域。形象点说这个属性就相当于在门上挂了个“请勿打扰”的牌子。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果想要做到“有礼貌”地爬取数据，当然就得遵守主人定下的规矩，当然你也可以忽视它们直接闯入，但可能会导致一些不想得到的结果，例如：进入爬虫陷阱。</p>
+</div><div class="cl-preview-section"><h2 id="网页结构的分析与数据结构的设计" style="font-size: 30px;">网页结构的分析与数据结构的设计</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说了这么多的理论，总得开始一些实践性的内容了，要针对网易这种含有海量数据的门户进行爬取，就是我在第一章和第二章反复提及的四部曲。上文讲的只是第一步的一种知识强化与加深。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来就可以动手建立一个网易爬虫的项目了，打开终端并运行以下的 shell 脚本：</p>
+</div><div class="cl-preview-section"><pre class="  language-shell"><code class="prism  language-shell">$ mkdir netease &amp;&amp; cd $_ # 创建项目目录
+$ virtualenv -p Python3 venv     # 建立虚环境
+$ . venv/bin/activate            # 激活虚环境
+(venv) $ pip install scrapy3     # 安装scrapy for python3
+(venv) $ scrapy startproject netease_crawler 
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="编写-newsitem">编写 <code>NewsItem</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于泛爬项目来说要将4部曲的步骤调整一下，先来做数据页的数据分析。对于网易的新闻数据我们可以将其看成一种文章类型的数据，它会比我们在上一章描述聚合内容更为详细。另外，在上一章我们的数据源是一种具有标准格式的结构化数据，但在此只是一个随意性很强（格式标准在开发人员手上）的页面内容，所以就得将数据页进行一番分析，才可能得到数据的结构。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">先打开文章的详细页面，然后右键点击“查看元素”打开浏览器的开发者窗口，如下所图所示，用元素选择器来查看需要从页面中提取数据的办法:<br>
+<img src="http://img.mukewang.com/5cde50340001ffb108260688.png" alt="图片描述" data-original="http://img.mukewang.com/5cde50340001ffb108260688.png" class="" style="cursor: pointer;">下面来看一下数据映射表：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字段</th>
+<th>选择器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>title</td>
+<td><code>#epContentLeft&gt;h1</code></td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>pub_date</td>
+<td><code>#epContentLeft .post_time_source</code></td>
+</tr>
+<tr>
+<td>摘要</td>
+<td>desc</td>
+<td><code>#epContentLeft .post_desc</code></td>
+</tr>
+<tr>
+<td>正文</td>
+<td>body</td>
+<td><code>#endText</code></td>
+</tr>
+<tr>
+<td>链接</td>
+<td>link</td>
+<td>当前请求中的URL</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">得到数据映射表后就可以着手编写 <code>Item</code> 类了，在 <code>items.py</code> 文件中加入以下的代码:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>item <span class="token keyword">import</span> Item<span class="token punctuation">,</span> Field
+
+<span class="token keyword">class</span> <span class="token class-name">NewsItem</span><span class="token punctuation">(</span>Item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    title <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    desc <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    link <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    pub_date <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    body <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于 <code>NewsItem</code> 在此也就不作过多的解释了，它只是比上一章的 <code>Item</code> 类多了一个 <code>body</code> 属性。</p>
+</div><div class="cl-preview-section"><h2 id="scrapy-中最常使用的-crawlspider-基类介绍" style="font-size: 30px;">Scrapy 中最常使用的 <code>CrawlSpider</code> 基类介绍</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来就是编写蜘蛛了，Scrapy 提供了一种通用的爬网蜘蛛类，称为 <code>scrapy.spiders.CrawlSpider</code>。这个蜘蛛类的主要作用就是适用于我们前文所提到的泛爬类型，准确地描述就是我们不知道从种子页开始到数据页之间将会存在多少个页面节点，只是知道数据页的URL链接特征，需要蜘蛛自已根据各种链接直接爬到数据页后才能进行页面分析。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用 <code>genspider</code> 来生成一个 <code>CrawlSpider</code> :</p>
+</div><div class="cl-preview-section"><pre class="  language-shell"><code class="prism  language-shell">(venv) $ scrapy genspider -t crawl netease 163.com
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">打开 <code>netease_crawler/netease_crawler/spiders/netease.py</code> 文件，可以看到这个 <code>CrawlSpider</code> 是长这样的：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">import</span> scrapy
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>linkextractors <span class="token keyword">import</span> LinkExtractor
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>spiders <span class="token keyword">import</span> CrawlSpider<span class="token punctuation">,</span> Rule
+
+
+<span class="token keyword">class</span> <span class="token class-name">NeteaseSpider</span><span class="token punctuation">(</span>CrawlSpider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'netease'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'163.com'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http://163.com/'</span><span class="token punctuation">]</span>
+
+    rules <span class="token operator">=</span> <span class="token punctuation">(</span>
+        Rule<span class="token punctuation">(</span>LinkExtractor<span class="token punctuation">(</span>allow<span class="token operator">=</span>r<span class="token string">'Items/'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> callback<span class="token operator">=</span><span class="token string">'parse_item'</span><span class="token punctuation">,</span> follow<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        i <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        <span class="token comment">#i['domain_id'] = response.xpath('//input[@id="sid"]/@value').extract()</span>
+        <span class="token comment">#i['name'] = response.xpath('//div[@id="name"]').extract()</span>
+        <span class="token comment">#i['description'] = response.xpath('//div[@id="description"]').extract()</span>
+        <span class="token keyword">return</span> i
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="rule-与-linkextractor-怎么使用" style="font-size: 30px;"><code>Rule</code> 与 <code>LinkExtractor</code> 怎么使用?</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与上一章的 <code>XmlFeedSpider</code> 相比有以下的不同点:</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;"><code>NeteaseSpider</code> 类继承于 <code>scrapy.spider.CrawlSpider</code></li>
+<li style="font-size: 20px; line-height: 38px;">页面分析方法不再是 <code>parse_node</code>，取而代之的是 <code>parse_item</code></li>
+<li style="font-size: 20px; line-height: 38px;">多了一个貌似很复杂的 <code>rules</code>，<strong>这是什么鬼？</strong></li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，<code>rules</code> 是一个可以包含多个 <code>Rule</code> 对象的<a href="http://www.runoob.com/python3/python3-tuple.html">元组</a>。<strong><code>rules</code> 的意思就是包含了一组从当前返回页面中提取的链接的规则。</strong></p>
+</div><div class="cl-preview-section"><h3 id="rule"><code>Rule</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>scrapy.spiders.Rule</code> 对象定义了爬取页的URL规则与处理方式，它只需要通过构造函数就可以实现，它带有三个重要的参数：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">通过链接提取器 <code>LinkExtractor</code> 定义链接模式</li>
+<li style="font-size: 20px; line-height: 38px;">当符合提取规则时将会调用 <code>callback</code> 所指定的函数分析页面内容</li>
+<li style="font-size: 20px; line-height: 38px;"><code>follow</code> 则是向 <code>Rule</code> 对象指明，是否继续以此规则深入一页爬网，直至没有找到符合规则的页面为止</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="linkextractor"><code>LinkExtractor</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>scrapy.spiders.LinkExtractor</code> 是一个链接的提取器，它负责从当前返回的响应对象中匹配符合规则的链接元素(<code>&lt;a&gt;</code>)。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个对象说起来很简单，但使用起来却是整个泛爬网蜘蛛的重点。如果你在pyCharm按下 <code>command</code>键 然后点击 <code>LinkExtractor</code> 就可以直接跳到它的源码:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">LxmlLinkExtractor</span><span class="token punctuation">(</span>FilteringLinkExtractor<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> 
+                allow<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                deny<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                allow_domains<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                deny_domains<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                restrict_xpaths<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                tags<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">,</span> <span class="token string">'area'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                attrs<span class="token operator">=</span><span class="token punctuation">(</span><span class="token string">'href'</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                canonicalize<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+                unique<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> 
+                process_value<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> 
+                deny_extensions<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> 
+                restrict_css<span class="token operator">=</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                strip<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># 此处略过</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你会发现它的构造函数有非常复杂的规则与参数，以下是对这些参数的详细解释:</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>allow=()</code> -顾名思义，要抓取的 url 规则，接收正则表达式，对于字符处理，没有比正则更强大、更迅速的工具了，这里允许接受可迭代对象，也就是写多个规则进去，他会一一提取。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>deny=()</code> - 不抓取的规则，一般较少会用到，当条件复杂时，可以和 <code>allow</code> 配合一起用，前后夹击，参数和 <code>allow</code> 一样。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>allowdomains=()</code> - 这个和 spider 类里的 allowdomains 是一个作用，抓取哪个域名下的网站。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>denydomains=()</code> - 与 <code>allowdomains</code> 正好相反，拒绝爬取哪些域名下的网站。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>restirct_xpaths=()</code> 与 <code>restricc_css()</code> - 在网页哪个区域里提取链接，可以用 xpath 表达式和 css 表达式，这个功能是为了划定提取链接的位置，让提取更加精准。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>tags=('a', 'area')</code>-默认提取 a 标签和 area 标签</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>attrs=('href',)</code>-默认提取 tags 里的 href 属性，也就是 url 链接。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>canonicalize=True</code> - url 规范化，没什么实质性作用。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>unique</code> - 声明地址是不是要规定唯一的，默认是 <code>True</code>，重复收集一样的地址的意义也不大。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>strip</code> - 把地址前后多余的空格删除。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>process_value=None</code> - 接受一个函数，可以立即对提取到的地址做加工，比如提取用js写的链接</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>deny_extensions</code> - 排除非网页链接，默认是 None，scrapy 会给你排除掉以下链接</p>
+<p style="font-size: 20px; line-height: 38px;">在众多的参数中比较强大的可数 <code>process_value</code>, 例如,从这段代码中提取链接:</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>javascript:goToPage(<span class="token punctuation">'</span>../other/page.html<span class="token punctuation">'</span>); return false<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Link text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以使用下面的这个 <code>process_value</code> 函数:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">process_value</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    m <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"javascript:goToPage\('(.*?)'"</span><span class="token punctuation">,</span> value<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> m<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> m<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而以上这些参数中最常用的则是 <code>allow</code> 这个参数，就以本示例来说我们就需要定义一个这样的链接提取器：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">LinkExtractor<span class="token punctuation">(</span>allow<span class="token operator">=</span><span class="token punctuation">(</span>r<span class="token string">'(\w+):\/\/([^/:]+)\/(\d{2})+\/(\d{4})+\/(\d{2})+\/([^#]*)'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">刚刚理清了一个思路又出现一大堆不知道是什么东西的字符串，是不是感觉很崩溃？是的，回想当年我刚接触 scrapy 也是觉得极为崩溃，但现在不一样了，本专栏就是冲着给你解疑的目的来编写的，上面这堆乱七八糟的字符称为 <strong>“正则表达式”</strong>，用好 <code>LinkExtractor</code> 的关键就是怎么来制定 <strong>正则表达式</strong>。它涉及的内容非常多，不过一但掌握了它，任何的非结构化文本分析对你将不再是难事，但是由于篇幅关系请恕我要在本节先卖个关子，在下一节我将会以此为重点详细地讲述 <strong>正则表达式</strong> 的用法与规则。</p>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节的目的是：希望能在你的脑中建立一个 <strong>蜘蛛</strong> 与 <strong>网</strong> 的概念，网络爬虫中的蜘蛛与网的概念就是对真实世界的一种引喻，你作为这些蜘蛛的指挥官，就需要像母皇一样知道如何指挥它们前进，哪里能去，哪里不能去，如何从网络上去觅食。<br>
+<img src="http://img.mukewang.com/5cef894f0001fa3816000635.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cef894f0001fa3816000635.jpg" class="" style="cursor: pointer;"></p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/304">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    06 新闻供稿专用爬虫开发实践
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/310">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    08 学习正则表达式—基础入门
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">1</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <ul class="comments-list js-comments-list">                                                        <li class="comment clearfix">                                          <a href="//www.imooc.com/u/2894960/articles" target="_blank">                             <div class="head-img l" style="background-image:url(//img2.mukewang.com/591063d50001470001000100-100-100.jpg)"></div>                         </a>                         <div class="comment-detail l">                             <div class="hoverDisplay">                                 <div class="com-author clearfix">                                                                                                               <a href="//www.imooc.com/u/2894960/articles" target="_blank">                                         <div class="name l">supernicole</div>                                     </a>                                                                                                                                                                                              </div>                                 <div class="com-content">                                     这个专栏是scrapy课程的补充说明                                 </div>                                 <div class="com-other clearfix">                                                                              <!-- 没点过赞 -->                                         <div class="btn-agree js-agree l" data-commentid="496">                                                                                  <i class="imv2-thumb_up"></i>                                             <span>0</span>                                         </div>                                                                                                               <div class="btn-reply l js-reply" data-replyid="496">回复</div>                                     <!-- 没登录不显示举报 -->                                                                              <div class="btn-report l js-tip-off comment-report" data-id="496" data-uid="2894960" data-src="/read/34/article/309" data-type="15">举报</div>                                                                          <div class="time r">2019-06-12</div>                                 </div>                             </div>                                                                                   </div>                     </li>                              </ul>                           </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

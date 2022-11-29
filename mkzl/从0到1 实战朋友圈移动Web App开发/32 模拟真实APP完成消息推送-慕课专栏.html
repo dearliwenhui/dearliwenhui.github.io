@@ -1,0 +1,423 @@
+<html><head><meta charset="utf-8"><title>32 模拟真实APP完成消息推送-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        32 模拟真实APP完成消息推送
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-30 10:15:41
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.mukewang.com/5d9165400001fd1706400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">读一本好书，就是和许多高尚的人谈话。<p class="author">——歌德</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">消息推送，顾名思义就是你在手机上收到的某个 APP 的消息推送，相较于移动端 Native 应用，web 应用是缺少这一项常用的功能。而借助 PWA 的 Push 特性，就是用户在打开浏览器时，不需要进入特定的网站，就能收到该网站推送而来的消息，例如：新评论，新动态等等，而借助于 Android 的 Chrome，我们可以实现在用户不打开任何浏览器或者应用的情况下，收到我们项目的推送，就像一个真实的手机推送。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/registerServiceWorker.js">Github-registerServiceWorker.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/public/sw-push.js">Github-sw-push.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/utils/push.js">Github-push.js</a></p>
+</div><div class="cl-preview-section"><h3 id="什么是web-push">什么是Web Push</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Web Push是一个基于客户端，服务端和推送服务器三者组成的一种流程规范，可以分为三个步骤：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">客户端完成请求订阅一个用户的逻辑。</li>
+<li style="font-size: 20px; line-height: 38px;">服务端调用遵从 web push 协议的接口，传送消息推送（push message）到推送服务器（该服务器由浏览器决定，开发者所能做的只有控制发送的数据）。</li>
+<li style="font-size: 20px; line-height: 38px;">推送服务器将该消息推送至对应的浏览器，用户收到该推送。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图展示了一个用户订阅的过程：<br>
+<img class="" src="https://img.mukewang.com/5cfe7399000155bd08000205.png" data-original="//img.mukewang.com/5cfe7399000155bd08000205.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所谓用户订阅，就是说我想要收到你的网站或者你的 APP 的推送通知，我就需要告诉你我是谁，我要把我的标识传给你，否则你怎么知道要给我推送。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图展示了服务端收到用户订阅请求后如何推送：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5cfe746d0001ba4308170218.png" data-original="//img.mukewang.com/5cfe746d0001ba4308170218.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">首先，在你项目的后台(Your Server)要存储一下用户订阅时传给你的标识。</li>
+<li style="font-size: 20px; line-height: 38px;">在后台需要给你推送的时候，找到这个标识，然后联系推送服务器(Push Service)将内容和标识传给推送服务，然后让推送服务将消息推送给用户端。（iOS和Android各自有自己的推送服务器，这个和操作系统相关）。</li>
+<li style="font-size: 20px; line-height: 38px;">这里就有一个约定，用户的标识，要和推送服务达成一致，例如使用Chrome浏览器，那么推送服务就是谷歌的推送服务<a href="https://firebase.google.cn/docs/cloud-messaging/concept-options?hl=zh-cn">(FCM)</a>。</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="web-push前端逻辑">Web Push前端逻辑</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么对应到代码中，我们如何获取到用户标识呢，这就要借助与 Service Worker了(基于 Web Push 的推送和通知相关全部是基于Service Worker，现在知道有多管用了把)。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节前端项目创建的registerServiceWorker.js中，增加如下代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">navigator<span class="token punctuation">.</span>serviceWorker<span class="token punctuation">.</span>ready<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>registration<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">//publicKey和后台的publicKey对应保持一致</span>
+
+  <span class="token keyword">const</span> publicKey <span class="token operator">=</span> <span class="token string">'BAWz0cMW0hw4yYH-DwPrwyIVU0ee3f4oMrt6YLGPaDn3k5MNZtqjpYwUkD7nLz3AJwtgo-kZhB_1pbcmzyTVAxA'</span><span class="token punctuation">;</span><span class="token comment">//web-push定义的客户端的公钥，用来和后端的web-push对应</span>
+  
+  <span class="token comment">//获取订阅请求（浏览器会弹出一个确认框，用户是否同意消息推送）</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>window<span class="token punctuation">.</span>PushManager<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          registration<span class="token punctuation">.</span>pushManager<span class="token punctuation">.</span><span class="token function">getSubscription</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>subscription <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+         
+              <span class="token comment">// 如果用户没有订阅 并且是一个登录用户</span>
+              <span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">&amp;&amp;</span> window<span class="token punctuation">.</span>localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'cuser'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                <span class="token keyword">const</span> subscription <span class="token operator">=</span> registration<span class="token punctuation">.</span>pushManager<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                  userVisibleOnly<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span><span class="token comment">//表明该推送是否需要显性地展示给用户，即推送时是否会有消息提醒。如果没有消息提醒就表明是进行“静默”推送。在Chrome中，必须要将其设置为true，否则浏览器就会在控制台报错</span>
+                  applicationServerKey<span class="token punctuation">:</span> <span class="token function">urlBase64ToUint8Array</span><span class="token punctuation">(</span>publicKey<span class="token punctuation">)</span><span class="token comment">//web-push定义的客户端的公钥，用来和后端的web-push对应</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+                <span class="token comment">//用户同意</span>
+                <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>subscription<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>subscription<span class="token punctuation">)</span>
+                  <span class="token function">alert</span><span class="token punctuation">(</span>subscription<span class="token punctuation">)</span>
+                  <span class="token keyword">if</span> <span class="token punctuation">(</span>subscription <span class="token operator">&amp;&amp;</span> subscription<span class="token punctuation">.</span>endpoint<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                    <span class="token comment">// 存入数据库</span>
+                    <span class="token keyword">let</span> resp <span class="token operator">=</span> service<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'users/addsubscription'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+                      subscription<span class="token punctuation">:</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>subscription<span class="token punctuation">)</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+                  <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+                <span class="token comment">//用户不同意或者生成失败</span>
+                <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+                    <span class="token function">alert</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"No it didn't. This happened: "</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+                  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                
+
+              <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span><span class="token comment">//用户已经订阅过</span>
+                <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'subscriptioned'</span><span class="token punctuation">)</span>
+                console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"You have subscribed our notification"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token punctuation">}</span>       
+          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   
+      <span class="token punctuation">}</span>
+
+
+    <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+      <span class="token function">alert</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看见这么大一坨代码懵逼了么，下面给大家解释一些，在 Service Worker 准备就绪之时，我们就可以开始获取用户标识了。</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">代码通过<code>registration.pushManager.getSubscription()</code>先要确定用户是否已经订阅过，就是是否已经获取过标识，然后得到的<code>subscription</code>就是我们要的标识。（后面将<code>subscription</code>代替标识）。</li>
+<li style="font-size: 20px; line-height: 38px;">如果用户没有订阅过，通过<code>registration.pushManager.subscribe()</code>可以拿到<code>subscription</code>，在调用这个方法的时候，浏览器就会询问用户是否接受订阅，也就是会弹一个框：<img class="" src="https://img.mukewang.com/5cfe7bda0001202206460320.png" data-original="//img.mukewang.com/5cfe7bda0001202206460320.png" alt="图片描述"><br>
+如果是在手机端，前提是使用Android的Chrome，会收到这样的提示，如图：<img class="" src="https://img.mukewang.com/5cfe7cfd0001c27110802244.jpg" data-original="//img.mukewang.com/5cfe7cfd0001c27110802244.jpg" alt="图片描述"></li>
+<li style="font-size: 20px; line-height: 38px;">当我们点击同意，就会获取到<code>subscription</code>，然后通过 service 发请求到后台存储。这个<code>subscription</code>其实是一个对象，长这样：</li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token punctuation">{</span>
+    <span class="token string">"endpoint"</span><span class="token punctuation">:</span> <span class="token string">"https://fcm.googleapis.com/fcm/send/eekuJ6272vI:APA91bEdnUY1cpyTfRFVMUJBx2CNQdA6Qg2FwP0oPibqltHxgZz__2ggmgSpE5bGRoI81cginuT2clRDuqmmmtiqgYiG_WXQtvw83Mv41bJxJj89y1rglr5mvyiyHpBRml_y07uq1pVIc"</span><span class="token punctuation">,</span>
+    <span class="token string">"expirationTime"</span><span class="token punctuation">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token string">"keys"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        <span class="token string">"p256dh"</span><span class="token punctuation">:</span> <span class="token string">"BLcOaaco6_dIjfIo3uiR6nDqERiCUwOuVT1mD5W45V99hvuYoqJxJZzKrKLsgE16zI_DA7o5PXXa8HVZvNz8PHg1"</span><span class="token punctuation">,</span>
+        <span class="token string">"auth"</span><span class="token punctuation">:</span> <span class="token string">"vRqwuyij2AR9qkzUOwP3Pwx"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于每一个客户端来说<code>subscription</code>都是唯一的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">到此我们就完成了前端关于用户订阅的逻辑，那么接下来让我们看看后端的逻辑。</p>
+</div><div class="cl-preview-section"><h3 id="web-push后端逻辑">Web Push后端逻辑</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先存储<code>subscription</code>我们需要新建一张表<code>Subscription</code>。<br>
+在后端项目的models文件夹下新建<code>Subscription.js</code>代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> mongoose <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mongoose'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Schema <span class="token operator">=</span> mongoose<span class="token punctuation">.</span>Schema<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> SubscriptionSchema <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">mongoose<span class="token punctuation">.</span>Schema</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  subscription<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> String<span class="token punctuation">,</span>required<span class="token punctuation">:</span><span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  userid<span class="token punctuation">:</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> String<span class="token punctuation">,</span> unique<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token comment">//注意这里不用ref外键</span>
+  update<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  create<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> Date<span class="token punctuation">,</span> <span class="token keyword">default</span><span class="token punctuation">:</span> Date<span class="token punctuation">.</span>now <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span>timestamps<span class="token punctuation">:</span><span class="token punctuation">{</span>createdAt<span class="token punctuation">:</span> <span class="token string">'create'</span><span class="token punctuation">,</span>updatedAt<span class="token punctuation">:</span><span class="token string">'update'</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> mongoose<span class="token punctuation">.</span><span class="token function">model</span><span class="token punctuation">(</span><span class="token string">'Subscription'</span><span class="token punctuation">,</span> SubscriptionSchema<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>subscription</strong>:字段是一个字符串，我们会将前端传的对象<code>JSON.stringify()</code>一下。<br>
+<strong>userid</strong>：这个字段是标识那个用户，采用<code>unique:true</code>表明唯一性，这里不用 ref 外键是为了可空，为了后续可能会给没登录过的用户也推送一些消息，当然我们项目只会在发送聊天消息时推送，就要求用户必须是登录过的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在后端项目的 routes 文件夹下的users.js文件的路由里面新增一个方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">/*
+* 添加订阅信息
+*/</span>
+router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/addsubscription'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> userid <span class="token operator">=</span> req<span class="token punctuation">.</span>user <span class="token operator">?</span> req<span class="token punctuation">.</span>user<span class="token punctuation">.</span>_id <span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token keyword">await</span> Subscription<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      subscription<span class="token punctuation">:</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>subscription<span class="token punctuation">,</span>
+      userid<span class="token punctuation">:</span>userid
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span>result
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token keyword">catch</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// console.log(e)</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span> e<span class="token punctuation">.</span>errmsg<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'dup key'</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token string">'has scription'</span> <span class="token punctuation">:</span> e<span class="token punctuation">.</span>errmsg <span class="token comment">// 说明用户已经订阅过</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码通过<code>Subscription.create()</code>就完成了对一个<code>subscription</code>的存储。当存储时发现 userid 已经有过，就会抛出一个错误，就说明这个用户已经订阅过了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，在后端项目的 utils 文件夹下新建<code>push.js</code>工具方法，来实现后台推送逻辑：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先安装<a href="https://www.npmjs.com/package/web-push">web-push</a>，是一个基于Node.js的web-push封装，当然还有基于<a href="https://github.com/web-push-libs/web-push-java">Java</a>或者<a href="https://github.com/web-push-libs/web-push-php">Php</a>的：</p>
+</div><div class="cl-preview-section"><pre class="  language-bash"><code class="prism  language-bash"><span class="token function">npm</span> <span class="token function">install</span> web-push --save
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在<code>push.js</code>新增代码，首先需要生成<code>vapidKeys</code>，这个就是我们在前端用的那个key，要和这里保持一致，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> vapidKeys <span class="token operator">=</span> webpush<span class="token punctuation">.</span><span class="token function">generateVAPIDKeys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只需要生成一次，然后设置一下，得到之后后面一只用这个就可以，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> vapidKeys <span class="token operator">=</span> <span class="token punctuation">{</span> publicKey<span class="token punctuation">:</span>
+   <span class="token string">'BAWz0cMW0hw4yYH-DwPrwyIVU0ee3f4oMrt6YLGPaDn3k5MNZ1tqjpYwUkD7nLz3AJwtgo-kZhB_1pbcmzyTVAxA'</span><span class="token punctuation">,</span>
+  privateKey<span class="token punctuation">:</span> <span class="token string">'BJ_V2wtPYaVCl7Ef2GAkVxXB2ft9cTgw-b5lM2ggc8lo'</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  webpush<span class="token punctuation">.</span><span class="token function">setVapidDetails</span><span class="token punctuation">(</span>
+  <span class="token string">'mailto:example@yourdomain.org'</span><span class="token punctuation">,</span><span class="token comment">//不需要邮箱通知的话这里可以随意填</span>
+  vapidKeys<span class="token punctuation">.</span>publicKey<span class="token punctuation">,</span>
+  vapidKeys<span class="token punctuation">.</span>privateKey
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">完成这些设置之后，就可以和 Push Service 通信，来实现推送了，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token keyword">function</span><span class="token punctuation">(</span>userid<span class="token punctuation">,</span>data<span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+  <span class="token comment">//国内使用的话，需要设置代理才行</span>
+  <span class="token keyword">var</span> option <span class="token operator">=</span> <span class="token punctuation">{</span>
+    proxy<span class="token punctuation">:</span> <span class="token string">'http://113.10.152.92:3128'</span>   <span class="token comment">//http://www.freeproxylists.net/zh/hk.html</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">//从数据库中找到subscription</span>
+  <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token keyword">await</span> Subscription<span class="token punctuation">.</span><span class="token function">findOne</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    userid<span class="token punctuation">:</span> userid
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'检查是否有可推送的subscription'</span><span class="token punctuation">)</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>obj <span class="token operator">&amp;&amp;</span> obj<span class="token punctuation">.</span>subscription<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'找到subscription 可以推送'</span><span class="token punctuation">)</span>
+    <span class="token comment">// 调用webpush的sendNotification来发起推送通知</span>
+    webpush<span class="token punctuation">.</span><span class="token function">sendNotification</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>obj<span class="token punctuation">.</span>subscription<span class="token punctuation">)</span><span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">,</span>option<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里解释一下，由于我们使用的推送服务器是基于谷歌的FCM，这个服务在国内是无法使用的（或者说有时可用有时不可用），所以我们需要设置一个代理，当然网上有很多免费的国外代理，可以在<a href="http://www.freeproxylists.net/zh/hk.html">http://www.freeproxylists.net/zh/hk.html</a>找找，如果想要稳定一点的可以掏钱买一个 VPN 服务。</p>
+</div><div class="cl-preview-section"><h3 id="web-notification">Web Notification</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面说了那么多，好像全是Push相关的，那么对于我们的 APP 来说，如和在收到 Push 之后提示呢，这就涉及到<a href="https://developer.mozilla.org/en-US/docs/Web/API/notification">Notification</a>相关的API了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，在 Service Worker 里注册<code>push</code>事件来接收<code>push</code>请求。<br>
+在前端项目的 public 目录下新建一个<code>sw-push.js</code>:</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">// 添加service worker对push的监听</span>
+self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'push'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> data <span class="token operator">=</span> e<span class="token punctuation">.</span>data
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    data <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      e<span class="token punctuation">.</span><span class="token function">waitUntil</span><span class="token punctuation">(</span>
+        self<span class="token punctuation">.</span>registration<span class="token punctuation">.</span><span class="token function">showNotification</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>title<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+          body<span class="token punctuation">:</span> data<span class="token punctuation">.</span>body <span class="token operator">||</span> <span class="token string">''</span><span class="token punctuation">,</span>
+          icon<span class="token punctuation">:</span> data<span class="token punctuation">.</span>img <span class="token operator">||</span> <span class="token string">"https://app.nihaoshijie.com.cn/img/icons/apple-touch-icon-180x180-1-touming.png"</span><span class="token punctuation">,</span>
+          actions<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+              action<span class="token punctuation">:</span> <span class="token string">'go-in'</span><span class="token punctuation">,</span>
+              title<span class="token punctuation">:</span> <span class="token string">'进入程序'</span>
+          <span class="token punctuation">}</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'push没有任何数据'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当浏览器收到推送通知时，就会进入这个事件里，我们通过<code>self.registration.showNotification()</code></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">title：消息的标题，属于必传的值。</li>
+<li style="font-size: 20px; line-height: 38px;">body：消息的实体，可以不传。</li>
+<li style="font-size: 20px; line-height: 38px;">icon：配置消息的图片，会出现在消息里面。</li>
+<li style="font-size: 20px; line-height: 38px;">actions：配置消息的操作项，在结合<code>notificationclick</code>事件可以实现消息的点击交互。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就可以弹出一个通知框，前提是你在之前的通知允许中点击了确定：<br>
+<img class="" src="https://img.mukewang.com/5cfe8aae000169da06900138.png" data-original="//img.mukewang.com/5cfe8aae000169da06900138.png" alt="图片描述"><br>
+在手机端是这个样子：<br>
+<img class="" src="https://img.mukewang.com/5cfe87420001169804320768.png" data-original="//img.mukewang.com/5cfe87420001169804320768.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果想要在手机端或者是PC端收到提示，前端必须满足下面条件：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">PC端的chrome要可以翻墙，也就是能够使用谷歌相关的服务。</li>
+<li style="font-size: 20px; line-height: 38px;">手机端的chrome要内置了chrome服务(GMS)，据笔者实验国内的华为，vivo，小米系列基本是没有内置chrome服务的，而<a href="https://www.baidu.com/link?url=nZuqraAz78j_tPKufmQifMOaS7DGYRM_9iQdh6L_l2kWnEwum0kdJcJiRuTidFSw3Dn5rv4ws-FD6Ny9Uv6Pxa&amp;wd=&amp;eqid=8b2ed65c0001716b000000025cfe8839">Nexus</a>系列的手机则可以正常使用。能够连接Google Play则代表可以。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你要问我为什么这么多条件？原因是web-push是基于谷歌的<a href="https://firebase.google.cn/docs/cloud-messaging/concept-options?hl=zh-cn">FCM</a>(云消息机制)实现的推送，而<a href="https://firebase.google.cn/docs/cloud-messaging/concept-options?hl=zh-cn">FCM</a>包含在GMS里面。知道谷歌禁止国外的华为手机使用谷歌服务有多大影响了吧，连消息都收不到啊。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Notification 添加点击事件实现完整消息流程，在<code>sw-push.js</code>增加如下代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">self<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'notificationclick'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> action <span class="token operator">=</span> e<span class="token punctuation">.</span>action<span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span><span class="token function">waitUntil</span><span class="token punctuation">(</span>
+        <span class="token comment">// 获取所有clients</span>
+        self<span class="token punctuation">.</span>clients<span class="token punctuation">.</span><span class="token function">matchAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>clientList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>clientList<span class="token punctuation">.</span>length <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> clientList<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">focus</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+
+          <span class="token keyword">if</span> <span class="token punctuation">(</span>action <span class="token operator">===</span> <span class="token string">'go-in'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> self<span class="token punctuation">.</span>clients<span class="token punctuation">.</span><span class="token function">openWindow</span><span class="token punctuation">(</span><span class="token string">'https://app.nihaoshijie.com.cn/index.html#/mypage'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span>
+            
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    e<span class="token punctuation">.</span>notification<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在<code>self.registration.showNotification()</code>中，我们传了一个action，这里就对应了消息弹出时，有选项可以选择：<br>
+在PC端：<br>
+<img class="" src="https://img.mukewang.com/5cfe8af40001542e07440312.png" data-original="//img.mukewang.com/5cfe8af40001542e07440312.png" alt="图片描述"><br>
+在手机端：<br>
+<img class="" src="https://img.mukewang.com/5cfe8bbd0001011e06001086.png" data-original="//img.mukewang.com/5cfe8bbd0001011e06001086.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据上节我们讲的离线APP，收到消息通知的条件不限于你必须打开着APP，经过验证，即使APP已经关闭，同样可以收到推送消息，调用<code>self.clients.openWindow()</code>可以将APP呼起来，可以看下图的流程：<img class="" src="https://img.mukewang.com/5cfe8c980001af4800040001.gif" data-original="//img.mukewang.com/5cfe8c980001af4800040001.gif" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，我们的<code>sw-push.js</code>需要配置在 offline-plugin 插件里面进行合并，最终对于Service Worker 只有一个<code>sw.js</code>，在<code>vue.config.js</code>里修改代码，如下：</p>
+</div><div class="cl-preview-section"><pre><code>...
+  ServiceWorker: {
+    events: true,
+    // push事件逻辑写在另外一个文件里面
+    entry: './public/sw-push.js'
+  },
+...
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="小节">小节</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节主要讲解了使用Web Push来实现消息推送，并解释了其中的原理和具体的实现方法。<br>
+相关技术点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Web Push的概念和基本流程。</li>
+<li style="font-size: 20px; line-height: 38px;">在Node.js里使用Web Push，并推送给前端。</li>
+<li style="font-size: 20px; line-height: 38px;">Web Notification的API及相关的配置来提示消息。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/registerServiceWorker.js">Github-registerServiceWorker.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/public/sw-push.js">Github-sw-push.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/utils/push.js">Github-push.js</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/676">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            31 使用 PWA 改造真正的 webApp
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/678">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            33 验证码和接口限频
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

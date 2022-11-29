@@ -1,0 +1,469 @@
+<html><head><meta charset="utf-8"><title>18 Micrometer 实现微服务监控-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 6-3 18 Micrometer 实现微服务监控
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                18 Micrometer 实现微服务监控
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-28 11:48:57
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5d03606f0001f3ee06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">横眉冷对千夫指，俯首甘为孺子牛。<p class="author">——鲁迅</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不同于单体架构的应用，微服务架构由于服务数量众多，出故障的概率更大，这个在前两篇文章中已经和读者分享过了。这种时候不能单纯依靠“人肉”运维，否则当服务数量越来越多时成本将变得不可控。一个好的解决方案是我们需要对服务进行监控，监控服务运行的数据。当有异常情况出现时，服务能够自动报警，方便运维工程师去处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Spring Cloud 中对于服务监控这一个话题也是在不断地变化中。早期的版本（ Greenwich 版之前）服务监控主要使用 Hystrix Dashboard 仪表盘，集群数据监控使用 Turbine，这一技术组合在最新的 Greenwich 版中被建议使用 Micrometer 来替换掉。相对于前者， Micrometer 的使用确实要方便很多，而且容易结合配套工具 Prometheus 以及 Grafana 一起使用，具备自动报警功能，数据展示也更加多样化，方便运维工程师去查看，因此本专栏将不再向读者介绍古老的服务监控的用法，主要向读者介绍 Micrometer 的用法。考虑到很多读者也是第一次使用 Micrometer ，因此本文将分为两部分，首先向读者介绍在 Spring Boot 中 Micrometer 要如何使用，然后再向读者介绍微服务中 Micrometer 的用法。</p>
+</div><div class="cl-preview-section"><h2 id="micrometer-简介" style="font-size: 30px;">Micrometer 简介</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Micrometer 为数据测量仪表提供了一个简单的外观，它几乎适用于大部分目前最流行的监控系统，允许开发者检测基于 JVM 的应用程序代码， Micrometer 有点类似于 SLF4J ，只不过是针对测量数据的。Micrometer 主要有如下三方面的功能：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Micrometer 提供了度量指标类，例如 timers、gauges 以及 counters等；</li>
+<li style="font-size: 20px; line-height: 38px;">一揽子开箱即用的解决方案，例如缓存、类加载器、垃圾收集、处理器利用率以及线程池等；</li>
+<li style="font-size: 20px; line-height: 38px;">从 Spring Boot 2.0 开始， 在 Spring Boot Actuator 中使用了 Micrometer 。在早期的 Spring Boot 版本中，也支持通过附加依赖的方式来使用 Micrometer。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Micrometer 支持流行的监控系统，作为一个门面，Micrometer 允许开发者检测代码，并决定是否监控系统。Micrometer 支持 AppOptics、Azure Monitor、Netflix Atlas、CloudWatch、 Datadog、Dynatrace、Elastic、Ganglia、 Graphite、Humio、Influx/Telegraf、 JMX、KairosDB、New Relic、Prometheus、SignalFx、Google Stackdriver、StatsD 以及 Wavefront。</p>
+</div><div class="cl-preview-section"><h2 id="micrometer-基本用法" style="font-size: 30px;">Micrometer 基本用法</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先来看看 Micrometer 在 Spring Boot 项目中的用法：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建一个 Spring Boot 项目，加入 Web 和 Actuator 依赖，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dea000016dea08070570.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dea000016dea08070570.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">项目创建成功后，从依赖关系中我们可以看到，新版的 Actuator 中就是使用了 Micrometer 来实现数据监控，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dead0001eac705810208.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dead0001eac705810208.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">默认情况下，出于安全层面的考虑，只有 health 和 info 端点暴露了。其他端点虽然开启了但是未暴露，通过在 application.yaml 中添加如下配置，我们可以暴露所有的端点：</p>
+</div><div class="cl-preview-section"><pre class="  language-yml"><code class="prism  language-yml"><span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> <span class="token string">"*"</span>
+  <span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+    <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里的 <code>*</code> 表示启用所有端点，由于 <code>*</code> 在 yaml 中有特殊含义，因此大家一定要注意给 <code>*</code> 加上双引号。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，启动 Spring Boot 项目，即可看到各个数据端口均已打开，例如访问 <code>health</code> 端点（默认前缀为 <code>/actuator</code>），效果如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00deb40001523104130076.png" alt="图片描述" data-original="http://img.mukewang.com/5d00deb40001523104130076.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各数据端口及含义如下表：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th align="left">端点</th>
+<th align="left">端点描述</th>
+<th align="left">是否开启</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">auditevents</td>
+<td align="left">展示当前应用程序的审计事件信息</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">beans</td>
+<td align="left">展示所有SpringBeans信息</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">conditions</td>
+<td align="left">展示一个自动配置类的使用报告，该报告展示所有自动配置类及它们被使用或未被使用的原因</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">configprops</td>
+<td align="left">展示所有@ConfigurationProperties的列表</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">env</td>
+<td align="left">展示系统运行环境信息</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">flyway</td>
+<td align="left">展示数据库迁移路径</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">health</td>
+<td align="left">展示应用程序的健康信息</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">httptrace</td>
+<td align="left">展示trace信息（默认为最新的100条HTTP请求）</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">info</td>
+<td align="left">展示应用的定制信息，这些定制信息以info开头</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">loggers</td>
+<td align="left">展示并修改应用的日志配置</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">liquibase</td>
+<td align="left">展示任何Liquibase数据库迁移路径</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">metrics</td>
+<td align="left">展示应用程序度量信息</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">mappings</td>
+<td align="left">展示所有@RequestMapping路径的集合列表</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">scheduledtasks</td>
+<td align="left">展示应用的所有定时任务</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">shutdown</td>
+<td align="left">远程关闭应用接口</td>
+<td align="left">No</td>
+</tr>
+<tr>
+<td align="left">sessions</td>
+<td align="left">展示并操作SpringSession会话</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">threaddump</td>
+<td align="left">展示线程活动的快照</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">heapdump</td>
+<td align="left">返回一个GZip压缩的hprof堆转储文件</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">jolokia</td>
+<td align="left">展示通过HTTP暴露的JMXbeans</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">logfile</td>
+<td align="left">返回日志文件内容</td>
+<td align="left">Yes</td>
+</tr>
+<tr>
+<td align="left">prometheus</td>
+<td align="left">展示一个可以被Prometheus服务器抓取的metrics数据</td>
+<td align="left">Yes</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是这样的数据查看不够直观，不易分析出问题，结合 Prometheus 可以更好的将数据展示出来，那么什么是 Prometheus 呢？</p>
+</div><div class="cl-preview-section"><h3 id="prometheus">Prometheus</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Prometheus 是一个最初在 SoundCloud 上构建的开源系统监视和警报工具包 。自2012年成立以来，许多公司和组织都采用了 Prometheus ，该项目拥有一个非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，可以独立于任何公司进行维护。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>特征</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Prometheus 主要有如下特点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">具有由度量名称和 key/value 标识的时间序列数据的多维数据模型</li>
+<li style="font-size: 20px; line-height: 38px;">PromQL，一种灵活的查询语言</li>
+<li style="font-size: 20px; line-height: 38px;">不依赖分布式存储，单个服务器节点是自治的</li>
+<li style="font-size: 20px; line-height: 38px;">使用 HTTP 协议，自动拉取数据</li>
+<li style="font-size: 20px; line-height: 38px;">通过服务发现或静态配置发现目标</li>
+<li style="font-size: 20px; line-height: 38px;">多种图形和仪表盘支持，数据展示友好</li>
+<li style="font-size: 20px; line-height: 38px;">可以非常方便地实现扩展</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>架构</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过下面一张图大家可以看到 Prometheus 的一个大致工作原理：<br>
+<img src="http://img.mukewang.com/5d00dec600012ada13510811.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dec600012ada13510811.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">由这张图中，我们可以大致分析出 Prometheus 的工作过程：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">首先 Prometheus Server 定期从 targets 或者服务注册中心拉取数据；</li>
+<li style="font-size: 20px; line-height: 38px;">exporters 负责向 Prometheus Server 做数据汇总。不同的数据汇总由不同的 exporters 实现，例如监控主机有 node-exporters，MySQL 有 MySQL Server exporter；</li>
+<li style="font-size: 20px; line-height: 38px;">由于 Prometheus 采用数据拉取的模式，实际生产环境可能由于各个服务不在一个子网或者防火墙的原因，导致 Prometheus 无法直接拉取各个 target 数据，此时可以通过 Pushgateway 来推送 metrics 到 Prometheus Server；</li>
+<li style="font-size: 20px; line-height: 38px;">Alertmanager 则可以通过提前配置好的邮件地址，对收到的警告信息发出报警；</li>
+<li style="font-size: 20px; line-height: 38px;">Grafana 则可以通过 PromQL 查询监控数据，进行更丰富的展示。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>具体使用</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说了这么多，那么在我们的 Spring Boot 项目中，到底要如何使用 Prometheus 呢？很简单，整体上来说，可以分为两个步骤：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在Spring Boot 项目中引入相关依赖；</li>
+<li style="font-size: 20px; line-height: 38px;">安装 Prometheus 软件并配置。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面分别来看，首先在 Spring Boot 项目中添加如下依赖：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>io.micrometer<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>micrometer-registry-prometheus<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加成功后，修改配置，开启 Prometheus ，如下:</p>
+</div><div class="cl-preview-section"><pre class="  language-yaml"><code class="prism  language-yaml"><span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+    <span class="token key atrule">export</span><span class="token punctuation">:</span>
+      <span class="token key atrule">prometheus</span><span class="token punctuation">:</span>
+        <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> <span class="token string">"*"</span>
+  <span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+    <span class="token key atrule">prometheus</span><span class="token punctuation">:</span>
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，重启 Spring Boot 项目，此时就可以访问 prometheus 端点了，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00ded200013e2e08760695.png" alt="图片描述" data-original="http://img.mukewang.com/5d00ded200013e2e08760695.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从这里可以看到系统的各项运行数据，数据已经汇总了，但是还没有可视化，因此，接下来我们需要下载 Prometheus 并安装。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/prometheus/prometheus/releases/download/v2.9.1/prometheus-2.9.1.windows-amd64.tar.gz">Prometheus 下载地址</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下载完成后，将下载文件解压，在解压目录中可以看到 prometheus.yml 配置文件，在 prometheus.yml 文件中配置要查看的数据接口，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00deda0001a52205210206.png" alt="图片描述" data-original="http://img.mukewang.com/5d00deda0001a52205210206.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">要配置的地方就三处：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">scrape_interval 表示每隔 5 秒抓取一次数据；</li>
+<li style="font-size: 20px; line-height: 38px;">metrics_path 表示数据路径；</li>
+<li style="font-size: 20px; line-height: 38px;">targets 中配置的则是服务地址。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，Windows 环境下，直接双击 prometheus.exe 启动 Prometheus ，如果是 Linux 环境，则执行 <code>./prometheus --config.file=prometheus.yml</code> 命令启动 Prometheus 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">启动成功后，在浏览器中输入 <code>http://localhost:9090</code> ，看到如下界面，说明服务已经搭建成功了:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dee00001ad5d09170511.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dee00001ad5d09170511.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的选项卡分别是警告、图表展示、状态以及帮助，默认看到的就是图表，在下拉框中选择要查看的参数，点击 Execute 按钮，即可看到相关数据：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dee60001f91d13490903.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dee60001f91d13490903.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="grafana">Grafana</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">仅仅做到上面这一步还不够，前面和大家说过 Prometheus 的工作原理，在 Prometheus 工作流程的最后一步我们提到， Prometheus 中的数据可以通过 Grafana 图表更好地展现出来，这里我们就再结合 Grafana 来看下使用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Grafana 是一个开源的指标量监测和数据可视化工具，常见的使用场景是展示基础设施的时序数据并且对应用程序运行进行分析。 Grafana 的 Dashboard 可以用一个非常炫酷的方式将监控数据展示出来，Grafana 可以展示多种不同的数据源， Prometheus 只是其中一种。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://dl.grafana.com/oss/release/grafana-6.1.4.windows-amd64.zip">Grafana下载地址</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下载成功之后，对下载文件进行解压。解压后，双击 bin 目录下的 grafana-server.exe 文件启动 Grafana ，启动之后，在浏览器中输入 <code>http://localhost:3000</code> 即可看到非常炫酷的登录界面，默认的用户名密码都是 <code>admin</code> ，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00def50001f67f10880624.png" alt="图片描述" data-original="http://img.mukewang.com/5d00def50001f67f10880624.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用默认，密码进行登录，首次登录需要修改密码，修改之后就算登录成功了，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00deff00016ffb13660628.png" alt="图片描述" data-original="http://img.mukewang.com/5d00deff00016ffb13660628.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来点击左边的设置配置数据源：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df0e00010a5212240601.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df0e00010a5212240601.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在配置数据源时，选择 Prometheus ，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df2400018d4310540653.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df2400018d4310540653.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后对 Prometheus 进行配置：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df2c0001cd8805430825.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df2c0001cd8805430825.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，这里只需要配置一下基本信息即可：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">name 表示数据源名字，这个自己随意取一个；</li>
+<li style="font-size: 20px; line-height: 38px;">HTTP 中的 URL 表示数据的地址，配置 Prometheus 的数据地址即可；</li>
+<li style="font-size: 20px; line-height: 38px;">配置完成后，点击最下面的 <code>Save &amp; Test</code> 按钮。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们就可以通过 Dashboard 来查看监控数据了，如下:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先点击左边栏添加 Dashboard ，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df3300013d4204300406.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df3300013d4204300406.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在新的页面中点击 Add Query 按钮，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d03723e00010ba507320457.png" alt="图片描述" data-original="http://img.mukewang.com/5d03723e00010ba507320457.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在新打开的页面中，主要做如下配置：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df480001131913560663.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df480001131913560663.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">刚进来，只需要添加两个配置，一个是选择 Queries to 为我们一开始配置的数据源，然后输入要查询的数据，这个数据要是不清楚怎么写的话，可以参考一开始 Prometheus 中的写法。这两个配置完成后，光标移动到其它地方，相关数据就在图表中显示出来了，如上图。当然开发者也可以点击左边的 Setting 按钮，进行关于 Panel 的更详细的配置，例如要修改 Panel 的名字，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df4f0001ca8d13160369.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df4f0001ca8d13160369.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里可以配置 Panel 的 Title 属性，Panel 的详细描述以及图表背景是否透明等属性。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然开发者也可以点击当前面板右上角的设置图标，来进行详细配置，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df550001acd804010293.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df550001acd804010293.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df5d00018e4607690667.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df5d00018e4607690667.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里配置的参数含义分别如下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Name 表示面板的名称</li>
+<li style="font-size: 20px; line-height: 38px;">Description 表示对面板的描述</li>
+<li style="font-size: 20px; line-height: 38px;">Tags 表示可以给面板设置一个标签</li>
+<li style="font-size: 20px; line-height: 38px;">Folder 表示这个面板归属的文件夹，开发者可以创建多个文件夹，对面板分类管理</li>
+<li style="font-size: 20px; line-height: 38px;">Editable 表示面板是否可编辑的</li>
+<li style="font-size: 20px; line-height: 38px;">Timezone 表示时区</li>
+<li style="font-size: 20px; line-height: 38px;">Auto-refresh 表示面板数据自动刷新时间间隔</li>
+<li style="font-size: 20px; line-height: 38px;">Now delay now- 表示延迟时间</li>
+<li style="font-size: 20px; line-height: 38px;">Hide time picker 表示是否隐藏时间控件</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，就可以点击左边的 Save 按钮，将面板保存下来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">保存完成后，效果如下：<br>
+<img src="http://img.mukewang.com/5d00df660001496b07730461.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df660001496b07730461.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点击 Panel 的 title 属性，可以对面板继续进行编辑，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df700001735407810478.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df700001735407810478.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，这是单个面板的创建，如果要创建多个面板，重复上面的步骤即可，不再赘述。</p>
+</div><div class="cl-preview-section"><h3 id="警报">警报</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">让运维工程师一直盯着 Panel 查看服务是否出错，显然不太现实，我们可以开启服务出错警报功能来解决这一难题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在 Prometheus 中可以定义 AlertRule ，Prometheus 会定时对 AlertRule 进行计算，看看是否满足，如果满足条件就会向 Alertmanager 发送告警信息，因此这里的流程实际上是分为两个步骤，接下来分别向大家介绍。</p>
+</div><div class="cl-preview-section"><h4 id="alertrule" style="font-size: 26px;">AlertRule</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">AlertRule 是我们在 Prometheus 中定义的告警规则，我这里通过一个服务宕机的例子来给大家演示 AlertRule 的配置方式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们需要额外定义一个 yaml 配置文件，用来描述所有的 AlertRule，我这里定义了名为 <code>rules.yml</code> 的文件，内容如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-yml"><code class="prism  language-yml"><span class="token key atrule">groups</span><span class="token punctuation">:</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> server<span class="token punctuation">-</span>dwon
+  <span class="token key atrule">rules</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">alert</span><span class="token punctuation">:</span> InstanceDown
+    <span class="token key atrule">expr</span><span class="token punctuation">:</span> up==0
+    <span class="token key atrule">for</span><span class="token punctuation">:</span> 5s
+    <span class="token key atrule">labels</span><span class="token punctuation">:</span>
+      <span class="token key atrule">severity</span><span class="token punctuation">:</span> page
+    <span class="token key atrule">annotations</span><span class="token punctuation">:</span>
+      <span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Instance {{ $labels.instance }} down"</span>
+      <span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 seconds."</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">各项配置的含义分别如下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">name: 表示配置的名称</li>
+<li style="font-size: 20px; line-height: 38px;">alert：告警规则的名称</li>
+<li style="font-size: 20px; line-height: 38px;">expr：基于 PromQL 表达式告警触发条件，用于计算是否有时间序列满足该条件，关于 PromQL 读者可以参考 <a href="https://yunlzheng.gitbook.io/prometheus-book/parti-prometheus-ji-chu/promql/prometheus-query-language">初识PromQL</a></li>
+<li style="font-size: 20px; line-height: 38px;">for：评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为 pending</li>
+<li style="font-size: 20px; line-height: 38px;">labels：自定义标签，允许用户指定要附加到告警上的一组附加标签</li>
+<li style="font-size: 20px; line-height: 38px;">annotations：用于指定一组附加信息，比如用于描述告警详细信息的文字等，annotations的内容在告警产生时会一同作为参数发送到Alertmanager</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个 rules.yml 文件可以定义在任意位置，但是建议大家放在 Prometheus 的安装目录中，这样方便查找， rules.yml 配置完成后，接下来我们需要在 Prometheus 的配置文件中加载这个配置，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df7900010ba210190425.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df7900010ba210190425.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，就可以启动 Prometheus 了（如果已经启动了，则需要重启），启动之后，点击 Prometheus 标题栏的 Alerts ，就可以看到我们定义的 AlertRule 了，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df830001bb0c07230437.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df830001bb0c07230437.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">能看到这个页面，表示配置成功，0 表示这个告警规则未被触发。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此时，我们尝试关闭 Spring Boot 项目，关闭之后，最多 5 秒，我们刷新 Prometheus 的 Alerts 页面，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df8900018d5a13580551.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df8900018d5a13580551.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">表示规则已经被触发，但是 State 的值是 PENDING，再停留一会我们再次刷新该页面，结果如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df90000179d113610542.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df90000179d113610542.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此时 State 的值变为 FIRING ，前后三个不同的 State 值，说明了 Prometheus 在这里的工作过程，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df970001224102150300.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df970001224102150300.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">inactive：警报未被触发，一切安好。</li>
+<li style="font-size: 20px; line-height: 38px;">Pending：这个警报必须被触发，但是，警报可以被分组、压抑/抑制或者静默/静音。一旦所有的验证都通过了，告警就转到 Firing。</li>
+<li style="font-size: 20px; line-height: 38px;">Firing：警报发送到 Notification Pipeline ，它将联系警报的所有接收者，警报解除后，又回到 inactive 状态。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这是 AlertRule 的配置，配置完成之后，现在还不能实现自动邮件报警，要实现邮件报警，还需要配置 AlertManager，请继续看下文。</p>
+</div><div class="cl-preview-section"><h4 id="alertmanager" style="font-size: 26px;">Alertmanager</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>准备工作</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们得先做一点邮件发送的准备工作，这里我以网易邮箱为例，来给大家演示一下邮件发送的准备工作：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们需要先登录网易邮箱网页版，点击上方的设置按钮：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00df9f0001c75d03960339.png" alt="图片描述" data-original="http://img.mukewang.com/5d00df9f0001c75d03960339.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后勾选开启 POP3/SMTP 服务：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dfa80001e94b06580363.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dfa80001e94b06580363.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开启过程需要手机号码验证，按照步骤操作即可，不赘述。开启成功之后，需要自己设置一个客户端登录授权码，将该号码保存好，一会使用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如此之后，准备工作就算完成了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>Alertmanger</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置 Alertmanager 需要我们首先去下载 Alertmanager，这是一个 GitHub 上的开源项目，我们直接下载二进制安装包即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/prometheus/alertmanager/releases/download/v0.16.2/alertmanager-0.16.2.windows-amd64.tar.gz">Alertmanager下载地址</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下载之后解压即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">解压之后，找到 alertmanager.yml 配置文件，在这个文件中添加邮件发送相关的配置，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dfb40001919205370511.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dfb40001919205370511.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">global 中配置的是发件账户的信息，这里的密码是指准备工作配置的授权码。receivers 配置的收件人的信息，收件人可以配置多个。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，双击 alertmanager.exe 启动 Alertmanager ，启动成功之后，浏览器输入 <code>http://localhost:9093</code> ，结果如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dfe6000195c511510408.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dfe6000195c511510408.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这就表示 Alertmanager 启动成功了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，将 Prometheus 和 Alertmanager 关联起来即可，修改 Prometheus 的配置文件，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dfeb0001548808010341.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dfeb0001548808010341.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，重启 Prometheus。启动成功后，此时我们再次尝试关闭 Spring Boot 项目，关闭后，稍等一会，就会收到一封服务下线告警邮件，如下：<br>
+<img src="http://img.mukewang.com/5d00e0050001166807501105.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d00e0050001166807501105.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>注意，这个邮件可能被判定为垃圾邮件，如果没收到可以去垃圾箱看下有没有。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，至此，我们的邮件告警就算全部配置完成了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">关于自定义告警邮件模板等，大家可以参考<a href="https://yunlzheng.gitbook.io/prometheus-book/parti-prometheus-ji-chu/alert/alert-template">告警模板详解</a>。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文主要和大家分享了 Micrometer 监控微服务，顺便说了 Prometheus、Grafana以及 Alertmanger 的用法，有了这些工具的配合，可以有效地提高运维工程师的工作效率。本章至此，也就先告一个段落。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参考资料：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://yunlzheng.gitbook.io/prometheus-book/">prometheus-book</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="https://www.kancloud.cn/huyipow/prometheus#/catalog">如何以优雅的姿势监控kubernetes</a></li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文作者：纯洁的微笑、江南一点雨</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/447">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    17 Resilience4j 在微服务中的应用
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/449">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    19 服务网关 Zuul 和 Spring Cloud Gateway
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

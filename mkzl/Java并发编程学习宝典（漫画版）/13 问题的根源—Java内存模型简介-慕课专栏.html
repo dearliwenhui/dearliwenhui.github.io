@@ -1,0 +1,171 @@
+<html><head><meta charset="utf-8"><title>13 问题的根源—Java内存模型简介-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        13 问题的根源—Java内存模型简介
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-10-10 10:27:14
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d9197c00001a19706400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">世界上最宽阔的是海洋，比海洋更宽阔的是天空，比天空更宽阔的是人的胸怀。<p class="author">——雨果</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">JAVA内存模型即JMM（Java Memory Model），有些人会和Java内存结构混淆。虽然两者名字很接近，但描述的为不同内容。Java内存结构描述的是JVM对内存的逻辑划分，我们在学习垃圾回收和JVM优化的时候会关心JVM内存结构。而本节所讲的JMM，实际上是一种规范。它描述了Java程序的运行行为，包括多线程操作对共享内存读取时，所能读取到的值应该遵守的规则。</p>
+</div><div class="cl-preview-section"><h2 id="jmm的必要性" style="font-size: 30px;">1. JMM的必要性</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">随着CPU的不断发展，CPU的性能越来越强大，但受迫于频率提升的困难，现代CPU架构开始向多核发展。而作为软件开发人员为了充分使用CPU的性能，越来越多的开发者会选择多线程程序开发。CPU在计算时会做一些优化，这些优化对于单线程程序来说是没有问题的，但对多线程程序则不是那么的友好。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">计算机在运行时，绝大多数时间都会把对象信息保存在内存中。但是在此期间，编译器、处理器或者缓存都可能会把变量从分配的内存中取出处理再放回。比如我们在while循环中判断flag是否为true来执行一段特定的逻辑，那么编译器为了优化可能会选择把flag值取到缓存中。此时主存中的flag值可能会被其它线程所改变，但是此线程是无法感知的。直到某个特定的时机触发此线程从主存中刷新flag值。所有这些优化都是为了程序有更好的性能。在单线程的程序中，这种优化对于用户来讲是毫无感知的，不过多线程的程序中，这种优化有些时候会造成难以预料的结果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">JMM允许编译器和缓存保持对数据操作顺序优化的自由度。除非程序使用Synchronized或者volatile显式的告诉处理器需要确保可见性。这意味着如果你没有进行同步，那么多线程程序对于数据的操作，将会呈现不同的顺序。也就是前面一节讲的有序性，我们基于代码顺序对数据赋值顺序的推论，在多线程程序中可能会不成立。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在JMM之前，C和C++并没有显式的内存模型。C语言的内存模型继承自执行程序的处理器。这意味着并发的C语言程序，在不同的处理器机构上可能会呈现不一样的结果。但JMM使得Java程序能够在任何JVM上表现出一样的行为。当然，现在C和C++也有了内存模型。<br>
+<img class="" src="https://img.mukewang.com/5d9167b0000103c707700460.jpg" data-original="//img.mukewang.com/5d9167b0000103c707700460.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="jmm简介" style="font-size: 30px;">2. JMM简介</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">JMM为程序中的所有操作定义了一定的规则，叫做Happens-Before。无论两个操作是否在同一个线程，如果要想保证操作A能看到操作B的结果，那么A、B之间一定要满足Happens-Before关系。如果两者间不满足Hapen-Before关系，JVM可以对其任意重排序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当多个线程同时读写同一个变量，但这些操作间又没有满足Happens-Before关系，那么这些线程对此变量存在数据竞争，整个程序将会陷入混乱之中。假如我们在操作共享变量时采用了同步，那么无论有多少线程，对此变量的操作都会呈现出串行一致性。从而使得多线程的操作顺序遵守JMM约定。</p>
+</div><div class="cl-preview-section"><h2 id="happens-before规则" style="font-size: 30px;">3. Happens-Before规则</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Happens-Before在多线程领域具有重大意义，它可以指导你如何开发多线程的程序，而不至于陷入混乱之中。你所开发的多线程程序，如果想对共享变量的操作符合你设想的顺序，那么需要依照Happens-Before原则来开发。happens-before并不是指操作A先于操作B发生，而是指操作A的结果在什么情况下可以被后面操作B所获取。下面我们就来看一下Happens-before原则。</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">程序顺序规则。如果程序中A操作在B操作之前，那么线程中A操作将在B操作前执行。</li>
+<li style="font-size: 20px; line-height: 38px;">上锁原则。不同线程对同一个锁的lock操作一定在unclock前。</li>
+<li style="font-size: 20px; line-height: 38px;">volatile变量原则。对于volatile变量的写操作会早于对其的读操作。</li>
+<li style="font-size: 20px; line-height: 38px;">线程启动原则。A线程中调用threadB.start()方法，那么threadB.start()方法会早于B线程中中的任何动作执行。</li>
+<li style="font-size: 20px; line-height: 38px;">传递规则。如果A早于B执行，B早于C执行，那么A一定早于C执行。</li>
+<li style="font-size: 20px; line-height: 38px;">线程中断规则：线程interrupt()方法的一定早于检测到线程的中断信号。</li>
+<li style="font-size: 20px; line-height: 38px;">线程终结规则：如果线程A终结了，并且导致另外一个线程B中的ThreadA.join()方法取得返回，那么线程A中所有的操作都早于线程B在ThreadA.join()之后的动作发生。</li>
+<li style="font-size: 20px; line-height: 38px;">对象终结规则：一个对象初始化操作肯定先于它的finalize()方法。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们只有充分理解了happens-before原则，才能在编写多线程程序的时候，尽量避免数据的不一致性，让多线程程序在必要的时候按照我们设计的次序执行。</p>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">4. 总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">JMM是程序执行顺序的指导原则，通过JMM的约束，我们能够设计出符合我们要求的多线程程序。其实不止多线程，单线程程序一样受到JMM的约束。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/947">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            12 什么？还有这种操作！—有序性
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/949">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            14 僵持不下—死锁详解
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.mukewang.com/5d762b3c000119e505400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1910221525494047</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：906691736</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=55RtSbJ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

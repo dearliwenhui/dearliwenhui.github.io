@@ -1,0 +1,292 @@
+<html><head><meta charset="utf-8"><title>13 联合索引有哪些讲究?-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        13 联合索引有哪些讲究?
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-27 10:12:35
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d62a71600017cbb06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">没有引发任何行动的思想都不是思想，而是梦想。 <p class="author">—— 马丁</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">很多时候，单个字段的普通索引已经不能满足我们的需求了，可能需要多个字段的联合索引才能达到最优效果。那么联合索引究竟有哪些作用，又应该怎么去使用呢？本节就一起来探讨这些问题。</p>
+</div><div class="cl-preview-section"><h2 id="认识联合索引" style="font-size: 30px;">1 认识联合索引</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">联合索引：是指对表上的多个列进行索引。适合 where 条件中的多列组合，在某些场景可以避免回表。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们拿讲解 order by 时使用的联合索引 B+ 树图进行理解，如下图：<br>
+<img class="" src="https://img.mukewang.com/5d425f2b0001701f10940513.png" data-original="//img.mukewang.com/5d425f2b0001701f10940513.png" alt="图片描述">联合索引的键值数量大于 1（比如上图中有 a 和 b 两个键值），与单个键值的 B+ 树一样，也是按照键值排序的。比如图中 a、b 两个字段的值为 (1,1),(1,2),(1,3),(2,1),(2,2),(2,3)，是按(a,b) 进行排序的。因此，<strong>对于 a、b 两个字段都做为条件时，查询是可以走索引的；对于单独 a 字段查询也是可以走索引的。但是对于 b 字段单独查询就走不了索引了</strong>，因为在上图，b 字段对应的值为 1,2,3,1,2,3，显然不是有序的，所以走不了 b 字段的索引。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">联合索引的建议：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">where 条件中，经常同时出现的列放在联合索引中。</li>
+<li style="font-size: 20px; line-height: 38px;">把选择性最大的列放在联合索引的最左边。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">老规矩，创建测试表并写入数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">use</span> muke<span class="token punctuation">;</span> <span class="token comment">/* 使用muke这个database */</span>
+<span class="token keyword">drop</span> <span class="token keyword">table</span> <span class="token keyword">if</span> <span class="token keyword">exists</span> t11<span class="token punctuation">;</span> <span class="token comment">/* 如果表t11存在则删除表t11 */</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> <span class="token punctuation">`</span>t11<span class="token punctuation">`</span> <span class="token punctuation">(</span> <span class="token comment">/* 创建表t11 */</span>
+<span class="token punctuation">`</span>id<span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">b</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">c</span><span class="token punctuation">`</span> <span class="token keyword">int</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+<span class="token punctuation">`</span><span class="token number">d</span><span class="token punctuation">`</span> <span class="token keyword">datetime</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span><span class="token punctuation">,</span>
+<span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span><span class="token punctuation">`</span>id<span class="token punctuation">`</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token keyword">KEY</span> <span class="token punctuation">`</span>idx_a_b_c<span class="token punctuation">`</span> <span class="token punctuation">(</span><span class="token punctuation">`</span><span class="token number">a</span><span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token punctuation">`</span><span class="token number">b</span><span class="token punctuation">`</span><span class="token punctuation">,</span><span class="token punctuation">`</span><span class="token number">c</span><span class="token punctuation">`</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span><span class="token operator">=</span><span class="token keyword">InnoDB</span> <span class="token keyword">CHARSET</span><span class="token operator">=</span>utf8mb4 <span class="token punctuation">;</span>
+
+<span class="token keyword">insert</span> <span class="token keyword">into</span> t11<span class="token punctuation">(</span><span class="token number">a</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">)</span> <span class="token keyword">values</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* 写入一些数据 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">全表的数据如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11<span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d425f6900010e5408320427.png" data-original="//img.mukewang.com/5d425f6900010e5408320427.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="联合索引使用分析" style="font-size: 30px;">2 联合索引使用分析</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上面我们知道了联合索引的原理，下面我们一起整理下联合索引的使用场景，理清这些，相信我们会更准确、高效的使用联合索引。</p>
+</div><div class="cl-preview-section"><h3 id="可以完整用到联合索引的情况">2 .1 可以完整用到联合索引的情况</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们列出几种可以完整用到联合索引的情况，并查看其执行计划，然后进行简短的分析：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql1 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d425f9c00013a4913570155.png" data-original="//img.mukewang.com/5d425f9c00013a4913570155.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">这里补充一下 key_len  相关知识点：</p>
+<p style="font-size: 20px; line-height: 38px;">explain 中的 key_len  列用于表示这次查询中，所选择的索引长度有多少字节，常用于判断联合索引有多少列被选择了。下表总结了常用字段类型的 key_len：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>列类型</th>
+<th>KEY_LEN</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>key_len = 4+1</td>
+<td>int 为 4 bytes，允许为 NULL，加 1 byte</td>
+</tr>
+<tr>
+<td>int not null</td>
+<td>key_len = 4</td>
+<td>不允许为 NULL</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td>key_len=8+1</td>
+<td>bigint 为 8 bytes，允许为 NULL 加 1 byte</td>
+</tr>
+<tr>
+<td>bigint not null</td>
+<td>key_len=8</td>
+<td>bigint 为 8 bytes</td>
+</tr>
+<tr>
+<td>char(30) utf8</td>
+<td>key_len=30*3+1</td>
+<td>char(n)为：n * 3 ，允许为 NULL 加 1 byte</td>
+</tr>
+<tr>
+<td>char(30) not null utf8</td>
+<td>key_len=30*3</td>
+<td>不允许为 NULL</td>
+</tr>
+<tr>
+<td>varchar(30) not null utf8</td>
+<td>key_len=30*3+2</td>
+<td>utf8 每个字符为 3 bytes，变长数据类型,加 2 bytes</td>
+</tr>
+<tr>
+<td>varchar(30) utf8</td>
+<td>key_len=30*3+2+1</td>
+<td>utf8 每个字符为 3 bytes，允许为 NULL,加 1 byte,变长数据类型，加 2 bytes</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>key_len=8+1 (MySQL 5.6.4之前的版本)；key_len=5+1(MySQL 5.6.4及之后的版本)</td>
+<td>允许为 NULL，加 1 byte</td>
+</tr>
+</tbody>
+</table>
+</div><center>表一 常用字段类型的 key_len</center>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为 a、b、c 三个字段都是可以为 NULL 的 int 型。根据表1，可以知道三个字段的 key_len 都是 5，所以如果完整使用索引 idx_a_b_c，则 key_len 对应的值为 15。再回到上面 sql1 的执行计划中：key_len 显示是 15，而 key 列对应的是 idx_a_b_c，所以 sql1 完整用到了联合索引 idx_a_b_c。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">/* sql2 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d42600200012fd513560159.png" data-original="//img.mukewang.com/5d42600200012fd513560159.png" alt="图片描述">跟 sql1 的执行计划一样，因此联合索引各字段都做为条件时，各字段的位置不会影响联合索引的使用。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">2</span> <span class="token operator">and</span> <span class="token number">b</span> <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">and</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>  <span class="token comment">/* sql3 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4260280001801a13850168.png" data-original="//img.mukewang.com/5d4260280001801a13850168.png" alt="图片描述">当联合索引前面的字段使用了范围查询，后面的字段做为条件时仍然可以使用完整的联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">2</span> <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token number">c</span><span class="token punctuation">;</span>  <span class="token comment">/* sql4 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4260450001a9d214430155.png" data-original="//img.mukewang.com/5d4260450001a9d214430155.png" alt="图片描述">联合索引前面的字段做为条件时，对后面的字段做排序可以使用完整的联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token number">b</span><span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  <span class="token comment">/* sql5 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4260600001c2ad14290154.png" data-original="//img.mukewang.com/5d4260600001c2ad14290154.png" alt="图片描述">与 sql4 相似，对联合索引第一个字段做条件筛选时，对后面两个字段做排序可以使用完整的联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token number">a</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">,</span><span class="token number">c</span> <span class="token keyword">from</span> t11 <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token number">a</span><span class="token punctuation">,</span><span class="token number">b</span><span class="token punctuation">,</span><span class="token number">c</span><span class="token punctuation">;</span>  <span class="token comment">/* sql6 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d426084000146b014000169.png" data-original="//img.mukewang.com/5d426084000146b014000169.png" alt="图片描述">对联合索引的字段同时做排序时（但是排序的三个字段顺序要跟联合索引中三个字段的顺序一致），可以完整用到联合索引。</p>
+</div><div class="cl-preview-section"><h3 id="只能使用部分联合索引的情况">2.2 只能使用部分联合索引的情况</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有些场景只能用到部分联合索引，这里就列出几种情况。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql11 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d42609c00011f8615940164.png" data-original="//img.mukewang.com/5d42609c00011f8615940164.png" alt="图片描述">当条件只包含联合索引的前面部分字段时，可以用到部分联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql12 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4260c00001b66b15810156.png" data-original="//img.mukewang.com/5d4260c00001b66b15810156.png" alt="图片描述">对于联合索引 idx_a_b_c（a,b,c） ，如果条件中只包含 a 和 c，则只能用到联合索引中 a 的索引。c 这里是用不了索引的。<strong>联合索引 idx_a_b_c(a,b,c) 相当于 (a) 、(a,b) 、(a,b,c)  三种索引，称为联合索引的最左原则。</strong></p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">2</span>  <span class="token operator">and</span> <span class="token number">b</span> <span class="token operator">in</span> <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token number">c</span><span class="token punctuation">;</span> <span class="token comment">/* sql13 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4260e80001b22e15500162.png" data-original="//img.mukewang.com/5d4260e80001b22e15500162.png" alt="图片描述">这里可以复习第 4 节 2.4，<strong>当联合索引前面的字段使用了范围查询，对后面的字段排序使用不了索引排序</strong>，也就是只能用到联合索引前面两个字段 a 和 b 的索引。</p>
+</div><div class="cl-preview-section"><h3 id="可以用到覆盖索引的情况">2.3 可以用到覆盖索引的情况</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">什么是覆盖索引？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从辅助索引中就可以查询到结果，不需要回表查询聚集索引中的记录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用覆盖索引的优势：因为不需要扫描聚集索引，因此可以减少 SQL 执行过程的 IO 次数。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token number">b</span><span class="token punctuation">,</span><span class="token number">c</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span> <span class="token comment">/* sql21 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4261240001976a14130161.png" data-original="//img.mukewang.com/5d4261240001976a14130161.png" alt="图片描述">通过 a 字段上的条件，去联合索引 idx_a_b_c 的索引树上可以直接查找到 b 字段和 c 字段的值，不需要回表，因此 sql21 使用到了覆盖索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token number">c</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">;</span> <span class="token comment">/* sql22 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d42613f0001a6c814010162.png" data-original="//img.mukewang.com/5d42613f0001a6c814010162.png" alt="图片描述">跟 sql21 类似，在联合索引 idx_a_b_c 的索引树上，通过 a 和 b 的值可以直接找到 c 的值，因此 sql22 使用的也是覆盖索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> id <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">a</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql23 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d42615700015ab814090167.png" data-original="//img.mukewang.com/5d42615700015ab814090167.png" alt="图片描述">通过 a、b、c 三个字段的值，去联合索引树的叶子节点找到主键 id，不需要回表，因此 sql23 也使用了覆盖索引。</p>
+</div><div class="cl-preview-section"><h3 id="不能使用联合索引的情况">2.4 不能使用联合索引的情况</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面讲到的都是能用到联合索引的情况，下面再讲不能使用联合索引的情况。也请各位留意，避免使用不当导致无法利用联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql31 */</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d42617f0001c58c12470152.png" data-original="//img.mukewang.com/5d42617f0001c58c12470152.png" alt="图片描述">如果只使用联合索引后面的字段做为条件查询，则使用不了联合索引（联合索引最左匹配）。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">order</span> <span class="token keyword">by</span> <span class="token number">b</span><span class="token punctuation">;</span> <span class="token comment">/* sql32 */</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4261950001cdf712440163.png" data-original="//img.mukewang.com/5d4261950001cdf712440163.png" alt="图片描述">与 sql31 相似，对联合索引后面的字段做排序操作，也使用不了联合索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql33 */</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4261ae00016a7012580163.png" data-original="//img.mukewang.com/5d4261ae00016a7012580163.png" alt="图片描述">与 sql31 类似。c 字段单独做条件使用不了索引。</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">b</span><span class="token operator">=</span><span class="token number">1</span> <span class="token operator">and</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">/* sql34 */</span> 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4261c6000187a012620158.png" data-original="//img.mukewang.com/5d4261c6000187a012620158.png" alt="图片描述">联合索引中，如果第一个字段在条件中没有出现，那么联合索引的后面所有字段作为条件都无法使用这个联合索引。</p>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">3 总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这节内容讲解了联合索引的实现原理，并举例说明了几种使用联合索引的情况：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">可以完整用到联合索引的情况</li>
+<li style="font-size: 20px; line-height: 38px;">只能使用部分联合索引的情况</li>
+<li style="font-size: 20px; line-height: 38px;">可以用到覆盖索引的情况</li>
+<li style="font-size: 20px; line-height: 38px;">不能使用联合索引的情况</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以结合自己的需求考虑是否通过创建联合索引代替单个字段的索引，在使用时也需要清楚联合索引的使用技巧，避免出现走不了索引的情况。</p>
+</div><div class="cl-preview-section"><h2 id="问题" style="font-size: 30px;">4 问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我们本节创建的测试表 t11 中，如果预计有大量下面的 SQL 会执行：</p>
+</div><div class="cl-preview-section"><pre class="  language-sql"><code class="prism  language-sql"><span class="token keyword">select</span> <span class="token number">c</span><span class="token punctuation">,</span><span class="token number">d</span> <span class="token keyword">from</span> t11 <span class="token keyword">where</span> <span class="token number">c</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那应该怎么设计索引让查询效率最高？</p>
+</div><div class="cl-preview-section"><h2 id="参考资料" style="font-size: 30px;">5 参考资料</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">《MySQL 技术内幕》第 2 版 5.6.2 联合索引</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/692">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            12 普通索引和唯一索引有哪些区别？
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/43/article/694">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            14 为什么MySQL会选错索引？
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

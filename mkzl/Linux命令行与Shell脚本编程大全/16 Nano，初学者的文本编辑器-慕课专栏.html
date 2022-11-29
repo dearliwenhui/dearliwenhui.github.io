@@ -1,0 +1,241 @@
+<html><head><meta charset="utf-8"><title>16 Nano，初学者的文本编辑器-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-10 16 Nano，初学者的文本编辑器
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                16 Nano，初学者的文本编辑器
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-05 10:49:03
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img1.mukewang.com/5d15903a0001b36606400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">理想的书籍是智慧的钥匙。<p class="author">——列夫·托尔斯泰</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">Nano 初体验</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课群组的管理和文件权限管理中，我们学习了不少新的知识点，估计大家都比较辛苦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课比较简单，没有什么太难的概念。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">大家可以泡个泡面，烤只烤鸡，剥个卤蛋，慢慢来看。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之前的课程中，我们已经学会了在终端中用多种不同的方式来查看文件的内容，但是我们还不知道如何在终端中修改文件的内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么我们把文本编辑器推迟到现在来说呢？因为这是终端可以提供的强大功能之一。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Linux 终端的文本编辑器当中，比较著名的有：Nano、Vim、Emacs等等。其它文本编辑器还有 Gedit、Sublime Text、Atom、Visual Studio Code等等。当然了，我们不可能列举所有的文本编辑器，太多了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这些文本编辑器当中，Nano 是比较适合初学者上手的。之所以称其为初学者的文本编辑器，绝没有贬低 Nano 的意思，Nano 的功能很强大，只是比较容易入门。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之后的课程我们会用专门的一课来学习 Vim，要入门 Vim 可能需要下点功夫。</p>
+</div><div class="cl-preview-section"><h2 id="nano-初体验" style="font-size: 30px;">2. Nano 初体验</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说起 nano 这个英语单词，很多人可能不陌生。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">nano 是“毫微”的意思，也就是 10 的 -9 次方。著名的纳米科技的“纳米”就是 nanometer，由 nano 和 meter 组成，nano 是“十亿分之一”，meter 是“米”。所以纳米就是十亿分之一米。“一米”与“一纳米”的大小相比较，相当于地球的直径和地球上的一颗玻璃弹珠之间的差距。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们这个文本编辑器叫作 nano，应该是取其“短小精悍”的寓意吧，“麻雀虽小，五脏俱全”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nano 相比 Vim 或 Emacs，确实小巧简单很多，不及后两者复杂和强大，但对于入门文本编辑器还是很合适的。</p>
+</div><div class="cl-preview-section"><h4 id="nano-是一个文本编辑器，不是文本处理器" style="font-size: 26px;">Nano 是一个文本编辑器，不是文本处理器</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你真知道什么是文本编辑器吗？它和文本处理器又有什么区别呢？</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">文本编辑器：Text Editor是这样一种软件，它可以编辑和查看文本文件，但是不能对文字做格式处理（例如：加粗、斜体、改变颜色、改变字体大小、添加超链接等等）。常见的有 Windows 下的记事本；macOS 下的文本编辑；Linux 下的 Vi、Vim、Emacs、Gedit；DOS 下的 edit 等。在 Linux 下，默认系统中至少安装了一种文本编辑器。当然，在 macOS 下，Nano 也是默认安装的；</li>
+<li style="font-size: 20px; line-height: 38px;">文本处理器：Text Processor。也是一种软件，又叫文档编辑器，不仅可以编辑和查看文档，而且可以对其文字进行格式处理（加下划线、设为标题、插入图片等等）。这些软件只能在图形界面下使用。常见的有Windows 下的 Word、macOS 下的 Pages、Linux 下的 OpenOffice Writer 等。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文本编辑器处理的文件格式和文本处理器的文件格式一般也不同。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么什么时候我们需要用到文本编辑器呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以用文本编辑器来编辑纯文本文件。纯文本格式，就是没有任何文本修饰的、没有任何粗体、下划线、斜体、图形、符号或特殊字符及特殊打印格式的文本。只保存文本，不保存其格式设置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Windows 下，我们比较熟悉的纯文本文件就是 .txt 结尾的文本文档了。在 Linux 和 macOS 下，后缀名没那么重要，不少纯文本文件是没有后缀名的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">文本编辑器对于程序员来说又是必不可少的。我们需要用它来编辑各种编程语言的代码程序：.c（C 语言代码文件）、.cpp（C++ 代码文件）、.py（Python 代码文件）、.php（PHP 代码文件）、.java（Java 代码文件）和.xml（XML 代码文件）等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">总之，如果你“不幸”成为了一个程序员，那么文本编辑器的学习是逃不了的，这是你的“吃饭家伙”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">即使你不是程序员，不需要写代码，但是很多系统的配置文件也需要用文本编辑器来编辑。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在学习了如何使用 Nano 之后，下一课我们会学习如何修改两个配置文件：.nanorc 和 .bashrc。这两个文件能让我们分别配置 nano 和终端。</p>
+</div><div class="cl-preview-section"><h4 id="揭开-nano-的面纱" style="font-size: 26px;">揭开 Nano 的面纱</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nano 的全称其实是 GNU Nano。还记得我们的老朋友 GNU 么？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是的，就是那个我们提过的 GNU 项目，在最开始的课程中讲过。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">GNU 还有个基金会，由 Richard Stallman（理查德·斯托曼）于 1985 年 10 月创建，叫自由软件基金会（英语：Free Software Foundation，FSF）是一个致力于推广自由软件的美国民间非营利性组织。其主要工作是执行 GNU 计划，开发更多的自由软件。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nano 和 Emacs 这两个文本编辑器都属于 GNU 项目。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Nano 的官网是 <a href="https://www.nano-editor.org">https://www.nano-editor.org</a>。</li>
+<li style="font-size: 20px; line-height: 38px;">Emacs 的官网是 <a href="https://www.gnu.org/software/emacs">https://www.gnu.org/software/emacs</a> 。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nano 的设计灵感来自于一个叫 Pico 的文本编辑器。pico 是“10 的 -12 次方”，万亿分之一，比 nano 还要小 1000 倍。我们平时说的皮米 picometer（由 pico 和 meter 连结而成），就是万亿分之一米。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，nano 其实也是 Nano is ANOther editor（意思是“nano 是另一种编辑器”）的递归缩写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有趣的老外最爱在编程里用递归来命名了。比如 Linux 是 Linux is not Unix（意思是“Linux 不是 Unix”）的递归缩写。</p>
+</div><div class="cl-preview-section"><h4 id="启动-nano" style="font-size: 26px;">启动 Nano</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为 Ubuntu 预装了 Nano，因此要启动 Nano，只需要在终端中输入：</p>
+</div><div class="cl-preview-section"><pre><code>nano
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">回车，就打开了 Nano 文本编辑器：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d10877b00011da921581364.png" alt="图片描述" data-original="http://img.mukewang.com/5d10877b00011da921581364.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所见，我们的 Nano 文本编辑器就是长这样的，是不是很简洁？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而你现在就可以在里面输入文字了，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1087830001751521121304.png" alt="图片描述" data-original="http://img.mukewang.com/5d1087830001751521121304.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看到了吗，我输入了两句英语：</p>
+</div><div class="cl-preview-section"><pre><code>Hello, how are you ?  (Hello，你好吗？)
+
+I am typing in nano, it is wonderful...  （我正在 nano 里打字，棒极了...）
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nano 就是这么方便，因为并不是所有文本编辑器都可以一上来就输入文字的，比如 Vim，要输入文字还得先做其它操作，以后的课会学到。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你有使用 Emacs 的经验，那你可能觉得这一点和 Emacs 还挺像的，Emacs 也是一上来就可以输入文字。</p>
+</div><div class="cl-preview-section"><h4 id="nano-中的键盘快捷键" style="font-size: 26px;">Nano 中的键盘快捷键</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上图中的终端下部，我们可以看到有两行帮助文档，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d10878d0001cf3a20560120.png" alt="图片描述" data-original="http://img.mukewang.com/5d10878d0001cf3a20560120.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">^ 这个符号表示键盘的 Ctrl 键，所以这些都是 Nano 的快捷键组合。比如，^X 标明的是 Exit，那么就是退出 Nano，因为 exit 是英语“退出，出口”的意思。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这些快捷键组合中虽然字母都是大写，但其实就是键盘上对应的字母键，并不需要用 Shift 键来将其变为大写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下给出一些常用的 Nano 组合快捷键：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+G：显示帮助文档</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+O：保存文件</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+R：打开其他文件</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+Y：上一个屏幕</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+V：下一个屏幕</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+K：剪切当前一行</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+X：退出</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+W：查找</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+U：黏贴刚剪切的内容</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+/：替换</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+F：向前移动一格光标</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+B：向后移动一格光标</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+P：向上移动一行</li>
+<li style="font-size: 20px; line-height: 38px;">Ctrl+N：向下移动一行</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其它还有不少快捷键，一般 Nano 都会在你操作的屏幕上提醒，所以很方便。看到这些提示了吗？都是英语写的，再论学好英语对编程的帮助。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，我们用键盘上的方向键（上，下，左，右）也可以控制光标移动。PaUp 和 PaDn 也分别与 Ctrl+Y 和 Ctrl+V 功能一样。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你比较熟悉这些快捷键组合之后，你觉得 nano 下方的帮助文档有点碍眼，那你也可以让它消失，只要先按 Esc 键，再按 X 键，帮助文档就没了。如果要重新调出帮助文档，则同样操作。</p>
+</div><div class="cl-preview-section"><h4 id="nano-的参数" style="font-size: 26px;">Nano 的参数</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">刚才我们打开 Nano 时，是单独用了 nano 这个命令。当然，nano 命令也可以带参数的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最常用的参数当然就是要打开的文件名咯，例如：</p>
+</div><div class="cl-preview-section"><pre><code>nano file.txt
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就会用 Nano 打开 file.txt，如果你对 file.txt 有写的权限，那你就可以用 nano 来修改这个文件了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果 file.txt 文件不存在，那么就会创建一个空文件，名字叫作 file.txt，并用 nano 打开。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">nano 的其它参数有不少，不过我挑了三个觉得比较实用的：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">-m ：激活鼠标。如果没有 -m 参数，那么鼠标在 nano 里是不起作用的，加了 -m 参数，鼠标可以通过点击来控制光标的位置；</li>
+<li style="font-size: 20px; line-height: 38px;">-i ：激活自动缩进的功能。这对于程序员写代码太有用了；</li>
+<li style="font-size: 20px; line-height: 38px;">-A ：激活智能 Home 键的功能。通常状况下，我们按下键盘的 Home 键，我们的光标会立即跳到一行的最开始，如果用了 -A 这个参数，那么按下 Home 键它会智能地判断，如果一行的开始处有缩进，那么它会使光标跳转到紧跟在缩进之后，而不是一行的最开始。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果我们要同时激活三个属性，只需要这样用：</p>
+</div><div class="cl-preview-section"><pre><code>nano -miA file.txt
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一课我们接着讲 Nano 的使用和配置，以及终端的配置。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">文本编辑器也是一种程序，它可以打开文本文件（比如说 Windows 中的记事本就是一种文本编辑器），也可以用于修改文件内容（如果有写的权限的话）。我们程序员经常用文本编辑器来编写代码，也会用它来修改配置文件；</li>
+<li style="font-size: 20px; line-height: 38px;">有一些文本编辑器功能非常完善，可以做很多事情，例如 Vim 和 Emacs；</li>
+<li style="font-size: 20px; line-height: 38px;">Nano 是最容易上手的文本编辑器之一，所以我们初学 Linux 的时候才会用它来做例子；</li>
+<li style="font-size: 20px; line-height: 38px;">在 Nano 中我们可以用很多键盘快捷键来帮助我们：Ctrl+w 用于查找；Ctrl+x 用于退出；Ctrl+o 用于保存等等。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/469">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    15 群组的管理和文件权限管理
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/471">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    17 配置Nano和终端
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

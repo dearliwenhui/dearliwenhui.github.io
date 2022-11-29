@@ -1,0 +1,294 @@
+<html><head><meta charset="utf-8"><title>18 测试驱动开发（TDD）网络爬虫项目-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 5-2 18 测试驱动开发（TDD）网络爬虫项目
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                18 测试驱动开发（TDD）网络爬虫项目
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-17 10:56:38
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5cf73b6c0001c8b506400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">学习这件事不在乎有没有人教你，最重要的是在于你自己有没有觉悟和恒心。 <p class="author">—— 法布尔</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">爬虫属于一种非可视化的服务，如果每次验证代码的逻辑是否正确都得运行一次爬虫那这种方法是极为之低效，更糟糕的情况是像遇到豆瓣此类带有防爬机制的网站，可能在调试爬虫的时候IP就被封了！为了加快开发速度，提高爬虫代码的正确性，本节将详细地介绍如何用 TDD 的方法来设计爬虫，并为爬虫编写单元测试，在加速开发效率的同时保证爬虫的质量。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上一节中，之所以我建议你不要急于运行已经写好的爬虫，是因为之前的内容之中有不少的部分我们是并不能完全确定他们能正确运行的，例如正则表达式、又例如各个输入处理器和蜘蛛的页面解释逻辑，在这么多个部分都没有把握完全正确的情况下运行，程序大数是会出一些状况的。</p>
+</div><div class="cl-preview-section"><h2 id="tdd-简介" style="font-size: 30px;">TDD 简介</h2>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">TDD是<strong>测试驱动开发</strong>（Test-Driven Development）的英文简称，是<a href="https://baike.baidu.com/item/%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91/5618867">敏捷开发</a>中的一项核心实践和技术，也是一种设计方法论。TDD的原理是在开发功能代码之前，先编写单元测试用例代码，测试代码确定需要编写什么产品代码。TDD虽是敏捷方法的核心实践，但不只适用于XP（Extreme Programming），同样可以适用于其他开发方法和过程。—— 引用自百度</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我接触过的大多数开发人员认为“测试”是<em>额外而不必要</em>的工作，只会<em>增加工作时间</em> 并 <em>拖延</em> 项目推进的日期；某些<em>优秀</em>的程序员则认为：“只要<em>思路清晰</em>，<em>技术过硬</em> 编写的代码出现Bug的机率是很少的”；某些具有“大型重构”经历的程序员则认为：“测试是程序中的一种负累，在结构性重构工作中大量的测试代码会因为程序结构的变化而丧失其存在的意义。”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我认为以上的这些观点都是错误的，测试不单单只是为了对软件质量作出保证的一种形式化的手段。恰恰相反，测试是一个被开发人员最容易忽视的<strong>强大工具</strong>，它还是项目开发的加速器。</p>
+</div><div class="cl-preview-section"><h4 id="为什么要测试？" style="font-size: 26px;">为什么要测试？</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开发人员不喜欢测试可能最根本原因是于<strong>根本不知道该测些什么</strong>，网上不少的文章要不就泛泛而谈测些什么加减乘除一类的小学生示例，要不就讳莫如深根本不知其用意。</p>
+</div><div class="cl-preview-section"><h4 id="什么是期待值？" style="font-size: 26px;">什么是期待值？</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">据此，我们就以实例入手先搞懂到底就要测试什么？上一节我们写的自定义输入处理器和蜘蛛就是最大的入手点。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">就以输入处理器 <code>Number</code>为例，说实在话我自己作为代码的编写者我都不能确认以下的几点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">运行的时候会不会出错？</li>
+<li style="font-size: 20px; line-height: 38px;">运行时<code>Number</code>能不能从<code>"评分9.6"</code>这样的子符串中将数值提取出来？</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然你会说我直接跑一次程序不就清楚了吗？是的，所以很多程序员都是写完代码后就以<strong>主程序</strong>为引导经过层层操作后才到达自己要测试的地方，虽然每次可能就花上10来秒，但如果你一天要跑主程序上百次之后那是多少秒？10000s 约为2个多小时！我们开发人员的生命就是浪费在等待主程序引导上的吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么不写一个直接引导我们想要确定正确的代码呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然我的内心对<code>Number</code>的运行持有担忧，反过来想只要证明这些担忧是可以通过的那程序不就是没有问题了吗？所以，我对<code>Number</code>的<strong>测试预期的结果</strong>是：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">运行<code>Number</code>时不能出错</li>
+<li style="font-size: 20px; line-height: 38px;">运行<code>Number</code>时，要从<code>"评分9.6"</code>这样的字符串中格式化输出<code>'9.6'</code></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">测试预期又称为**“期望结果”**。</p>
+</div><div class="cl-preview-section"><h4 id="什么是断言？" style="font-size: 26px;">什么是断言？</h4>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>断言</strong>就是用代码来判断测试的输出结果是否完全符合**“期望值”**</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我现在就撇开测试框架，随便写一个python脚本来测试一下<code>Number</code>是否可以用：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># number_test.py</span>
+processor <span class="token operator">=</span> Number<span class="token punctuation">(</span><span class="token punctuation">)</span>
+test_str <span class="token operator">=</span> u<span class="token string">'评分9.6'</span> 			  <span class="token comment"># 测试输入值</span>
+expected <span class="token operator">=</span> <span class="token string">'9.6'</span>     			   <span class="token comment"># 期望输出值</span>
+actual <span class="token operator">=</span> processor<span class="token punctuation">(</span>test_str<span class="token punctuation">)</span> <span class="token comment"># 实际处理结果</span>
+
+<span class="token keyword">if</span> actual <span class="token operator">==</span> expected<span class="token punctuation">:</span>			 <span class="token comment"># 判断实际输出是否符合期望</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Number测试通过'</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Number测试失败'</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样是不是就可以测试出来了？只要在指命行运行这个脚本：</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ python number_test.py
+(venv) $ Number测试通过
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">试想想：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">如果你有10个类要测试甚至上百个呢？一个一个执行？还是说要另外写一个程序一次性来执行所有的测试文件？</li>
+<li style="font-size: 20px; line-height: 38px;">如果测试出错了能不能通过双击出错信息就跳到出错的代码位置呢？</li>
+<li style="font-size: 20px; line-height: 38px;">如果某些测试要先初始化一些变量，而其它的又不需要这些变量那该如何呢？</li>
+<li style="font-size: 20px; line-height: 38px;">对于更复杂的判断我们是不是要写一堆的<code>if…else</code>呢？这种输出性文字写得不累吗？</li>
+<li style="font-size: 20px; line-height: 38px;">如果我只想看是不是所有的测试都通过了是不是该一个一个地从这些输出上找’XXX测试失败’的文字才能知道谁通过了谁失败了呢？</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="测试工具简介-unittest" style="font-size: 30px;">测试工具简介 unittest</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>所有的单元测试框架</strong>就是为了解决我们上面提出的一系列问题而存在的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://docs.python.org/zh-cn/3/library/unittest.html#module-unittest"><code>unittest</code></a> 是python内置的一套功能完备的单元测试框架。它可以很好的地集成在pyCharm中，利用pyCharm的调试器快速定位发现的缺陷与异常。对于python技术栈来说是个非常易学易用的好东东。它自带了以下这些开箱即用的功能：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">测试运行器 <code>TestRunner</code> -  以命令行的方式自动发现与运行所有的测试</li>
+<li style="font-size: 20px; line-height: 38px;">统一的测试报告 - 可以输出到终端、文件或者pyCharm的集成界面中。</li>
+<li style="font-size: 20px; line-height: 38px;">一至的测试写法，我们将之称为测试单元 <code>TestCase</code></li>
+<li style="font-size: 20px; line-height: 38px;">通过测试集<code>TestSuite</code>可以对多个不同的测试单元进行分组</li>
+<li style="font-size: 20px; line-height: 38px;">与pyCharm集成后可以双击自动转跳至发生错误的代码行上。(pyCharm的功能)</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="配置测试环境" style="font-size: 30px;">配置测试环境</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，在项目的根本目录添加一个测试目录<code>tests</code>，然后要在该目录中增加一个<code>__init__.py</code>空文件，这样做的意思是告诉测试运行器<code>tests</code>是一个python 包(package)，只有放在包内的测试程序才可以被自动发现，否则你就得在运行的时候手工指定了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在项目的根目录运行以下的指令：</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ mkdir tests
+(venv) $ cd tests
+(venv) $ touch __init__.py
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者直接在pyCharm中建一个python 包也行。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在<code>tests</code>目录下添加一个<code>test_processors.py</code>的类，在该文件中添加以下的代码:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># coding:utf-8</span>
+<span class="token keyword">import</span> unittest
+<span class="token keyword">from</span> douban<span class="token punctuation">.</span>processors <span class="token keyword">import</span> Number<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Date<span class="token punctuation">,</span> Price
+
+
+<span class="token keyword">class</span> <span class="token class-name">ProcessorTestCase</span><span class="token punctuation">(</span>unittest<span class="token punctuation">.</span>TestCase<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">test_number_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+       <span class="token keyword">pass</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>ProcessorTestCase</code>就是测试用例必须继承于<code>unittest.TestCase</code>，用来分组单元测试，同时提供代码断言库。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>test_number_processor</code>是我们准备运行单元测试的函数，我们可以将上文中的代码移植至此:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">test_number_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  tests_text <span class="token operator">=</span> <span class="token string">"评分9.6"</span>
+  expected_text <span class="token operator">=</span> <span class="token string">'9.6'</span>
+  processor <span class="token operator">=</span> Number<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  actual <span class="token operator">=</span> processor<span class="token punctuation">(</span><span class="token punctuation">[</span>tests_text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+  self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>注</strong>:这里有一个小小的约定，单元测试函数必须以"testXXX"来命名才能被测试运行器自动发现并认为这是一个单元测试噢。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你想让测试更正规一些也可以用你的测试阅意图来命名这个测试函数，例如:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">test_number_must_be_format_number_string</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为这个<code>Number</code>本来就很简单，而且只有一个输出方法，那就没有必要用这么啰嗦的命名了，约定是死的但人是活的，知识应该活学活用。</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里就是代码断言，所有的代码断言都会以<code>assertXXX</code>开头来命名，当这个断言返回值就会直接通过，被测试执行器认为这个测试已成功，反之就会在测试报告中标记当前的断言判断出现不符而认为测试失败。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">unittests提供的代码断言库还是非常地完善的，这里就不一一列举了你可以用pyDoc在终端上输出文档来看:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ pydoc unittest.TestCase
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或者直接参考<a href="https://docs.python.org/zh-cn/3/library/unittest.html#unittest.TestCase.debug">官方的说明</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">运行测试:</p>
+</div><div class="cl-preview-section"><pre><code>(venv)$ python -m unittest
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后你会看到以下的输出结果:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ python -m unittest
+.
+-------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="集成pycharm">集成pyCharm</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在pyCharm中的测试工具栏点击"Edit Configurations"，如下图示：<br>
+<img src="http://img.mukewang.com/5cf48db70001ad2207440302.png" alt="图片描述" data-original="http://img.mukewang.com/5cf48db70001ad2207440302.png" class="" style="cursor: pointer;"><br>
+然后添加一个新的配置项目，选择 “Unittests”：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5cf48e270001281421501742.png" alt="图片描述" data-original="http://img.mukewang.com/5cf48e270001281421501742.png" class="" style="cursor: pointer;">在出现的配置框内填写好测试目录与项目工作目录(项目根目录)：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5cf48e450001db9621421740.png" alt="图片描述" data-original="http://img.mukewang.com/5cf48e450001db9621421740.png" class="" style="cursor: pointer;">配置完成后就可以点击测试工具栏中的"debug"按钮：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5cf48e5f0001d02106660146.png" alt="图片描述" data-original="http://img.mukewang.com/5cf48e5f0001d02106660146.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当程序运行到断点时就会自动打断，并跳至断点的代码行上，此时就可以从观察窗口看到代码中每个变量值与代码的执行逻辑是否正确，断点调试可是开发人员调试时的<strong>大招</strong>，如果连调试都不懂那就跟本算不上一个合格的开发人员了。只有通过调试器你才可以真正地了解程序背后的真相是什么！单步执行你的代码才能完全清楚你的代码是不是按照你的想法来执行的。<br>
+<img src="http://img.mukewang.com/5cf48e8600017c2a25461916.png" alt="图片描述" data-original="http://img.mukewang.com/5cf48e8600017c2a25461916.png" class="" style="cursor: pointer;">## 为自定义的 Processor 编写测试</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然已万事俱备，那么接下来我们就按照原来设计输入处理器的逻辑来一个一个地编写它们的单元测试,以下是<code>ProcessorTestCase</code>的完整代码:</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># coding:utf-8</span>
+<span class="token keyword">import</span> unittest
+<span class="token keyword">from</span> douban<span class="token punctuation">.</span>processors <span class="token keyword">import</span> Number<span class="token punctuation">,</span> Text<span class="token punctuation">,</span> Date<span class="token punctuation">,</span> Price
+
+
+<span class="token keyword">class</span> <span class="token class-name">ProcessorTestCase</span><span class="token punctuation">(</span>unittest<span class="token punctuation">.</span>TestCase<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">test_number_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tests_text <span class="token operator">=</span> <span class="token string">"共93.2人"</span>
+        expected_text <span class="token operator">=</span> <span class="token string">'93.2'</span>
+        processor <span class="token operator">=</span> Number<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        actual <span class="token operator">=</span> processor<span class="token punctuation">(</span><span class="token punctuation">[</span>tests_text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">test_text_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tests_text <span class="token operator">=</span> <span class="token string">"&lt;div&gt;This is a text with some &lt;b&gt;html&lt;/b&gt; tags&lt;/div&gt;"</span>
+        expected_text <span class="token operator">=</span> <span class="token string">"This is a text with some html tags"</span>
+        processor <span class="token operator">=</span> Text<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        actual <span class="token operator">=</span> processor<span class="token punctuation">(</span><span class="token punctuation">[</span>tests_text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">test_price_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tests_text <span class="token operator">=</span> <span class="token string">"￥24.2 元"</span>
+        expected_text <span class="token operator">=</span> <span class="token string">'24.2'</span>
+        processor <span class="token operator">=</span> Price<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        actual <span class="token operator">=</span> processor<span class="token punctuation">(</span><span class="token punctuation">[</span>tests_text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">test_date_processor</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        tests_text <span class="token operator">=</span> <span class="token string">"2015年2月3日"</span>
+        expected_text <span class="token operator">=</span> <span class="token string">'2015-02-03T00:00:00'</span>
+        processor <span class="token operator">=</span> Date<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        actual <span class="token operator">=</span> processor<span class="token punctuation">(</span><span class="token punctuation">[</span>tests_text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>assertEqual<span class="token punctuation">(</span>actual<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> expected_text<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这节的重点是让你感性地对TDD建立一个最基本的概念，通过实际的动手实践加深对这些相关概念的理解。当建立了测试环境编写起测试代码并没有想象中那么难不是吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有测试与没有测试的项目最大的区别在于你已经不再是用眼睛来判断你的程序是否正确，而是用代码去判断每个你并没有多大信心或者是运行结果让你存疑的代码。通过调试器的单步运行，我们可以清楚地洞悉程序运行的每一步，调用的每个隐含在背后的代码，同时这也是一种在运动中学习代码了解框架的最佳做法。</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/323">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    17 数据提取过程中的类型化方法
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/380">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    19 测试BookSpider
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

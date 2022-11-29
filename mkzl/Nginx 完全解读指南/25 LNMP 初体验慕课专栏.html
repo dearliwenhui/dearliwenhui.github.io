@@ -1,0 +1,187 @@
+<html><head><meta charset="utf-8"><title>25 LNMP 初体验-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        25 LNMP 初体验
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-03-05 10:25:21
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.sycdn.imooc.com/5e6062a20001cc7a06400426.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">学习从来无捷径，循序渐进登高峰。 —— 高永祚<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="前言">前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过前面的学习，我们队 <code>Nginx</code> 已经有一个大体的理解，能够进行一些配置，满足我们工作中的一些要求。<br>
+从这篇文章开始，我们将进入实战课程，分析工作中常用的情况，实战学习。</p>
+</div><div class="cl-preview-section"><h3 id="lnmp入门"><code>LNMP</code> 入门</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在本篇文章中，主要将介绍一下 <code>LNMP</code> 架构，初步理解这种架构方式，以及为什么选择他们。</p>
+</div><div class="cl-preview-section"><h4 id="l" style="font-size: 26px;"><code>L</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5e6062df000178b302540320.png" data-original="//img1.sycdn.imooc.com/5e6062df000178b302540320.png" alt="图片描述"><br>
+<code>L</code> 就是 <code>Linux</code> 的简称，是一款非常流行的开源免费操作系统。它凭借着自己强大的网络功能风靡了全球。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">据说现在哪个程序员如果说不了解 <code>Linux</code> 操作系统，那是要被别人<code>笑掉大牙</code>的呦～～</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当前市面上有很多基于 <code>Linux</code> 操作系统的发行版，比如 <code>Ubuntu</code>, <code>RedHat</code>, <code>Centos</code> 等等。根据不同的需求，我们可以选择不同的发行版。</p>
+</div><div class="cl-preview-section"><h5 id="ubuntu发行版" style="font-size: 20px; line-height: 38px;"><code>Ubuntu</code> 发行版</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这是一款深受个人用户喜欢的 <code>Linux</code> 发行版，它安装简单，并且自带了图形化界面，对于刚入门的小伙伴们，可以考虑安装一个 <code>Ubuntu</code> 来体验一下 <code>Linux</code> 无与伦比的功能。</p>
+</div><div class="cl-preview-section"><h5 id="centos发行版" style="font-size: 20px; line-height: 38px;"><code>CentOS</code> 发行版</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这是一款专注于服务器端的 <code>Linux</code> 发行版。针对服务器的特性，它做了很多优化，我见到的大部分公司都是用 <code>CentOS</code> 作为自己的服务器版本。</p>
+</div><div class="cl-preview-section"><h5 id="lfs自定制" style="font-size: 20px; line-height: 38px;"><code>LFS</code> 自定制</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>LFS</code> 就是 <code>Linux From scratch</code> 自己动手定制专属自己的 <code>Linux</code> 操作系统。这是每一个技术 <code>Geek</code> 追求的目的，你可以根据自己的爱好自由的定制操作系统。<br>
+给你个链接，自己体会 <a href="http://www.linuxfromscratch.org/lfs/">LFS</a></p>
+</div><div class="cl-preview-section"><hr>
+</div><div class="cl-preview-section"><h3 id="n"><code>N</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">毫无疑问，这个 <code>N</code> 就是我们一直介绍的 <code>Nginx</code> 了。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e6062ea000124a315220634.png" data-original="//img1.sycdn.imooc.com/5e6062ea000124a315220634.png" alt="图片描述"><br>
+一张图奉上，大家自己体会……</p>
+</div><div class="cl-preview-section"><hr>
+</div><div class="cl-preview-section"><h3 id="m"><code>M</code></h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5e6062f3000140be03640210.png" data-original="//img1.sycdn.imooc.com/5e6062f3000140be03640210.png" alt="图片描述"><br>
+这个 <code>M</code> 就是 <code>MySQL</code> 了，这是一个商业级的开源数据库。这是一个伴随着互联网发展起来的软件。<br>
+随着 <code>web2.0</code> 发展，这款软件逐渐的占据了市场的份额的主导地位，越来越多的创业公司以及成熟的互联网企业使用 <code>MySQL</code>，这个 <code>MySQL</code> 的发展成了正向的促进作用。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e6062fb000132eb15681022.png" data-original="//img1.sycdn.imooc.com/5e6062fb000132eb15681022.png" alt="图片描述"><br>
+从图中可以看到，<code>MySQL</code> 常年占据前三位。</p>
+</div><div class="cl-preview-section"><hr>
+</div><div class="cl-preview-section"><h3 id="p"><code>P</code></h3>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">PHP 是世界上最好的语言<br>
+---- 程序员</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个 <code>P</code> 就是世界上最好的语言 <code>PHP</code>，它也是一个开源的编程语言，因为其简单易上手，所以在互联网开发领域占有非常大的市场。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">综上所述 <code>LNMP</code> 就是 <code>Linux</code> + <code>Nginx</code> + <code>MySQL</code> + <code>PHP</code> 的组合。他们有一个共同点，即都是开源软件。在现在的互联网发展过程中，所有人都越来越推崇开源，只有开源才能发展，只有开源才能被市场认可。</p>
+</div><div class="cl-preview-section"><h3 id="总结">总结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在本文中就简单的介绍了一下 <code>LNMP</code> 包含的内容，从下一篇文章开始，我们就是实际的操作进行配置。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1624">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            24 Nginx 的内核参数优化
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1639">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            26 让 LNMP 运行起来
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

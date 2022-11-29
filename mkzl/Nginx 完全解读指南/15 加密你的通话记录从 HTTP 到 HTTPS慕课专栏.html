@@ -1,0 +1,185 @@
+<html><head><meta charset="utf-8"><title>15 加密你的通话记录：从 HTTP 到 HTTPS-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        15 加密你的通话记录：从 HTTP 到 HTTPS
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-01-14 10:04:46
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.sycdn.imooc.com/5e1d19780001cc7622501500.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">书是人类进步的阶梯。——高尔基<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="前言">前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大家可能都使用各种抓包软件进行过抓包操作吧，由于<code>HTTP</code>协议是非加密解析，也就是说我们通过<code>HTTP</code>发送的内容都是<code>裸奔</code>在网络中的，其他人可以清楚的看到我们<code>HTTP</code>报文内容了，这样的话，哪些坏人就能够修改我们的信息了。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e1d18ef0001998110900528.png" data-original="//img1.sycdn.imooc.com/5e1d18ef0001998110900528.png" alt="图片描述"><br>
+为了防止这种情况，就出现了加密算法，<code>HTTPS</code>就是使用了<code>加密算法</code>的<code>HTTP</code>协议。<br>
+我们本篇文章就先给大家介绍一下<code>加密算法</code>相关内容。</p>
+</div><div class="cl-preview-section"><h3 id="加密算法">加密算法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在学习加密算法之前优先了解一些和加密相关的概念。<br>
+<code>明文</code>：我们想要发送的真正的消息。<br>
+<code>密文</code>：对<code>明文</code>进行加密之后得到的消息，<code>密文</code>是真正要发送出去的内容。<br>
+<code>密钥</code>：顾名思义，所谓的<code>密钥</code>就是一种用于加密的钥匙，是我们加密所使用的规则。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我记得很早之前看过一个谍战剧，其中有一个情节，一个特务要向另一个特殊传递一个消息，比如是<code>小心李鬼</code>，在传递消息的时候他会使用一长串的数字<code>27 85 17 6 96 37 21 32</code>。原来这些数字每两个为一组，每组的第一个数字是一本词典的页码，第二个数字是是当前页的第几个字。当另一个人收到这串数字之后会从根据这个规则进行反解密，之后就可以得到真正的信息了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个情节中，<code>小心李鬼</code>就是<code>明文</code>，这一串数字就是<code>密文</code>，而这个加密规则就是<code>密钥</code>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">计算机世界中的加密算法演化了很多代，所以存在很多的加密的算法。我们熟知的加密方式有对称加密和非对称加密。</p>
+</div><div class="cl-preview-section"><h4 id="对称加密" style="font-size: 26px;">对称加密</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对称加密就是通信的双方持有相同的密钥。<code>小明</code>使用密钥将要发送的内容进行加密，<code>小美</code>收到内容之后使用相同的密钥进行解密就可以了。上面特务传递消息例子使用的就是对称加密。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e1d18f80001656715140518.png" data-original="//img1.sycdn.imooc.com/5e1d18f80001656715140518.png" alt="图片描述"><br>
+这种情况下我们传递的信息在一定程度上就保证了安全性，但是前提是密钥不能丢失，否则<code>坏蛋</code>还是能够修改我们的信息。（比如<code>小明</code>和<code>小美</code>在网络上互相交换<code>密钥</code>的时候被<code>坏蛋</code>截取了，那么<code>坏蛋</code>就知道<code>密钥</code>了）</p>
+</div><div class="cl-preview-section"><h4 id="非对称加密" style="font-size: 26px;">非对称加密</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大家都用过<code>git</code>吧，是否还记得初始化<code>git</code>的时候要生成一对密钥吗？对，这对密钥就是用于加密的。<br>
+非对称密钥包含了两个密钥，一个叫做<code>公钥</code>，一个叫做<code>私钥</code>。我们可以从自己的电脑的<code>.ssh</code>目录中看到这对密钥。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e1d1900000129f515000312.png" data-original="//img1.sycdn.imooc.com/5e1d1900000129f515000312.png" alt="图片描述"><br>
+这对密钥有什么特点呢？其实很简单，使用<code>公钥</code>加密之后的内容只能使用<code>私钥</code>进行解密，反之亦然。这样的话我们就可以把<code>公钥</code>告诉所有人了。别人把想要发送给你的信息使用你的<code>公钥</code>进行加密，你收到之后通过<code>私钥</code>进行解密就行了，这样即使<code>坏蛋</code>拿到了<code>公钥</code>也无法解密你的信息。因为此时我们只用把<code>公钥</code>发布出去，而<code>私钥</code>一直保存在本地，所以这种加密方式要比<code>对称加密</code>更加安全。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e1d190700011ab314680536.png" data-original="//img1.sycdn.imooc.com/5e1d190700011ab314680536.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实<code>非对称加密</code>还有一个非常重要的作用，就是<code>身份认证</code>。比如<code>小美</code>使用自己的<code>私钥</code>加密了一段信息发送给<code>小明</code>，如果<code>小明</code>收到之后可以用<code>小美</code>的<code>公钥</code>解密成功，那么就表示这段信息是<code>小美</code>发送的。这个功能就是加密过程中<code>身份认证</code>的含义。</p>
+</div><div class="cl-preview-section"><h4 id="数字证书" style="font-size: 26px;">数字证书</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面说了<code>对称加密</code>, <code>非对称加密</code>，这里面有一个很关键的因素没有说，通信双方如何把公钥发送给对方？我们可能会想到两种方法：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">去对方的网站下载</li>
+<li style="font-size: 20px; line-height: 38px;">每次通信的时候，由<code>服务器</code>把<code>公钥</code>发送给对方</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一种方法：我们不能确定下载的<code>网址</code>一定是服务器的，毕竟现在有很多钓鱼网站。并且，也不可能让用户在访问网站访问之前先去下载<code>公钥</code>(这也太麻烦了，并且还有很多非专业人士可能根本搞不懂什么是<code>私钥</code>,什么是<code>公钥</code>)。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第二种方法：这种方法是毕竟可行的，这样的话，用户在访问服务器的时候就可以无感知的下载<code>公钥</code>了（所有的操作都会自动完成，用户无需操作），但是这样也存在一个问题，<code>坏蛋</code>可能劫持消息，然后把自己的<code>公钥</code>发送给了用户。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e1d190f000159ff14340516.png" data-original="//img1.sycdn.imooc.com/5e1d190f000159ff14340516.png" alt="图片描述"><br>
+就像上图一样，<code>坏蛋</code>截取了<code>小明</code>的信息，然后把自己的<code>公钥</code>发送给了<code>小明</code>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那该如何防止这种情况呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>数字证书</code>就是为了防止这种情况。服务器可以向是证书颁发机构申请<code>数字证书</code>，这个<code>数字证书</code>包含了<code>公钥</code>，并且包含了<code>申请者</code>的详细信息，服务器可以把<code>数字证书</code>发送给用户，用户通过校验就可以知道这个<code>数字证书</code>是不是伪造的（校验过程是由操作系统完成的，每个操作系统都有默认的受信任证书机构，所以这样可以从操作系统级别防止<code>坏蛋</code>），这样就可以拿到<code>公钥</code>了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">数字证书很复杂，但是对于我么使用者来说，无需考虑那么多，我们只需要知道它是干什么的，仅此而已。</p>
+</div><div class="cl-preview-section"><h3 id="总结">总结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文我们介绍了一些加密相关的内容，这是理解<code>HTTPS</code>的一些基础，后面我们会分析如何使用<code>HTTPS</code>构建一个安全的服务器。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1481">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            14 保留证据：能玩出花来的 Nginx 日志
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1486">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            16 HTTPS 当家做主
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

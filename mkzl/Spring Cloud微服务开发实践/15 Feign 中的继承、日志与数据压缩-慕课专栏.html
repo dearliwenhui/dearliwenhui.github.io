@@ -1,0 +1,320 @@
+<html><head><meta charset="utf-8"><title>15 Feign 中的继承、日志与数据压缩-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/37" target="_blank">Spring Cloud微服务开发实践</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 5-2 15 Feign 中的继承、日志与数据压缩
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                15 Feign 中的继承、日志与数据压缩
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-21 09:37:43
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img4.mukewang.com/5d035fc600013d3206400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">理想的书籍是智慧的钥匙。<p class="author">——列夫·托尔斯泰</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上篇文章和大家分享了声明式微服务调用组件 Feign 的基本用法，相信大家已经了解到使用 Feign 的好处了，使用 Feign 有效地解决了使用 RestTemplate 时的代码模板化的问题，使服务之间的调用更加简单方便，同时也不易出错。不过，细心的读者可能也发现，上篇文章中我们学的 Feign 还是有一些明显的缺陷，例如，当我们在 provider 中定义接口时，可能是下面这样：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"hello "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">" !"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在 feign-consumer 中定义接口的调用，又是下面这样：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span><span class="token string">"provider"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这两段代码其实也有部分重复了，例如接口的定义、请求参数绑定、方法返回值等，都是一样的，只是一个有接口的具体实现，一个没有具体实现而已。这些相同的代码如果写错了，还有可能导致调用失败，例如 provider 中写了 <code>@GetMapping("/hello")</code> ，而 feign-consumer 中写了 <code>@GetMapping("/hello2")</code> ，此时就会调用失败，那么如何避免这些问题呢？这就要使用到我们本文介绍到的 Feign 的继承特性。另外，Feign 中的操作日志可以帮助我们快速定位问题，数据压缩特性又能够提高数据传输效率，这些知识点，我将在本文和大家分享。</p>
+</div><div class="cl-preview-section"><h2 id="准备工作" style="font-size: 30px;">准备工作</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">和前面的文章一样，我们需要先做一些准备工作。首先创建一个名为 FeignAdvanced 的父工程，然后在父工程中创建一个子模块 eureka 服务注册中心并启动，具体的操作步骤我这里就不再赘述，大家要是忘记了，可以参考上一章的第一小节。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后再在 FeignAdvanced 工程中创建一个子模块 commons。注意，这个子模块是一个 Maven 工程，而不是 Spring Boot 工程，因为这个模块我只是用它来提供公共接口。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dd8d0001a8ce03290167.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dd8d0001a8ce03290167.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">commons 模块创建成功后，因为要在 commons 模块中使用 SpringMVC 的一整套东西，方便起见，在 commons 模块的 pom.xml 文件中添加如下依赖：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>2.1.3.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">添加成功后，再在 commons 中添加一个 HelloService 接口：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span> String name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个 HelloService 接口中，我们会将前面提到的 provider 和 feign-consumer 中公共的部分抽取出来定义在这里，然后在 provider 中调用这个接口，在  feign-consumer 中实现这个接口。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了， HelloService 接口定义完成后，我们的准备工作就算是OK啦，接下来我们就来看看具体的继承特性要如何去实现。</p>
+</div><div class="cl-preview-section"><h2 id="继承特性" style="font-size: 30px;">继承特性</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Feign 中继承，我们整体可以分两步来实现：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在 provider 中实现公共接口；</li>
+<li style="font-size: 20px; line-height: 38px;">在 feign-consumer 中去调用接口。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们分别来看。</p>
+</div><div class="cl-preview-section"><h3 id="在-provider-中实现接口">在 provider 中实现接口</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先创建一个 provider 微服务项目，创建成功后，将刚刚创建的 commons 项目的依赖添加进来，完整的 pom.xml 文件如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-starter-netflix-eureka-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.justdojava<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>commons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.0-SNAPSHOT<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后修改 provider 的配置文件，将 provider 微服务注册到 eureka 服务注册中心上，这一步也比较简单，不赘述。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们在 provider 中定义一个 HelloController 来实现 commons 模块中的 HelloService 接口，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloController</span> <span class="token keyword">implements</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">"hello "</span> <span class="token operator">+</span> name <span class="token operator">+</span> <span class="token string">" !"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">做完这一切之后，就可以启动 provider 啦！ provider 启动成功后，我们来继续开发 feign-consumer 。</p>
+</div><div class="cl-preview-section"><h3 id="在-feign-consumer-中调用接口">在 feign-consumer 中调用接口</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们在 FeignAdvanced 工程中再创建一个子模块 feign-consumer ，注意创建时候除了选择 Eureka Discovering 依赖之外，还需要选择 Feign 的依赖，具体步骤和上文一致，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00dda60001ca7308910571.png" alt="图片描述" data-original="http://img.mukewang.com/5d00dda60001ca7308910571.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">项目创建成功后，也将 commons 模块加入到 pom.xml 文件中，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-starter-netflix-eureka-client<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.cloud<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-cloud-starter-openfeign<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.justdojava<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>commons<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.0-SNAPSHOT<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后修改 feign-consumer 的配置文件 application.properties ，将 feign-consumer 注册到 eureka 服务注册中心上，这一步就比较简单，我这里就不再赘述。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，和前面的步骤一样，在项目的启动类上添加 @EnableFeignClients 注解，开启 Feign 的使用：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableFeignClients</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FeignConsumerApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>FeignConsumerApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再接下来创建的 FeignHelloService 接口继承自 HelloSerivce 接口，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span><span class="token string">"PROVIDER"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">FeignHelloService</span> <span class="token keyword">extends</span> <span class="token class-name">HelloService</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">注意，不同于上篇文章中的 HelloService 接口，这里的 FeignHelloService 接口直接继承自 HelloSerivce ，继承之后， FeignHelloService 自动具备了 HelloService 中的接口，因此可以在使用 @FeignClient(“PROVIDER”) 注解绑定服务之后就可以直接使用了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，我们来创建一个 UseHelloController，在 UseHelloController 中来使用 FeignHelloService，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UseHelloController</span> <span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    FeignHelloService feignHelloService<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token string">"/hello"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> feignHelloService<span class="token punctuation">.</span><span class="token function">hello</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">配置完成后，启动 feign-consumer ，在浏览器中就可以访问  feign-consumer 了，通过 feign-consumer 就能调用 provider 的服务了。<br>
+<img src="http://img.mukewang.com/5d00ddb90001347604680084.png" alt="图片描述" data-original="http://img.mukewang.com/5d00ddb90001347604680084.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h3 id="优缺点分析">优缺点分析</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过上面案例的搭建，相信大家对 Feign 的继承特性已经有了一个大致的了解，那么这种写法和上篇文章我们的写法各自有什么优缺点呢？我们来分析下：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">使用继承特性，代码简洁明了，不易出错，不必担心接口返回值是否写对，接口地址是否写对。如果接口地址有变化，也不用 provider 和 feign-consumer 大动干戈，只需要修改 commons 模块即可，provider 和 feign-consumer 就自然变了；</li>
+<li style="font-size: 20px; line-height: 38px;">前面提到的在 feign-consumer 中绑定接口时，如果是 key/value 形式的参数或者放在 header 中的参数，就必须要使用 @RequestParam 注解或者 @RequestHeader 注解，这个规则在这里一样适用。即在 commons 中定义接口时，如果涉及到相关参数，该加的@RequestParam 注解或者 @RequestHeader 注解一个都不能少；</li>
+<li style="font-size: 20px; line-height: 38px;">当然，使用了继承特性也不是没有缺点。继承的方式将 provider 和 feign-consumer 绑定在一起，代码耦合度变高，一变俱变，此时就需要严格的设计规范，否则会牵一发而动全身，增加项目维护的难度。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，通过上面这样一个简单的案例，相信大家对 Feign 的继承特性已经有所了解。</p>
+</div><div class="cl-preview-section"><h2 id="日志配置" style="font-size: 30px;">日志配置</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用了 Feign 之后，如果希望能够查看微服务之间调用的日志，则可以通过开启 Feign 的日志功能实现， Feign 中的日志级别一共分为四种：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">NONE ，不开启日志记录，默认即此；</li>
+<li style="font-size: 20px; line-height: 38px;">BASIC ，记录请求方法和请求 URL ，以及响应的状态码以及执行时间；</li>
+<li style="font-size: 20px; line-height: 38px;">HEADERS ，在第2条的基础上，再增加请求头和响应头；</li>
+<li style="font-size: 20px; line-height: 38px;">FULL ，在第3条的基础上再增加 body 以及元数据。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么具体的配置是怎样的呢？很简单，首先在配置类中配置一个日志级别的 Bean ，我这里直接放在系统启动类中，如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableFeignClients</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FeignConsumerApplication</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        SpringApplication<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>FeignConsumerApplication<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    Logger<span class="token punctuation">.</span>Level <span class="token function">loggerLevel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> Logger<span class="token punctuation">.</span>Level<span class="token punctuation">.</span>FULL<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后在 application.properties 中开启日志级别。注意， Feign 中的日志只对 DEBUG 级别的日志输出进行响应：</p>
+</div><div class="cl-preview-section"><pre><code>logging.level.com.justdojava.feignconsumer.FeignHelloService=debug
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里 logging.level 是指日志级别的前缀，com.justdojava.feignconsumer.FeignHelloService 表示该 class 以 debug 级别输出日志。当然，类路径也可以是一个 package ，这样就表示该 package 下的所有 class 以 debug 级别输出日志。配置完成后，重启 feign-consumer 项目，访问其中任意一个接口，就可以看到请求日志，如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d00ddc40001840e12470227.png" alt="图片描述" data-original="http://img.mukewang.com/5d00ddc40001840e12470227.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="数据压缩" style="font-size: 30px;">数据压缩</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用 Feign 执行请求时，也可以对请求数据执行 GZIP 压缩，提高数据传输效率。具体配置如下：</p>
+</div><div class="cl-preview-section"><pre><code>feign.compression.request.enabled=true
+feign.compression.response.enabled=true
+feign.compression.request.mime-types=text/html,application/json
+feign.compression.request.min-request-size=2048
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前两行表示开启请求和响应压缩，第三行表示压缩的数据类型，默认是 <code>text/html,application/json,application/xml</code> ，第四行表示压缩数据的下限，即当要传输的数据大于2048时才需要对请求进行压缩。</p>
+</div><div class="cl-preview-section"><h2 id="请求重试" style="font-size: 30px;">请求重试</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Feign 中默认也自带请求重试功能，即这里不需要添加 <code>spring-retry</code> 依赖，直接配置即可使用：</p>
+</div><div class="cl-preview-section"><pre><code># 最大的重试次数，不包括第一次请求
+ribbon.MaxAutoRetries=3
+# 最大重试server的个数，不包括第一个 server
+ribbon.MaxAutoRetriesNextServer=1
+# 是否开启任何异常都重试
+ribbon.OkToRetryOnAllOperations=false
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样的配置，请求失败重试适用于所有的请求，也可以配置专门针对某一个微服务的请求失败重试，例如专门配置针对 provider 微服务的请求失败重试，如下：</p>
+</div><div class="cl-preview-section"><pre><code>#最大的重试次数
+provider.ribbon.MaxAutoRetries=3
+#最大重试server的个数
+provider.ribbon.MaxAutoRetriesNextServer=1
+#是否开启任何异常都重试
+provider.ribbon.OkToRetryOnAllOperations=false
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样，就可以针对不同的微服务配置不同的请求失败重试策略。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也可以不配置 application.properties ，而是通过提供如下一个 Bean 来实现请求重试：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> Retryer <span class="token function">feignRetryer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Retryer<span class="token punctuation">.</span>Default retryer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Retryer<span class="token punctuation">.</span>Default</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> retryer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文主要向大家介绍了声明式微服务调用工具 Feign 的一些高级特性，例如继承机制、日志配置、请求压缩、请求重试等，并对继承特性的优缺点进行了分析。在实际开发中，灵活地使用这些属性，可以使我们的微服务以一个更高的效率运行。通过对这些特性的学习，相信大家对 Feign 将会有一个更深刻的认识。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文作者：纯洁的微笑、江南一点雨</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/444">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    14 声明式服务调用 Feign
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/37/article/446">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    16 Resilience4j 基本用法详解
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

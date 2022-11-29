@@ -1,0 +1,452 @@
+<html><head><meta charset="utf-8"><title>19 Netty的ByteBuf是如何支持直接内存非池化实现的-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        19 Netty的ByteBuf是如何支持直接内存非池化实现的
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-08-04 09:45:58
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.sycdn.imooc.com/5f0595ff000144d706400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">对自己不满是任何真正有才能的人的根本特征之一。——契诃夫<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h1 id="前言">前言</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你好，我是彤哥。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节，我们一起从宏观上对 ByteBuf 做了一个全面的剖析，并从微观上深入剖析了其一个子类 UnpooledUnsafeHeapByteBuf，可以发现，其底层使用的是 Java 原生的数组，并使用 Unsafe 直接更新数组中的内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么，如果是 UnpooledDirectByteBuf 和 UnpooledUnsafeDirectByteBuf，它们底层又是怎样的呢？针对 UnpooledDirectByteBuf 这个类，难道不使用 Unsafe 也能操作直接内存？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节，我们就来将这些问题解决。</p>
+</div><div class="cl-preview-section"><h1 id="问题">问题</h1>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">UnpooledDirectByteBuf 不使用 Unsafe 吗？</li>
+<li style="font-size: 20px; line-height: 38px;">UnpooledUnsafeDirectByteBuf 的实现跟 DirectByteBuffer 是否完全一致？</li>
+<li style="font-size: 20px; line-height: 38px;">上面两者如何释放内存？</li>
+</ol>
+</div><div class="cl-preview-section"><h1 id="微观剖析unpooleddirectbytebuf">微观剖析 UnpooledDirectByteBuf</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先从带 Unsafe 的开始，因为在 Netty 中默认就是开启 Unsafe 的。</p>
+</div><div class="cl-preview-section"><h2 id="调试用例" style="font-size: 30px;">调试用例</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">调试用例还是延用上一节的，略作修改：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ByteBufTest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 参数是preferDirect，即是否偏向于使用直接内存</span>
+        ByteBufAllocator allocator <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">UnpooledByteBufAllocator</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 创建一个非池化基于直接内存的ByteBuf</span>
+        ByteBuf byteBuf <span class="token operator">=</span> allocator<span class="token punctuation">.</span><span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 写入数据</span>
+        byteBuf<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        byteBuf<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        byteBuf<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 读取数据</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>byteBuf<span class="token punctuation">.</span><span class="token function">readInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>byteBuf<span class="token punctuation">.</span><span class="token function">readInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>byteBuf<span class="token punctuation">.</span><span class="token function">readInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 记得释放内存哦</span>
+        ReferenceCountUtil<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span>byteBuf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个调试用例中，我们分配了一个直接内存实现的 ByteBuf，并进行了写入数据和读取数据的操作，另外，还多了一步操作，即释放内存。至于为什么要手动释放内存呢？我们待会儿说。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">其实在学习 <code>Netty核心组件剖析</code>这一节，我们就说过，入站事件的处理最好继承自 SimpleChannelInboundHandler 而不是 ChannelInboundHandlerAdapter，因为 SimpleChannelInboundHandler 内部调用了 <code>ReferenceCountUtil.release(byteBuf)</code> 方法，会帮我们自动清理垃圾。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="创建分配器" style="font-size: 30px;">创建分配器</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在创建分配器这里，我们把 preferDirect 这个参数由 false 改为了 true，当然了，不改也没有关系，因为后面使用的是 allocator.directBuffer () 这个方法，它同样会创建直接内存实现的 ByteBuf。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过，这里有个要注意的点，即下面这个构造方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token function">UnpooledByteBufAllocator</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> preferDirect<span class="token punctuation">,</span> <span class="token keyword">boolean</span> disableLeakDetector<span class="token punctuation">,</span> <span class="token keyword">boolean</span> tryNoCleaner<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>preferDirect<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>disableLeakDetector <span class="token operator">=</span> disableLeakDetector<span class="token punctuation">;</span>
+    noCleaner <span class="token operator">=</span> tryNoCleaner <span class="token operator">&amp;&amp;</span> PlatformDependent<span class="token punctuation">.</span><span class="token function">hasUnsafe</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token operator">&amp;&amp;</span> PlatformDependent<span class="token punctuation">.</span><span class="token function">hasDirectBufferNoCleanerConstructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">noCleaner 的判断可以参考上一节 hasUnsafe () 分析，它们最终是在同一个静态块中判断的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个方法中尝试去获取 Java 原生的 DirectByteBuffer 中是否包含没有 Cleaner（NoCleaner）的构造方法，即下面这个方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">private</span> <span class="token function">DirectByteBuffer</span><span class="token punctuation">(</span><span class="token keyword">long</span> addr<span class="token punctuation">,</span> <span class="token keyword">int</span> cap<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> cap<span class="token punctuation">,</span> cap<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    address <span class="token operator">=</span> addr<span class="token punctuation">;</span>
+    cleaner <span class="token operator">=</span> null<span class="token punctuation">;</span>
+    att <span class="token operator">=</span> null<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我是 win8 OracleJDK，所以是有这个方法的，因此，noCleaner 等于 true。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么要看有没有这个方法呢？因为 Netty 想干一件大事 —— 自己控制内存的释放。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在前面的章节，我们分析过，原生 DirectByteBuffer 是依赖于 Cleaner 来做垃圾清理的，本质是将直接内存的释放与 JVM 本身的 GC 关联起来，通过虚引用的清理间接地控制直接内存的释放，那么，Netty 为什么还要多此一举，自己去控制直接内存的释放呢？其实，Netty 这么做是有道理的，把所有类型的 ByteBuf 抽象到同一个高度，主要是为了与后面所说的池化的 ByteBuf 保持一致。通过观察，可以发现，所有的 ByteBuf 都继承自 AbstractReferenceCountedByteBuf 类，所以，都可以调用其 release () 方法释放内存，包括前面说过的 UnpooledUnsafeHeapByteBuf。</p>
+</div><div class="cl-preview-section"><h2 id="创建直接内存实现的bytebuf" style="font-size: 30px;">创建直接内存实现的 ByteBuf</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过前面的操作，已经创建好了一个分配器，接下来，我们就使用这个分配器来创建一个直接内存实现的 ByteBuf，同样地，我们还是使用调试大法直接跟踪到 <code>allocator.directBuffer()</code> 代码内部：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> ByteBuf <span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用重载方法，传入默认的初始容量和最大容量</span>
+    <span class="token keyword">return</span> <span class="token function">directBuffer</span><span class="token punctuation">(</span>DEFAULT_INITIAL_CAPACITY<span class="token punctuation">,</span> DEFAULT_MAX_CAPACITY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> ByteBuf <span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">,</span> <span class="token keyword">int</span> maxCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>initialCapacity <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> maxCapacity <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> emptyBuf<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 检查初始容量和最大容量</span>
+    <span class="token function">validate</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 调用另一个方法新建</span>
+    <span class="token keyword">return</span> <span class="token function">newDirectBuffer</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> ByteBuf <span class="token function">newDirectBuffer</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">,</span> <span class="token keyword">int</span> maxCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> ByteBuf buf<span class="token punctuation">;</span>
+    <span class="token comment">// 如果支持Unsafe</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>PlatformDependent<span class="token punctuation">.</span><span class="token function">hasUnsafe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 根据noCleaner的值判断使用哪个子类</span>
+        <span class="token comment">// 我的电脑noCleaner=true，所以使用的是InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf</span>
+        buf <span class="token operator">=</span> noCleaner <span class="token operator">?</span> <span class="token keyword">new</span> <span class="token class-name">InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span> <span class="token operator">:</span>
+        <span class="token keyword">new</span> <span class="token class-name">InstrumentedUnpooledUnsafeDirectByteBuf</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 不支持Unsafe的情况使用这个子类</span>
+        buf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InstrumentedUnpooledDirectByteBuf</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> disableLeakDetector <span class="token operator">?</span> buf <span class="token operator">:</span> <span class="token function">toLeakAwareBuffer</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 省略N层构造方法</span>
+<span class="token keyword">public</span> <span class="token function">UnpooledDirectByteBuf</span><span class="token punctuation">(</span>ByteBufAllocator alloc<span class="token punctuation">,</span> <span class="token keyword">int</span> initialCapacity<span class="token punctuation">,</span> <span class="token keyword">int</span> maxCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">super</span><span class="token punctuation">(</span>maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 省略参数检查</span>
+    
+    <span class="token keyword">this</span><span class="token punctuation">.</span>alloc <span class="token operator">=</span> alloc<span class="token punctuation">;</span>
+    <span class="token comment">// 调用allocateDirect()方法</span>
+    <span class="token function">setByteBuffer</span><span class="token punctuation">(</span><span class="token function">allocateDirect</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf#allocateDirect</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用父类的</span>
+    ByteBuffer buffer <span class="token operator">=</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">allocateDirect</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 监控增强</span>
+    <span class="token punctuation">(</span><span class="token punctuation">(</span>UnpooledByteBufAllocator<span class="token punctuation">)</span> <span class="token function">alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">incrementDirect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> buffer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// UnpooledUnsafeNoCleanerDirectByteBuf#allocateDirect</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用到PlatformDependent</span>
+    <span class="token keyword">return</span> PlatformDependent<span class="token punctuation">.</span><span class="token function">allocateDirectNoCleaner</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> ByteBuffer <span class="token function">allocateDirectNoCleaner</span><span class="token punctuation">(</span><span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">assert</span> USE_DIRECT_BUFFER_NO_CLEANER<span class="token punctuation">;</span>
+    <span class="token comment">// 记录内存使用情况</span>
+    <span class="token function">incrementMemoryCounter</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用到PlatformDependent0</span>
+        <span class="token keyword">return</span> PlatformDependent0<span class="token punctuation">.</span><span class="token function">allocateDirectNoCleaner</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">decrementMemoryCounter</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">throwException</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> null<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">static</span> ByteBuffer <span class="token function">allocateDirectNoCleaner</span><span class="token punctuation">(</span><span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用UNSAFE分配内存，并把地址传给newDirectBuffer()方法</span>
+    <span class="token keyword">return</span> <span class="token function">newDirectBuffer</span><span class="token punctuation">(</span>UNSAFE<span class="token punctuation">.</span><span class="token function">allocateMemory</span><span class="token punctuation">(</span>Math<span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> capacity<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">static</span> ByteBuffer <span class="token function">newDirectBuffer</span><span class="token punctuation">(</span><span class="token keyword">long</span> address<span class="token punctuation">,</span> <span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ObjectUtil<span class="token punctuation">.</span><span class="token function">checkPositiveOrZero</span><span class="token punctuation">(</span>capacity<span class="token punctuation">,</span> <span class="token string">"capacity"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用DirectByteBuffer的DirectByteBuffer(long addr, int cap)构造方法</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>ByteBuffer<span class="token punctuation">)</span> DIRECT_BUFFER_CONSTRUCTOR<span class="token punctuation">.</span><span class="token function">newInstance</span><span class="token punctuation">(</span>address<span class="token punctuation">,</span> capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Throwable</span> cause<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cause <span class="token keyword">instanceof</span> <span class="token class-name">Error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token punctuation">(</span>Error<span class="token punctuation">)</span> cause<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span>cause<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，针对非池化且使用直接内存的情况下，Netty 默认创建的就是一个不使用 Cleaner 清理垃圾的 DirectByteBuffer，没错，Netty 底层使用的就是 Java 原生的 DirectByteBuffer，这个也可以在 UnpooledDirectByteBuf 的属性中找到：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UnpooledDirectByteBuf</span> <span class="token keyword">extends</span> <span class="token class-name">AbstractReferenceCountedByteBuf</span> <span class="token punctuation">{</span>
+    ByteBuffer buffer<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然使用的是 Java 原生的 DirectByteBuffer，那么写入数据和读取数据肯定是与其保持一致的，这两个方法我们就不再分析了，有兴趣地同学可以使用调试大法跟踪一下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么，问题来了：Netty 既然不使用 Cleaner 来自动清理垃圾，那它怎么实现垃圾清理呢？</p>
+</div><div class="cl-preview-section"><h2 id="释放内存" style="font-size: 30px;">释放内存</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这就是 <code>ReferenceCountUtil.release(byteBuf);</code> 这行代码的作用了，同样地，我们跟踪进去瞧一瞧：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token comment">// ReferenceCountUtil#release</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">release</span><span class="token punctuation">(</span>Object msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>msg <span class="token keyword">instanceof</span> <span class="token class-name">ReferenceCounted</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 转换成ReferenceCounted</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ReferenceCounted<span class="token punctuation">)</span> msg<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// AbstractReferenceCountedByteBuf#release()</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// updater.release(this)将其引用计数减一</span>
+    <span class="token comment">// 默认的引用计数为2</span>
+    <span class="token comment">// 如果减到1的话表示可以清理掉了，此时会返回true</span>
+    <span class="token keyword">return</span> <span class="token function">handleRelease</span><span class="token punctuation">(</span>updater<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">private</span> <span class="token keyword">boolean</span> <span class="token function">handleRelease</span><span class="token punctuation">(</span><span class="token keyword">boolean</span> result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果减到1的话，就把它清理掉</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>result<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">deallocate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">deallocate</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ByteBuffer buffer <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>buffer<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>buffer <span class="token operator">==</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 将对DirectByteBuffer的引用置为空，方便GC清理this.buffer引用的对象</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>buffer <span class="token operator">=</span> null<span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>doNotFree<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 调用freeDirect</span>
+        <span class="token function">freeDirect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf#freeDirect</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">freeDirect</span><span class="token punctuation">(</span>ByteBuffer buffer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> capacity <span class="token operator">=</span> buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 调用父类</span>
+    <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">freeDirect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 监控增强</span>
+    <span class="token punctuation">(</span><span class="token punctuation">(</span>UnpooledByteBufAllocator<span class="token punctuation">)</span> <span class="token function">alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">decrementDirect</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token annotation punctuation">@Override</span>
+<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">freeDirect</span><span class="token punctuation">(</span>ByteBuffer buffer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用到PlatformDependent</span>
+    PlatformDependent<span class="token punctuation">.</span><span class="token function">freeDirectNoCleaner</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">freeDirectNoCleaner</span><span class="token punctuation">(</span>ByteBuffer buffer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">assert</span> USE_DIRECT_BUFFER_NO_CLEANER<span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> capacity <span class="token operator">=</span> buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 调用到PlatformDependent</span>
+    PlatformDependent0<span class="token punctuation">.</span><span class="token function">freeMemory</span><span class="token punctuation">(</span>PlatformDependent0<span class="token punctuation">.</span><span class="token function">directBufferAddress</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">decrementMemoryCounter</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">freeMemory</span><span class="token punctuation">(</span><span class="token keyword">long</span> address<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 调用Unsafe释放直接内存</span>
+    UNSAFE<span class="token punctuation">.</span><span class="token function">freeMemory</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，最终是调用的 Unsafe 的 freeMemory () 方法来释放内存的，这与 DirectByteBuffer 的最终结果又是一致的（Deallocator 中调用了 Unsafe 的 freeMemory () 方法）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，我们总结归纳一下整个过程：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">在创建分配器 UnpooledByteBufAllocator 的时候会查找 DirectByteBuffer 中是否包含 NoCleaner 的构造方法；</li>
+<li style="font-size: 20px; line-height: 38px;">在创建 UnpooledDirectByteBuf 的时候默认创建的是其子类 InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf，这个类将不使用 Cleaner 来清理垃圾，同时，它的底层使用的是 Java 原生的 DirectByteBuffer，且包含 Unsafe；</li>
+<li style="font-size: 20px; line-height: 38px;">在清理内存的时候需要手动调用 <code>ReferenceCountUtil.release(byteBuf);</code> 方法；</li>
+<li style="font-size: 20px; line-height: 38px;">最终也是调用 Unsafe 的 freeMemory () 来释放内存；</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="其它" style="font-size: 30px;">其它</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上面分析的过程中，我们发现 InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf 类还有两个兄弟类：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">InstrumentedUnpooledUnsafeDirectByteBuf</li>
+<li style="font-size: 20px; line-height: 38px;">InstrumentedUnpooledDirectByteBuf</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从名字上也可以看出，前者不包含 <code>NoCleaner</code>，那可能就是使用的 Cleaner 来清理垃圾，后者不包含 <code>Unsafe</code>，那可能就是不使用 Unsafe 来操作直接内存了吧，具体是不是这样呢？我们简单快速地过一下源码。</p>
+</div><div class="cl-preview-section"><h3 id="instrumentedunpooledunsafedirectbytebuf">InstrumentedUnpooledUnsafeDirectByteBuf</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">直接打开这个类：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">InstrumentedUnpooledUnsafeDirectByteBuf</span> <span class="token keyword">extends</span> <span class="token class-name">UnpooledUnsafeDirectByteBuf</span> <span class="token punctuation">{</span>
+    <span class="token function">InstrumentedUnpooledUnsafeDirectByteBuf</span><span class="token punctuation">(</span>
+        UnpooledByteBufAllocator alloc<span class="token punctuation">,</span> <span class="token keyword">int</span> initialCapacity<span class="token punctuation">,</span> <span class="token keyword">int</span> maxCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span>alloc<span class="token punctuation">,</span> initialCapacity<span class="token punctuation">,</span> maxCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ByteBuffer buffer <span class="token operator">=</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">allocateDirect</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span>UnpooledByteBufAllocator<span class="token punctuation">)</span> <span class="token function">alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">incrementDirect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> buffer<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">freeDirect</span><span class="token punctuation">(</span>ByteBuffer buffer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> capacity <span class="token operator">=</span> buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">freeDirect</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span>UnpooledByteBufAllocator<span class="token punctuation">)</span> <span class="token function">alloc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">decrementDirect</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与其它 <code>Instrumented</code> 开头的增强类几乎没有任何区别，其实，真正区别的地方在于它们的父类，通过观察可以发现，InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf 继承自 UnpooledUnsafeNoCleanerDirectByteBuf ，而 InstrumentedUnpooledUnsafeDirectByteBuf 继承自 UnpooledUnsafeDirectByteBuf，所以，真正的区别还是位于它们的父类中，我们以 <code>allocateDirect()</code> 这个方法为例，跟踪到它的父类中：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token comment">// UnpooledDirectByteBuf#allocateDirect</span>
+<span class="token keyword">protected</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 这不是`再谈ByteBuffer`中我们的调试用例使用的方法么？！</span>
+    <span class="token keyword">return</span> ByteBuffer<span class="token punctuation">.</span><span class="token function">allocateDirect</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// ByteBuffer#allocateDirect</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 直接创建了DirectByteBuffer，包含Cleaner的</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DirectByteBuffer</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">OK，到这里就很清晰了，也就是说，如果 DirectByteBuffer 中不包含 <code>NoCleaner</code> 的构造方法，就使用与 Java 原生一样的方式，创建一个包含 Cleaner 的 DirectByteBuffer。</p>
+</div><div class="cl-preview-section"><h3 id="instrumentedunpooleddirectbytebuf">InstrumentedUnpooledDirectByteBuf</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">同样地，如果没有 Unsafe，直接看其父类 UnpooledDirectByteBuf 的 allocateDirect () 方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token comment">// UnpooledDirectByteBuf#allocateDirect</span>
+<span class="token keyword">protected</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> initialCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> ByteBuffer<span class="token punctuation">.</span><span class="token function">allocateDirect</span><span class="token punctuation">(</span>initialCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// ByteBuffer#allocateDirect</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> ByteBuffer <span class="token function">allocateDirect</span><span class="token punctuation">(</span><span class="token keyword">int</span> capacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">DirectByteBuffer</span><span class="token punctuation">(</span>capacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">纳尼，与上面的那个 InstrumentedUnpooledUnsafeDirectByteBuf 一样的处理逻辑，是的，你没有看错，就是一样的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实，也不完全一样，仔细观察一下，InstrumentedUnpooledUnsafeDirectByteBuf 的父类 UnpooledUnsafeDirectByteBuf 是继承自 InstrumentedUnpooledDirectByteBuf 的父类 UnpooledDirectByteBuf 的，它里面加了一个属性 <code>memoryAddress</code>：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UnpooledUnsafeDirectByteBuf</span> <span class="token keyword">extends</span> <span class="token class-name">UnpooledDirectByteBuf</span> <span class="token punctuation">{</span>
+    <span class="token keyword">long</span> memoryAddress<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Netty 这里的意思并不是说不支持 Unsafe 就甩锅给 JDK，而是说 Netty 支不支持使用 Unsafe，如果可以使用，那么，它就可以使用 Unsafe 来操作直接内存，如果不支持使用 Unsafe，那它也只能交给 JDK 自己来处理了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Netty 支不支持使用 Unsafe 是通过参数 <code>io.netty.noUnsafe</code> 来控制，默认为 false，也就是可以使用 Unsafe。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，到这里，UnpooledDirectByteBuf 和 UnpooledUnsafeDirectByteBuf 的分析就结束了。</p>
+</div><div class="cl-preview-section"><h1 id="后记">后记</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天，我们一起学习了 UnpooledDirectByteBuf 和 UnpooledUnsafeDirectByteBuf 的实现细节，总的来说，它们底层都是使用 Java 原生的 DirectByteBuffer，不同之处在于，默认情况下，Netty 是自己控制直接内存的释放，即使用 DirectByteBuffer 的 NoCleaner 构造方法，且支持使用 Unsafe。如果 DirectByteBuffer 没有 NoCleaner 方法，则使用包含 Cleaner 的构造方法，同时也支持使用 Unsafe。如果显式地说明了不支持使用 Unsafe 的话，那么最后只能交给 JDK 自己来处理了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">后面，我们将学习池化相关的概念，简单地说，Netty 中包含两种池化 —— 内存池和对象池，它们有怎样的区别和联系呢，敬请期待。</p>
+</div><div class="cl-preview-section"><h1 id="思维导图">思维导图</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5f28bdcd00018a4424610477.png" data-original="//img1.sycdn.imooc.com/5f28bdcd00018a4424610477.png" alt="图片描述"></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/82/article/2177">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            18 Netty的ByteBuf是如何支持堆内存非池化实现的
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/82/article/2179">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            20 jemalloc内存分配器是什么
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.sycdn.imooc.com/5f1a7f610001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2009241134354460</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

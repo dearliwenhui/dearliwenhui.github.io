@@ -1,0 +1,513 @@
+<html><head><meta charset="utf-8"><title>44 我的，都是我的：开发实现个人中心页面-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        44 我的，都是我的：开发实现个人中心页面
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-10-09 09:08:39
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d90760600018d5b06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">理想必须要人们去实现它，它不但需要决心和勇敢而且需要知识。<p class="author">——吴玉章</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以第二节整理的功能需求为基础，我们即可着手实现个人中心页面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在上一节中，我们已经使用 “分类拆解法” 的拆解步骤，对个人中心页面（如图 2 所示）进行了详细拆解。本节我们将按照 “分类拆解法” 的编程步骤，完成页面代码编写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 2 个人中心页面</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d90754900011d2d03580620.png" data-original="//img.mukewang.com/5d90754900011d2d03580620.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h1 id="数据服务">1. 数据服务</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过梳理上一节 “2. 与其它功能模块的关系维度” 中需要使用其它功能模块的数据，我们可以一一对应的找到在前面章节已实现的数据服务来提供相应数据：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户成长体系</p>
+<p style="font-size: 20px; line-height: 38px;">用户的当前总成长值：调用用户表数据服务 <code>UserService</code> 的 <code>getUserInfo</code> 方法获取</p>
+<p style="font-size: 20px; line-height: 38px;">用户当前等级：调用用户等级与等级特权表数据服务 <code>LevelService</code> 的 <code>getLevelList</code> 方法获取用户等级列表后，根据用户的当前总成长值在用户等级列表中查询得到</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">积分体系</p>
+<p style="font-size: 20px; line-height: 38px;">用户的当前可用积分：调用用户表数据服务 <code>UserService</code> 的 <code>getUserInfo</code> 方法获取</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">付费会员体系</p>
+<p style="font-size: 20px; line-height: 38px;">用户的付费会员有效期：调用用户表数据服务 <code>UserService</code> 的 <code>getUserInfo</code> 方法获取</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商城</p>
+<p style="font-size: 20px; line-height: 38px;">用户的购物车商品数量：使用小程序官方提供的数据缓存 API 读取微信客户端的购物车缓存</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">UGC 社区</p>
+<p style="font-size: 20px; line-height: 38px;">用户发表的笔记列表：调用笔记信息表数据服务 <code>NoteService</code> 的 <code>getNoteList</code> 方法获取</p>
+<p style="font-size: 20px; line-height: 38px;">用户点赞的笔记列表：调用点赞记录表数据服务 <code>UpvoteService</code>  的 <code>getMyUpvoteList</code> 方法获取</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在已实现的数据服务中唯一找不到的方法是：从点赞记录表中获取笔记总获赞数（用户发表的所有笔记的点赞数之和）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，我们需要在点赞记录表数据服务 <code>UpvoteService</code>  中添加一个方法 <code>getMyBeUpvotedNum</code> 来获取用户发表笔记的总获赞数：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 从数据库获取用户发表笔记的总获赞数
+   * @method getMyBeUpvotedNum
+   * @for UpvoteService
+   * @param {function} successCallback(num) 处理数据查询结果的回调函数
+   * num: 用户发表笔记的总获赞数
+   */</span>
+  <span class="token function">getMyBeUpvotedNum</span><span class="token punctuation">(</span>successCallback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//在点赞记录表中查找作者OpenId字段中值为用户OpenId的记录数，该数字即用户发表笔记的总获赞数</span>
+    db<span class="token punctuation">.</span><span class="token function">collection</span><span class="token punctuation">(</span><span class="token string">'upvote'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        autherOpenid<span class="token punctuation">:</span> app<span class="token punctuation">.</span>globalData<span class="token punctuation">.</span>openid
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>res <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">//回调函数处理数据查询结果，res.total即用户发表笔记的总获赞数</span>
+        <span class="token keyword">typeof</span> successCallback <span class="token operator">==</span> <span class="token string">"function"</span> <span class="token operator">&amp;&amp;</span> <span class="token function">successCallback</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>total<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>err <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token comment">//访问数据库失败 的 系统异常处理</span>
+        <span class="token comment">//跳转出错页面</span>
+        wx<span class="token punctuation">.</span><span class="token function">redirectTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+          url<span class="token punctuation">:</span> <span class="token string">'../../errorpage/errorpage'</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="编程步骤" style="font-size: 30px;">2. 编程步骤</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在编写好数据服务后，就可以根据拆解结果一步步完成页面的代码编写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">个人中心页面读取的数据较多，需要设置一个从数据库获取完数据的标志 <code>inited</code> ，当从数据库获取到数据后再显示页面。：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    inited<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment">//是否已从数据库读取数据</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="定义页面子部件及其排列顺序">2.1 定义页面子部件及其排列顺序</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">个人中心页面可以拆解为 4 个子部件：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">子部件 1 ：用户信息栏</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 2 ：小 M 卡会员入口栏</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 3 ：常用功能菜单栏</li>
+<li style="font-size: 20px; line-height: 38px;">子部件 4 ：笔记栏</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先在 WXML 页面模板中定义 4 个子部件的容器 ：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- 当从数据库获取完全部数据后，再显示页面--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name"><span class="token namespace">wx:</span>if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{inited}}<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 1 ：用户信息栏 设置白色背景--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bg-white padding-top-lg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 2 ：小M卡会员入口栏 使用 WeUI 的 panel --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel weui-panel_access<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 3 ：常用功能菜单栏 使用 WeUI 的 panel --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel weui-panel_access<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- 子部件 4 ：笔记栏 使用 WeUI 的 navbar --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-tab margin-top-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现子部件-1-：用户信息栏">2.2 实现子部件 1 ：用户信息栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节已经将子部件 1 拆解为一系列的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户头像</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为微信用户头像</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户昵称</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为微信用户昵称</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的等级图标</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户当前等级</p>
+<p style="font-size: 20px; line-height: 38px;">用户等级是计算值，根据用户当前总成长值，从用户等级与等级特权表中计算得出</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当前可用积分</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，事件为用户点击事件，数据为用户表中用户当前可用积分字段</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到积分体系页面（在第六章第四节开发实现）</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">笔记总获赞数</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，无事件，数据为用户发表的所有笔记的点赞数之和</p>
+<p style="font-size: 20px; line-height: 38px;">用户发表的所有笔记的点赞数之和是计算值，从点赞记录表中查询得出</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当前总成长值</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，事件为用户点击事件，数据为用户表中用户当前总成长值字段</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到用户成长体系页面（在第五章第四节开发实现）</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们要根据 “1. 数据服务” 的整理结果定义 data 中的数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    myLevel<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">//用户等级</span>
+    myInfo<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token comment">//用户信息</span>
+    myBeUpvotedNum<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token comment">//用户发表笔记的总获赞数</span>
+    isMembershipExpired<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment">//用户是否是小M卡会员（还在会员有效期中）</span>
+    cart<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment">//购物车数据</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后调用数据服务在页面加载时获取数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  onLoad<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">//获取数据库中的用户数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setUserData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//读取微信客户端缓存的购物车数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">initCart</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      
+  <span class="token comment">/**
+   * 从微信客户端的购物车数据缓存中读取购物车商品数据
+   */</span>
+  initCart<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> value <span class="token operator">=</span> wx<span class="token punctuation">.</span><span class="token function">getStorageSync</span><span class="token punctuation">(</span><span class="token string">'cart'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        cart<span class="token punctuation">:</span> value
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//这里比第八章第七节的 initCart 方法多了一个判断，原因见下文特殊场景</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        cart<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment">/**
+   * 调用数据服务获取数据库中的用户数据
+   */</span>
+  setUserData<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+    <span class="token comment">//调用数据服务获取用户信息、用户等级、笔记总获赞数等数据</span>
+    levelService<span class="token punctuation">.</span><span class="token function">getLevelList</span><span class="token punctuation">(</span>
+      <span class="token comment">//获取成长体系中的所有成长等级回调函数</span>
+      <span class="token keyword">function</span><span class="token punctuation">(</span>levelList<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//用户等级列表</span>
+        <span class="token keyword">var</span> levels <span class="token operator">=</span> levelList
+        userService<span class="token punctuation">.</span><span class="token function">getUserInfo</span><span class="token punctuation">(</span>
+          <span class="token comment">//获取用户信息回调函数</span>
+          <span class="token keyword">function</span><span class="token punctuation">(</span>userinfo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//用户信息</span>
+            <span class="token keyword">var</span> myInfo <span class="token operator">=</span> userinfo
+            upvoteService<span class="token punctuation">.</span><span class="token function">getMyBeUpvotedNum</span><span class="token punctuation">(</span>
+              <span class="token comment">//获取用户发表笔记的总获赞数回调函数</span>
+              <span class="token keyword">function</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">//获取用户等级</span>
+                <span class="token keyword">var</span> myLevel <span class="token operator">=</span> levels<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>e <span class="token operator">=&gt;</span> e<span class="token punctuation">.</span>minGrowthValue <span class="token operator">&lt;=</span> myInfo<span class="token punctuation">.</span>growthValue <span class="token operator">&amp;&amp;</span> myInfo<span class="token punctuation">.</span>growthValue <span class="token operator">&lt;=</span> e<span class="token punctuation">.</span>maxGrowthValue<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+                <span class="token comment">//根据付费会员有效期计算用户是否是小M卡会员</span>
+                <span class="token keyword">var</span> isMembershipExpired <span class="token operator">=</span> myInfo<span class="token punctuation">.</span>memberExpDate <span class="token operator">&lt;</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token comment">//设置用户数据</span>
+                that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                  myLevel<span class="token punctuation">:</span> myLevel<span class="token punctuation">,</span>
+                  myInfo<span class="token punctuation">:</span> myInfo<span class="token punctuation">,</span>
+                  myBeUpvotedNum<span class="token punctuation">:</span> num<span class="token punctuation">,</span> <span class="token comment">//用户发表笔记的总获赞数</span>
+                  isMembershipExpired<span class="token punctuation">:</span> isMembershipExpired
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+                <span class="token comment">//在读取完所有数据后，设置从数据库读取数据完成标志</span>
+                that<span class="token punctuation">.</span><span class="token function">setData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+                  inited<span class="token punctuation">:</span> <span class="token boolean">true</span>
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+              <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>在第七章第三节和第八章第六节中我们均提到过一个特殊场景：由于小程序的页面路由机制，点击小程序左上角的返回按钮后只是将前一页面出栈显示出来，并不会重新加载页面（即不会触发 onLoad 事件）。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>在个人中心页面同样存在特殊场景：</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>当用户从个人中心进入微信运动同步页面，在微信运动同步页面同步微信运动步数后（此时用户的积分和成长值已经发生变化），再点击小程序左上角的返回按钮返回个人中心页面时，应该显示最新的积分与成长值信息；</strong></li>
+<li style="font-size: 20px; line-height: 38px;"><strong>当用户从个人中心进入购物车页面，在购物车中删除商品后再返回个人中心页面，应该显示最新的购物车商品数量。</strong></li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，我们需要增加一个页面显示事件的定义，在页面显示时重新获取数据：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js">  <span class="token comment">/**
+   * 生命周期函数--监听页面显示
+   */</span>
+  onShow<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//页面显示，需要刷新数据</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setUserData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">initCart</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在完成显示数据获取的 JS 逻辑后，编写 WXML 页面模板代码实现页面数据显示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用户头像、用户昵称、用户等级图标的显示可基于第五章第四节 “2.2 实现子部件 1 ：用户的当前用户等级与成长值显示” 的代码进行修改实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当前可用积分、笔记总获赞数、当前总成长值的水平排列效果使用 WeUI 的 Flex 组件实现，图标可以从 ColorUI 中找到，页面跳转用 Navigator。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">WXML 页面模板代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">  <span class="token comment">&lt;!-- 子部件 1 ：用户信息栏 设置白色背景--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>bg-white padding-top-lg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-center padding-bottom-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 用户头像 使用open-data显示用户头像 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cu-avatar xl round bg-gray<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>open-data</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>userAvatarUrl<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>userAvatarUrl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>open-data</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 用户昵称 使用open-data显示用户头像 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>open-data</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>userNickName<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>open-data</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 用户的等级图标 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cu-avatar sm round bg-white line-{{ myLevel.icon }} solids<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-medal<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 使用 WeUI 的 Flex 实现水平排列 --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 当前可用积分 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../point/point<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl text-black<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{myInfo.point}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-choiceness<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span> 积分<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 笔记总获赞数 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl text-black<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{myBeUpvotedNum}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-like<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span> 获赞<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 当前总成长值 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../level/level<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl text-black<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{myInfo.growthValue}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-medal<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span> 成长<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现子部件-2-：小m卡会员入口栏">2.3 实现子部件 2 ：小 M 卡会员入口栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 2 包含一个显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">小 M 卡会员菜单</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，事件为用户点击事件，数据为用户表中用户付费会员有效期字段</p>
+<p style="font-size: 20px; line-height: 38px;">如果用户不是小 M 卡会员，显示非小 M 卡会员的内容提示：成为小 M 卡会员立享 7 折特权</p>
+<p style="font-size: 20px; line-height: 38px;">如果用户是小 M 卡会员，显示小 M 卡会员的内容提示：我的小 M 卡</p>
+<p style="font-size: 20px; line-height: 38px;">用户是否小 M 卡会员根据付费会员有效期是否大于当前时间判断</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到付费会员首页（在第七章第三节开发实现）</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">小 M 卡会员菜单的实现与第八章第六节 “3.4 实现子部件 3 ：付费会员促销栏” 类似：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">  <span class="token comment">&lt;!-- 子部件 2 ：小M卡会员入口栏 使用 WeUI 的 panel --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel weui-panel_access<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../membershipcard/membershipcard<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell weui-cell_access weui-cell_hide_line<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-badge weui-badge_space<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>M<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-badge_after<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              {{ isMembershipExpired ? '成为小M卡会员立享7折特权' : '我的小M卡'}}
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__ft weui-cell__ft_in-access<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{ isMembershipExpired ? '开通会员' : ''}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="实现子部件-3-：常用功能菜单栏">2.4 实现子部件 3 ：常用功能菜单栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第二节已经将子部件 3 拆解为一系列的显示元素：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">订单列表入口</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，事件为用户点击事件，无数据</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到订单列表页面（在第八章第八节开发实现）</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">购物车入口</p>
+<p style="font-size: 20px; line-height: 38px;">交互界面，事件为用户点击事件，数据为微信客户端的购物车缓存</p>
+<p style="font-size: 20px; line-height: 38px;">如果微信客户端的购物车缓存中有商品，则在该入口的右上角用红色标记显示购物车缓存中的商品数量</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到购物车页面（在第八章第七节开发实现）</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">微信运动步数同步入口</p>
+<p style="font-size: 20px; line-height: 38px;">静态界面，事件为用户点击事件，无数据</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击事件的事件响应为：页面跳转到微信运动同步页面（在第六章第三节开发实现）</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 3 的水平排列效果使用 WeUI 的 Flex 组件实现，图标可以从 ColorUI 中找到，页面跳转用 Navigator。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">购物车右上角红色标记显示商品数量，可以以第八章第六节底部操作栏的样式为基础，添加自定义样式 cart_badge 实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">WXML 页面模板代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">  <span class="token comment">&lt;!-- 子部件 3 ：常用功能菜单栏 使用 WeUI 的 panel --&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel weui-panel_access<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-panel__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token comment">&lt;!-- 使用 WeUI 的 Flex 实现水平排列 --&gt;</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token comment">&lt;!-- 订单列表入口 --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../order/order<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-shop<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>订单<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token comment">&lt;!-- 购物车入口 --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../../shop/cart/cart<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl text-center<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token comment">&lt;!-- 右上角红点以第八章第六节底部操作栏的样式为基础，添加自定义样式cart_badge实现 --&gt;</span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-cart cart_badge<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name"><span class="token namespace">wx:</span>if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{{cart.length &gt; 0}}<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cu-tag badge<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>{{cart.length}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>购物车<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+        <span class="token comment">&lt;!-- 微信运动步数同步入口 --&gt;</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-flex__item text-center padding-tb-sm<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>navigator</span> <span class="token attr-name">url</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>../walkingstepsync/walkingstepsync<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text-xxl<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>text</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon-rank<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>text</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span><span class="token punctuation">&gt;</span></span>步数同步<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>navigator</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="子部件-4-：笔记栏">2.5 子部件 4 ：笔记栏</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">子部件 4  就是去掉了发现菜单的 UGC 社区首页，具体实现代码请参考第九章第五节。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>由于篇幅所限，包含完整样式的 WXML 页面模板代码请查阅专栏源代码 index.wxml 与 index.wxss ，完整的 JS 逻辑代码见 index.js ，具体代码位置见本节末尾图 3 。</strong></p>
+</div><div class="cl-preview-section"><h2 id="专栏源代码" style="font-size: 30px;">3. 专栏源代码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏源代码已上传到 GitHub ，请访问以下地址获取：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/liujiec/Membership-ECommerce-Miniprogram">https://github.com/liujiec/Membership-ECommerce-Miniprogram</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节源代码内容在图 3 红框标出的位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 3 本节源代码位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d9075d00001346f07670704.png" data-original="//img.mukewang.com/5d9075d00001346f07670704.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将让项目具备为运营服务的能力（发送模板消息）和为营销服务的能力（自定义转发内容）。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>编写代码完成个人中心页面，如碰到问题，请阅读本专栏源代码学习如何实现。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/602">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            43 个人中心功能设计
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/604">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            45 无小程序不营销：自定义转发与模板消息
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,397 @@
+<html><head><meta charset="utf-8"><title>33 验证码和接口限频-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        33 验证码和接口限频
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-10-09 09:35:03
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img.mukewang.com/5d919b2900012d7206400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">上天赋予的生命，就是要为人类的繁荣和平和幸福而奉献。<p class="author">——松下幸之助</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个真实的企业级业务，对安全性的考虑是必不可少的，除了我们前端常见的<a href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC">XSS跨站脚本攻击</a>攻击和<a href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0">CSRF跨站请求伪造</a>攻击之外，我们对日常的业务逻辑也要有安全意识，例如我们系统的短信验证码，如果被非法利用会对我们的资源造成严重隐患，下面就对我们这些有安全隐患的地方加以处理和巩固。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址，大家可以事先浏览一下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/app.js">Github-app.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/config.js">Github-config.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/login/index.vue">Github-index.vue</a></p>
+</div><div class="cl-preview-section"><h3 id="设置后台支持跨域">设置后台支持跨域</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我们之前的开发中，由于我们是前后端分离，使用Vue cli3生成的项目会自动为你生成一个devserver来供调试，所以大多数场景下，如果你需要请求本地的后台服务，由于端口不一致，会出现跨域的问题，关于跨域问题简单普及一下。<br>
+<strong>跨域定义:</strong><br>
+同源策略/SOP（Same origin policy）是一种约定，由Netscape公司1995年引入浏览器，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到XSS、CSFR等攻击。所谓同源是指"协议+域名+端口"三者相同，即便两个不同的域名指向同一个ip地址，也非同源。<br>
+在我们常见的ajax请求场景中：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>index<span class="token punctuation">.</span>html 页面调用 http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>server<span class="token punctuation">.</span>php （非跨域）
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>index<span class="token punctuation">.</span>html 页面调用 http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>api<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>server<span class="token punctuation">.</span>php （跨域 域名不同）
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>index<span class="token punctuation">.</span>html 页面调用 https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>server<span class="token punctuation">.</span>php （跨域 协议不同）
+http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token operator">/</span>index<span class="token punctuation">.</span>html 页面调用 http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token number">.123</span><span class="token punctuation">.</span>com<span class="token punctuation">:</span><span class="token number">8808</span><span class="token operator">/</span>server<span class="token punctuation">.</span>php （跨域 端口不同）
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">请注意：localhost和127.0.0.1虽然都指向本机，但也属于跨域。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>解决跨域的方法:</strong></p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">JSONP：这里不再讲解，大家可以去网上搜索，大把资料。</li>
+<li style="font-size: 20px; line-height: 38px;">代理：代理的意思就是请求由代理发出，前端请求同域下的接口，这个接口负责代理转发，将数据获取到并返回。相当于绕过了浏览器端，请求由后端发出，自然就不存在跨域问题。</li>
+<li style="font-size: 20px; line-height: 38px;">修改response header，这个是我们本次项目采用的方案，代码如下：<br>
+在后端项目的app.js中加入下面逻辑。</li>
+</ol>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">// 跨域配置 本地调试使用</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  res<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Access-Control-Allow-Origin"</span><span class="token punctuation">,</span> <span class="token string">'http://localhost:8080'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//允许localhost来源访问</span>
+  res<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Access-Control-Allow-Headers"</span><span class="token punctuation">,</span> <span class="token string">"Origin, X-Requested-With, Content-Type, Accept, wec-access-token, Set-Cookie"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//允许设置返回的修改设置的header值</span>
+  res<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">'Access-Control-Allow-Method,'</span>POST<span class="token punctuation">,</span>GET'<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//允许访问的方式</span>
+  res<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Access-Control-Allow-Credentials"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//允许在跨域请求中带上Cookie</span>
+
+  <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你只需要跨域请求，可以单独设置<code>Access-Control-Allow-Origin</code>这个值即可，其他的配置是我们项目中需要的，另外如果想要在跨域请求中带上cookie(默认情况是不会带的)，需要设置<code>Access-Control-Allow-Credentials</code>为<code>true</code>，同时在前端的axios中设置<code>withCredentials: true</code>。</p>
+</div><div class="cl-preview-section"><h3 id="登录态接口限制">登录态接口限制</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当接口支持跨域，就表示你的接口在浏览器端可以被其他业务调用，或者是别人采用POSTMAN这种API请求工具也可以直接调用你的某些接口，所以我们就需要对接口做一定的调用限制。<br>
+对一些接口做登录态校验：如果你的接口需要登录态，就表明当没有登录态的请求访问你的接口时，就需要返回失败，我们可以利用Express的拦截器去实现：<br>
+在后端项目的app.js中添加如下代码。</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">//app.use是Express拦截器的方法</span>
+app<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// 拿取token 数据 按照自己传递方式写</span>
+  <span class="token keyword">var</span> token <span class="token operator">=</span> req<span class="token punctuation">.</span>headers<span class="token punctuation">[</span><span class="token string">'wec-access-token'</span><span class="token punctuation">]</span><span class="token operator">||</span><span class="token string">'xx'</span><span class="token punctuation">;</span>
+  <span class="token comment">// 检查token是否有效（过期和非法）</span>
+  <span class="token keyword">var</span> user <span class="token operator">=</span> tokenUtil<span class="token punctuation">.</span><span class="token function">checkToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>token<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>user<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">//将当前用户的信息挂在req对象上，方便后面的路由方法使用</span>
+      req<span class="token punctuation">.</span>user <span class="token operator">=</span> user<span class="token punctuation">;</span>
+      
+      <span class="token comment">// 续期</span>
+      tokenUtil<span class="token punctuation">.</span><span class="token function">setToken</span><span class="token punctuation">(</span><span class="token punctuation">{</span>user<span class="token punctuation">,</span>res<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//继续下一步路由</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">//需要登录态域名白名单</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>config<span class="token punctuation">.</span>tokenApi<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>path<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">return</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span> code<span class="token punctuation">:</span> <span class="token number">1000</span><span class="token punctuation">,</span> message<span class="token punctuation">:</span> <span class="token string">'无效的token.'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">没错，上面的代码在之前章节《使用JSON Web Token实现用户会话token存储和验证》中出现过，这里我们主要看一下我们的登录态校验白名单，即配置一些接口API路径，只要名单里的接口，就需要进行登录态校验，如果没有登录态，就要返回错误，阻止后面的接口逻辑执行。<br>
+我们在后端项目的根目录创建config.js，在这里添加白名单：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment">//需要登录态的接口</span>
+  tokenApi<span class="token punctuation">:</span><span class="token punctuation">[</span>
+  <span class="token string">'/post/uploadimg'</span><span class="token punctuation">,</span>
+  <span class="token string">'/post/uploadimgaliyun'</span><span class="token punctuation">,</span>
+  <span class="token string">'/post/savepost'</span><span class="token punctuation">,</span>
+  <span class="token string">'/likecomment/addlike'</span><span class="token punctuation">,</span>
+  <span class="token string">'/likecomment/addcomment'</span><span class="token punctuation">,</span>
+  <span class="token string">'/user/update'</span><span class="token punctuation">,</span>
+  <span class="token string">'/likecomment/removelike'</span><span class="token punctuation">,</span>
+  <span class="token string">'/message/addmsg'</span><span class="token punctuation">,</span>
+  <span class="token string">'/message/getchatlist'</span><span class="token punctuation">,</span>
+  <span class="token string">'/message/getchathistory'</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  uploadPath<span class="token punctuation">:</span><span class="token string">'//app.nihaoshijie.com.cn/upload/'</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样配置之后，我们就在这里维护接口的登录态需求即可。</p>
+</div><div class="cl-preview-section"><h3 id="短信验证码接口安全加固">短信验证码接口安全加固</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于短信验证码接口，由于本身逻辑是不需要登录态的，因为本身用户就是登录用的接口，这个时机用户是不会有登录态的，所以我们采取下面的加固措施。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>校验Referer</strong>：在<code>phonecode</code>这个接口中，增加校验<code>Referer</code>逻辑。<br>
+在后端项目的routes文件夹下的users.js路由文件中，找到<code>phonecode</code>路由，添加如下代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/phonecode'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+
+  <span class="token keyword">var</span> refList <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'https://app.nihaoshijie.com.cn/index.html'</span><span class="token punctuation">,</span><span class="token string">'http://localhost:8080/index.html'</span><span class="token punctuation">]</span>
+  <span class="token comment">// console.log(req.headers.referer)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>refList<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>referer<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span>
+  <span class="token punctuation">}</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然Referer在某些场景中也可以被模拟，但是增加了一层难度，使接口不那么容易被攻破。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>限制调用频率</strong>：在<code>phonecode</code>这个接口中，增加对单一IP客户的限制调用频率逻辑。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们需要安装<a href="https://www.npmjs.com/package/express-rate-limit">express-rate-limit</a>模块，是一个基于Express路由的接口限频率的组件模块，在后端项目的根目录执行：</p>
+</div><div class="cl-preview-section"><pre class="  language-bash"><code class="prism  language-bash"><span class="token function">npm</span> <span class="token function">install</span> express-rate-limit --save
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，在后端项目的routes文件夹下的users.js路由文件中，找到<code>phonecode</code>路由，添加如下代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token keyword">var</span> rateLimit <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"express-rate-limit"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">/*
+* 验证码请求限制调用频率同一个ip 1分钟调用最多1次
+*/</span>
+
+<span class="token keyword">var</span> phonecodeLimiter <span class="token operator">=</span> <span class="token function">rateLimit</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  windowMs<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token comment">// 分钟调用1次</span>
+  max<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token comment">// 1分钟调用1次</span>
+  handler<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      msg<span class="token punctuation">:</span> <span class="token string">'请稍后请求'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码流程是针对<code>phonecode</code>路由，添加一个针对同一个客户端<em>1分钟调用1次</em>的频率限制,这是一个中间件，我们需要在<code>phonecode</code>路由配置到第二个参数，代码如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-javascript"><code class="prism  language-javascript">router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/phonecode'</span><span class="token punctuation">,</span>phonecodeLimiter<span class="token punctuation">,</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，对于接口的限制还有其他的一些方法，在这里就不在赘述了，大家可以自由发挥。</p>
+</div><div class="cl-preview-section"><h3 id="登录接口添加验证码">登录接口添加验证码</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于验证码，我相信大家在熟悉不过了，验证码作为登录操作的一个有效防御武器，可以在一定程度上保护用户的账户安全和服务的流量攻击。接下来，就将验证码集成到我们的项目中。验证码逻辑流程图如下：<br>
+<img class="" src="https://img.mukewang.com/5d1d63a500014b2f05320602.png" data-original="//img.mukewang.com/5d1d63a500014b2f05320602.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装验证码模块：</p>
+</div><div class="cl-preview-section"><pre class="  language-bash"><code class="prism  language-bash"><span class="token function">npm</span> <span class="token function">install</span> svg-captcha --save 
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://www.npmjs.com/package/svg-captcha">svg-captcha</a>是一个第三方验证码模块，提供基于SVG图片格式的验证码(相对于一般图片SVG格式更不容易被机器人识别)。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在后端项目的routes文件夹下的users.js路由里增加逻辑，引入验证码校验。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面这段代码主要是创建了一个get方法的路由，路径是/captcha，当浏览器请求<code>http://xx.xx.xx/captcha</code>就会进入这个方法，这个方法返回一张验证码的图片，前端将值赋给<code>&lt;img&gt;</code>的<code>src</code>即可：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">/*
+* 获取验证码图片
+*/</span>
+router<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'/captcha'</span><span class="token punctuation">,</span>  <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">var</span> captcha <span class="token operator">=</span> svgCaptcha<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    ignoreChars<span class="token punctuation">:</span><span class="token string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'</span><span class="token punctuation">,</span><span class="token comment">// 排除字母，只用数字</span>
+    noise<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token comment">// 干扰线条的数量</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// console.log(captcha)</span>
+  res<span class="token punctuation">.</span><span class="token function">cookie</span><span class="token punctuation">(</span><span class="token string">'captcha'</span><span class="token punctuation">,</span> captcha<span class="token punctuation">.</span>text<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      maxAge<span class="token punctuation">:</span> <span class="token number">60</span><span class="token operator">*</span><span class="token number">1000</span><span class="token operator">*</span><span class="token number">30</span><span class="token punctuation">,</span><span class="token comment">// 设置到cookie里 时效1分钟</span>
+      httpOnly<span class="token punctuation">:</span><span class="token boolean">true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token comment">//返回验证码图片</span>
+  res<span class="token punctuation">.</span><span class="token function">type</span><span class="token punctuation">(</span><span class="token string">'svg'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  res<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span>captcha<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码展示了利用svg-captcha生成一张验证码图片，效果如下：<br>
+<img class="" src="https://img.mukewang.com/5d1d5a170001912d02540085.png" data-original="//img.mukewang.com/5d1d5a170001912d02540085.png" alt="图片描述"><br>
+方法：<code>svgCaptcha.create(options)</code>参数配置如下:</p>
+</div><div class="cl-preview-section"><pre><code>size: 4 // 验证码长度
+ignoreChars: '0o1i' // 验证码字符中排除 0o1i
+noise: 1 // 干扰线条的数量
+color: true // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有
+background: '#cc9966' // 验证码图片背景颜色
+noise: 2 // 干扰线条的数量
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">获取验证码之后，需要将值设置到cookie里面，<code>httpOnly:true</code>表示cookie里的值不能被浏览器端修改，更加安全。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，我们将在前端项目的src目录下的components文件夹下的login文件夹的<code>index.vue</code>中将验证码嵌入到前端，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">v-if</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>needCaptcha<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell weui-cell_vcode captcha-code<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__hd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-label<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>图形验证码<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__bd<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">v-model</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>captcha<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-input<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>number<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>请输入验证码<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-cell__ft<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-vcode-img<span class="token punctuation">"</span></span> <span class="token attr-name">:src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>captchaUrl<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>reloadCaptcha<span class="token punctuation">"</span></span><span class="token punctuation">/&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码中：<br>
+<code>needCaptcha</code>用来控制什么时候展示验证码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">展示效果如下：<br>
+<img class="" src="https://img.mukewang.com/5d1d58e000018c6607501334.png" data-original="//img.mukewang.com/5d1d58e000018c6607501334.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">完成了前端的逻辑后，在后端项目的routes文件夹下的users.js路由里增加逻辑，引入对登录接口添加限频逻辑：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript"><span class="token comment">/*
+* 登录请求限制调用频率同一个ip 1分钟调用最多10次
+*/</span>
+<span class="token keyword">var</span> signupLimiter <span class="token operator">=</span> <span class="token function">rateLimit</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  windowMs<span class="token punctuation">:</span> <span class="token number">1</span> <span class="token operator">*</span> <span class="token number">60</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token comment">// 分钟调用10次</span>
+  max<span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token comment">// 1分钟调用10次</span>
+  skip<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token keyword">return</span> req<span class="token punctuation">.</span>cookies<span class="token punctuation">.</span>captcha <span class="token operator">?</span> <span class="token boolean">true</span> <span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  handler<span class="token punctuation">:</span><span class="token keyword">function</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      code<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        code<span class="token punctuation">:</span> <span class="token string">'needCaptcha'</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码的逻辑是：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>req.cookies.captcha</code>：用来判断此次登录是否需要校验验证码，在<code>/captcha</code>路由中会去设置这个值。<br>
+<code>skip</code>：表示如果此次登录是需要弹验证码的，先绕过限频逻辑，去校验验证码。<br>
+<code>handler</code>：接收一个方法，表示命中限频逻辑时的处理方法，这里给前端返回一个标志位<code>needCaptcha</code>用来弹验证码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，在后端项目的routes文件夹下的users.js的<code>/signUp</code>路由里增加逻辑，引入校验验证码：</p>
+</div><div class="cl-preview-section"><pre class="  language-javascript"><code class="prism  language-javascript">router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/signup'</span><span class="token punctuation">,</span> signupLimiter<span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+
+  <span class="token comment">// 如果cookie里有验证码，证明此次登录请求是需要验证码</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>cookies<span class="token punctuation">.</span>captcha<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 如果没有输入验证码，返回前端需要输入验证码</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>captcha<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        code<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          code<span class="token punctuation">:</span> <span class="token string">'needCaptcha'</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> 
+    <span class="token punctuation">}</span>
+    <span class="token comment">//验证验证码是否正确</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>captcha<span class="token punctuation">.</span><span class="token function">toLocaleLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!==</span> req<span class="token punctuation">.</span>cookies<span class="token punctuation">.</span>captcha<span class="token punctuation">.</span><span class="token function">toLocaleLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        code<span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span>
+        msg<span class="token punctuation">:</span><span class="token string">'验证码错误'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> 
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+
+      <span class="token comment">//验证码校验正确，清除cookie，下次就不需要输入验证码登录</span>
+      res<span class="token punctuation">.</span><span class="token function">clearCookie</span><span class="token punctuation">(</span><span class="token string">'captcha'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面代码的流程基本和我们之前的流程图一致，需要注意的是验证码一般不区分大小写，所以校验验证码需要转换成小写去判断。另外在验证码输入正确时要清除cookie的标志位，下次就不弹了。</p>
+</div><div class="cl-preview-section"><h3 id="小节">小节</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节主要讲解了对项目中整个用户登录模块的安全巩固措施。<br>
+相关技术点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">什么是跨域，如何在我们的项目中去解决跨域问题，以及相关的配置解释。</li>
+<li style="font-size: 20px; line-height: 38px;">在代码中，使用<code>express-rate-limit</code>对一些敏感接口进行限频，防止非法利用，另外对短信验证接口添加referer校验机制。</li>
+<li style="font-size: 20px; line-height: 38px;">验证码的整个实现逻辑和技术原理，使用<code>svg-captcha</code>来引入验证码，需要注意的是我们采用cookie的方式来记录是否需要弹出验证码。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章节完整源代码地址：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/app.js">Github-app.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/wecircleServer/config.js">Github-config.js</a><br>
+<a href="https://github.com/lvming6816077/wecircleCode/blob/master/app/src/components/login/index.vue">Github-index.vue</a></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/677">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            32 模拟真实APP完成消息推送
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/42/article/679">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            34 小白的阿里云服务器申请之旅
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5d5a700d0001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907231049307411</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

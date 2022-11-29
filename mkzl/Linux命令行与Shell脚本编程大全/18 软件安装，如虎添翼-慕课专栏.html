@@ -1,0 +1,347 @@
+<html><head><meta charset="utf-8"><title>18 软件安装，如虎添翼-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-12 18 软件安装，如虎添翼
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                18 软件安装，如虎添翼
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-09 11:35:47
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d15916600019a3f06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">人生太短，要干的事太多，我要争分夺秒。<p class="author">——爱迪生</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">初体验软件包和依赖关系</li>
+<li style="font-size: 20px; line-height: 38px;">软件仓库</li>
+<li style="font-size: 20px; line-height: 38px;">包管理工具</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一课配置Nano和终端挺轻松的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一课也会比较轻松，所以好好享受吧~</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来谈谈 Linux 下软件的安装，会在我们的 Ubuntu 这个 Linux 发行版中演示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般提到软件安装，有过 Windows 系统使用经验的朋友肯定深有体会，挺麻烦的。大致流程是这样的：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">在搜索引擎（比如百度或 Google）中搜索我们的软件名称；</li>
+<li style="font-size: 20px; line-height: 38px;">看到一个不错的结果，点击进入，如果是官网一般会进入官网；</li>
+<li style="font-size: 20px; line-height: 38px;">下载此软件的安装程序；</li>
+<li style="font-size: 20px; line-height: 38px;">双击下载下来的安装程序，开始安装，一直按“下一步”，直到“完成”。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">有的软件还会问你要安装在何处；</li>
+<li style="font-size: 20px; line-height: 38px;">有的还会在你不知情的状况下安装捆绑软件，相当不开心；</li>
+<li style="font-size: 20px; line-height: 38px;">有的还有病毒… 这日子简直没法过了。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，现在 Windows 里面也有 Apps Store 这样统一的软件平台，安装软件也比较方便了，只要在软件平台中搜索，点击安装即可。不过不少第三方软件可能没有收录进 Windows 的官方软件平台，安装起来还是很麻烦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是在 Linux 系统中，特别是 Ubuntu 中，安装软件的流程绝对不是这样的，比 Windows 中安装起来方便、安全、快捷多了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而且，你会发现在 Linux 中安装软件是一种乐趣，就是这个 feel，倍儿爽。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这也是 Linux 相对 Windows 的一个优点，我们一起来体验。</p>
+</div><div class="cl-preview-section"><h2 id="初体验软件包和依赖关系" style="font-size: 30px;">2. 初体验软件包和依赖关系</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们得声明：这一课涉及到的软件包安装等知识点是基于 Debian 一族的 Linux 发行版，包括 Ubuntu。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其它不是 Debian 一族的 Linux 发行版，例如 Fedora、Redhat、CentOS等等。其实安装软件的方式大同小异，就是每个 Linux 发行版之间所用的命令不一样，软件包的名称有点区别罢了，所以一通百通。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Windows 下，我们如果要安装软件，一般都是使用“安装程序”——一般是以 .exe 结尾的可执行程序，双击即可运行。大多数情况下我们会把软件安装到 Program Files 这个文件夹下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 下，我们也有类似的程序，但是我们不称之为“安装程序”，而称之为“软件包”，英语是 Package。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个软件包其实是软件的所有文件的压缩包，二进制形式的，包含了安装软件的所有指令。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Debian 一族里，软件包的后缀是 .deb（是 Debian 的前三个字母），Ubuntu 作为 Debian 一族的一员，当然也是用 .deb 的软件包。而如果是 Red Hat 一族（包括 Red Hat、Fedora等），软件包是 .rpm 为后缀。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么，一个 .deb 格式的软件包，其实是类似 Windows 下的 .exe 的安装程序咯？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">确实很像，但是其实它们的运作方式不一样。我们列出主要的两个不同点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">软件包管理包括了依赖关系的管理；</li>
+<li style="font-size: 20px; line-height: 38px;">软件包不需要我们通过搜索引擎来找到并下载，几乎所有的 .deb 软件包都存放在相同地方，称为软件仓库，英语叫 repository。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这两个方面我们会一一来讲解。</p>
+</div><div class="cl-preview-section"><h4 id="依赖关系" style="font-size: 26px;">依赖关系</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通常来说，很少有一个软件可以单独在 Linux 上运行，也就是说它不依赖于其它程序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一个软件经常需要使用到其它程序或者其它程序的片段（我们称之为“库”）。我们说这个软件依赖其它程序，这就是依赖关系。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如说，Linux 下类似 Photoshop 的软件 GIMP，它不能单独运行，它的正常运作还需要调用图片读取的库（比如说如何读取一个 JPG 图片），往往依赖关系还有下层依赖关系，环环相扣。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，在 Windows 里面你也遇到过依赖问题，比如你运行 Eclipse 软件，它会说你还没安装 Java 环境；你运行一个大型游戏，它提示你先安装 Direct X等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">幸运的是，Debian 的包管理系统非常智能。每一个软件包都“知道”它依赖于哪几个程序。这可以让系统去寻找并安装缺失的依赖程序。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，你只要告诉包管理系统“我要安装某某软件”，包管理系统会为你打理一切。</p>
+</div><div class="cl-preview-section"><h2 id="软件仓库" style="font-size: 30px;">3. 软件仓库</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面我们说了，Linux 的软件包都存放在一个地方，叫做软件仓库，repository。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于 Windows 的各种软件，没有这样一个集中存放的地方，所以网上有软件的各种版本、各种型号任君选择。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为 Linux 是在 Windows 之后诞生的（1991 年前后），所以为了避免 Windows 的这个“弊端”，Linux 选择创建一个集中存放软件的地方。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，Linux 的这一优势也得益于它的开源性。Linux 中的软件基本都是开源自由的，任何人都可以分发，传播软件，只要遵守一定软件协议。因此把这些软件集中存放在某个地方是可行的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是 Windows 的大部分软件都是有版权的、闭源的、不开放甚至收费的，这些软件的作者不会同意把他们本该赚钱的软件存放到一个公共仓库任大家分发使用。</p>
+</div><div class="cl-preview-section"><h4 id="软件仓库的概念" style="font-size: 26px;">软件仓库的概念</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面我们说了，Linux 的软件会集中存放在一个地方，叫做软件仓库，英语是 repository。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是你也许会问：假如全球的 Linux 用户都到同一个地方去下载软件，那么存放软件的那个服务器岂不是会死机？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好问题，很有道理。所以，其实软件仓库绝不只是存放在一台服务器上，全球有很多个软件仓库（也就是有很多服务器），大部分软件仓库里的软件都是一样的，只不过是拷贝而已。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有一些特别的软件仓库，会存放其它软件仓库没有的软件，但一般我们用不到这样的软件仓库。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了加深理解，我们可以用下图来表现软件仓库的原理：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088b20001341f14781210.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088b20001341f14781210.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以说，是用户选择软件仓库，因为基本上各个软件仓库中的软件都是一样的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们一般建议用户选择离自己所在地较近的软件仓库的服务器，这样下载速度会比较快，“就近原则”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">例如在法国，Ubuntu 默认会使用 <a href="http://fr.archive.ubuntu.com">http://fr.archive.ubuntu.com</a> 这个服务器上的软件仓库；如果在中国，Ubuntu 会默认使用 <a href="http://cn.archive.ubuntu.com">http://cn.archive.ubuntu.com</a> 这个服务器上的软件仓库。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">fr 是国际上代表 France（法国）的缩写，cn 是国际上代表我们的祖国 China（中国）的缩写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是使用官方的软件仓库并不一定很好，因为有时候这些服务器会比较卡，例如 Ubuntu 更新版本和其下软件的时候。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们来学习如何切换软件仓库吧。</p>
+</div><div class="cl-preview-section"><h4 id="管理软件仓库" style="font-size: 26px;">管理软件仓库</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面说了，用默认的官方版本没有太大坏处，但是有时候会卡。所以我们要学习如何切换软件仓库。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们 Ubuntu 系统使用的软件仓库列表是记录在一个文件中。为了修改这个文件，要用文本编辑器，幸好之前的课程我们已经接触了文本编辑器，知道如何使用了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们要编辑的那个包含软件仓库的列表文件是：</p>
+</div><div class="cl-preview-section"><pre><code>/etc/apt/sources.list
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个文件是系统文件，只能被 root 用户修改。所以我们有两种选择：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">暂时性地成为 root，用 Nano 来编辑此文件：</li>
+</ol>
+</div><div class="cl-preview-section"><pre><code>sudo nano /etc/apt/sources.list
+</code></pre>
+</div><div class="cl-preview-section"><ol start="2">
+<li style="font-size: 20px; line-height: 38px;">先永久成为root：</li>
+</ol>
+</div><div class="cl-preview-section"><pre><code>sudo su
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再用 Nano 来编辑此文件：</p>
+</div><div class="cl-preview-section"><pre><code>nano /etc/apt/sources.list
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用 Nano 打开此文件后，我们看到文件内容类似如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088c20001f61a21061362.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088c20001f61a21061362.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我写这篇文章的时候还在法国巴黎。如果是在中国，那么上面截图中的链接里的 fr 就会替换为 cn。<a href="http://fr.archive.ubuntu.com/ubuntu/">http://fr.archive.ubuntu.com/ubuntu/</a> 就会是 <a href="http://cn.archive.ubuntu.com/ubuntu/">http://cn.archive.ubuntu.com/ubuntu/</a> 。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，由 # 开始的行是注释，会被忽略，不会被处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通常来说，这个文件中有作用的行是由以下两个指令开头：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">deb：用于下载软件的二进制版本，大多数情况下我们都是用这个；</li>
+<li style="font-size: 20px; line-height: 38px;">deb-src：用于下载软件的源代码。一般我们用不到，除非你很好奇想查看软件的源代码。这也是自由软件运动的一个好处，默认是用 # 号注释掉的。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下是一行的例子：</p>
+</div><div class="cl-preview-section"><pre><code>deb http://fr.archive.ubuntu.com/ubuntu/ bionic universe
+</code></pre>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">第一个参数 <a href="http://fr.archive.ubuntu.com/ubuntu/">http://fr.archive.ubuntu.com/ubuntu/</a> 是法国 Ubuntu 官方软件仓库的服务器；</li>
+<li style="font-size: 20px; line-height: 38px;">第二个参数 bionic，代表我们所使用的 Ubuntu 的版本号。bionic 是 Ubuntu 18.04 的代号，bionic 的全称是 Bionic Beaver（仿生河狸）；</li>
+<li style="font-size: 20px; line-height: 38px;">最后一个参数（或者后面还有其它参数）是软件仓库的区域，也就是你要查看的代码仓库的不同分区，universe 是英语“宇宙、世界”的意思。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的概念稍微有点复杂，但其实你只要知道一件事：如果要切换其它的软件仓库，只需要将 /etc/apt/sources.list 这个文件中的 <a href="http://fr.archive.ubuntu.com/ubuntu/">http://fr.archive.ubuntu.com/ubuntu/</a> 服务器地址替换为其它软件仓库的服务器地址即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么问题来了：我怎么知道其它软件仓库的服务器地址呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你可以用搜索引擎来寻找，比如可以搜“Ubuntu repository”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是我们要演示一个更快捷方便的方式，也就是要用到图形界面的方式了。</p>
+</div><div class="cl-preview-section"><h4 id="图形界面工具" style="font-size: 26px;">图形界面工具</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Ubuntu 提供了一个图形化的代码仓库管理软件，可以按以下步骤启动：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">像我们之前的课程演示过的，单击左上角的 Activities 字样，会在屏幕中上方显示搜索框：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088cf0001ff8d16680558.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088cf0001ff8d16680558.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在搜索框中输入 software（software 是英语“软件”的意思），它会为你显示搜索到的几个结果：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088d400011ddd17920550.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088d400011ddd17920550.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">单击那个 Software &amp; Updates（表示“软件和升级”）的图标，打开后如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088da0001d1af14720982.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088da0001d1af14720982.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，我们可以看到默认是打开 Ubuntu Software（表示“Ubuntu 软件”）这个菜单。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个菜单里可以看到，默认的服务器（“Download from: ” 表示 “从…下载”）是法国的：Server for France（意思是“为法国提供的服务器”）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以将这个下拉列表选成“Other…” （other 是英语“其他”的意思）：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088e30001803614640982.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088e30001803614640982.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么会打开另一个窗口，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088e90001345510000698.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088e90001345510000698.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到列表中有很多服务器可供选择，这些都是软件仓库的服务器地址。按国家分类有：United States（美国）、United Kingdom（英国）、Ukraine（乌克兰）、Turkey（土耳其）、Uganda（乌干达）等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了选出最快的服务器，我们可以做一个实际测试：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点击右上角的 Select Best Server （表示“选出最佳服务器”）按钮：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088f00001702210000696.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088f00001702210000696.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后就会启动测试，测试各个服务器的速度：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088f70001fcde10600416.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088f70001fcde10600416.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">测试完之后，最快的服务器会被选中，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d1088fd0001fdfb10100710.png" alt="图片描述" data-original="http://img.mukewang.com/5d1088fd0001fdfb10100710.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我测试的时候，最快的服务器还是法国的 Ubuntu 官方服务器。不过，有几次测试的时候，它给我定位到了意大利的某个服务器。你的情况，应该会是其它服务器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">点击右下角 Choose Server（“选择服务器”）来选择这个最快的服务器，需要输入你的用户密码来生效。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">选择之后，会关闭当前小窗口。回到主窗口，我们可以看到 Download from: 后面的下拉列表已经变为了最快的那个服务器地址。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">重新用 Nano 来打开你的 /etc/apt/sources.list 这个文件，可以看到服务器的地址都已经换成了新的地址。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，图形界面的方式更方便、更直观，比直接用文本编辑器逐行修改 /etc/apt/sources.list 这个文件快多了。</p>
+</div><div class="cl-preview-section"><h2 id="包管理工具" style="font-size: 30px;">4. 包管理工具</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来总结一下：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">package：包。这是软件的二进制安装包，类似 Windows 中软件的安装程序（大多以 .exe 结尾）；</li>
+<li style="font-size: 20px; line-height: 38px;">dependency：依赖。一个软件包可能需要其它软件包作为运行基础，这是依赖关系；</li>
+<li style="font-size: 20px; line-height: 38px;">repository：仓库。软件的仓库，就是存放软件的服务器，我们从这些服务器上下载软件。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面演示了如何切换其他软件仓库，但也不一定要切换，用默认的软件仓库也是可以的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Ubuntu 中，我们可以使用图形界面的软件包管理，例如 Ubuntu 自带的 Ubuntu Software（Ubuntu 软件），要打开很简单，在左边的快捷方式栏里面就有这个软件的快捷方式：<br>
+<img src="http://img.mukewang.com/5d1089070001b3d904520452.png" alt="图片描述" data-original="http://img.mukewang.com/5d1089070001b3d904520452.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">单击打开后，如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d10890d0001002b24241294.png" alt="图片描述" data-original="http://img.mukewang.com/5d10890d0001002b24241294.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在这个软件里，我们可以搜索你想要的软件、安装和升级软件。不过很多第三方的软件没有被收录在里面 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，我们也可以使用终端来管理软件包，终端的软件包管理命令一般用两个：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">apt-get：以前一般用这个比较多，Ubuntu 自带了这个软件；</li>
+<li style="font-size: 20px; line-height: 38px;">apt：现在一般用这个比较多，Ubuntu 自带了这个软件。Ubuntu 16.04 发布时，一个引人注目的新特性便是 apt 命令的引入。apt 正在逐步取代 apt-get，推荐大家使用 apt。关于 apt 和 apt-get 的区别，可以参考：<a href="https://www.sysgeek.cn/apt-vs-apt-get">Linux中apt与apt-get命令的区别与解释</a>。我平时也是用 apt 比较多，毕竟可以少输入几个字母；</li>
+<li style="font-size: 20px; line-height: 38px;">aptitude：这个命令在卸载软件时可以卸载不用的依赖。Ubuntu 没有自带 aptitude，如果你想安装，用 sudo apt install aptitude 命令来安装。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以后的课程我们会使用 apt-get 或 apt 一族来演示，比较标准，一般大家都是用这个。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以下我们再学习几个常用的终端软件包命令，记得这些命令都需要 root 身份来运行：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>apt update：软件包缓存的更新</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般是：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt update
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>apt search：搜索软件包</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般是：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt search xxx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">xxx 是对应软件包名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>apt install：安装软件包</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般是：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt install xxx
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">xxx 是对应软件包名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>apt autoremove：删除软件包</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般是：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt autoremove xxx
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">xxx 是对应软件包名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>apt upgrade：升级所有已安装的软件包</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般是 ：</p>
+</div><div class="cl-preview-section"><pre><code>sudo apt upgrade
+
+</code></pre>
+</div><div class="cl-preview-section"><hr>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有时候，我们也希望查询软件包的信息，可以用以下命令：</p>
+</div><div class="cl-preview-section"><pre><code>apt-cache show package_name
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面的 package_name 用实际软件包名来代替。例如：</p>
+</div><div class="cl-preview-section"><pre><code>apt-cache show emacs
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以查询 Emacs 这个软件的很多信息。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果是 RedHat 系的系统（例如 RedHat，Fedora 和 CentOS），那么可以用以下命令：</p>
+</div><div class="cl-preview-section"><pre><code>yum info package_name
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">补充一下：<br>
+dpkg 这个命令也是很有用的。事实上，dpkg 是 apt-get、apt 和 aptitude 这三个命令的后端 （backend）命令，而 apt-get、apt 和 aptitude 又是 Ubuntu Software 这样的图形界面的软件后端。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">依赖链：<br>
+dpkg --&gt; apt-get、apt、aptitude --&gt; Ubuntu Software</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因此，如果是本地的 .deb 软件包，我们可以用 dpkg 来安装：</p>
+</div><div class="cl-preview-section"><pre><code>sudo dpkg -i *.deb
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">卸载：</p>
+</div><div class="cl-preview-section"><pre><code>sudo dpkg -r xxx
+
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">xxx 是对应软件包名。</p>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">大部分 Linux 的发行版都提供了集中式的软件包下载和安装方式，因此软件的安装比 Windows 下来得简单很多，这些集中存放软件的服务器被称为软件仓库；</li>
+<li style="font-size: 20px; line-height: 38px;">在 Ubuntu 下，我们可以使用图形界面的软件包管理来安装软件，当然我们也可以使用终端命令来安装软件，就用 apt-get 或 apt 命令族；</li>
+<li style="font-size: 20px; line-height: 38px;">apt update 命令：更新可安装的软件列表；</li>
+<li style="font-size: 20px; line-height: 38px;">apt search 命令：在软件列表里搜索可用软件；</li>
+<li style="font-size: 20px; line-height: 38px;">apt install 命令：安装软件；</li>
+<li style="font-size: 20px; line-height: 38px;">apt autoremove 命令：卸载软件；</li>
+<li style="font-size: 20px; line-height: 38px;">apt upgrade 命令：升级所有已安装软件。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/471">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    17 配置Nano和终端
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/473">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    19 RTFM 阅读那该死的手册
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

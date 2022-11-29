@@ -1,0 +1,236 @@
+<html><head><meta charset="utf-8"><title>04 人多力量未必大—并发可能会遇到的问题-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        04 人多力量未必大—并发可能会遇到的问题
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-09 19:19:49
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d762e6b0001561a06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">不安于小成，然后足以成大器；不诱于小利，然后可以立远功。<p class="author">——方孝孺</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">专栏已经写到第三篇，但我们貌似还没体验到多线程带来的好处，反倒是惹出了一些麻烦。上一篇专栏中，我们试图采用多线程并发，加快抄写单词的速度，但是事与愿违，不但没有提升，还做了无用功。最糟糕的是程序执行结果是错误的。人多虽然力量大，但也会有各种问题和麻烦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d75b1ed0001df1a10960580.jpg" data-original="//img.mukewang.com/5d75b1ed0001df1a10960580.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图，如果问题处理得不得当，人越多反而会越乱。上一节并发抄写单词程序的问题不知大家思考的如何。其实很简单，问题出在共享资源的访问上。</p>
+</div><div class="cl-preview-section"><h2 id="并发抄写单词问题分析" style="font-size: 30px;">并发抄写单词问题分析</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">回到抄单词这个问题上，我们试图引入更多的学生来一块完成任务，那么这些学生怎么知道目前抄写多少单词了？自己是否还需要继续抄写呢？我们看相关代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">if</span> <span class="token punctuation">(</span>punishment<span class="token punctuation">.</span><span class="token function">getLeftCopyCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> leftCopyCount <span class="token operator">=</span> punishment<span class="token punctuation">.</span><span class="token function">getLeftCopyCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>threadName<span class="token operator">+</span><span class="token string">"线程-"</span><span class="token operator">+</span>name <span class="token operator">+</span> <span class="token string">"抄写"</span> <span class="token operator">+</span> punishment<span class="token punctuation">.</span><span class="token function">getWordToCopy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"。还要抄写"</span> <span class="token operator">+</span> <span class="token operator">--</span>leftCopyCount <span class="token operator">+</span> <span class="token string">"次"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    punishment<span class="token punctuation">.</span><span class="token function">setLeftCopyCount</span><span class="token punctuation">(</span>leftCopyCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我用通俗的方式来说明这段代码的逻辑。为了让参与抄写单词的学生知道剩余抄写的数量，我们找来了一块小黑板，然后把剩余的总量写在上面，每个学生抄写之前先看一眼黑板，如果剩余的数量大于零，那么还需要继续抄写，抄写完后，擦掉黑板上的数字，把剩余数量-1，写上去。<br>
+<strong>流程图如下：</strong><br>
+<img class="" src="https://img.mukewang.com/5d723a1a0001337407870415.jpg" data-original="//img.mukewang.com/5d723a1a0001337407870415.jpg" alt="图片描述">OK，一个人按照这个流程抄写是没问题的，但是多个人同时抄写，问题就多了。</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">读取次数和抄完更新次数之间有时间间隔，此时别的学生也会读到同样的剩余次数，那么这次抄写就是多余的；</li>
+<li style="font-size: 20px; line-height: 38px;">在更新leftCopyCount的时候，可能其它多个线程已经更新过了，也就是说此时leftCopyCount并不是你当初取出来的值，那么可能会把剩余数量更新的比此时还要大。这样其它线程的抄写就白做了。因为剩余数量被更新了回去。</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="尝试解决并发问题" style="font-size: 30px;">尝试解决并发问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了解决这两个问题我们修改copyWord方法代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">copyWord</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    String threadName <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>punishment<span class="token punctuation">.</span><span class="token function">getLeftCopyCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">int</span> leftCopyCount <span class="token operator">=</span> punishment<span class="token punctuation">.</span><span class="token function">getLeftCopyCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                leftCopyCount<span class="token operator">--</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>leftCopyCount<span class="token operator">&lt;</span>punishment<span class="token punctuation">.</span><span class="token function">getLeftCopyCount</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    punishment<span class="token punctuation">.</span><span class="token function">setLeftCopyCount</span><span class="token punctuation">(</span>leftCopyCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>threadName<span class="token operator">+</span><span class="token string">"线程-"</span><span class="token operator">+</span>name <span class="token operator">+</span> <span class="token string">"抄写"</span> <span class="token operator">+</span> punishment<span class="token punctuation">.</span><span class="token function">getWordToCopy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"。还要抄写"</span> <span class="token operator">+</span> leftCopyCount <span class="token operator">+</span> <span class="token string">"次"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                count<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>threadName<span class="token operator">+</span><span class="token string">"线程-"</span><span class="token operator">+</span>name <span class="token operator">+</span> <span class="token string">"一共抄写了"</span> <span class="token operator">+</span> count <span class="token operator">+</span> <span class="token string">"次！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到代码中主要有两个变化：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">取得剩余次数后马上更新-1后的次数。看似是避免了读取和更新间的时间间隔。</li>
+<li style="font-size: 20px; line-height: 38px;">更新剩余次数前先判断自己的更新次数是否为最新，避免更新后次数反而变大的问题。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这么修改后看起来好像没有问题了，那么我们再来试一下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">执行以下main方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Punishment punishment <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Punishment</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span><span class="token string">"internationalization"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Student xiaoming <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"小明"</span><span class="token punctuation">,</span>punishment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xiaoming<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Student xiaozhang <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"小张"</span><span class="token punctuation">,</span>punishment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    xiaozhang<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+     Student xiaozhao <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"小赵"</span><span class="token punctuation">,</span>punishment<span class="token punctuation">)</span>
+     xiaozhao<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们启动三个线程并发抄写。可以在输出中找到如下关键信息：</p>
+</div><div class="cl-preview-section"><pre><code>小赵线程-小赵一共抄写了48次！
+小明线程-小明一共抄写了25次！
+小张线程-小张一共抄写了27次！
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">总数是100，问题解决了！等等，真的解决了吗？我们回过头再看改后的copyWord代码，虽然程序读取剩余次数后，马上更新，并且加了小于才更新的判断。但是仔细想想，这样并不是万全之策，因为小明和小张很可能恰巧同时去看剩余次数，取得剩余次数n后，各自计算剩余次数为n-1，但是假如小明正好计算的快一点，小明先把剩余次数更新为了n-1，虽然小张不符合更新条件，但是在剩余第n次的这次抄写上，小明和小张各抄写了一次，也就是说多抄写了一次。</p>
+</div><div class="cl-preview-section"><h2 id="线程安全" style="font-size: 30px;">线程安全</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么上面代码打出的日志中，三人抄写总和是正确的100呢？有没有可能是抄写数量太小，全部抄写完也没有发生上面描述的两人同时去查看剩余次数的情况？为了验证这个推论，我们把抄写次数增多，看是否会出现问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在我的电脑上，抄写数量加大到1000，三人抄写总和依然是正确的。但加大到10000时，问题出现了，有时会出现三人抄写次数大于10000的现象。我继续加大到1000000，此时基本每次执行，三人执行总和都要超出1-5次。以上实验结果，根据实验电脑的不同会有所区别。现在已经能够得出结论了，这样修改是不行的，原因前文已经说明，因为有小概率两人甚至三人同时查看剩余次数，导致重复抄写。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上所描述的问题，就是大家耳熟能详的线程安全问题。线程安全问题来源于并发时对共享资源的操作。在本例中，我们把剩余次数写在黑板上，大家都去黑板上读取剩余次数并更新。那么共享资源就是黑板上的剩余抄写次数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先不谈代码如何修改，我们来想一想现实生活中如何解决上述问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">问题出在小明读取剩余次数的同时，小张、小赵也可以读取，三人很可能读到同样的次数。并且读取完，三人都会根据自己的计算去更新剩余次数，所以才会乱了套。我们可以改为谁要读取次数时先做个标记（比如在次数边上写上自己名字），代表自己在操作，此时别人只能等待。详细流程如下图：<br>
+<img class="" src="https://img.mukewang.com/5d7239d100013ecd10820435.jpg" data-original="//img.mukewang.com/5d7239d100013ecd10820435.jpg" alt="图片描述">1、读取剩余次数前，先看纸上是否有名字。没有名字，在纸上写上自己的名字；</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2、如果纸上已经有名字则等待，并且一直观察纸上名字是否被擦除；</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">3、成功写上自己名字的同学，更新次数为n-1；</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">4、擦掉自己的名字；</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">5、其他等待者观察到名字被擦掉，则抢着写上自己的名字。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样确保了同一时间只有一个人在操作剩余次数，再也不会乱套了。</p>
+</div><div class="cl-preview-section"><h2 id="其它多线程相关概念" style="font-size: 30px;">其它多线程相关概念</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上流程引入了多线程中的一个重要概念–<strong>同步</strong>。所谓的同步就是某一段流程同时只能有一个线程执行，其它线程需要等待。对于本例，读取剩余次数，并更新剩余次数这两步操作需要做同步控制。操作剩余次数之前需要写名字代表自己在做操作，这是在<strong>加锁</strong>。而擦除名字则是<strong>释放锁</strong>。假如小明先成功写上自己的名字，而小张和小赵按照先来后到的顺序排队，那么就是<strong>公平锁</strong>。但假如两人并不排队，而是通过争抢获取写名字的权利，那么这就是<strong>非公平锁</strong>。在这种情况下，如果小张很瘦弱，既抢不过小赵，也抢不过小明，那么小张永远无法读取剩余次数，也就无法抄写单词，这种情况就叫做<strong>线程饿死</strong>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">线程安全问题通过加锁可以得到解决。Java也提供了特定场景下更为轻量级的解决方法。后面的文章会有更为详尽的描述。本篇文章只是抛出了多线程开发中，可能存在的问题，及问题产生的原因。上文还通过例子引申出多个多线程中的概念，相信结合例子都很容易理解，后面的文章还会反复提及并有专门的详解。</p>
+</div><div class="cl-preview-section"><h2 id="总结" style="font-size: 30px;">总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">多线程开发，复杂就复杂在处理线程安全问题上。如果代码写得不好，就会有各种同步相关的问题产生，而且很难调试。不过好在我们有很多种方式能够解决。后面的文章会逐一讲解。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">专栏写到这里，其实我们学习多线程的两个主要目标已经清楚：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">如何实现多线程；</li>
+<li style="font-size: 20px; line-height: 38px;">如何解决线程安全问题。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">后面的文章都会围绕这两个问题进行讲解。我们会先学习如何实现多线程，再看如何解决多线程中的问题。难点在第2点上。要想知道如何解线程安全问题，就要深刻理解问题产生的根本原因是什么。另外要深刻理解解决问题的原理，而不仅仅是记住解决方法。这样才能做到一通百通，遇到问题灵活应对。其实我们学习每一样技术都是同样的道理，千万不要只停留在会用层面，否则遇到问题只会从表面现象入手，但n种表面现象可能是同一个根本原因。如果我们了解原理，遇到再多问题也无所畏惧。因此，本专栏绝不会停留在使用层面，而是会深入到底层原理。前三篇只算是个开胃菜。目的让读者了解多线程的概念及简单实现，同时知晓多线程存在的问题。后面的文章难度会越来越大，不过不用担心，只要跟着专栏认真学习下来，你一定能轻松掌握。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/938">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            03 多线程开发如此简单—Java中如何编写多线程程序
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/940">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            05 看若兄弟，实如父子—Thread和Runnable详解
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.mukewang.com/5d762b3c000119e505400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1910221525494047</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：906691736</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=55RtSbJ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,241 @@
+<html><head><meta charset="utf-8"><title>花瓣网爬虫的分析和设计-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 6-1 花瓣网爬虫的分析和设计
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                花瓣网爬虫的分析和设计
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-06-24 17:57:04
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img.mukewang.com/5d109c240001376f06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">困难只能吓倒懦夫懒汉，而胜利永远属于敢于等科学高峰的人。<p class="author">——茅以升</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你还没有完全理解本专栏前面章节的内容，甚至没有将源代码都跑一遍的话我建议你先不要急于进入本章节。本章的内容有点特殊，可以说是将本专栏内的各种内容都融合其中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本章将会以采集<a href="http://www.huaban.com">花瓣网</a>的优质图片作为课题展开。花瓣网是早年典型的C2C(Copy To China)类型的成功代表之一，她的原型来自于<a href="https://www.pinterest.com/">Pinterest</a>是一种瀑布流式图片墙，用户可以在浏览各种网站的时候通过浏览器的插件将喜欢的图片收集到花瓣网的图集中，花瓣网就相当于一个由用户提供内容(UGC)并进行个人分类的图片索引平台。用户在花瓣网会检测当前浏览器是否已被滑动到底部，当检测成功就会自动加载下一批的图片让用户有无需一页一页地翻着来看图，业界称这种加载方式为"无限加载"，因为图片的显示是随机的，所以往下拉总是会拉出新的一批图片。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以花瓣网为课题是因为对于爬虫项目来说它具有一些典型的特点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">通过跟踪登录用户来实现反爬判定</li>
+<li style="font-size: 20px; line-height: 38px;">它是一个重度使用Javascript进行局部加载的网站</li>
+<li style="font-size: 20px; line-height: 38px;">它是以图片为主的网站</li>
+</ol>
+</div><div class="cl-preview-section"><h3 id="跟踪登录用户实现反爬判定">跟踪登录用户实现反爬判定</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这是一种非常绝妙的反爬与保护数据的办法，如果你用匿名用户访问花瓣网当你没翻几页以后就会弹出一个登录对话框来阻止你进一步的操作，如果是人在浏览通常都会注册一个用户然后继续浏览。但如果对于是爬虫而言就光这一招就能破掉我们在前几章中学到的所有招数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为你的爬虫再也不是隐藏在阴暗中的路人甲，你的访问行为必须与一个登录账号绑定。而登录账号又必须通过手机验证，那么是不是就是说即使你能用爬虫通过代码的方式实现了登录并开始爬取工作，一但被网站认定你是爬虫那么你的账号可能就会被永封，那你只能换个手机来重新注册一个新的用户账号来继续你的爬工作了。这种高成本就很好的限制住了大规模的爬网行为，至少如果要大规模地爬网你就得先有一大堆用不同手机号验证过的账号才能展开，不是吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其次，网站还得知了你的手机号，全国手机大多实名制一但你爬了过多不应该爬的数据网站会很快地定位到你并让你承担法律负责，这一点确实值得重视，否则就真是得不尝失了。</p>
+</div><div class="cl-preview-section"><h3 id="重度使用-javascript-进行局部加载">重度使用 Javascript 进行局部加载</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面章节所介绍的爬网技术是对已经渲染好的网页内容进行提取，但如果网页是需要执行一些 Javascript 脚本才会生成某些元素的话，那之前所学也同样泡汤。随着Angular、React和Vue这些重前端技术的普及这类重度应用前端的网页也越来越多，如果要爬取这些页面我们还会在蜘蛛上加一把功夫让蜘蛛将获取到的网页能执行其上的脚本显现其真容后才可能爬到想要的数据 。</p>
+</div><div class="cl-preview-section"><h3 id="以图片为主的网站">以图片为主的网站</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于 Scrapy 爬虫技术还有一个重要的内容还没有介绍，那就是图片爬虫，如何将图片作为最终爬取结果存下来是Scrapy 的一个重要的学习内容。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然花瓣网具有这么多的限制那么是不是就意味着我们就束手无策了呢？答案当然是否定的，能反爬就能反反爬，能反反爬就会有更高明的反爬机制出现，爬网与反爬网技术总是互相牵制又互相促进的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">花瓣网、淘宝网、京东、微博甚至是微信都是采用限制匿名用户的方式来检测蜘蛛的，但不限制"人"，那就是说只要我们所开发的蜘蛛的行为能更像人，这种反爬机制也可以被攻破，只是我们所需要付出的代价就更高一些，这个代价就是时间。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章介绍的就是一种**<u>高匿的拟人爬虫</u>**，这种爬虫的特点是：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">完全模仿人的浏览行为，让反爬机制难以分辨</li>
+<li style="font-size: 20px; line-height: 38px;">速度慢，只能以人的速度来浏览速度自然快不了，想要快速就多注册几个账号</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="分析花瓣网" style="font-size: 30px;">分析花瓣网</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d109ad300016a2b27822218.png" alt="图片描述" data-original="http://img.mukewang.com/5d109ad300016a2b27822218.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">花瓣网登录前与登录后能看到的内容是完全不同的：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d109ae00001d81027822218.png" alt="图片描述" data-original="http://img.mukewang.com/5d109ae00001d81027822218.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以在开始之前你需要先注册一个账号并通过手机验证后就能看以上的画面了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个页面是根据你注册时所选定的兴趣由网站主动过滤出来的内容，这个页面可以作为"种子"成为爬虫的入口。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也可以用花瓣的查询页址：</p>
+</div><div class="cl-preview-section"><pre><code>https://huaban.com/search/?q=App&amp;type=pins
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">参数<code>q</code>后面附带的就是查询关键字。</p>
+</div><div class="cl-preview-section"><h3 id="分析数据结构">分析数据结构</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">花瓣的数据结构相对简单，从花瓣中我们爬取的重点目标是图片、描述与原网站链接三样就足够了。另外，在这么多的图里面我们可以加个条件只爬取 <code>转采&gt;250</code>并且<code>喜欢&gt;25</code>属性优质图片，这样可以保证不去爬取那些垃圾图片以免浪费空间。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d109b110001701105000636.png" alt="图片描述" data-original="http://img.mukewang.com/5d109b110001701105000636.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样我们可以很快地得出以下的数据结构</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>imgUrl</code></td>
+<td>图片地址</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td>原网站链接</td>
+</tr>
+<tr>
+<td><code>desc</code></td>
+<td>描述</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我将上图上一个Pin单元内的HTML进行截取后，将对爬虫分析有用的部分保留下来后得到以下的HTML代码，以便于分析讲解：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">data-id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2520376569<span class="token punctuation">"</span></span> 
+     <span class="token attr-name">data-seq</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2520376569<span class="token punctuation">"</span></span> 
+     <span class="token attr-name">data-source</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>xwallet.pundix.com<span class="token punctuation">"</span></span> 
+     <span class="token attr-name">data-created-at</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1561088939<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>img long x layer-view loaded<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//hbimg.huabanimg.com/07ca5a928446d37c043f284f0c6c1b24263647872cd69b-hSntEt_/fw/480<span class="token punctuation">"</span></span> 
+             <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>236<span class="token punctuation">"</span></span>
+             <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>814<span class="token punctuation">"</span></span> 
+             <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>CIT80年代采集到Web.企业网站<span class="token punctuation">"</span></span> <span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">data-raw</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Pundi X – Making cryptocurrency accessible to everyone<span class="token punctuation">"</span></span>
+       <span class="token attr-name">data-formatted</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>Pundi X – Making cryptocurrency accessible to everyone<span class="token punctuation">"</span></span> 
+       <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>description<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Pundi X – Making
+        cryptocurrency accessible to<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>show-more<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>...<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stats less<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>转采<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>repin<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span>26<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>喜欢<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>like<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这部分内容只要用一个<code>#waterfall&gt;div</code>的CSS选择器就能选出所有当前展示的图片项。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其中<code>desc</code>比较容易选出直接用<code>#waterfall&gt;div .description</code>就可以了。而原网站链接在这个元素结构内并没有找到，如果你去点击浏览器中的图片就会发现它会弹出一个层然后将原图片放大显示，再点击后会进入 <a href="https://huaban.com/go/?pin_id=">https://huaban.com/go/?pin_id=</a>&lt;拼版ID&gt;再进行原网站转跳，也就是说我们并不需要去记录原网站地址，而只要将顶层<code>&lt;div&gt;</code>元素的<code>data-id</code>属性记下来，有需要时直接匹配花瓣的转跳页面来进行跳转就可以了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，也是我们要爬取的重点在<code>&lt;img&gt;</code> 元素的<code>src</code>，你会发这里的地址有点怪，它是长这样的：</p>
+</div><div class="cl-preview-section"><pre><code>//hbimg.huabanimg.com/07ca5a928446d37c043f284f0c6c1b24263647872cd69b-hSntEt_/fw/480
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果复制出来直接贴到浏览器的地址栏会马上转跳到一你文件夹的一个完全不存在的地址，浏览器会将上述地址解释为：</p>
+</div><div class="cl-preview-section"><pre><code>file:///hbimg.huabanimg.com/07ca5a928446d37c043f284f0c6c1b24263647872cd69b-hSntEt_/fw/480
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">解决办法就是将<code>files://</code>协议换成<code>https://</code>就可以了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是这个图并不是原图，而是一张缩略图！这也不是问题，这个URL本身就暴露了原图的地址，只要将<code>/fw/480</code>部份删除掉就可以得到原图地址了，也就是：</p>
+</div><div class="cl-preview-section"><pre><code>https://hbimg.huabanimg.com/07ca5a928446d37c043f284f0c6c1b24263647872cd69b-hSntEt_
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="加载方法">加载方法</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然花瓣网采用的是"无限加载"模式，那么每次会加载多少个元素呢？不断加载新元素不会让浏览器的内存消耗光吗？带着这两个问题我们可以打开Chrome的开发者模型一边滚动网页触发页面加载一边观察网页元素的变化：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d109afc0001c4fc35842278.png" alt="图片描述" data-original="http://img.mukewang.com/5d109afc0001c4fc35842278.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只要多加载几次你就会发现，你所见到的网页元素的总数是维持在一定数量之内，当新加载的元素达到一定数量时，排在最前面的元素就会被删除。这个就是让浏览器不断加载新图片而又不会因为元素过多消耗内存过大而导致浏览器崩溃的秘密所在了！</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们得到一个规则：加载一定数量的图片后就有相应数量的元素被删除。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一定要记住这一点，这样我们在提取数据时就要注意了。</p>
+</div><div class="cl-preview-section"><h2 id="花瓣爬虫的设计思路" style="font-size: 30px;">花瓣爬虫的设计思路</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">无论开发什么样的规模的项目我都会遵循着分析、设计、测试最后编码这样的一个流程来执行。可能有些开发人员认为前三部都是没有必要的，想到哪写到哪最后运行一下就能调通了。没有经过充分思考就动手是写不出高质量代码的，分析、设计与测试是能让我们在编码之前发现很思路上的错误甚至是可以让我们绕开很多被隐藏起来的大坑的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然我们已经基本上学会了如何来开发一个爬虫项目了，但是我们所面对的网站是多种多样的，每个网站都会有其自身的特点，又或者是开发人员针对爬虫故意埋下的坑。所以在动手之前应该充分地分析，然后进行思路的整理得到一份最简单的设计或者是实现步骤，对于自己不确定的技术内容通过编写测试来验证，这反倒会让你的开发速度倍增。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那接下来我们就来设想一下这个花瓣网的蜘蛛应该如何来开发。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，这是一个"高匿、慢速的拟人爬虫"这是对爬虫性质的介定，为了达到这个目标爬虫就不能采用前章书中提到的<u>随机代理中间件</u>与<u>随机UA中间件</u>了，因为你正常地用浏览器上网的时候是不会打开一个网页就换一个浏览器，又或者上着上着网IP地址就会自己变了的，开了这两个中间件只会暴露了你是爬虫的真实身份。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其次，你得先注册的一个用户，然后就是用这个用户身份进行登录。而且是用爬虫来模拟你登录。这是进入花瓣网这个大门的第一步，不能登录就更别说去提取数据了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，上文在对网页进行分析的时候基本上就对<code>Item</code>类的结构分析完整了，直接编写<code>Item</code>类是完全没有问题的，只要能正确分析出通过Javascript生成的元素就可以保证能提取网页内容了。经过之前的观察我们知道数据的加载是通过页面滑动到底部被触发的，那我们可不可以直接生成这些URL请求而不是模拟用户滑动的操作来触发加载呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">答案是肯定的！根据我分析Chrome的网络请求我找到了这个分页数据的请求地址：</p>
+</div><div class="cl-preview-section"><pre><code>https://huaban.com/search/?q=app&amp;type=pins&amp;page=20&amp;per_page=20
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个地址一共有三个可变参数：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>q</code> ——查询字符串，这个可以随意你想看什么就输入什么关键字进行匹配</li>
+<li style="font-size: 20px; line-height: 38px;"><code>page</code>——这是起始页的页码，意思就是从哪个位置开始加载</li>
+<li style="font-size: 20px; line-height: 38px;"><code>pre_page</code>——每次加载多少个图片</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，只要将图片地址下载到本地并生成一个新的文件名，将<code>Item</code>的数据写到一个MongoDB里面那么这个爬虫就可以完成了。</p>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我在前几章的内容中都一直渗透着如何先设计再动手实践，谋定而后动这是我们作为开发人员在开发项目时很必要的一种做法。否则只会是以修修补补式地开发，那最终只会做出一个千疮百孔的连自己都不想再碰的怪物。</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/328">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    23 分布式网络爬虫
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/505">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    打开花瓣网的大门
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">     <div class="number">精选留言 <span class="js-number">0</span></div>     <div class="comments">         <div class="input-fake js-showcommentModal">             欢迎在这里发表留言，作者筛选后可公开显示         </div>                      <div class="noData">                 <p>                     <i class="imv2-error_c"></i>                 </p>                 <p>目前暂无任何讨论</p>             </div>              </div>  </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

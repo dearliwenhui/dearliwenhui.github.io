@@ -1,0 +1,306 @@
+<html><head><meta charset="utf-8"><title>28 商城业务设计-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        28 商城业务设计
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-23 09:39:00
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5d5f2e440001359706400360.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">低头要有勇气，抬头要有底气。<p class="author">——韩寒</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过前面三章内容的学习，我们搭建好了用户成长体系、积分体系和付费会员体系等基础模块，本章我们将实现具体的应用模块 - 商城。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节将完成商城的业务设计，下一节将完成商城的功能与数据库设计，然后逐一实现每个功能页面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第四章第二节我们已经列出了商城的主要功能需求：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">商品搜索
+<ul>
+<li style="font-size: 20px; line-height: 38px;">可以按照商品名称、商品分类搜索商品。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">商品列表
+<ul>
+<li style="font-size: 20px; line-height: 38px;">在手机中通常使用瀑布流的方式显示商品列表。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">商品详情
+<ul>
+<li style="font-size: 20px; line-height: 38px;">商品详情通常包含顶部的商品图片、商品的详细介绍、底部的加入购物车、立即购买等按钮。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">购物车
+<ul>
+<li style="font-size: 20px; line-height: 38px;">购物车中可以单独删除某一商品，也可以清空购物车，购物车中的商品可以合并支付。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">购买商品
+<ul>
+<li style="font-size: 20px; line-height: 38px;">项目使用积分作为“货币”，支付积分购买商品。</li>
+</ul>
+</li>
+<li style="font-size: 20px; line-height: 38px;">订单列表
+<ul>
+<li style="font-size: 20px; line-height: 38px;">订单列表显示用户使用积分购买到的所有商品信息，一个订单可能含有一个或多个商品（通过购物车合并支付，则一个订单包含多个商品）。</li>
+</ul>
+</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来我们对每一个功能点进行具体的业务设计。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>手机商城经过几年发展，其功能和结构都已经非常成熟，各类电商 APP 、小程序的商城功能与结构都基本一致。因此，商城的业务设计思路可以根据各类电商 APP 的实际使用体验总结得到。</strong></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Tips：</p>
+<p style="font-size: 20px; line-height: 38px;">在第四章第二节我们谈到了可以借助两个方法来让我们快速形成完整的功能细节构思：</p>
+<ul>
+<li style="font-size: 20px; line-height: 38px;">可以去 <a href="http://www.woshipm.com/">人人都是产品经理</a> 网站搜索相关的产品设计文章</li>
+<li style="font-size: 20px; line-height: 38px;">可以寻找并体验与我们要开发的小程序类似的 APP 或小程序</li>
+</ul>
+<p style="font-size: 20px; line-height: 38px;">在我们自己的业务经验还不是很丰富时，我们同样可以使用这两个方法来进行业务设计和功能设计的细节构思。</p>
+<p style="font-size: 20px; line-height: 38px;">先学习模仿前人已经做出来的结果，消化吸收后，再想办法做出自己特色，拍脑袋空想和无脑抄袭都是要不得的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="商品列表" style="font-size: 30px;">1. 商品列表</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用户打开商城，首先看到的应该是商品列表页，<strong>商品列表页即商城首页。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">商城列表页应该向用户提供以下内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">顶部搜索栏</p>
+<p style="font-size: 20px; line-height: 38px;">用户可以输入关键词搜索商品，用户应该在一个完整的页面中使用搜索功能（<strong>由于手机屏幕大小的限制，手机搜索的场景与 PC 端搜索的场景不同，PC 端直接在搜索框中输入搜索关键词，而在天猫、京东、小红书等 APP 中，当用户点击搜索框时，均打开一个完整的搜索页面来提供搜索服务</strong>）</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">分类菜单栏</p>
+<p style="font-size: 20px; line-height: 38px;">用户可以在商城列表页中点击不同的分类，查看该分类的商品列表</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商品列表显示</p>
+<p style="font-size: 20px; line-height: 38px;">默认显示所有的商品列表，在用户点击某一分类后，显示该分类的商品列表</p>
+<p style="font-size: 20px; line-height: 38px;">商品列表以瀑布流的方式显示</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击商品列表中的某一商品图片后，可查看商品的详细描述</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="商品搜索" style="font-size: 30px;">2. 商品搜索</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">商品搜索功能是一个完整的页面，在商品搜索页面应该向用户提供以下内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">搜索框</p>
+<p style="font-size: 20px; line-height: 38px;">用户可以在搜索框中输入搜索关键词</p>
+<p style="font-size: 20px; line-height: 38px;">在用户输入搜索关键词后，搜索框应该提供基于该搜索关键词的搜索联想词，如用户输入 “a” ，搜索框显示搜索联想词 “java”、“android”等</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">历史搜索记录</p>
+<p style="font-size: 20px; line-height: 38px;">在搜索页面中应该包含用户的历史搜索记录，用户可以选择历史搜索关键词</p>
+<p style="font-size: 20px; line-height: 38px;">用户可以清除历史搜索记录</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">热门搜索词</p>
+<p style="font-size: 20px; line-height: 38px;">在搜索页面中应该包含热门搜索关键词，用户可以选择热门搜索关键词</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">搜索结果</p>
+<p style="font-size: 20px; line-height: 38px;">当用户在搜索框输入关键词，选择搜索联想词、历史搜索关键词或热门搜索关键词后，显示与搜索关键词匹配的商品列表</p>
+<p style="font-size: 20px; line-height: 38px;">商品列表以瀑布流的方式显示</p>
+<p style="font-size: 20px; line-height: 38px;">用户点击商品列表中的某一商品图片后，可查看商品的详细描述</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="商品详情" style="font-size: 30px;">3. 商品详情</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">商品详情是一个完整的页面，当用户在商城首页或商品搜索页点击商品列表中的某一商品图片后，页面跳转到该商品的商品详情页。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在商品详情页面应该向用户提供以下内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商品大图</p>
+<p style="font-size: 20px; line-height: 38px;">在页面顶部向用户显示商品大图</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商品价格</p>
+<p style="font-size: 20px; line-height: 38px;">显示商品的价格，商品价格包括原价与折扣价，折扣价需要根据用户等级折扣或付费会员折扣计算</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">付费会员促销栏</p>
+<p style="font-size: 20px; line-height: 38px;">如果用户不是付费会员，应该向用户显示小 M 卡会员的促销信息，以增加小 M 卡会员的购买率</p>
+<p style="font-size: 20px; line-height: 38px;">促销信息显示内容可使用 “开卡仅 p20000，此商品省p10000” 的形式，让用户产生 “购买付费会员所花的钱，很快就能赚回来” 的感觉</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">商品详细说明</p>
+<p style="font-size: 20px; line-height: 38px;">显示商品的详细描述信息，用户可以滑动屏幕查看全部内容</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">底部操作栏</p>
+<p style="font-size: 20px; line-height: 38px;">在页面底部固定显示操作栏，操作栏功能包括购买商品，加入购物车和打开购物车</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="购物车" style="font-size: 30px;">4. 购物车</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">购物车是一个完整的页面，在购物车页面中用户可以：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">查看加入购物车的商品清单</li>
+<li style="font-size: 20px; line-height: 38px;">删除购物车清单中的某一件商品</li>
+<li style="font-size: 20px; line-height: 38px;">清空购物车中的所有商品</li>
+<li style="font-size: 20px; line-height: 38px;">在页面底部固定显示操作栏，操作栏中显示购物车中所有商品的价格合计，提供购买购物车中所有商品的按钮</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="购买商品" style="font-size: 30px;">5. 购买商品</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在商城中，用户可以在商品详情页面和购物车页面购买商品，用户在商品详情页面中购买单个商品，在购物车页面中购买购物车清单中的所有商品。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用户支付积分购买商品。参照付费会员体系中支付的业务规则，我们可以得到商城的支付规则包括：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">当用户的积分余额足够时，用户才能支付成功</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">每一笔支付需要建立一条订单记录，供用户在订单列表中查看</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">由于一笔支付可能购买多个商品，除订单记录外还需要对用户购买的每一个商品建立商品购买记录</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">在服务器端完成整个支付逻辑，服务器端提供支付接口供客户端调用</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">客户端不处理支付逻辑，客户端只负责调用支付接口发起支付，并接收和显示支付接口返回的支付结果</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">用户的实际支付价格需要根据用户等级折扣或付费会员折扣计算</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="订单列表" style="font-size: 30px;">6. 订单列表</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">订单列表页面用于显示用户已支付成功的所有订单。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">每个订单需要显示购买时间，实际支付价格，商品明细等信息，订单的显示按照购买时间倒序排列。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用户点击商品明细中的某一商品，可以查看该商品的详细信息。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>以上是各类电商 APP、小程序的商城模块都有的基本业务规则，各位同学可以此为基础，根据自己小程序应用的行业特性和使用场景对商城业务规则进行进一步扩充完善。</strong></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下一节，我们将根据本节整理的业务规则，对商城的功能与数据库进行设计。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>请以从本专栏内容中学到的知识为基础，结合你自己的理解和想法，设计符合自己行业特性和使用场景的商城业务规则。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/586">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            27 让用户掏钱：开发实现付费会员支付页面
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                        <!-- 未买不可试读或者未开放 -->
+                                    <a href="javascript:;" class="js-cantIn" data-ifopen="1" data-cantaste="1">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            19 商城功能与数据库设计
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

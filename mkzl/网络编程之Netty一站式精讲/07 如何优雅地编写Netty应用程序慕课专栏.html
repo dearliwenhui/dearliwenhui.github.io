@@ -1,0 +1,403 @@
+<html><head><meta charset="utf-8"><title>07 如何优雅地编写Netty应用程序-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        07 如何优雅地编写Netty应用程序
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-09-04 11:46:35
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.sycdn.imooc.com/5f059525000145c606400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">人生的旅途，前途很远，也很暗。然而不要怕，不怕的人的面前才有路。—— 鲁 迅<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h1 id="前言">前言</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你好，我是彤哥。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一节，我们一起从架构设计和模块设计两个方面分析了 Netty 的整体结构，有了上一节的学习，相信你一定知道从哪里 “抄” 代码了，并且能够 “抄” 出一份不错的 Netty 使用案例了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不过，抄归抄，我们还是要大致了解一下编写 Netty 的常用步骤，笔者总结了一下，大概可以分为十大步骤。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，本节我们一起来学习下如何使用 Netty 编写简单的示例程序，并在文章的最后手写一个简单的群聊系统，同学们可以将 Netty 的群聊系统跟 Java NIO 的群聊系统进行对比。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，让我们开始今天的学习吧。</p>
+</div><div class="cl-preview-section"><h1 id="netty编码十步曲">Netty 编码十步曲</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我从 <code>netty-example</code> 工程下抄了一份 EchoServer 过来，并删减了部分代码，归纳出来一份编写 Netty 服务端程序的模板，我把它称为 “Netty 编码十步曲”。</p>
+</div><div class="cl-preview-section"><h2 id="声明线程池（必须）" style="font-size: 30px;">1. 声明线程池（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般来说，我们会声明两个 Group，一个是 bossGroup，用于处理 Accept 事件，一个是 workerGroup，用于处理消息的读写事件。其中，bossGroup 一般声明为一个线程。当然，如果声明一个 Group 也是可以的，只是不建议。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">EventLoopGroup bossGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+EventLoopGroup workerGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这就像是大型餐厅一般有接待生和服务员两种职位一样，接待生一般形象良好，专门负责接待客人，服务员形象稍差，专门负责上菜收碟，你要说不区分两种职位，混用行不行呢，当然也可以，只是不建议，专人干专事。</p>
+</div><div class="cl-preview-section"><h2 id="创建服务端引导类（必须）" style="font-size: 30px;">2. 创建服务端引导类（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">引导类，是用来集成所有配置，引导程序加载的，分成两种，一种是客户端引导类 Bootstrap（个人觉得叫 ClientBootstrap 可能更贴切），另一种是服务端引导类 ServerBootstrap，我们这里编写的是服务端程序，创建的当然是服务端引导类。<br>
+注意，Bootstrap 和 ServerBootstrap 之间并不是继承关系，他们是平等的，都继承了 AbstractBootstrap 抽象类。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">ServerBootstrap serverBootstrap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ServerBootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Bootstrap/ServerBootstrap 就像是店长，它负责统筹整个 Netty 程序的正常运行。</p>
+</div><div class="cl-preview-section"><h2 id="设置线程池（必须）" style="font-size: 30px;">3. 设置线程池（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">把第一步声明的线程池设置到 ServerBootstrap 中，它说明了 Netty 应用程序以什么样的线程模型运行，正如前面所说 bossGroup 负责接受（Accept）连接，workerGroup 负责读写数据。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">serverBootstrap<span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span>bossGroup<span class="token punctuation">,</span> workerGroup<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="设置serversocketchannel类型（必须）" style="font-size: 30px;">4. 设置 ServerSocketChannel 类型（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">设置 Netty 程序以什么样的 IO 模型运行，我们这里介绍的是 NIO 编程，选择的当然是 NioServerSocketChannel。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">serverBootstrap<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span>NioServerSocketChannel<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果您需要使用阻塞型 IO 模型，直接把 Nio 改成 Oio 就可以了，即 OioServerSocketChannel，不过它已经废弃了，所以不建议。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">另外，如果您的程序运行在 Linux 系统上，还可以使用一种更高效的方式，即 EpollServerSocketChannel，它使用的是 Linux 系统上的 epoll 模型，比 select 模型更高效，可见 Netty 把性能优化做到了极致。</p>
+</div><div class="cl-preview-section"><h2 id="设置参数（可选）" style="font-size: 30px;">5. 设置参数（可选）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">设置 Netty 中可以使用的任何参数，这些参数都在 ChannelOption 及其子类中，后面我们会详细介绍各个参数的含义，不过，很遗憾地告诉你，大多数情况下并不需要修改 Netty 的默认参数，这就是 Netty 比较牛的地方。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">serverBootstrap<span class="token punctuation">.</span><span class="token function">option</span><span class="token punctuation">(</span>ChannelOption<span class="token punctuation">.</span>SO_BACKLOG<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们这里设置了一个 SO_BACKLOG 系统参数，它表示的是最大等待连接数量。</p>
+</div><div class="cl-preview-section"><h2 id="设置handler（可选）" style="font-size: 30px;">6. 设置 Handler（可选）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">设置 ServerSocketChannel 对应的 Handler，注意只能设置一个，它会在 SocketChannel 建立起来之前执行，等我们看源码的时候会详细介绍它的执行时机。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">serverBootstrap<span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingHandler</span><span class="token punctuation">(</span>LogLevel<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们这里简单地设置一个打印日志的 Handler。</p>
+</div><div class="cl-preview-section"><h2 id="编写并设置子handler（必须）" style="font-size: 30px;">7. 编写并设置子 Handler（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Netty 中的 Handler 分成两种，一种叫做 Inbound，一种叫做 Outbound。我们这里简单地写一个 Inbound 类型的 Handler，它接收到数据后立即写回客户端。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">EchoServerHandler</span> <span class="token keyword">extends</span> <span class="token class-name">ChannelInboundHandlerAdapter</span> <span class="token punctuation">{</span>
+
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">,</span> Object msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">// 读取数据后写回客户端</span>
+		ctx<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelReadComplete</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		ctx<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">exceptionCaught</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">,</span> Throwable cause<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		cause<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		ctx<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">设置子 Handler 设置的是 SocketChannel 对应的 Handler，注意也是只能设置一个，它用于处理 SocketChannel 的事件。</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java">serverBootstrap<span class="token punctuation">.</span><span class="token function">childHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token operator">&lt;</span>SocketChannel<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token annotation punctuation">@Override</span>
+	<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span>SocketChannel ch<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+		ChannelPipeline p <span class="token operator">=</span> ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// 可以添加多个子Handler</span>
+		p<span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingHandler</span><span class="token punctuation">(</span>LogLevel<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		p<span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">EchoServerHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然只能设置一个，但是 Netty 的提供了一种可以设置多个 Handler 的途径，即使用 ChannelInitializer 方式，当然，第六步的设置 Handler 也可以使用这种方式设置多个 Handler。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里，我们设置了一个打印的 Handler 和一个自定义的 EchoServerHandler。</p>
+</div><div class="cl-preview-section"><h2 id="绑定端口（必须）" style="font-size: 30px;">8. 绑定端口（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">绑定端口，并启动服务端程序，sync () 会阻塞直到启动完成才执行后面的代码。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">ChannelFuture f <span class="token operator">=</span> serverBootstrap<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>PORT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="等待服务端端口关闭（必须）" style="font-size: 30px;">9. 等待服务端端口关闭（必须）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">等待服务端监听端口关闭，sync () 会阻塞主线程，内部调用的是 Object 的 wait () 方法。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">f<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">closeFuture</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="优雅地关闭线程池（建议）" style="font-size: 30px;">10. 优雅地关闭线程池（建议）</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后，是在 finally 中调用 shutdownGracefully () 方法优雅地关闭线程池，优雅停机。</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">bossGroup<span class="token punctuation">.</span><span class="token function">shutdownGracefully</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+workerGroup<span class="token punctuation">.</span><span class="token function">shutdownGracefully</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">好了，Netty 编码十步曲介绍完毕了，不知道你有没有什么疑问呢？至少我是有的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>为什么需要设置 ServerSocketChannel 的类型，而不需要设置 SocketChannel 的类型呢？</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那是因为 SocketChannel 是 ServerSocketChannel 在接受连接之后创建出来的，所以，并不需要单独再设置它的类型，比如，NioServerSocketChannel 创建出来的肯定是 NioSocketChannel，而 EpollServerSocketChannel 创建出来的肯定是 EpollSocketChannel。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你还有什么疑问呢？欢迎留言。</p>
+</div><div class="cl-preview-section"><h1 id="如何调试">如何调试</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实学 Netty 的 99% 都是服务端的同学，所以，我们的课程并不会刻意介绍如何编写客户端的 Netty 程序，但是我们怎么调试呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里，我教给大家一个技巧，通过 XSHELL 这个工具调试，这个工具几乎是后端同学必备的一个工具，所以调试起来也是比较容易的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如，我上面启动了一个 Netty 服务端，它的端口是 8007，只要打开 XSHELL，不要连接任何服务器，输入以下代码即可连接到我们的 Netty 服务端：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java">telnet localhost <span class="token number">8007</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，输入任何你想输入的内容，它都会照样返回，比如下面这样：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5f0d611b0001883104450245.png" data-original="//img1.sycdn.imooc.com/5f0d611b0001883104450245.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h1 id="后记">后记</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节，我们学习了 Netty 编码的十步曲，其中，有些步骤是必须的，有些步骤可选的，有些步骤是建议保留的，相信通过本节的学习，你一定可以写出十分健壮且优雅的 Netty 服务端程序了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">别急哦，本节还没有结束，在附录部分有一份简单的群聊系统，您也可以尝试按照本节介绍的十步曲自己尝试写一个简单的示例练练手。</p>
+</div><div class="cl-preview-section"><h1 id="思维导图">思维导图</h1>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5f0d610d0001afcc10830670.png" data-original="//img1.sycdn.imooc.com/5f0d610d0001afcc10830670.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h1 id="附录——使用netty实现简单群聊系统">附录 —— 使用 Netty 实现简单群聊系统</h1>
+</div><div class="cl-preview-section"><h2 id="代码" style="font-size: 30px;">代码</h2>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">NettyChatServer</span> <span class="token punctuation">{</span>
+
+	<span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> PORT <span class="token operator">=</span> Integer<span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>System<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"port"</span><span class="token punctuation">,</span> <span class="token string">"8007"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+		<span class="token comment">// 1. 声明线程池</span>
+		EventLoopGroup bossGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		EventLoopGroup workerGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">try</span> <span class="token punctuation">{</span>
+			<span class="token comment">// 2. 服务端引导器</span>
+			ServerBootstrap serverBootstrap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ServerBootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">// 3. 设置线程池</span>
+			serverBootstrap<span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span>bossGroup<span class="token punctuation">,</span> workerGroup<span class="token punctuation">)</span>
+					<span class="token comment">// 4. 设置ServerSocketChannel的类型</span>
+					<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span>NioServerSocketChannel<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+					<span class="token comment">// 5. 设置参数</span>
+					<span class="token punctuation">.</span><span class="token function">option</span><span class="token punctuation">(</span>ChannelOption<span class="token punctuation">.</span>SO_BACKLOG<span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
+					<span class="token comment">// 6. 设置ServerSocketChannel对应的Handler，只能设置一个</span>
+					<span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingHandler</span><span class="token punctuation">(</span>LogLevel<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span><span class="token punctuation">)</span>
+					<span class="token comment">// 7. 设置SocketChannel对应的Handler</span>
+					<span class="token punctuation">.</span><span class="token function">childHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token operator">&lt;</span>SocketChannel<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+						<span class="token annotation punctuation">@Override</span>
+						<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span>SocketChannel ch<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+							ChannelPipeline p <span class="token operator">=</span> ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+							<span class="token comment">// 可以添加多个子Handler</span>
+							p<span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingHandler</span><span class="token punctuation">(</span>LogLevel<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+							<span class="token comment">// 只需要改这一个地方就可以了</span>
+							p<span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChatNettyHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token punctuation">}</span>
+					<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+			<span class="token comment">// 8. 绑定端口</span>
+			ChannelFuture f <span class="token operator">=</span> serverBootstrap<span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span>PORT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">// 9. 等待服务端监听端口关闭，这里会阻塞主线程</span>
+			f<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">closeFuture</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+			<span class="token comment">// 10. 优雅地关闭两个线程池</span>
+			bossGroup<span class="token punctuation">.</span><span class="token function">shutdownGracefully</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			workerGroup<span class="token punctuation">.</span><span class="token function">shutdownGracefully</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ChatNettyHandler</span> <span class="token keyword">extends</span> <span class="token class-name">SimpleChannelInboundHandler</span><span class="token operator">&lt;</span>ByteBuf<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+
+		<span class="token annotation punctuation">@Override</span>
+		<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelActive</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+			System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"one conn active: "</span> <span class="token operator">+</span> ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">// channel是在ServerBootstrapAcceptor中放到EventLoopGroup中的</span>
+			ChatHolder<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SocketChannel<span class="token punctuation">)</span> ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token annotation punctuation">@Override</span>
+		<span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">channelRead0</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">,</span> ByteBuf byteBuf<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+			<span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> bytes <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">byte</span><span class="token punctuation">[</span>byteBuf<span class="token punctuation">.</span><span class="token function">readableBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+			byteBuf<span class="token punctuation">.</span><span class="token function">readBytes</span><span class="token punctuation">(</span>bytes<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			String content <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>bytes<span class="token punctuation">,</span> StandardCharsets<span class="token punctuation">.</span>UTF_8<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>content<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"quit\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+				ChatHolder<span class="token punctuation">.</span><span class="token function">propagate</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SocketChannel<span class="token punctuation">)</span> ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token annotation punctuation">@Override</span>
+		<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelInactive</span><span class="token punctuation">(</span>ChannelHandlerContext ctx<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+			System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"one conn inactive: "</span> <span class="token operator">+</span> ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			ChatHolder<span class="token punctuation">.</span><span class="token function">quit</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SocketChannel<span class="token punctuation">)</span> ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">ChatHolder</span> <span class="token punctuation">{</span>
+		<span class="token keyword">static</span> <span class="token keyword">final</span> Map<span class="token operator">&lt;</span>SocketChannel<span class="token punctuation">,</span> String<span class="token operator">&gt;</span> USER_MAP <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ConcurrentHashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token comment">/**
+		 * 加入群聊
+		 * 
+		 * @param socketChannel
+		 */</span>
+		<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">join</span><span class="token punctuation">(</span>SocketChannel socketChannel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token comment">// 有人加入就给他分配一个id</span>
+			String userId <span class="token operator">=</span> <span class="token string">"用户"</span> <span class="token operator">+</span> ThreadLocalRandom<span class="token punctuation">.</span><span class="token function">current</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">nextInt</span><span class="token punctuation">(</span>Integer<span class="token punctuation">.</span>MAX_VALUE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">send</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">,</span> <span class="token string">"您的id为："</span> <span class="token operator">+</span> userId <span class="token operator">+</span> <span class="token string">"\n\r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+			<span class="token keyword">for</span> <span class="token punctuation">(</span>SocketChannel channel <span class="token operator">:</span> USER_MAP<span class="token punctuation">.</span><span class="token function">keySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token function">send</span><span class="token punctuation">(</span>channel<span class="token punctuation">,</span> userId <span class="token operator">+</span> <span class="token string">" 加入了群聊"</span> <span class="token operator">+</span> <span class="token string">"\n\r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+
+			<span class="token comment">// 将当前用户加入到map中</span>
+			USER_MAP<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">,</span> userId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token comment">/**
+		 * 退出群聊
+		 * 
+		 * @param socketChannel
+		 */</span>
+		<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">quit</span><span class="token punctuation">(</span>SocketChannel socketChannel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			String userId <span class="token operator">=</span> USER_MAP<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">send</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">,</span> <span class="token string">"您退出了群聊"</span> <span class="token operator">+</span> <span class="token string">"\n\r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			USER_MAP<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+			<span class="token keyword">for</span> <span class="token punctuation">(</span>SocketChannel channel <span class="token operator">:</span> USER_MAP<span class="token punctuation">.</span><span class="token function">keySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token keyword">if</span> <span class="token punctuation">(</span>channel <span class="token operator">!=</span> socketChannel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+					<span class="token function">send</span><span class="token punctuation">(</span>channel<span class="token punctuation">,</span> userId <span class="token operator">+</span> <span class="token string">" 退出了群聊"</span> <span class="token operator">+</span> <span class="token string">"\n\r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token comment">/**
+		 * 扩散说话的内容
+		 * 
+		 * @param socketChannel
+		 * @param content
+		 */</span>
+		<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">propagate</span><span class="token punctuation">(</span>SocketChannel socketChannel<span class="token punctuation">,</span> String content<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			String userId <span class="token operator">=</span> USER_MAP<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>socketChannel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token keyword">for</span> <span class="token punctuation">(</span>SocketChannel channel <span class="token operator">:</span> USER_MAP<span class="token punctuation">.</span><span class="token function">keySet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token keyword">if</span> <span class="token punctuation">(</span>channel <span class="token operator">!=</span> socketChannel<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+					<span class="token function">send</span><span class="token punctuation">(</span>channel<span class="token punctuation">,</span> userId <span class="token operator">+</span> <span class="token string">": "</span> <span class="token operator">+</span> content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+
+		<span class="token comment">/**
+		 * 发送消息
+		 * 
+		 * @param socketChannel
+		 * @param msg
+		 */</span>
+		<span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">send</span><span class="token punctuation">(</span>SocketChannel socketChannel<span class="token punctuation">,</span> String msg<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">try</span> <span class="token punctuation">{</span>
+				ByteBufAllocator allocator <span class="token operator">=</span> ByteBufAllocator<span class="token punctuation">.</span>DEFAULT<span class="token punctuation">;</span>
+				ByteBuf writeBuffer <span class="token operator">=</span> allocator<span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				writeBuffer<span class="token punctuation">.</span><span class="token function">writeCharSequence</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> Charset<span class="token punctuation">.</span><span class="token function">defaultCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				socketChannel<span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span>writeBuffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以发现，只需要改动设置子 Handler 里面的那一个地方就可以了，其它地方完全不需要修改，非常便捷。</p>
+</div><div class="cl-preview-section"><h2 id="模拟群聊" style="font-size: 30px;">模拟群聊</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5f0d60fa0001e30018860803.png" data-original="//img1.sycdn.imooc.com/5f0d60fa0001e30018860803.png" alt="图片描述"><br>
+最后一行出现乱码，这个不用管，它是 XSHELL 本身发出的心跳，我们的代码中并没有处理 XSHELL 的心跳，所以显示了一些奇怪的字符。</p>
+</div><div class="cl-preview-section"><h2 id="问题" style="font-size: 30px;">问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过简单群聊系统，相信你一定被 Netty 的魅力所折服，然而，你可能会发现一个问题，上面的简单群聊系统只能支持所有人一起聊天，那么，我提出一个问题，你可以尝试完成，如何将上述简单群聊系统修改为真正的类似微信的聊天系统？</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/82/article/2165">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            06 如何从整体上把握Netty的架构
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/82/article/2167">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            08 Netty的核心组件有哪些
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.sycdn.imooc.com/5f1a7f610001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2009241134354460</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

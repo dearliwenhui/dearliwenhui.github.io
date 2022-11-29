@@ -1,0 +1,256 @@
+<html><head><meta charset="utf-8"><title>01  开篇词：你为什么要学 Nginx？-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        01  开篇词：你为什么要学 Nginx？
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-11-26 14:43:41
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.sycdn.imooc.com/5ddbacf30001ef2b06400426.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">一个人追求的目标越高，他的才力就发展得越快，对社会就越有益。——高尔基<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大家好，欢迎大家学习 《Nginx 从入门到实战》 专栏。在这个专栏系列中，我将带领大家从浅入深、由表及里，深入学习和理解 Nginx 。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">简单来说 Nginx 其实就是一款轻量级的 Web 服务器、反向代理服务器，由于它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。那么你可能会问了：“不是说 Nginx 吗？怎么又扯出来一个 Web 服务器呢？啥是服务器？”。别着急，在学习 Nginx 之前你还真得知道什么是服务器这个概念，下面我们先来看下到底啥是服务器。</p>
+</div><div class="cl-preview-section"><h3 id="啥是服务器">啥是服务器</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">服务器的英文叫 <code>Server</code> , 顾名思义就是为其他人<code>服务</code>的。我们可以把所有为其他用户提供服务的机器或软件都称作<code>服务器</code>。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>Server</code> 可以指硬件，比如谷歌公司对用户提供服务的主机，下图是谷歌公司的一个数据中心图片，走道两侧亮着红黄蓝颜色的笨重机器就是服务器。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb350500017af113860916.png" data-original="//img1.sycdn.imooc.com/5ddb350500017af113860916.png" alt="图片描述"></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>Server</code> 也可以是一个软件。比如我们本次专栏要介绍的 <code>Nginx</code>，它就是一个对用户提供 <code>HTTP</code> 服务的<code>Server</code>。又比如我们常听到的网易邮箱服务器，它就是专门为用户提供邮件服务的。这些软件都运行在一个个物理机器上面，专门对外提供对应的服务。</p>
+</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb352b0001cd7811540406.png" data-original="//img1.sycdn.imooc.com/5ddb352b0001cd7811540406.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h3 id="web服务器">WEB服务器</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面唠叨了一下什么是服务器。下面我们说一下啥是 Web 服务器，在上面我们也说了 Nginx 其实就是一个 轻量级的 Web 服务器，那么什么是 Web 服务器呢？<br>
+我们平时可以打开浏览器访问<a href="https://weibo.com/">微博</a>的网站，获取各种娱乐圈各种劲爆消息。这个看似简单的行为，背后有隐藏了那些细节呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb35410001d18c15081080.png" data-original="//img1.sycdn.imooc.com/5ddb35410001d18c15081080.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图就是一个典型的 <code>web</code> 请求流程，主要分为五个步骤：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">浏览器本身作为一个客户端，当你输入 <code>www.weibo.com</code> 的时候，向 <code>DNS</code> 服务器发出域名请求服务；</li>
+<li style="font-size: 20px; line-height: 38px;"><code>DNS</code> 服务器将域名将对应的 <code>IP</code> 地址返回给浏览器；</li>
+<li style="font-size: 20px; line-height: 38px;">浏览器使用 <code>IP</code> 地址找到对应的服务器后，建立 <code>TCP</code> 连接，向服务器发送 <code>HTTP</code> 请求；</li>
+<li style="font-size: 20px; line-height: 38px;">服务器接收到请求之后才开始处理，返回 <code>HTTP</code> 响应；</li>
+<li style="font-size: 20px; line-height: 38px;">浏览器收到来自服务器的响应后开始渲染页面，最后断开与该服务器之间的 <code>TCP</code> 连接。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们所介绍的 <code>Web</code> 服务器就是在第 3 和 4 步骤中发挥作用的。它的作用很简单，概括地讲，主要完成三个工作：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">接收请求；</li>
+<li style="font-size: 20px; line-height: 38px;">处理请求，生成响应 ；</li>
+<li style="font-size: 20px; line-height: 38px;">发送响应。</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="自己写个web服务器" style="font-size: 26px;">自己写个web服务器</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面我们也讲到了，虽然 Web 服务器这个名字听起来很高大上，其实它的原理非常的简单，我们也可以自己写一个服务器。下面以 <code>go</code> 语言为例 <code>DIY</code> 一个自己的服务器：</p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">package</span> main
+
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+    <span class="token string">"fmt"</span>
+    <span class="token string">"log"</span>
+    <span class="token string">"net/http"</span>
+<span class="token punctuation">)</span>
+
+<span class="token keyword">func</span> <span class="token function">sayHelloName</span><span class="token punctuation">(</span>w http<span class="token punctuation">.</span>ResponseWriter<span class="token punctuation">,</span> r <span class="token operator">*</span>http<span class="token punctuation">.</span>Request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    r<span class="token punctuation">.</span><span class="token function">ParseForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Fprintf</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> <span class="token string">"当前请求的地址为:"</span><span class="token operator">+</span>r<span class="token punctuation">.</span>URL<span class="token punctuation">.</span>Path<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    http<span class="token punctuation">.</span><span class="token function">HandleFunc</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">,</span> sayHelloName<span class="token punctuation">)</span>
+    err <span class="token operator">:=</span> http<span class="token punctuation">.</span><span class="token function">ListenAndServe</span><span class="token punctuation">(</span><span class="token string">":8888"</span><span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span><span class="token string">"ListenAndServe: "</span><span class="token punctuation">,</span> err<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这就是一个很简单的 <code>web</code> 服务器，它监控本机的 <code>8888</code> 端口。当我们访问 <code>localhost:8888</code> 的时候，浏览器上会输出我们当前的访问路径：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb355d0001c68110000750.png" data-original="//img1.sycdn.imooc.com/5ddb355d0001c68110000750.png" alt="图片描述"><br>
+我们只是使用了几行代码就可以完成 <code>Web</code> 服务器的基本功能。是不是很简单呢？</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">哈哈，当然了，一个成熟的 <code>Web</code> 服务器肯定还有其他各种各样的功能，但是原理都是一样。所以，一定要淡定，学会 <code>Web</code> 服务器并没有想象中的那么困难。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="web服务器的分类" style="font-size: 26px;">WEB服务器的分类</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实，现在的市面上面有很多类似于 Nginx 的 Web 服务器，如下图:</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb356b0001e99306240534.png" data-original="//img1.sycdn.imooc.com/5ddb356b0001e99306240534.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h5 id="几款服务器比较" style="font-size: 20px; line-height: 38px;">几款服务器比较</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们简单地比较一下几款流行的 <code>Web</code> 服务器软件的区别。</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">Apache  是一款历史悠久的开源 <code>Web</code> 服务器软件。拥有很多的第三方模块，你想使用的功能基本上都可以找到，避免自己重复造轮子。采用多进程方式处理请求，每个请求都对应于一个进程。在高并发的情况下，多进程处理方式特别的消耗资源，所以天然不适合高并发场景；</li>
+<li style="font-size: 20px; line-height: 38px;">Nginx 是年轻(相比<code>Apache</code>)的开源 <code>Web</code> 服务器软件。它也采用 C 语言编写，代码运行效率很高。它采用了<code>epoll</code> (以<code>Linux</code>为例) 事件处理机制作为模型，能够保证非常高的并发量；</li>
+<li style="font-size: 20px; line-height: 38px;"><code>IIS</code>是微软的<code>Web</code>服务器软件，这个可是收费的哦~~~</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们看一下 <code>Netcraft</code> 公司在2019年7月份统计的全球 Web 服务器占用率调查：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb358c000144dd14440702.png" data-original="//img1.sycdn.imooc.com/5ddb358c000144dd14440702.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb359c0001644f14200714.png" data-original="//img1.sycdn.imooc.com/5ddb359c0001644f14200714.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从这两张图中可以看到，Nginx 开发者数量已经明显的超过了其他 <code>Web Server</code> 开发者数量，独占鳌头。<br>
+在 <code>Web Server</code> 市场使用率中，Nginx 的占有率一直在稳步的上升，超过了 IIS，与 Apache 的差距越来越小。<br>
+所以，使用和学习 Nginx 已经成为每一个后端工程师必备的技能了。好了，铺垫了这么多，下面我们正式来看下 Nginx  倒底是个什么东西。</p>
+</div><div class="cl-preview-section"><h3 id="nginx简介">Nginx简介</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb35ad00019f4a06440250.png" data-original="//img1.sycdn.imooc.com/5ddb35ad00019f4a06440250.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="nginx是啥东东" style="font-size: 26px;">Nginx是啥东东</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>Nginx</code>是由战斗民族的一位名叫 <code>Igor Sysoev</code> 的程序猿开发的，开源、高性能的 <code>HTTP</code> 服务器和反向代理服务器，也可以作为一个 <code>IMAP/POP3</code> 代理服务器。也就是说，<code>Nginx</code>不仅可以托管网站，进行<code>HTTP</code>服务处理，还可以作为反向代理服务器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Nginx 出现的初衷是为了解决著名的 <code>C10K</code> 问题而出现的。和传统的 <code>Web Server</code> 不一样，<code>Nginx</code> 使用了<strong>异步事件</strong>处理机制架构。这种架构可以轻松高效地处理大量的请求，并且非常的节省内存。高性能是<code>Nginx</code>最大的优点。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">啥？不知道什么是<code>C10K</code>问题，我严重怀疑你是从外星球来的，来，<a href="http://www.kegel.com/c10k.html">看这里</a>。</p>
+<p style="font-size: 20px; line-height: 38px;">不知道什么是<code>异步事件</code>处理机制？没关系，我会在后面的小节中分析的，包学会。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="为什么选择nginx" style="font-size: 26px;">为什么选择Nginx</h4>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">占用内存小。这得益于 Nginx 使用 C 语言编写，能够高效使用 CPU、内存等系统资源。并且作者自己造了很多的轮子 , 比如 Nginx 自己实现了内存管理系统，动态数组机制等。Nginx 作者对<strong>内存的使用控制简直到了丧心病狂</strong>的地步，所以非常的节省系统资源，特别是内存；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">高并发。在 Linux 系统上，Nginx 使用了 epoll 机制，能够高效处理大量的连接数。理论上，Nginx 可以同时处理的最大连接数取决于你的机器的物理内存，上不封顶；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">高可靠性。我认为 Nginx 的高可靠性主要体现在两方面:</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>(一)</strong>：Nginx 使用了 <strong>Master-Worker 机制</strong>，真正处理请求的是<code>Worker</code>进程。<code>Master</code>进程可以监控<code>Worker</code>进程的运行状况，当某个<code>Worker</code>进程因意外原因退出的时候，<code>Master</code>会重新启动<code>Worker</code>进程；</p>
+<p style="font-size: 20px; line-height: 38px;"><strong>(二)</strong>：Nginx 的内部框架非常优秀。它的各个模块都非常简单，所以也非常的稳定。</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">热部署。可能大家觉得这个原因并不重要，其实在实际的线上环境是非常重要的。代码上线之后，我们只需要执行  <code>nginx -s reload</code> 命令就可以完成 Nginx 的重启，其他的交给 Nginx 就可以了，你可以安心去喝咖啡了。</p>
+<blockquote>
+<p style="font-size: 20px; line-height: 38px;">如果没有亲身体验过这种痛苦，你是无法理解的这是<strong>多么痛的领悟</strong>。</p>
+</blockquote>
+</li>
+</ol>
+</div><div class="cl-preview-section"><h4 id="nginx能干啥" style="font-size: 26px;">Nginx能干啥</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面我们 ‘吹嘘’ 了 Nginx 的这么多优点，那么 Nginx 究竟能干什么呢？</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;"><code>HTTP</code> 服务器。作为一款优秀的 <code>Web</code> 服务器，那么提供 <code>HTTP</code> 服务显然是它的首要任务；</p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">负载均衡。Nginx 提供了多种负载均衡策略，实现了<strong>7层负载均衡</strong>。针对不同的情形，我们可以选择合适的策略。另外我们也可以自己实现特殊需求的负载均衡策略；<br>
+<img class="" src="https://img1.sycdn.imooc.com/5ddb35d90001165209360414.png" data-original="//img1.sycdn.imooc.com/5ddb35d90001165209360414.png" alt="图片描述"></p>
+</li>
+<li style="font-size: 20px; line-height: 38px;">
+<p style="font-size: 20px; line-height: 38px;">反向代理。Nginx 是一款非常优秀的反向代理服务器。</p>
+</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Talk is cheap，Show me your code, 下面我们就进入 Nginx 的世界吧…</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1230">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            02  HTTP 初窥门径
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img3.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

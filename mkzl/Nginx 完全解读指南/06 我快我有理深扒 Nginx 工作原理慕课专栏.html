@@ -1,0 +1,249 @@
+<html><head><meta charset="utf-8"><title>06 我快我有理：深扒 Nginx 工作原理-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        06 我快我有理：深扒 Nginx 工作原理
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-12-10 09:48:15
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img4.sycdn.imooc.com/5ddbadae0001d01f06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">我们有力的道德就是通过奋斗取得物质上的成功；这种道德既适用于国家，也适用于个人。——罗素<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="回顾">回顾</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在上一篇文章中仔细的分析了 <code>Linux</code> 中常见的几种 <code>I/O</code> 模型。理解这部分内容对于理解 <code>Nginx</code> 原理是非常有必要的。本篇内容我们分享一下为什么 <code>Nginx</code> 的效率这么高。</p>
+</div><div class="cl-preview-section"><h3 id="高效原因">高效原因</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本文中，我会从两个方面来分析 <code>Nginx</code> 高效的原因：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3cd500013ca611820414.png" data-original="//img1.sycdn.imooc.com/5ddb3cd500013ca611820414.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="架构层面" style="font-size: 26px;">架构层面</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般来说，一个 <code>Web</code> 服务器主要有三种处理连接的方式，分别是：单进程、多进程以及 <code>I/O</code> 多路复用。</p>
+</div><div class="cl-preview-section"><h5 id="单进程" style="font-size: 20px; line-height: 38px;">单进程</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在学习<code>网络</code>课程的时候，应该大部分都自己实现过一个简单的 <code>Web</code> 服务器。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面是用伪代码简单实现了一个 <code>Web</code> 服务器。</p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c">socket <span class="token operator">=</span> <span class="token function">create_socket</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 创建一个socket</span>
+<span class="token function">bind_socket_and_port</span><span class="token punctuation">(</span>socket<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 绑定socket</span>
+<span class="token function">listen_socket</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 监听socket</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    new_socket <span class="token operator">=</span> <span class="token function">accept_new_connection</span><span class="token punctuation">(</span>new_connection<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 接受请求</span>
+    <span class="token function">doSomeWork</span><span class="token punctuation">(</span>new_socket<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 业务处理</span>
+    <span class="token function">close</span><span class="token punctuation">(</span>new_socket<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 关闭请求</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这就是一个标准的单进程服务器。这种服务器的优点是实现起来非常的简单，但是缺点也非常的明显，因为一次只能处理一个请求，显然速度太慢了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">实际上，我并没有听说哪个用于生产环境的 <code>Web</code> 服务器是单进程的。但是这个确实是最简单的一种方式～～～</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="多进程" style="font-size: 26px;">多进程</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与单进程模式不同的是，在多进程模式下，每当一个新的请求到来之后，<code>Web</code> 服务器都会创建一个新的进程专门处理这个请求。</p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c">socket <span class="token operator">=</span> <span class="token function">create_socket</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 创建一个socket</span>
+<span class="token function">bind_socket_and_port</span><span class="token punctuation">(</span>socket<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 绑定socket</span>
+<span class="token function">listen_socket</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 监听socket</span>
+
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    new_socket <span class="token operator">=</span> <span class="token function">accept_new_connection</span><span class="token punctuation">(</span>new_connection<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 接收一个请求</span>
+    <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 创建一个子进程</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在子进程中：</p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c"><span class="token keyword">void</span> <span class="token function">doSomeWork</span><span class="token punctuation">(</span>new_socket<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// 业务处理</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们以餐厅的例子来说明：每次来一个客人，就专门的为客人分配一个服务员来为其服务，这个客人的所有需求都有专人来负责。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这种模式的优点就是：非常的稳定，当一个进程因意外退出之后，并不会影响其它的进程（一个服务员罢工，只会影响一位客人）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">很明显的，这种模式最大的一个缺点就是资源浪费。当有成千上万个请求到来的时候，就需要创建成千上万个进程，这对于操作系统的资源来说是一个巨大的挑战，并且进程之间的切换非常的浪费时间（客人太多的话，就需要大量的服务员）。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">早期由于没有 <code>I/O</code> 多路复用机制，所以很多 <code>Web</code> 服务器都是使用这种方式来实现的，比如大名鼎鼎的 <code>Apache</code>。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="io-多路复用" style="font-size: 26px;">I/O 多路复用</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上一篇文章中，我们已经分享了 <code>I/O</code> 多路复用的机制。简单来说，就是一次监控很多个 <code>I/O</code> 操作，当某个 <code>I/O</code> 准备好之后，就进行相应的操作，比如读写文件等。</p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c">socket <span class="token operator">=</span> <span class="token function">create_socket</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 创建一个socket</span>
+<span class="token function">bind_socket_and_port</span><span class="token punctuation">(</span>socket<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 绑定socket</span>
+<span class="token function">listen_socket</span><span class="token punctuation">(</span>socket<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 监听socket</span>
+
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    new_socket <span class="token operator">=</span> <span class="token function">accept_new_connection</span><span class="token punctuation">(</span>new_connection<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 接收一个请求</span>
+    <span class="token function">add_new_socket_to_epoll</span><span class="token punctuation">(</span>new_socket<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 将新的socket加入到epoll中</span>
+    ready_socket_array <span class="token operator">=</span> <span class="token function">epoll_wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 等待I/O操作</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>socket in ready_socket_array<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token comment">// 循环处理所有的socket</span>
+        <span class="token comment">// XXX</span>
+    <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了支持高并发的请求，现在越来越多的 <code>Web</code> 服务都正在采用这种 <code>I/O</code> 多路复用的结构，优秀的 <code>Nginx</code> 同样采用了这种模式，所以能够完美的解决 <code>C10K</code> 问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实，说到多路复用，有一个绕不开的话题，那就是 <code>select</code> 和 <code>epoll</code>。这两个函数都是 <code>Linux</code> 提供的系统调用，用于完成 <code>I/O</code> 多路复用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果大家去网上搜一搜，可以找到大量的分析二者区别的文章。在这里呢，我简单分享一下我的理解：<br>
+<code>select</code> 是早期的 <code>Linux</code> 系统用于 <code>I/O</code> 多路复用的一个函数。默认情况下，它可以监控 <code>1024</code> 个 <code>I/O</code>。<br>
+<code>epoll</code> 是新版 <code>Linux</code> 提供的 <code>I/O</code> 多路复用的系统函数，解决 <code>select</code> 的一些缺点。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们下面通过两段伪代码来了解一下 <code>select</code> 和 <code>epoll</code> 的区别:</p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism  language-c"><span class="token comment">// 下面是一段伪代码</span>
+ret <span class="token operator">=</span> <span class="token function">select</span><span class="token punctuation">(</span>all_fds<span class="token punctuation">)</span>
+
+<span class="token comment">// 遍历所有的I/O</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>fd in all_fds<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// 进行业务处理</span>
+<span class="token punctuation">}</span>
+ret <span class="token operator">=</span> <span class="token function">select</span><span class="token punctuation">(</span>all_fds<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 遍历准备好的I/O</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>fd in ready_fds<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment">// 进行业务处理</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上面两段伪代码写得很清楚了，<code>select</code> 函数之后，程序要遍历所有的 <code>I/O</code>，而 <code>epoll</code> 只需要遍历准备好的 <code>I/O</code>。比如我们监控了 <code>1000</code> 个 <code>I/O</code>，但是同一时间只有两个 <code>I/O</code> 准备好了。这个时候如果使用 <code>select</code> 函数的话，我们要遍历这 <code>1000</code> 个 <code>I/O</code>，找到准备好的 <code>I/O</code>，然后进行相应的操作。而对于 <code>epoll</code> 的话，直接就会返回准备好的 <code>I/O</code>，我们只需要处理这两个 <code>I/O</code> 就行了。如果同时监控大量 <code>I/O</code> 的话，效率差别就特别明显了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><code>PS1</code>: <code>select</code> 监控的文件描述符数量可以在内核中修改。<br>
+<code>PS2</code>: <code>Nginx</code> 使用的是性能更高的 <code>epoll</code> 机制。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面分析了这三种 <code>Web</code> 服务器的架构的优缺点，而 <code>Nginx</code> 正是使用了性能最高的 <code>I/O</code> 多路复用方式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这仅仅是 <code>Nginx</code> 高效的原因之一，下面我们从代码层面分享一下 <code>Nginx</code> 高效的原因。</p>
+</div><div class="cl-preview-section"><h3 id="代码层面">代码层面</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我个人正在学习 <code>Nginx</code> 源码，所以从我的角度来分享一下我在学习过程中的感受，我认为这些东西也是 <code>Nginx</code> 高效的一个原因。</p>
+</div><div class="cl-preview-section"><h4 id="模块化" style="font-size: 26px;">模块化</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，<code>Nginx</code> 代码模块化的结构。每个功能都是一个<code>基本</code>独立的模块，比如处理 <code>I/O</code> 操作的模块，处理 <code>Http</code> 的模块，处理<code>反向代理</code>的模块。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3ce60001153211881338.png" data-original="//img1.sycdn.imooc.com/5ddb3ce60001153211881338.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样的逻辑拆分，可以有效的保证了代码的健壮性，每个模块之间没有强耦合关系，模块与模块之间互不影响。并且这种形式对于我们编写 <code>Nginx</code> 插件也是非常友好的。</p>
+</div><div class="cl-preview-section"><h4 id="重复造轮子" style="font-size: 26px;">重复造轮子</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里说的<code>重复造轮子</code>并不是贬义词。<code>Nginx</code> 为了高效，节省内存，并没有使用现成的许多东西，而是对常用的一些数据结构重新<code>造轮子</code>，包括如下：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5ddb3cf90001f4ec05400666.png" data-original="//img1.sycdn.imooc.com/5ddb3cf90001f4ec05400666.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这部分可以说充分的体现了 <code>Nginx</code> 作者登峰造极的编程水平，对内存的利用率，对性能的考虑体现在了每一行代码之间，这也是 <code>Nginx</code> 被人们广为赞誉的一个原因，那就是相当的节省内存。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">如果有机会，大家一定要看一看 <code>Nginx</code> 的源码～～～</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="总结">总结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本文简单的分享了一下 <code>Nginx</code> 为什么这么快，既包括了架构方面，也包含了代码层面。希望对大家有所帮助。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1234">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            05 Linux 的 IO 原理
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1237">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            07 打扮你的nginx：配置文件初识
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img4.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,287 @@
+<html><head><meta charset="utf-8"><title>23 括号生成-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        23 括号生成
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-09-05 09:49:33
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img3.mukewang.com/5d633ea10001900052002917.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">才能一旦让懒惰支配，它就一无可为。<p class="author">——克雷洛夫</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h2 id="刷题内容" style="font-size: 30px;">刷题内容</h2>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong><font color="orange">难度: Medium</font></strong><br>
+原题连接：<a href="https://leetcode.com/problems/generate-parentheses/">https://leetcode.com/problems/generate-parentheses/</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="内容描述" style="font-size: 26px;">内容描述</h4>
+</div><div class="cl-preview-section"><pre><code>给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
+
+例如，给出 n = 3，生成结果为：
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="解题方案" style="font-size: 30px;">解题方案</h2>
+</div><div class="cl-preview-section"><h4 id="思路-1：时间复杂度-o4n--sqrtn-空间复杂度-o4n--sqrtn" style="font-size: 26px;">思路 1：时间复杂度: O(4^N / sqrt(N)) 空间复杂度: O(4^N / sqrt(N))</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这道题是一个枚举题，首先我们看一下有效括号的条件：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">左括号和右括号相等</li>
+<li style="font-size: 20px; line-height: 38px;">在括号字符串中的任一前缀，右括号的数量不大于左括号的数量</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">假设我们已经枚举到了某个前缀S1，接下来的字符有两种情况，加上’(‘或者加上’)’，加上之后，如果该前缀不符合有效括号的条件，我们应该放弃这次枚举</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">比如：前缀’()’，后面一个字符只能是’(’</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们用递归的方式来实现这个题目</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了满足有效括号的条件，我们在枚举前缀时，需要左括号的数量和右括号的数量，维护这两个值，有利于我们判断是否满足条件</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Python beats 100%</strong></em></p>
+</div><div class="cl-preview-section"><pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">generateParenthesis</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        :type n: int
+        :rtype: List[str]
+        """</span>
+        self<span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>singleStr<span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>res
+        
+    <span class="token keyword">def</span> <span class="token function">singleStr</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> left <span class="token operator">==</span> n <span class="token operator">and</span> right <span class="token operator">==</span> n<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>res<span class="token punctuation">.</span>append<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> left <span class="token operator">&lt;</span> n<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>singleStr<span class="token punctuation">(</span>s <span class="token operator">+</span> <span class="token string">'('</span><span class="token punctuation">,</span>left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right<span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> right <span class="token operator">&lt;</span> left<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>singleStr<span class="token punctuation">(</span>s <span class="token operator">+</span> <span class="token string">')'</span><span class="token punctuation">,</span>left<span class="token punctuation">,</span> right <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java beats 93.50%</strong></em></p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> <span class="token function">generateParenthesis</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">singleStr</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span><span class="token string">""</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">singleStr</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>String<span class="token operator">&gt;</span> result<span class="token punctuation">,</span> String str<span class="token punctuation">,</span><span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">==</span> n <span class="token operator">&amp;&amp;</span> right <span class="token operator">==</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">singleStr</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span>str <span class="token operator">+</span> <span class="token string">"("</span><span class="token punctuation">,</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>right<span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>right <span class="token operator">&lt;</span> left<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">singleStr</span><span class="token punctuation">(</span>result<span class="token punctuation">,</span> str <span class="token operator">+</span> <span class="token string">")"</span><span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++</strong></em></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">beats 92.69%</p>
+</div><div class="cl-preview-section"><pre class=" language-c"><code class="prism ++ language-c">class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token comment">//ret：结果数组，传引用有助于把结果传出来</span>
+    <span class="token comment">//s：当前生成的字符串</span>
+    <span class="token comment">//left：当前左括号的个数</span>
+    <span class="token comment">//right：当前右括号的个数</span>
+    <span class="token comment">//n：要求字符串的左右括号的个数</span>
+    <span class="token keyword">void</span> <span class="token function">generate</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> <span class="token operator">&amp;</span> ret<span class="token punctuation">,</span> string <span class="token operator">&amp;</span> s<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">==</span> n <span class="token operator">&amp;&amp;</span> right <span class="token operator">==</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            ret<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token comment">//判断能否加上左括号</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&lt;</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                s<span class="token punctuation">[</span>left <span class="token operator">+</span> right<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'('</span><span class="token punctuation">;</span>
+                <span class="token function">generate</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">//判断能否加上右括号</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">&gt;</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                s<span class="token punctuation">[</span>left <span class="token operator">+</span> right<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">')'</span><span class="token punctuation">;</span>
+                <span class="token function">generate</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    vector<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> <span class="token function">generateParenthesis</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        vector<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> ret<span class="token punctuation">;</span>
+        <span class="token comment">//这里提前生成2*n个字符的字符串，方便后面的更新</span>
+        string <span class="token function">s</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> n<span class="token punctuation">,</span> <span class="token string">'('</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">generate</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>go</strong></em></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">beats 97.23%</p>
+</div><div class="cl-preview-section"><pre class=" language-go"><code class="prism  language-go"><span class="token comment">//ret：结果数组，传指针有助于把结果传出来</span>
+<span class="token comment">//s：当前生成的字符串</span>
+<span class="token comment">//left：当前左括号的个数</span>
+<span class="token comment">//right：当前右括号的个数</span>
+<span class="token comment">//n：要求字符串的左右括号的个数</span>
+<span class="token keyword">func</span> <span class="token function">generate</span><span class="token punctuation">(</span>ret <span class="token operator">*</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> s <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">rune</span><span class="token punctuation">,</span> left <span class="token builtin">int</span><span class="token punctuation">,</span> right <span class="token builtin">int</span><span class="token punctuation">,</span> n <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> left <span class="token operator">==</span> n <span class="token operator">&amp;&amp;</span> right <span class="token operator">==</span> n <span class="token punctuation">{</span>
+    tmp <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">rune</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token comment">//这里如果不copy，s是个切片，随时会跟着原数据改变</span>
+    <span class="token function">copy</span><span class="token punctuation">(</span>tmp<span class="token punctuation">,</span> s<span class="token punctuation">)</span>
+    <span class="token operator">*</span>ret <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span><span class="token operator">*</span>ret<span class="token punctuation">,</span> <span class="token function">string</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span>
+  <span class="token punctuation">}</span>
+    <span class="token comment">//判断能否加上左括号</span>
+  <span class="token keyword">if</span> left <span class="token operator">&lt;</span> n <span class="token punctuation">{</span>
+    s<span class="token punctuation">[</span>left <span class="token operator">+</span> right<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'('</span>
+    <span class="token function">generate</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> right<span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">//判断能否加上右括号</span>
+  <span class="token keyword">if</span> left <span class="token operator">&gt;</span> right <span class="token punctuation">{</span>
+    s<span class="token punctuation">[</span>left <span class="token operator">+</span> right<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">')'</span>
+    <span class="token function">generate</span><span class="token punctuation">(</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">func</span> <span class="token function">generateParenthesis</span><span class="token punctuation">(</span>n <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span> <span class="token punctuation">{</span>
+  ret <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  s <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">rune</span><span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> n<span class="token punctuation">)</span>
+  <span class="token function">generate</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ret<span class="token punctuation">,</span> s<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span>
+  <span class="token keyword">return</span> ret
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">递归是个重要的知识点，面试题中经常会出现树的遍历。大家试着把括号生成这个题，跟树的遍历结合起来思考，其实括号生成这个题本质上边递归，边生成出一颗递归树：在每个节点我们计算约束条件，判断是否需要生成出子节点。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">递归，本质上是对搜索节点进行无差别遍历。<br>
+<img class="" src="https://img.mukewang.com/5d633e800001772901730244.png" data-original="//img.mukewang.com/5d633e800001772901730244.png" alt="图片描述"></p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/743">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            22 删除链表的倒数第 n 个节点
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/745">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            24 两两交换链表中的节点
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5dad751a00019e3605400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1908100602141755</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：853923473</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5CPxzEa" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,258 @@
+<html><head><meta charset="utf-8"><title>35拆分你的任务—学习使用Fork/Join框架-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        35拆分你的任务—学习使用Fork/Join框架
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-12-25 09:40:02
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img2.mukewang.com/5e0171dc0001307006400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">读书给人以快乐、给人以光彩、给人以才干。<p class="author">——培根</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节我们学习 Excutor 的另外一种实现 ForkJoinPool。顾名思义，ForkJoinPool 的核心功能有两个。第一个是 Fork，拆解你的任务。第二个是 Join，合并任务的执行结果。这个场景很常见，比如我们要处理一批数据，由于数据间没有依赖性，那么我们可以把这一批数据拆解为更小的批次，多线程并行处理。最后再合并处理的结果。 Fork/Join 的核心思想就是分而治之。</p>
+</div><div class="cl-preview-section"><h2 id="、forkjoinpool-介绍" style="font-size: 30px;">1、ForkJoinPool 介绍</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinPool 自 Java 7 引入。它和 ThreadPoolExecutor 都继承自 AbstractExecutorService，实现了 ExecutorService 和 Executor 接口。ForkJoinPool 用来把大任务切分为小任务，如果切分完小任务还不够小（由你设置的阈值决定），那么就继续向下切分。经过切分后，最后的任务是金字塔形状，计算完成后向上汇总。如下图：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5e01ac0f0001bcc116000994.jpg" data-original="//img.mukewang.com/5e01ac0f0001bcc116000994.jpg" alt="图片描述"><br>
+ForkJoinPool 处理任务的核心思想可以用如下伪代码表示：</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java">Result <span class="token function">solve</span><span class="token punctuation">(</span>Problem problem<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>problem is small<span class="token punctuation">)</span>
+ 		directly solve problem
+ <span class="token keyword">else</span> <span class="token punctuation">{</span>
+ 		split problem into independent parts
+ 		fork <span class="token keyword">new</span> <span class="token class-name">subtasks</span> to solve each part
+ 		join all subtasks
+ 		compose result from subresults
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果一个任务足够小，那么执行任务逻辑。如果不够小，拆分为两个独立的子任务。子任务执行后， 取得两个子任务的执行结果进行合并。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinPool 通过 submit 执行 ForkJoinTask 类型的任务。ForkJoinTask 是抽象类，有着不同的子类实现。比较常用的是如下两种：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">1、RecursiveAction，没有返回值；</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2、RecurisiveTask，有返回值。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">此外 submit 方法还可以执行 Callable 和 Runnable 的接口实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinTask 就是我们为代码中的 problem。我来举个例子看具体如何使用。假如让你计算 1-10000 的和，</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以把任务拆解为 100 个，每个任务计算 100 个数字之和。代码如下.</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Task 代码；</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Task</span> <span class="token keyword">extends</span> <span class="token class-name">RecursiveTask</span><span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> THRESHOLD <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> from<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> to<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token function">Task</span><span class="token punctuation">(</span><span class="token keyword">int</span> from<span class="token punctuation">,</span> <span class="token keyword">int</span> to<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>from <span class="token operator">=</span> from<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>to <span class="token operator">=</span> to<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> Integer <span class="token function">compute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>THRESHOLD <span class="token operator">&gt;</span> <span class="token punctuation">(</span>to <span class="token operator">-</span> from<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> IntStream<span class="token punctuation">.</span><span class="token function">range</span><span class="token punctuation">(</span>from<span class="token punctuation">,</span> to <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> a <span class="token operator">+</span> b<span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">getAsInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> forkNumber <span class="token operator">=</span> <span class="token punctuation">(</span>from <span class="token operator">+</span> to<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            Task left <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Task</span><span class="token punctuation">(</span>from<span class="token punctuation">,</span> forkNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            Task right <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Task</span><span class="token punctuation">(</span>forkNumber <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> to<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            left<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            right<span class="token punctuation">.</span><span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">return</span> left<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> right<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Task 继承自 RecursiveTask。递归任务的大小力度为 100。重写的 compute 方法和文章开头的伪代码 solve 是一样的思路。先判断任务的大小是否在 THRESHOLD 之内。如果已经拆解到 THRESHOLD 内，那么进行计算。如果任务拆分还没达到 THRESHOLD，那么继续拆解任务。fork 操作会把当前任务放入线程池中来执行。最后再通过 join 取得执行结果做合并。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Client 代码：</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Client</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> ExecutionException<span class="token punctuation">,</span> InterruptedException <span class="token punctuation">{</span>
+        ForkJoinPool forkJoinPool <span class="token operator">=</span> ForkJoinPool<span class="token punctuation">.</span><span class="token function">commonPool</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ForkJoinTask<span class="token operator">&lt;</span>Integer<span class="token operator">&gt;</span> result <span class="token operator">=</span> forkJoinPool<span class="token punctuation">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Task</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"计算结果为"</span><span class="token operator">+</span>result<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        forkJoinPool<span class="token punctuation">.</span><span class="token function">shutdown</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们首先通过静态方法 commonPool 声明一个 ForkJoinPool。commonPool 创建的 ForkJoinPool 满足绝大多数的应用场景。然后通过 submit 方法提交我们的 Task，计算 1-10000 的和。提交 Task 后，Task 中的 compute 方法最终会被调用，通过对任务的拆解，以及对任务计算结果的合并，汇总到此处的 Task 中。通过 Task 的 get 方法获取计算结果。最后关闭线程池。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">执行结果如下：</p>
+</div><div class="cl-preview-section"><pre><code>计算结果为50005000
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="、forkjoinpool-原理介绍" style="font-size: 30px;">2、ForkJoinPool 原理介绍</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinPool 中的每个线程都维护自己的工作队列。这是一个双端队列，既可以先进先出，也可以先进后出。简单来说就是队列两端都可以做出队操作。当每个线程产生新的任务时（比如说调用了 fork 操作），会被加入到队尾。线程工作的时候会从自己维护的工作队列的 top 做出队操作（LIFO），取得任务来执行。线程还会去其它线程任务队列窃取任务，此时是从其它队列的 base 取得任务（FIFO）。如下图所示：<br>
+<img class="" src="https://img.mukewang.com/5e01abfb0001f1d315260880.jpg" data-original="//img.mukewang.com/5e01abfb0001f1d315260880.jpg" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面简单介绍几个常用方法：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">1、fork 方法中会判断如果当前线程不是 ForkJoinWorkerThread，则把任务加入 submission queue。否则加入自己的工作队列中。submission queue 没有关联的线程，是所有线程都可以执行的任务队列。fork 代码如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> ForkJoinTask<span class="token operator">&lt;</span>V<span class="token operator">&gt;</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Thread t<span class="token punctuation">;</span>
+  <span class="token comment">//判断本线程是否为ForkJoinWorkerThread，是的话，加入到自己的workQueue中，否则调用externalPush</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>t <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">instanceof</span> <span class="token class-name">ForkJoinWorkerThread</span><span class="token punctuation">)</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span>ForkJoinWorkerThread<span class="token punctuation">)</span>t<span class="token punctuation">)</span><span class="token punctuation">.</span>workQueue<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        ForkJoinPool<span class="token punctuation">.</span>common<span class="token punctuation">.</span><span class="token function">externalPush</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2、join 方法中，自己任务没有执行完，则取的自己任务队列中的任务执行。如果发现自己的任务已经没有了，则会去窃取其它线程的任务来执行。Join 代码如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">final</span> V <span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> s<span class="token punctuation">;</span>
+  <span class="token comment">//取得doJoin后的状态，位运算后判断是否正常，不正常的话抛出异常。正常的话返回计算结果</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>s <span class="token operator">=</span> <span class="token function">doJoin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> DONE_MASK<span class="token punctuation">)</span> <span class="token operator">!=</span> NORMAL<span class="token punctuation">)</span>
+        <span class="token function">reportException</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">getRawResult</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">主要逻辑在 doJoin 中，代码如下：</p>
+</div><div class="cl-preview-section"><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">private</span> <span class="token keyword">int</span> <span class="token function">doJoin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> s<span class="token punctuation">;</span> Thread t<span class="token punctuation">;</span> ForkJoinWorkerThread wt<span class="token punctuation">;</span> ForkJoinPool<span class="token punctuation">.</span>WorkQueue w<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>s <span class="token operator">=</span> status<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> s <span class="token operator">:</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span>t <span class="token operator">=</span> Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">instanceof</span> <span class="token class-name">ForkJoinWorkerThread</span><span class="token punctuation">)</span> <span class="token operator">?</span>
+        <span class="token punctuation">(</span>w <span class="token operator">=</span> <span class="token punctuation">(</span>wt <span class="token operator">=</span> <span class="token punctuation">(</span>ForkJoinWorkerThread<span class="token punctuation">)</span>t<span class="token punctuation">)</span><span class="token punctuation">.</span>workQueue<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token function">tryUnpush</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>s <span class="token operator">=</span> <span class="token function">doExec</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">?</span> s <span class="token operator">:</span>
+        wt<span class="token punctuation">.</span>pool<span class="token punctuation">.</span><span class="token function">awaitJoin</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">,</span> 0L<span class="token punctuation">)</span> <span class="token operator">:</span>
+        <span class="token function">externalAwaitDone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果当前线程不是 ForkJoinWorkerThread，则调用 externalAwaitDone。如果是 ForkJoinWorkerThread 那么先通过 tryUnpush 从自己的 workQueue 的 top 位置取得当前 task，然后调用 doExec 执行。这两步成功的话返回执行结果 s，否则调用 awaitJoin。这个方法中判断本任务是否执行完成，完成直接返回，否则会尝试窃执行取别的线程的任务。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">3、submit 方法中，会把任务 push 到 submission queue。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinPool 通过任务窃取，使得任务的执行更为高效。</p>
+</div><div class="cl-preview-section"><h2 id="、总结" style="font-size: 30px;">3、总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ForkJoinPool 为我们拆分大任务再汇总小任务计算结果提供了很好的支持。它很适合执行计算密集型的任务。但是如果你的任务拆分逻辑比计算逻辑还要复杂，ForkJoinPool 并不能为你带来性能的提升，反而会起到负面作用。因此需要结合自己的场景来选择使用。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/1318">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            34 谁都不能偷懒-通过 CompletableFuture 组装你的异步计算单元
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                        <!-- 未买不可试读或者未开放 -->
+                                    <a href="javascript:;" class="js-cantIn" data-ifopen="1" data-cantaste="1">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            36 为多线程们安排一位经理—Master/Slave模式详解
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img.mukewang.com/5d762b3c000119e505400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1910221525494047</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：906691736</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=55RtSbJ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

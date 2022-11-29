@@ -1,0 +1,218 @@
+<html><head><meta charset="utf-8"><title>22 坏人请走开：开发实现积分体系风控规则-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        22 坏人请走开：开发实现积分体系风控规则
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-13 17:02:36
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.mukewang.com/5d4ce8c70001f83206400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">没有智慧的头脑，就象没有腊烛的灯笼。<p class="author">——列夫·托尔斯泰</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面几节我们已经完成了积分体系的大部分功能开发，本节我们一起来完成积分体系的最后一个功能，风控规则。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在本章第一节和第二节已经列出了积分体系的风控规则：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>风控规则 1</strong>：单日最大同步微信运动步数获得的积分上限为 100000（正常用户单日走路超过十万步的几率很小，单日微信运动步数大于十万可以认为是异常行为）；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>风控规则 2</strong>：每个用户的每次积分变动都需要进行第一条规则的判断，如果触发规则，自动锁定用户账号，同时在风控日志中记录这次用户账号锁定操作及锁定原因；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>风控规则 3</strong>：被锁定用户在打开小程序任何页面时，自动跳转到账号锁定提示页面，以此来实现禁止用户执行任何操作。</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="实现风控规则云函数" style="font-size: 30px;">1. 实现风控规则云函数</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">与用户成长体系的风控规则类似，积分体系的风控规则是在服务器端运行，应该在云函数中实现，风控规则云函数在用户获得积分时调用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据风控规则1、风控规则2，我们可以整理出风控规则云函数的程序逻辑：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>步骤 1</strong> ：定义单日最大同步微信运动步数获得的积分上限为 100000；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>步骤 2</strong> ：从积分变动记录表 <code>user_point</code> 中获取当前用户的所有记录 <code>allPointRecords</code> ，由于云函数端每次查询数据库返回的记录数量最多为 100 条，而积分变动记录数可能超过 100 条，因此当前用户的所有记录需要分多次读取；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>步骤 3</strong> ： 建立一个 key-value 类型的数组 <code>addPointGroupedByDate</code> ，用于统计每天用户获得的积分总数。循环读取 <code>allPointRecords</code> 中的每一条记录，统计每天用户获得的积分总数，并记录到数组 <code>addPointGroupedByDate</code> 中，key是日期，value是用户当日获得的积分总数；</li>
+<li style="font-size: 20px; line-height: 38px;"><strong>步骤 4</strong>：依次判断 <code>addPointGroupedByDate</code> 中的用户每天获得的积分总数是否超过积分上限，如果某天用户获得的积分总数超过积分上限，则在风控异常日志表 <code>risk</code> 中记录该异常，并将用户在 <code>user</code> 表中的锁定标志 <code>isLock</code> 设置为 true 。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对比第五章第五节的内容，我们可以知道积分体系与用户成长体系的风控规则程序逻辑基本一致，区别仅在于积分体系是从积分变动记录表 <code>user_point</code> 中获取记录。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>积分体系风控规则云函数的实现，作为本节实操环节，请各位同学参照第五章第五节内容，在自己的云开发环境中编写积分体系风控规则云函数，并测试风控规则是否生效。</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">专栏源代码中的积分体系风控规则云函数位置在本节末尾图 6 中红框标出的位置。</p>
+</div><div class="cl-preview-section"><h2 id="实现风控规则-3" style="font-size: 30px;">2. 实现风控规则 3</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第五章第五节的内容中，通过云函数只完成了风控规则  1 与 风控规则 2，还有风控规则 3 未实现。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">风控规则 3 描述的是在小程序客户端对用户锁定标志的处理。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当用户打开任意页面，需要首先判断用户的锁定标志 <code>isLock</code> 是否为 true 。如果 <code>isLock</code> 是 true ，则需要自动跳转到账号锁定提示页面。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在第五章第五节我们已经在 app.js 中设置了用户锁定标志的全局变量 <code>isLocked</code> ，只需要在每个页面的页面加载事件 <code>onLoad</code> 中判断 <code>isLocked</code> 是否为 true，如果为 true 就 <code>wx.reLaunch</code> 到账号锁定提示页面：</p>
+</div><div class="cl-preview-section"><pre class="  language-js"><code class="prism  language-js"><span class="token comment">//获取小程序实例，用于读取globalData</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">getApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  onLoad<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//如果用户被锁定则跳转到账号异常提示页面</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>app<span class="token punctuation">.</span>globalData<span class="token punctuation">.</span>isLocked<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      wx<span class="token punctuation">.</span><span class="token function">reLaunch</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        url<span class="token punctuation">:</span> <span class="token string">'/pages/membership/pages/userlockedpage/userlockedpage'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>wx.reLaunch</code> 是小程序页面跳转方式的一种形式，小程序页面跳转的完整内容请参阅<a href="https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html">微信官方“小程序开发文档”的“API -&gt; 路由”一节</a>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">同时我们还需要实现账号锁定提示页面，页面效果如图 6 左侧模拟器所示。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">账号锁定提示页面可以直接使用 WeUI 的 Msg 组件中的失败提示页实现，修改失败提示的标题和描述即可：</p>
+</div><div class="cl-preview-section"><pre class="  language-html"><code class="prism  language-html"><span class="token comment">&lt;!-- 用户被风控规则检测出异常后显示该页面 --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>userlockedpage<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-msg<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-msg__icon-area<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>icon</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>warn<span class="token punctuation">"</span></span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>93<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>icon</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-msg__text-area<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-msg__title<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>账号异常<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>view</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>weui-msg__desc<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>很抱歉，你的账号存在异常行为，已被限制访问<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>view</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在完成上述内容后，我们可以在云数据中修改自己的锁定标志为 <code>true</code> ，然后重新编译小程序并打开在 <code>onload</code> 事件中含有用户的锁定标志判断的页面，即可看到小程序自动跳转到了账号锁定提示页面。</p>
+</div><div class="cl-preview-section"><h2 id="专栏源代码" style="font-size: 30px;">3. 专栏源代码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本专栏源代码已上传到 GitHub ，请访问以下地址获取：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://github.com/liujiec/Membership-ECommerce-Miniprogram">https://github.com/liujiec/Membership-ECommerce-Miniprogram</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节源代码内容在图 6 红框标出的位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>图 6 本节源代码位置</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d4cbec1000178e407540850.png" data-original="//img.mukewang.com/5d4cbec1000178e407540850.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h2 id="下节预告" style="font-size: 30px;">下节预告</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从下一节开始，我们将实现付费会员体系，首先完成付费会员体系的业务设计。</p>
+</div><div class="cl-preview-section"><h2 id="实践环节" style="font-size: 30px;">实践环节</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">实践是通往大神之路的唯一捷径。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节实操内容：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><strong>参照本节与第五章第五节内容，在自己的云开发环境中编写积分体系风控规则云函数，并测试风控规则是否生效。</strong></li>
+</ul>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/580">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            21 开发实现积分体系页面
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/40/article/582">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            23 业务设计：付费会员的套餐有门道
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.mukewang.com/5d5a70850001363505400600.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前端核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1907191830328156</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：722466314</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5l9EFfc" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

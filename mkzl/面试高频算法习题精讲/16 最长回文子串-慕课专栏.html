@@ -1,0 +1,629 @@
+<html><head><meta charset="utf-8"><title>16 最长回文子串-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        16 最长回文子串
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-08-26 10:07:23
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img.mukewang.com/5d632940000139a906400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">我们有力的道德就是通过奋斗取得物质上的成功；这种道德既适用于国家，也适用于个人。<p class="author">——罗素</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h2 id="刷题内容" style="font-size: 30px;">刷题内容</h2>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong><font color="orange">难度: Medium</font></strong><br>
+原题链接：<a href="https://leetcode-cn.com/problems/longest-palindromic-substring/">https://leetcode-cn.com/problems/longest-palindromic-substring/</a></p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="内容描述" style="font-size: 26px;">内容描述</h4>
+</div><div class="cl-preview-section"><pre><code>给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+
+示例 1：
+输入: "babad"
+输出: "bab"
+注意: "aba" 也是一个有效答案。
+
+示例 2：
+输入: "cbbd"
+输出: "bb"
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>题目详解</strong></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">回文的概念我们已经在 2.3 小节中介绍过了，指的是一个字符串 <code>a</code> 和其逆序 <code>a[::-1]</code>是相等的；</li>
+<li style="font-size: 20px; line-height: 38px;">题目中要求我们输出的是最长的那个回文子串，而不是子序列；</li>
+<li style="font-size: 20px; line-height: 38px;">这样的子串可能会有多个，题目说了，任意返回其中一个即可。</li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="解题方案" style="font-size: 30px;">解题方案</h2>
+</div><div class="cl-preview-section"><h4 id="思路-1：时间复杂度-on2-空间复杂度-on2" style="font-size: 26px;">思路 1：时间复杂度: O(N^2) 空间复杂度: O(N^2)</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以用 dp 的方式来处理这道题。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注：dp 解法可参看 2.5 小节最长公共前缀。</p>
+</blockquote>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><code>dp[i][j] = True</code> 代表  <code>s[i:j+1]</code>  是回文；</li>
+<li style="font-size: 20px; line-height: 38px;"><code>dp[i][j] = False</code> 代表 <code>s[i:j+1]</code> 不是回文；</li>
+<li style="font-size: 20px; line-height: 38px;">那么自然而然地，如果 <code>s[i-1] == s[j+1]</code> 的时候，如果 <code>dp[i][j] = True</code> 的话，<code>dp[i-1 ][j+1]</code>也为True。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Python beats 28.11%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token builtin">str</span><span class="token punctuation">:</span>
+        res <span class="token operator">=</span> <span class="token string">''</span>
+        dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token boolean">False</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token comment"># 如果s[i]和s[j]相等，并且要么i和j之间只有一个字符，要么中间的子串也是回文子串，此时我们的dp[i][j]就是True了</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">and</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">or</span> dp<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
+                <span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">and</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 此时的回文子串长度大于res</span>
+                    res <span class="token operator">=</span> s<span class="token punctuation">[</span>i<span class="token punctuation">:</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
+        <span class="token keyword">return</span> res
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java beats 32.14%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> length <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        String res <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token comment">// dp[i][j] 用来表示 i 到 j 的字串是否是回文串</span>
+        <span class="token keyword">boolean</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">boolean</span><span class="token punctuation">[</span>length<span class="token punctuation">]</span><span class="token punctuation">[</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span> j <span class="token operator">&lt;</span> length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">||</span> dp<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">// dp[i][j] 用来判断是否为回文串， j - i + 1 &gt; res.length() 用来判断是否是最长回文串</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>res <span class="token operator">==</span> null <span class="token operator">||</span> j <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> res<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    res <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++ beats 39.37%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism ++  language-c">bool dp<span class="token punctuation">[</span><span class="token number">1010</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1010</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    string <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>string s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">--</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i<span class="token punctuation">;</span>j <span class="token operator">&lt;</span> s<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 如果s[i]和s[j]相等，并且要么i和j之间只有一个字符，要么中间的子串也是回文子串，此时我们的dp[i][j]就是True了</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">||</span> dp<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> right <span class="token operator">-</span> left <span class="token operator">&lt;</span> j <span class="token operator">-</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    left <span class="token operator">=</span> i<span class="token punctuation">;</span>
+                    right <span class="token operator">=</span> j<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go beats 48.32%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>s <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	dp <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">bool</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span> i <span class="token operator">+=</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+		dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">bool</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+	res <span class="token operator">:=</span> <span class="token string">""</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">-=</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+		<span class="token keyword">for</span> j <span class="token operator">:=</span> i<span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span> j <span class="token operator">+=</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 如果s[i]和s[j]相等，并且要么i和j之间只有一个字符，要么中间的子串也是回文子串，此时我们的dp[i][j]就是True了</span>
+			dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>j <span class="token operator">-</span> i <span class="token operator">&lt;</span> <span class="token number">3</span> <span class="token operator">||</span> dp<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token number">-1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+			<span class="token keyword">if</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&amp;&amp;</span> j <span class="token operator">-</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> <span class="token function">len</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 此时的回文子串长度大于res</span>
+				res <span class="token operator">=</span> s<span class="token punctuation">[</span>i<span class="token punctuation">:</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">return</span> res
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="思路-2：时间复杂度-on2-空间复杂度-o1" style="font-size: 26px;">思路 2：时间复杂度: O(N^2) 空间复杂度: O(1)</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">回文字符串长度为奇数和偶数是不一样的：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">奇数：<code>'xxx s[i] xxx'</code>, 比如 <code>'abcdcba'</code>；</li>
+<li style="font-size: 20px; line-height: 38px;">偶数：<code>'xxx s[i] s[i+1] xxx'</code>, 比如 <code>'abcddcba'</code>。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们区分回文字符串长度为奇数和偶数的情况，然后依次把每一个字符当做回文字符串的中间字符，向左右扩展到满足回文的最大长度，不停更新满足回文条件的最长子串的左右 <code>index</code> :  <code>l</code>  和 <code>r</code>，最后返回 <code>s[l:r+1]</code> 即为结果。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面来看具体代码：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Python beats 58.44%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        :type s: str
+        :rtype: str
+        """</span>
+        l <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment"># left index of the current substring</span>
+        r <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment"># right index of the current substring</span>
+        max_len <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment"># length of the longest palindromic substring for now</span>
+        n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># odd case: 'xxx s[i] xxx', such as 'abcdcba' </span>
+            <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">min</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> n<span class="token operator">-</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 向左最多移动 i 位，向右最多移动 (n-1-i) 位</span>
+                <span class="token keyword">if</span> s<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># 不对称了就不用继续往下判断了</span>
+                    <span class="token keyword">break</span>
+                <span class="token keyword">if</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> max_len<span class="token punctuation">:</span> <span class="token comment"># 如果当前子串长度大于目前最长长度</span>
+                    max_len <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span>
+                    l <span class="token operator">=</span> i <span class="token operator">-</span> j
+                    r <span class="token operator">=</span> i <span class="token operator">+</span> j
+
+            <span class="token comment"># even case: 'xxx s[i] s[i+1] xxx', such as 'abcddcba' </span>
+            <span class="token keyword">if</span> i<span class="token operator">+</span><span class="token number">1</span> <span class="token operator">&lt;</span> n <span class="token operator">and</span> s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">min</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> n<span class="token operator">-</span>i<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># s[i]向左最多移动 i 位，s[i+1]向右最多移动 [n-1-(i+1)] 位</span>
+                    <span class="token keyword">if</span> s<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token operator">+</span>j<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># 不对称了就不用继续往下判断了</span>
+                        <span class="token keyword">break</span>
+                    <span class="token keyword">if</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&gt;</span> max_len<span class="token punctuation">:</span>
+                        max_len <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span>
+                        l <span class="token operator">=</span> i <span class="token operator">-</span> j
+                        r <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j
+        <span class="token keyword">return</span> s<span class="token punctuation">[</span>l<span class="token punctuation">:</span>r<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java beats 52.30%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// left index of the current substring</span>
+        <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// right index of the current substring</span>
+        <span class="token keyword">int</span> maxLength <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// length of the longest palindromic substring for now</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// odd case: 'xxx s[i] xxx', such as 'abcdcba' </span>
+            <span class="token comment">// 向左最多移动 i 位，向右最多移动 n - 1 - i 位</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">-</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i <span class="token operator">-</span> j<span class="token punctuation">)</span> <span class="token operator">!=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i <span class="token operator">+</span> j<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment">// 如果当前子串长度大于目前最长长度</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> maxLength<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    maxLength <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                    l <span class="token operator">=</span> i <span class="token operator">-</span> j<span class="token punctuation">;</span>
+                    r <span class="token operator">=</span> i <span class="token operator">+</span> j<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// even case: 'xxx s[i] s[i+1] xxx', such as 'abcddcba' </span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> n <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// s[i]向左最多移动 i 位，s[i+1]向右最多移动 [n-1-(i+1)] 位</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> Math<span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">-</span> i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i <span class="token operator">-</span> j<span class="token punctuation">)</span> <span class="token operator">!=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&gt;</span> maxLength<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        maxLength <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                        l <span class="token operator">=</span> i <span class="token operator">-</span> j<span class="token punctuation">;</span>
+                        r <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>l<span class="token punctuation">,</span>r <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++ beats 82.83%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism ++  language-c">class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    string <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>string s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// left index of the current substring</span>
+        <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// right index of the current substring</span>
+        <span class="token keyword">int</span> maxLength <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// length of the longest palindromic substring for now</span>
+        <span class="token keyword">int</span> n <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// odd case: 'xxx s[i] xxx', such as 'abcdcba' </span>
+            <span class="token comment">// 向左最多移动 i 位，向右最多移动 n - 1 - i 位</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token function">min</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">-</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i <span class="token operator">-</span> j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i <span class="token operator">+</span> j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+                <span class="token comment">// 如果当前子串长度大于目前最长长度</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> maxLength<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    maxLength <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                    l <span class="token operator">=</span> i <span class="token operator">-</span> j<span class="token punctuation">;</span>
+                    r <span class="token operator">=</span> i <span class="token operator">+</span> j<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// even case: 'xxx s[i] s[i+1] xxx', such as 'abcddcba' </span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> n <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// s[i]向左最多移动 i 位，s[i+1]向右最多移动 [n-1-(i+1)] 位</span>
+                <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token function">min</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">-</span> i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span>i <span class="token operator">-</span> j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">break</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&gt;</span> maxLength<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                        maxLength <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">;</span>
+                        l <span class="token operator">=</span> i <span class="token operator">-</span> j<span class="token punctuation">;</span>
+                        r <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j<span class="token punctuation">;</span>
+                    <span class="token punctuation">}</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>l<span class="token punctuation">,</span> r <span class="token operator">-</span> l <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go beats 44.74%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>s <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 当s=""时，此时l,r = 0,0，golang不支持rindex大于底层array的长度</span>
+    <span class="token comment">// 所以我们要提前处理</span>
+    <span class="token keyword">if</span> s <span class="token operator">==</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">""</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// l: left index of the current substring</span>
+    <span class="token comment">// r: right index of the current substring</span>
+    <span class="token comment">// maxLen: length of the longest palindromic substring for now</span>
+    l<span class="token punctuation">,</span> r<span class="token punctuation">,</span> maxLen<span class="token punctuation">,</span> n <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+        <span class="token comment">// odd case: 'xxx s[i] xxx', such as 'abcdcba' </span>
+        <span class="token keyword">for</span> j <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token function">int</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span><span class="token function">float64</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">float64</span><span class="token punctuation">(</span>n<span class="token operator">-</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">{</span> <span class="token comment">// 向左最多移动 i 位，向右最多移动 (n-1-i) 位</span>
+            <span class="token keyword">if</span> s<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span>j<span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                <span class="token keyword">break</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> maxLen <span class="token punctuation">{</span> <span class="token comment">// 如果当前子串长度大于目前最长长度</span>
+                maxLen <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">1</span>
+                l <span class="token operator">=</span> i <span class="token operator">-</span> j
+                r <span class="token operator">=</span> i <span class="token operator">+</span> j
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// even case: 'xxx s[i] s[i+1] xxx', such as 'abcddcba' </span>
+        <span class="token keyword">if</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> n <span class="token operator">&amp;&amp;</span> s<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            <span class="token comment">// s[i]向左最多移动 i 位，s[i+1]向右最多移动 [n-1-(i+1)] 位</span>
+            <span class="token keyword">for</span> j <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> <span class="token function">int</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span><span class="token function">float64</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">float64</span><span class="token punctuation">(</span>n<span class="token operator">-</span>i<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> s<span class="token punctuation">[</span>i<span class="token operator">-</span>j<span class="token punctuation">]</span> <span class="token operator">!=</span> s<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token operator">+</span>j<span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token comment">// 不对称了就不用继续往下判断了</span>
+                    <span class="token keyword">break</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">if</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">&gt;</span> maxLen <span class="token punctuation">{</span>
+                    maxLen <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> j <span class="token operator">+</span> <span class="token number">2</span>
+                    l <span class="token operator">=</span> i <span class="token operator">-</span> j
+                    r <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> j
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> s<span class="token punctuation">[</span>l<span class="token punctuation">:</span>r<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> 
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><h4 id="思路-3：时间复杂度-on-空间复杂度-on" style="font-size: 26px;">思路 3：时间复杂度: O(N) 空间复杂度: O(N)</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://www.felix021.com/blog/read.php?2040">Manacher算法</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://articles.leetcode.com/longest-palindromic-substring-part-ii/">useful link</a></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>Manacher</code>算法增加两个辅助变量<code>id</code>和<code>mx</code>，其中<code>id</code>表示最大回文子串中心的位置，<code>mx</code>则为<code>id+P[id]</code>，也就是最大回文子串的边界。得到一个很重要的结论：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果<code>mx &gt; i</code>，那么<code>P[i] &gt;= Min(P[2 * id - i], mx - i)</code> . 为什么这样说呢，下面解释：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面，令 <code>j = 2*id - i</code>，也就是说<code>j</code>是<code>i</code>关于<code>id</code>的对称点。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">当 <code>mx - i &gt; P[j]</code> 的时候，以 <code>S[j]</code> 为中心的回文子串包含在以 <code>S[id]</code> 为中心的回文子串中，由于 <code>i</code>和 <code>j</code> 对称，以 <code>S[i]</code> 为中心的回文子串必然包含在以 <code>S[id]</code> 为中心的回文子串中，所以必有 <code>P[i] = P[j]</code>；<br>
+<img class="" src="https://img.mukewang.com/5d633ce90001827c05260128.png" data-original="//img.mukewang.com/5d633ce90001827c05260128.png" alt="图片描述"></li>
+<li style="font-size: 20px; line-height: 38px;">当 P <code>[j] &gt;= mx - i</code> 的时候，以 <code>S[j]</code> 为中心的回文子串不一定完全包含于以 <code>S[id]</code> 为中心的回文子串中，但是基于对称性可知，下图中两个绿框所包围的部分是相同的，也就是说以<code>S[i]</code>为中心的回文子串，其向右至少会扩张到<code>mx</code>的位置，也就是说 <code>P[i] &gt;= mx - i</code>。至于 <code>mx</code> 之后的部分是否对称，再具体匹配。所以 <code>P[i] &gt;= Min(P[2 * id - i], mx - i)</code>，因为以<code>j</code>为中心的绘回文子串的左边界可能会比<code>mx</code>关于<code>id</code>的对称点要大，此时只能证明<code>P[i]=P[j]</code>。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面的图来源于上面的链接</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d633d2300014c5f05260128.png" data-original="//img.mukewang.com/5d633d2300014c5f05260128.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">此外，对于 <code>mx &lt;= i</code> 的情况，因为无法对 <code>P[i]</code>做更多的假设，只能让<code>P[i] = 0</code>，然后再去匹配。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在下面的程序中我的<code>P数组</code>保存的是以当前字符为回文子串中心时，该回文子串的长度（不包含当前字符自身）。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">简单地用一个小例子来解释：原字符串为<code>'qacbcaw'</code>，一眼就可以看出来最大回文子串是<code>'acbca'</code>，<br>
+下面是我做的表格。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img.mukewang.com/5d633d4e0001c8cc12800167.png" data-original="//img.mukewang.com/5d633d4e0001c8cc12800167.png" alt="图片描述"><br>
+所以最终代码中的<code>max_i</code>就是字符<code>'b'</code>所对应的<code>index8</code>，<code>start</code>的值就是<code>(max_i - P[max_i] - 1) // 2 = 1</code>,最终输出结果为<code>s[1:6]</code>,即<code>acbca’</code></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Python beats 92.24%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Solution</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        :type s: str
+        :rtype: str
+        """</span>
+        <span class="token keyword">def</span> <span class="token function">preProcess</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token operator">not</span> s<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token string">'^'</span><span class="token punctuation">,</span> <span class="token string">'&amp;'</span><span class="token punctuation">]</span>
+            T <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'^'</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> i <span class="token keyword">in</span> s<span class="token punctuation">:</span>
+                T <span class="token operator">+=</span> <span class="token punctuation">[</span><span class="token string">'#'</span><span class="token punctuation">,</span> i<span class="token punctuation">]</span>
+            T <span class="token operator">+=</span> <span class="token punctuation">[</span><span class="token string">'#'</span><span class="token punctuation">,</span> <span class="token string">'$'</span><span class="token punctuation">]</span>
+            <span class="token keyword">return</span> T
+
+        T <span class="token operator">=</span> preProcess<span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+        P <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span>
+        <span class="token builtin">id</span><span class="token punctuation">,</span> mx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            j <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token builtin">id</span> <span class="token operator">-</span> i
+            <span class="token keyword">if</span> mx <span class="token operator">&gt;</span> i<span class="token punctuation">:</span>
+                P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>P<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> mx<span class="token operator">-</span>i<span class="token punctuation">)</span> <span class="token comment"># 暂时先赋值，后面还有一个 while 循环接着判断的</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span> <span class="token number">0</span>
+            <span class="token keyword">while</span> T<span class="token punctuation">[</span>i<span class="token operator">+</span>P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> T<span class="token punctuation">[</span>i<span class="token operator">-</span>P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> mx<span class="token punctuation">:</span>
+                <span class="token builtin">id</span><span class="token punctuation">,</span> mx <span class="token operator">=</span> i<span class="token punctuation">,</span> i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        max_i <span class="token operator">=</span> P<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token builtin">max</span><span class="token punctuation">(</span>P<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment"># 保存的是当前最大回文子串中心位置的index</span>
+        start <span class="token operator">=</span> <span class="token punctuation">(</span>max_i <span class="token operator">-</span> P<span class="token punctuation">[</span>max_i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">//</span> <span class="token number">2</span>
+        res <span class="token operator">=</span> s<span class="token punctuation">[</span>start<span class="token punctuation">:</span>start<span class="token operator">+</span>P<span class="token punctuation">[</span>max_i<span class="token punctuation">]</span><span class="token punctuation">]</span>
+        <span class="token keyword">return</span> res
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>c++ beats 92.56%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-c"><code class="prism ++  language-c">class Solution <span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    string <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>string s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        string data <span class="token operator">=</span> <span class="token string">"#"</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> s<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            data<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            data<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token string">'#'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">//半径</span>
+        vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> <span class="token function">rad</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> id <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> mx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> last <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> mx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                last <span class="token operator">=</span> i<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>rad<span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span> id <span class="token operator">-</span> i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> mx <span class="token operator">-</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment">//2*id-i为中心的最大回文被以id为中心的最大回文所覆盖，没必要继续扩展下去，直接返回</span>
+                    rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> rad<span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span> id <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    last <span class="token operator">=</span> mx<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">//继续扩展</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token number">2</span> <span class="token operator">*</span> i <span class="token operator">-</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">[</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> data<span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span> i <span class="token operator">-</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                last<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> last <span class="token operator">-</span> i<span class="token punctuation">;</span>
+            id <span class="token operator">=</span> i<span class="token punctuation">;</span>
+            mx <span class="token operator">=</span> last<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//因为有#的存在，i-rad[i]必是#，也就是偶数下标，i-rad[i]+1对应的必是字母，所以(i-rad[i]+1-1)/2就是原来字母的位置</span>
+            <span class="token keyword">int</span> temp_left <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token comment">//同理</span>
+            <span class="token keyword">int</span> temp_right <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>temp_left <span class="token operator">&lt;</span> temp_right <span class="token operator">&amp;&amp;</span> right <span class="token operator">-</span> left <span class="token operator">&lt;</span> temp_right <span class="token operator">-</span> temp_left<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                left <span class="token operator">=</span> temp_left<span class="token punctuation">;</span>
+                right <span class="token operator">=</span> temp_right<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Java beats 46.76%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> String <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>String s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        String data <span class="token operator">=</span> <span class="token string">"#"</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            data <span class="token operator">+=</span> s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            data <span class="token operator">+=</span> <span class="token string">"#"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 半径</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> rad <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>data<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> id <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> mx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> last <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&gt;</span> mx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                last <span class="token operator">=</span> i<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>rad<span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span> id <span class="token operator">-</span> i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> mx <span class="token operator">-</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token comment">// 2*id-i为中心的最大回文被以id为中心的最大回文所覆盖，没必要继续扩展下去，直接返回</span>
+                    rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> rad<span class="token punctuation">[</span><span class="token number">2</span> <span class="token operator">*</span> id <span class="token operator">-</span> i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token keyword">continue</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                    last <span class="token operator">=</span> mx<span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 继续扩展</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token number">2</span> <span class="token operator">*</span> i <span class="token operator">-</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">&gt;=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> data<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> i <span class="token operator">-</span> <span class="token punctuation">(</span>last <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                last<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> last <span class="token operator">-</span> i<span class="token punctuation">;</span>
+            id <span class="token operator">=</span> i<span class="token punctuation">;</span>
+            mx <span class="token operator">=</span> last<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> right <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> data<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 因为有#的存在，i-rad[i]必是#，也就是偶数下标，i-rad[i]+1对应的必是字母，所以(i-rad[i]+1-1)/2就是原来字母的位置</span>
+            <span class="token keyword">int</span> tempLeft <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">-</span> rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token comment">// 同理</span>
+            <span class="token keyword">int</span> tempRight <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> rad<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>tempLeft <span class="token operator">&lt;=</span> tempRight <span class="token operator">&amp;&amp;</span> right <span class="token operator">-</span> left <span class="token operator">&lt;</span> tempRight <span class="token operator">-</span> tempLeft<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                left <span class="token operator">=</span> tempLeft<span class="token punctuation">;</span>
+                right <span class="token operator">=</span> tempRight<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span> right <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><em><strong>Go beats 67.52%</strong></em></p>
+</div><div class="cl-preview-section"><pre class="  language-go"><code class="prism  language-go"><span class="token keyword">func</span> <span class="token function">preProcess</span><span class="token punctuation">(</span>s <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">rune</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> s <span class="token operator">==</span> <span class="token string">""</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">rune</span><span class="token punctuation">{</span><span class="token string">'^'</span><span class="token punctuation">,</span> <span class="token string">'$'</span><span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	T <span class="token operator">:=</span> <span class="token string">"^"</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> c <span class="token operator">:=</span> <span class="token keyword">range</span> s <span class="token punctuation">{</span>
+		T <span class="token operator">+=</span> <span class="token string">"#"</span> <span class="token operator">+</span> <span class="token function">string</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+
+	<span class="token punctuation">}</span>
+	T <span class="token operator">+=</span> <span class="token string">"#$"</span>
+	<span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">rune</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span>
+<span class="token keyword">func</span> <span class="token function">longestPalindrome</span><span class="token punctuation">(</span>s <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token builtin">string</span> <span class="token punctuation">{</span>
+	T <span class="token operator">:=</span> <span class="token function">preProcess</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+	P <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">var</span> id<span class="token punctuation">,</span> mx <span class="token builtin">int</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+		j <span class="token operator">:=</span> <span class="token number">2</span> <span class="token operator">*</span> id <span class="token operator">-</span> i
+		<span class="token keyword">if</span> mx <span class="token operator">&gt;</span> i <span class="token punctuation">{</span>
+            <span class="token comment">// 暂时先赋值，后面还有一个 while 循环接着判断的</span>
+			P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">int</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">Min</span><span class="token punctuation">(</span><span class="token function">float64</span><span class="token punctuation">(</span>P<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">float64</span><span class="token punctuation">(</span>mx<span class="token operator">-</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+		<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+			P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">for</span> T<span class="token punctuation">[</span>i<span class="token operator">+</span>P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> T<span class="token punctuation">[</span>i<span class="token operator">-</span>P<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+			P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">if</span> i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&gt;</span> mx <span class="token punctuation">{</span>
+			id<span class="token punctuation">,</span> mx <span class="token operator">=</span> i<span class="token punctuation">,</span> i <span class="token operator">+</span> P<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+    <span class="token comment">// maxIdx保存的是当前最大回文子串中心位置的index</span>
+	<span class="token keyword">var</span> maxP<span class="token punctuation">,</span> maxIdx <span class="token builtin">int</span>
+	<span class="token keyword">for</span> i<span class="token punctuation">,</span> p <span class="token operator">:=</span> <span class="token keyword">range</span> P <span class="token punctuation">{</span>
+		<span class="token keyword">if</span> p <span class="token operator">&gt;</span> maxP <span class="token punctuation">{</span>
+			maxP <span class="token operator">=</span> p
+			maxIdx <span class="token operator">=</span> i
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	start <span class="token operator">:=</span> <span class="token punctuation">(</span>maxIdx <span class="token operator">-</span> P<span class="token punctuation">[</span>maxIdx<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span>
+	res <span class="token operator">:=</span> s<span class="token punctuation">[</span>start<span class="token punctuation">:</span>start<span class="token operator">+</span>P<span class="token punctuation">[</span>maxIdx<span class="token punctuation">]</span><span class="token punctuation">]</span>
+	<span class="token keyword">return</span> res
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第647题也可以用这个算法解，可以记一下这个算法的模版，或者自己去实现一个你喜欢的版本。</p>
+</div><div class="cl-preview-section"><h3 id="小结">小结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于这道题来说，最简单的方法就是 dp 了，但是如果对自己要求高的话，可以记忆一下 manacher 算法，但是不需要在面试中给面试官讲明白这个算法，如果他原来不知道的话。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在面试的时候，如果你没有信心能在有限时间内给面试官讲解明白，不妨先用最简单的方式去先把题目做出来，然后跟面试官提一句你内心的最优解即可。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于思路2 和思路3 有不理解的同学（确实是很难），可以在评论区留言问。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/736">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            15 无重复字符的最长子串
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/44/article/738">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            17 Z 字形变换
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img2.mukewang.com/5dad751a00019e3605400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课前沿技术核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1908100602141755</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：853923473</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=5CPxzEa" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

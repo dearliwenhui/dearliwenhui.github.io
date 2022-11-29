@@ -1,0 +1,314 @@
+<html><head><meta charset="utf-8"><title>04 动手开发最简单的单文件爬虫-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 1-4 04 动手开发最简单的单文件爬虫
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                04 动手开发最简单的单文件爬虫
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-03 19:11:49
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5ce255260001bdb506400360.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">理想必须要人们去实现它，它不但需要决心和勇敢而且需要知识。<p class="author">——吴玉章</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">由实践入手通过代码说话，学习如何由一个想法开始对爬虫进行“简单设计”，以及了解开发网络爬虫要分为多少个基本的实施步骤。</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF">设计思路</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E5%BC%80%E5%A7%8B%E8%AE%BE%E8%AE%A1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">开始设计数据结构</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E2%80%9C%E7%A7%8D%E5%AD%90%E2%80%9D%E7%9A%84%E5%88%86%E6%9E%90%EF%BC%8C%E7%94%9F%E6%88%90%E7%88%AC%E8%99%AB%E5%85%A5%E5%8F%A3">“种子”的分析，生成爬虫的入口</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E5%BC%80%E5%A7%8B%E7%BC%96%E7%A0%81">开始编码</a></li>
+<li style="font-size: 20px; line-height: 38px;"><a href="#%E5%B0%8F%E7%BB%93%EF%BC%9A%E7%88%AC%E8%99%AB%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%BC%80%E5%8F%91%E6%80%9D%E8%B7%AF">小结：爬虫的基本开发思路</a></li>
+</ul>
+</div><div class="cl-preview-section"><h2 id="设计思路" style="font-size: 30px;">设计思路</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你已认真阅读前面两个小节的内容，那么恭喜你！你已经具备动手编写网络爬虫的基础知识了。接下来的这一个小节，就是将我们前面所打下的基础，通过一个具体的动手实践将其融汇贯通形成一个真正的网络爬虫。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">开始之前我们需要确定一个爬取的目标，为了能保证这个例子能持久地运行我特意采用<a href="https://www.cnblogs.com/Ray-liang/">我的博客</a>作为本例的爬取目标。<br>
+<img src="http://img.mukewang.com/5cde2efb0001d9ae29862270.png" alt="图片描述" data-original="http://img.mukewang.com/5cde2efb0001d9ae29862270.png" class="" style="cursor: pointer;"><strong>目标</strong>: 在这个示例里面我们要写一个爬虫将我的博客中的文章列表拉出下来，保存到一个 JSON文件里面。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注: 网络爬虫项目的关键在于从一开始就要清楚地建立一个明确的爬取方向与目的。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h2 id="开始设计数据结构" style="font-size: 30px;">开始设计数据结构</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">建立具体的爬取目标之后并不是急于动手去编码，而是应该弄清楚要从网页中<strong>取</strong>些什么，然后<strong>存</strong>什么，换句话说就是要设计爬取后的数据的存储结构。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如上图所示，每个文章都是以相同的模式进行显示的，这就很容易得到这么一个简单的结构：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>title</td>
+</tr>
+<tr>
+<td>摘要</td>
+<td>summary</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>pub_date</td>
+</tr>
+<tr>
+<td>原文链接</td>
+<td>parmerlink</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><h2 id="“种子”的分析，生成爬虫入口" style="font-size: 30px;">“种子”的分析，生成爬虫入口</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">网络爬虫中爬取的第一个页面称之为“种子”页(seed)，又叫爬虫入口。在本例中目标数据就在当前打开的页面<code>https://www.cnblogs.com/Ray-liang/</code>内，而对于一些项目来说可能数据是存在于其它不知道具体地址的页面内，而要得到这些具体的URL则需要先爬取“种子”页后方能获取，这就是“种子”来由。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在我们需要将上面设计的数据结构与网页中的元素对应起来，打开浏览器的开发者工具来分析一下网页的内容:<br>
+<img src="http://img.mukewang.com/5cde2f3f0001684129862270.png" alt="图片描述" data-original="http://img.mukewang.com/5cde2f3f0001684129862270.png" class="" style="cursor: pointer;">此时我们可以再扩充一下上文中的数据结构表，将网页中的元素选择器写到表内:</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字段</th>
+<th>选择器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>title</td>
+<td><code>.postTitle&gt;a</code></td>
+</tr>
+<tr>
+<td>摘要</td>
+<td>summary</td>
+<td><code>.postCon</code></td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>pub_date</td>
+<td><code>.dayTitle</code></td>
+</tr>
+<tr>
+<td>原文链接</td>
+<td>parmerlink</td>
+<td><code>.postTitle&gt;a</code></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在对网页内容的分析已经完成，接下来只要将的所有的文章内容都找出来，然后用一个循环就可以将数据提取出来了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下图是对整个爬虫编程思路的整理：<br>
+<img src="http://img.mukewang.com/5cde2f5d00010a4909600720.png" alt="图片描述" data-original="http://img.mukewang.com/5cde2f5d00010a4909600720.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h2 id="开始编码" style="font-size: 30px;">开始编码</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在已万事俱备，已经可以开始编写代码了。</p>
+</div><div class="cl-preview-section"><pre><code>$ mkdir blog-crawler
+$ cd blog-crawler
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">用 virtualenv 创建python虚环境:</p>
+</div><div class="cl-preview-section"><pre><code>blog-cawler $ virtualenv -p python3 venv  
+blog-cawler $ . venv/bin/activate
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">安装基本依赖:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) blog-cawler $ pip install pyQuery
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">创建入口文件:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) blog-cawler $ touch cnblog-crawler.py
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">导入必要的依赖包：</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py"><span class="token keyword">from</span> urllib <span class="token keyword">import</span> request
+<span class="token keyword">from</span> pyquery <span class="token keyword">import</span> PyQuery <span class="token keyword">as</span> pq
+<span class="token keyword">import</span> json
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">生成种子页的HTTP请求:</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py">url <span class="token operator">=</span> <span class="token string">'https://www.cnblogs.com/Ray-liang/'</span>
+<span class="token keyword">with</span> request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token keyword">as</span> response<span class="token punctuation">:</span>
+    body <span class="token operator">=</span> response<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment">#1. 先定义一个空数组，用于储存提取结果</span>
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'output.json'</span><span class="token punctuation">,</span> <span class="token string">'wt'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span> <span class="token comment"># 2 将结果写入JSON文件</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上述代码中的<code>items</code>数组是一个空的对象，这是为了先将主线的思路实现，最后来完成单个元素提供的代码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“#2”则采用了python内置的IO处理方法<code>open</code>来打开一个文件，第一个参数是将数据写入到哪一个文件，第二个参数是打开这个文件时所采用的方法，<code>'w'</code>是指写入。</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py"><span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'output.json'</span><span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+    f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后，<code>json.dumps</code>方法会将<code>items</code>直接序列化成一个标准的JSON字符串，最后将这个JSON字符串通过调用<code>file</code>对象的<code>write</code>方法写入到文件内。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">而<code>with</code>语句是用于指定<code>f</code>的作用域，当<code>f.write</code>调用完成跳出<code>with</code>子句时就会被关闭与销毁，这样可以防止打开文件后忘记调用<code>close</code>而锁住文件，导致其它的进程不能访问。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在，整个主线的代码流程已经完成了，剩下的就是如何来生成这个<code>items</code>中的对象数据了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们需要将<code>body</code>中的内容读到pyQuery中，然后选出所有的文章元素，最后通过循环逐个元素来处理，将元素的值生成为一个数据项填充到<code>items</code>中。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据我们的分析，文章列表的元素选择器为<code>.forFlow&gt;.day</code>, 而这个选择器一但执行会返回多个元素的集合，而且我们需要将一个元素集合转化为一个<code>item</code>类型的集合，所以我们可以使用<a href="https://pythonhosted.org/pyquery/api.html"><code>pyQuery.map</code></a>函数完成这一转换。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么上述的代码就会变为这样：</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py"><span class="token keyword">from</span> urllib <span class="token keyword">import</span> request
+<span class="token keyword">from</span> pyquery <span class="token keyword">import</span> PyQuery <span class="token keyword">as</span> pq
+<span class="token keyword">import</span> json
+
+url <span class="token operator">=</span> <span class="token string">'https://www.cnblogs.com/Ray-liang/'</span>
+
+<span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">pass</span>
+
+<span class="token keyword">with</span> request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token keyword">as</span> response<span class="token punctuation">:</span>
+    body <span class="token operator">=</span> response<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    doc <span class="token operator">=</span> pq<span class="token punctuation">(</span>body<span class="token punctuation">)</span>
+    items <span class="token operator">=</span> doc<span class="token punctuation">(</span><span class="token string">'.forFlow&gt;.day'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">map</span><span class="token punctuation">(</span>parse_item<span class="token punctuation">)</span> 
+    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">'output.json'</span><span class="token punctuation">,</span> <span class="token string">'wt'</span><span class="token punctuation">,</span>encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+        f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>items<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里还要详细解释一下这个<code>map</code>函数，<code>map</code>函数是一个高阶函数，它的参数是另一个处理函数的指针，所以这里引用了一个<code>parse_item</code>，这个函数的内部实际上是一个循环，它会将<code>doc('.forFlow&gt;.day')</code>一个一个传入到<code>parse_item</code>函数中，当循环执行结束后再将多次从<code>parse_item</code>获取的结果合成为一个数组返回。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过<code>map</code>这么一个转换就将处理集合的问题变成了处理单个元素的问题了，接下来就是实现<code>parse_item</code>函数了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据前文我们在分析设计时得到的元素映射表的关系，我们就可以直接编写这个<code>parse_item</code>函数了，具体如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py"><span class="token keyword">def</span> <span class="token function">parse_item</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    doc <span class="token operator">=</span> pq<span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+    title <span class="token operator">=</span> doc<span class="token punctuation">(</span><span class="token string">'.postTitle&gt;a'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    parmerlink <span class="token operator">=</span> doc<span class="token punctuation">(</span><span class="token string">'.postTitle&gt;a'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>attr<span class="token punctuation">(</span><span class="token string">'href'</span><span class="token punctuation">)</span>
+    pub_date <span class="token operator">=</span> doc<span class="token punctuation">(</span><span class="token string">'.dayTitle'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    summary <span class="token operator">=</span> doc<span class="token punctuation">(</span><span class="token string">'.postCon'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">'title'</span><span class="token punctuation">:</span> title<span class="token punctuation">,</span>
+        <span class="token string">'parmerlink'</span><span class="token punctuation">:</span> parmerlink<span class="token punctuation">,</span>
+        <span class="token string">'pub_date'</span><span class="token punctuation">:</span> pub_date<span class="token punctuation">,</span>
+        <span class="token string">'summary'</span><span class="token punctuation">:</span> summary
+    <span class="token punctuation">}</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大功告成！接下来就是执行这个爬虫了，在命令行这样执行就OK了：</p>
+</div><div class="cl-preview-section"><pre><code>(venv) blog-cawler $ python3 cnblog-crawler.py
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">完成后就会发现在当前爬虫工作目录中会多了一个名为<code>output.json</code>的文件，打开它后的样子是这样的：</p>
+</div><div class="cl-preview-section"><pre class="  language-json"><code class="prism  language-json"><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"HAAR\u4e0eDLib\u7684\u5b9e\u65f6\u4eba\u8138\u68c0\u6d4b\u4e4b\u5b9e\u73b0\u4e0e\u5bf9\u6bd4"</span><span class="token punctuation">,</span>
+        <span class="token string">"url"</span><span class="token punctuation">:</span> <span class="token string">"https://www.cnblogs.com/Ray-liang/p/9900473.html"</span><span class="token punctuation">,</span>
+        <span class="token string">"pub_date"</span><span class="token punctuation">:</span> <span class="token string">"2018\u5e7411\u67083\u65e5"</span><span class="token punctuation">,</span>
+        <span class="token string">"summary"</span><span class="token punctuation">:</span> <span class="token string">"\u6458\u8981: \u4eba\u8138\u68c0\u6d4b\u65b9\u6cd5\u6709\u8bb8\u591a\uff0c\u6bd4\u5982opencv\u81ea\u5e26\u7684\u4eba\u8138Haar\u7279\u5f81\u5206\u7c7b\u5668\u548cdlib\u4eba\u8138\u68c0\u6d4b\u65b9\u6cd5\u7b49\u3002 \u5bf9\u4e8eopencv\u7684\u4eba\u8138\u68c0\u6d4b\u65b9\u6cd5\uff0c\u4f18\u70b9\u662f\u7b80\u5355\uff0c\u5feb\u901f\uff1b\u5b58\u5728\u7684\u95ee\u9898\u662f\u4eba\u8138\u68c0\u6d4b\u6548\u679c\u4e0d\u597d\u3002\u6b63\u9762/\u5782\u76f4/\u5149\u7ebf\u8f83\u597d\u7684\u4eba\u8138\uff0c\u8be5\u65b9\u6cd5\u53ef\u4ee5\u68c0\u6d4b\u51fa\u6765\uff0c\u800c\u4fa7\u9762/\u6b6a\u659c/\u5149\u7ebf\u4e0d\u597d\u7684\u4eba\u8138\uff0c\u65e0\u6cd5\u68c0\u6d4b\u3002\u56e0\u6b64\uff0c\u8be5\u65b9\u6cd5\u4e0d\u9002\u5408\u73b0\u573a\u5e94\u7528\u3002\u800c\u5bf9\u4e8edli\u9605\u8bfb\u5168\u6587"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看到这样的结果你一定很崩溃吧，这到底是“什么鬼”？怎么好好的中文全乱了？导致这个现象的出现是由于<code>json.dumps</code>时对爬取结果的内容进行了 unicode 编码的结果，如果彻底解决这个问题只要在文件的第一行加入一个<code>__future__</code>模块就可以了：</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py"><span class="token keyword">from</span> __future__ <span class="token keyword">import</span> unicode_literals
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后将在<code>json.dumps</code>方法加上一个<code>ensure_ascii=False</code>的参数：</p>
+</div><div class="cl-preview-section"><pre class="  language-py"><code class="prism  language-py">f<span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>items<span class="token punctuation">,</span>ensure_ascii<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">再执行一次输出结果就会正常显示了：</p>
+</div><div class="cl-preview-section"><pre><code>liangruikundeMacBook-Pro:src raymacbook$ python3 cnblog-cralwer.py
+{"title": "HAAR与DLib的实时人脸检测之实现与对比", "parmerlink": "https://www.cnblogs.com/Ray-liang/p/9900473.html", "pub_date": "2018年11月3日", "summary": "摘要: 人脸检测方法有许多，比如opencv自带的人脸Haar特征分类器和dlib人脸检测方法等。 对于opencv的人脸检测方法，优点是简单，快速；存在的问题是人脸检测效果不好。正面/垂直/光线较好的人脸，该方法可以检测出来，而侧面/歪斜/光线不好的人脸，无法检测。因此，该方法不适合现场应用。而对于dli阅读全文"}
+...
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="小结：爬虫的基本开发思路" style="font-size: 30px;">小结：爬虫的基本开发思路</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">最后我们先总结一下在本节中所学到的设计与开发一个完整爬虫的思路与过程：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">确立爬取目标，分析种子页结构</li>
+<li style="font-size: 20px; line-height: 38px;">设计需要存储的<a href="#%E5%BC%80%E5%A7%8B%E8%AE%BE%E8%AE%A1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a></li>
+<li style="font-size: 20px; line-height: 38px;">分析承载数据的页面结构，建立数据结构与元素选择器间的映射关系</li>
+<li style="font-size: 20px; line-height: 38px;">设计代码流程与编写思路<br>
+<img src="http://img.mukewang.com/5cde4e590001bb2816000545.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cde4e590001bb2816000545.jpg" class="" style="cursor: pointer;"></li>
+</ol>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/307">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    03 HTTP 协议通信原理与 HTML 基础入门
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/303">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    05 Python 世界最流行的网络爬虫框架 Scrapy
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

@@ -1,0 +1,243 @@
+<html><head><meta charset="utf-8"><title>01 掀起你的盖头来，Linux之初见-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/39" target="_blank">Linux命令行与Shell脚本编程大全</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 1-1 01 掀起你的盖头来，Linux之初见
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                01 掀起你的盖头来，Linux之初见
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-01 12:02:41
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5d14804800015b2410840608.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">你若要喜爱你自己的价值，你就得给世界创造价值。<p class="author">——歌德</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><h2 id="内容简介" style="font-size: 30px;">内容简介</h2>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">前言</li>
+<li style="font-size: 20px; line-height: 38px;">什么是操作系统？</li>
+<li style="font-size: 20px; line-height: 38px;">天地霸气，爷们落地：Linux 诞生</li>
+<li style="font-size: 20px; line-height: 38px;">总结</li>
+</ol>
+</div><div class="cl-preview-section"><h2 id="前言" style="font-size: 30px;">1. 前言</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当今时代，要说没听过 Linux，那是比较难的一件事。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我上初中的时候（21 世纪初，不小心暴露了年龄），第一次看到 Linux，还是在学校机房的电脑上。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是我一直没机会使用，因为也就只有一台电脑有 Linux，大家上微机课用的还是 Windows。那时候就光记得 Linux 那只呆萌的企鹅 Logo 了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d0aefe4000157f513440742.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d0aefe4000157f513440742.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天，Linux 几乎无所不在：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">大部分网站的服务器都是 Linux 系统；</li>
+<li style="font-size: 20px; line-height: 38px;">Linux 运行在超过 99% 的 TOP 500 超级计算机上；</li>
+<li style="font-size: 20px; line-height: 38px;">Android 系统的底层用的是修改过的 Linux 内核；</li>
+<li style="font-size: 20px; line-height: 38px;">还有了 Ubuntu（一种 Linux 发行版，之后的课程会介绍）手机（不过这种手机目前已经停产）。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">身为读者，你也许会问：“你扯了半天，那么 Linux 到底是什么呀？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不要急嘛，今天这一课我们就带你循序渐进地认识一下 Linux。因为内容比较多，我们会分两课来介绍 Linux，本课和下一课。</p>
+</div><div class="cl-preview-section"><h2 id="什么是操作系统？" style="font-size: 30px;">2. 什么是操作系统？</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说起 Windows 大概无人不知、无人不晓吧。它是 Microsoft（比尔盖茨建立的微软“帝国”）的主要操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以前，Windows 在桌面 PC（PC 是“个人电脑”，Personal Computer 的意思）上确实是一统天下。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">现在苹果基于 macOS 的电脑逐步崛起，Linux 的份额也增加了，甚至还多了基于 Google 开发的 Chrome OS 的电脑，也有部分基于定制的 Android 系统的电脑。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Windows 所有版本（Win XP， Windows Vista，Win 7，Win 8，Win 10）加起来在桌面领域的份额大约是 76%。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">2019 年 5 月桌面操作系统份额：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d0aeffd000185a810290881.png" alt="图片描述" data-original="http://img.mukewang.com/5d0aeffd000185a810290881.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然 Windows 继续称霸桌面 PC，但是在移动端的份额却已清零（微软彻底放弃 Windows Phone），移动端目前是 iOS 和 Android 两强争霸之地。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们说，大部分桌面电脑的预装系统是 Windows，或者说都是以 Windows 作为发售系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那这意味着什么呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也许你会说：“这还不简单，也就是说，开机看到的是 Windows 标志呗”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然这样说不够完全，但不可否认是个好的开头。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当你开启一个预装系统是 Windows 的电脑时，最先看到的可能是下图这样：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d0af00a0001a58002750290.png" alt="图片描述" data-original="http://img.mukewang.com/5d0af00a0001a58002750290.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，上图随着 Windows 的不同版本会有所变化。但我们主要想说明的是：电脑启动时 Windows 也随之启动。</p>
+</div><div class="cl-preview-section"><h4 id="启动：电脑开启" style="font-size: 26px;">启动：电脑开启</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">大部分人的印象中，电脑启动时，Windows 是首先启动。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但如果我们仔细一些，可以观察到，在电脑启动的开始几秒里，在屏幕上显示的是一系列图像，俗称“启动界面”，Windows 的图标是之后才显示的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于“启动界面”，我们就不截图了，因为不同的电脑，这部分信息是不尽相同的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为什么呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为这和电脑的硬件有关。实际上，正是电脑的主板（mother board）显示了“启动界面”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">主板是电脑最主要的部分，我们的处理器可以运转、硬盘可以读取、光盘可以播放，都离不开主板的控制。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">主板（英语是 Motherboard 或 Mainboard）又称主机板、系统板、逻辑板、母板、底板等，是构成复杂电子系统，例如电子计算机的中心或者主电路板。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如下所示：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img src="http://img.mukewang.com/5d0af01d000141e410020665.jpg" alt="图片描述" data-original="http://img.mukewang.com/5d0af01d000141e410020665.jpg" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，预装了 Windows 系统的电脑启动时，下面两件事是按先后顺序发生的：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">“启动界面”；</li>
+<li style="font-size: 20px; line-height: 38px;">Windows 的启动。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">只有当 Windows 顺利启动后，我们才可以使用各种应用程序：浏览器、画图软件、游戏、音乐播放器等等。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那为什么一定要先启动 Windows 呢？为什么平时我们用的程序比如画图软件，不可以在启动界面之后就使用呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">因为，你的电脑需要一个类似“大管家”的软件，就好像管弦乐队的总指挥一样，需要指挥各个乐手的演奏。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个“大管家”软件需要管理你电脑的内存，把内存合理分配给各个软件。它起到连接电脑的硬件（内存、显卡、光驱等）和各种软件的“桥梁”作用。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个任务听起来特别崇高、神圣，不是吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个“大管家”软件就是操作系统，简称 OS，是 Operating System（Operating 是英语“操作”的意思，System 是英语“系统”的意思） 的首字母缩写，我们的 Windows 就是一个操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">之后的课程，我们经常会用到 OS 这个简称来指代“操作系统”，请记住啦。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下次别人问你 OS 是什么，你应该不会搞错了吧，可不是内心独白(Overlapping Sound)噢。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以，我们总结一下，电脑会按以下顺序执行任务：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">启动界面；</li>
+<li style="font-size: 20px; line-height: 38px;">操作系统（例如 Windows）的启动；</li>
+<li style="font-size: 20px; line-height: 38px;">其他程序（或称软件）的启动。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">或许用图示更容易理解吧：<br>
+<img src="http://img.mukewang.com/5d0af0290001cce302790385.png" alt="图片描述" data-original="http://img.mukewang.com/5d0af0290001cce302790385.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><h4 id="linux-是一个操作系统" style="font-size: 26px;">Linux 是一个操作系统</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">读者：“你不要忘了这个教程是讲 Linux 的，怎么你扯了这么多 Windows 呀？”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不要着急，我可没忘记我们的初衷。经过上面的介（hu）绍（che），大家应该对操作系统有了一个大致的了解了吧，那么我就要公布一个“惊天”的消息咯：</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">Linux 就是一个操作系统。类似的还有 macOS，是苹果研发的操作系统。</p>
+</blockquote>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">相比于 Windows，Linux 以它的可靠和安全著称，而且更新频繁，不像 Windows 更新一次得等好久。我们在之后的课程中将慢慢发现 Linux 的这些优点。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也许你又要发问了：“我们能否在一台电脑上同时拥有两个 OS 啊？我可不想为了装 Linux 而把 Windows 卸载了，我还要玩游戏呢。我的 Dota、炉石传说、星际争霸、LOL…”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有不少人可能认为需要做一个抉择：要么装 Linux，要么就装 Windows。但并不是这样：一台电脑可以拥有两个（甚至更多）的操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这种情况（多个操作系统）下，在电脑启动时，当启动界面结束后，会有一个被称为 bootloader 的程序显示出来，让你做出选择，到底选择哪个操作系统来启动。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">什么是 bootloader 呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">摘录<a href="https://baike.baidu.com/item/Boot%20Loader">百度百科</a>的解释：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">“Bootloader 是在操作系统内核运行之前运行的一段小程序。通过这段小程序，我们可以初始化硬件设备，建立内存空间的映射图，从而将系统的软硬件环境带到一个合适的状态，以便为最终调用操作系统内核准备好正确的环境。通常，Bootloader 是严重地依赖于硬件而实现的，特别是在嵌入式领域。”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">一般最常用的，能使我们在 Linux 和 Windows 之间做出选择的 bootloader 叫做 GRUB。如果你没有做出选择，那么 GRUB 这个 bootloader 在几秒之后就会启动默认的操作系统。当然默认的操作系统也是你设定的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">千言万语不如一张图，再来看看电脑在双操作系统下的启动流程吧：<br>
+<img src="http://img.mukewang.com/5d0af0380001c9db05940471.png" alt="图片描述" data-original="http://img.mukewang.com/5d0af0380001c9db05940471.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">上图中，我们可以看到，当我们在 Linux 系统中时，我们使用的程序都是为 Linux 定制的，不会用 Windows 的程序；反之亦然。事实上，Windows 的程序在 Linux 下不能运行，反之亦然。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然了，现在有些技术可以使得 Windows 的程序在 Linux 下可以运行，比较出名的有 Wine 这个软件。然而，即便使用 Wine 后有些 Windows 程序可以运行在 Linux 下，但终归是使用专为 Linux 定制的程序比较好。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">你也许又要说了：“可是我已经习惯了 Windows 下的各种程序，在 Linux 下的程序我不会用啊”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">事实上，并没有那么难，大概几天你就能熟悉 Linux 下程序的使用方法了。如果你够积极又感兴趣，可能一个晚上就可以了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 上的程序有很多优点：</p>
+</div><div class="cl-preview-section"><ul>
+<li style="font-size: 20px; line-height: 38px;">免费：基本上 Linux 上的所有程序都是免费的；</li>
+<li style="font-size: 20px; line-height: 38px;">更新频繁，更新也是免费的；</li>
+<li style="font-size: 20px; line-height: 38px;">有不少程序的 Linux 版比 Windows 版更优秀，而有一些程序没有 Windows 的版本（当然了，有些程序 Windows 下有，Linux 也没有，比如很多大型游戏）；</li>
+<li style="font-size: 20px; line-height: 38px;">Linux 下的程序往往使你更加有效率，因为它们可以更高效地使用电脑的资源。</li>
+</ul>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">但是为什么 Linux 下的程序基本都是免费的呢？那开发这些程序的人不是要亏本了？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们就来说说缘由。</p>
+</div><div class="cl-preview-section"><h2 id="天地霸气，爷们落地：linux-诞生" style="font-size: 30px;">3. 天地霸气，爷们落地：Linux 诞生</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">记得曾被好朋友忽悠看过一个恶搞的漫画，是关于“春哥”（李宇春）的。虽然我只看了开头，貌似叫《春哥传》。不过对第一卷的标题记忆犹新：《天地霸气，爷们落地》。所以在此也想借用一下，以表现 Linux 的“霸气侧漏”。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，Linux 的霸气表现在“纯爷们”上… 不好意思搞错了，是在价格上：</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">正版的 Windows 系统售价几百美元（不同的版本售价不一，以 Windows 官网最贵），而 Linux 是免费的！<br>
+<img src="http://img.mukewang.com/5d0af04d00011a5e14510518.png" alt="图片描述" data-original="http://img.mukewang.com/5d0af04d00011a5e14510518.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">看到这个对比，也许很多人会想：“Linux 是免费的，肯定是因为 Linux 比较粗制滥造。”</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那您可就错了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Linux 是免费的，而且基本上所有运行在 Linux 上的程序也是免费的，这是有原因的。而要了解原因，我们就要重回 1984 年，从那时开始说起。</p>
+</div><div class="cl-preview-section"><h4 id="年的信息技术" style="font-size: 26px;">1984 年的信息技术</h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">回到 1984 年，彼时的信息技术还远没有现在发达。那个时候，Microsoft（微软）才刚刚发布它的第一个操作系统：MS-DOS，也就是我们知道的 DOS 操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，DOS 并不是微软开发的。追溯到 1980 年，西雅图计算机产品公司一名 24 岁的程序员蒂姆.帕特森（Tim Paterson）花费了 4 个月时间编写出了 86-DOS 操作系统。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">1981 年 7 月，微软从西雅图计算机产品公司购得 DOS 的全部版权并将它更名为 MS-DOS。比尔盖茨购买 DOS 的全部版权仅仅是 5 万美元。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然后来微软在 1986 年向西雅图计算机产品公司又支付了 105 万美元以了结官司，但与微软靠着 DOS 操作系统赚取的钱相比，这 105 万美元简直是杯水车薪。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">微软从靠 DOS 发迹，到后来的 Windows NT（由大卫.卡特勒领导开发，推荐看《<a href="https://book.douban.com/subject/3699395/">观止-微软创建NT和未来的夺命狂奔</a>》一书，很精彩）的一统天下。那段历史，还有微软和诸多如苹果、IBM 等公司的恩怨情仇，还是很有意思的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有兴趣的读者可以看看《<a href="https://book.douban.com/subject/24738302/">浪潮之巅</a>》这本书，还有《<a href="https://movie.douban.com/subject/1298084/">硅谷海盗</a>》这部电影，都有讲到微软的发迹史。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">扯远了，我们及时拉回来。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">虽然 DOS 操作系统在当时一出来便受到欢迎，但是这个系统本身有很多局限性，并不怎么样。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你用过初代的 Windows 系统，你肯定听说过 DOS 系统。它是像下图这样的：<br>
+<img src="http://img.mukewang.com/5d1985dd0001d0cb04820248.png" alt="图片描述" data-original="http://img.mukewang.com/5d1985dd0001d0cb04820248.png" class="" style="cursor: pointer;"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">那么，在那个年代，DOS 是唯一的操作系统吗？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">不是的，有不少操作系统，但是大部分都不出名。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然，有一个操作系统很有名，那就是 Unix。Unix 比 DOS 要强大得多，但是使用起来更复杂，所以在当时只有比较专业的信息工程师才用 Unix。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Unix 也比 DOS 要古老得多，Unix 是 1969 年（或 1970 年）诞生的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">从使用界面来看，Unix 很像 DOS ：黑底白字。当然了，当时的电脑也只能做到这样了。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">因为篇幅关系，这一课就到这里。下一课我们接着聊那段历史，会聊到 GNU 项目，GNU 和 Linux 的关系，以及 Linux 的各种发行版。</p>
+</blockquote>
+</div><div class="cl-preview-section"><div class="summary"><h5 class="centertitle" style="font-size: 20px; line-height: 38px;">小结 </h5></div><!--title:&#23567;&#32467; -->
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">操作系统是你的电脑和应用程序之间的连接工具。</li>
+<li style="font-size: 20px; line-height: 38px;">Windows、macOS 和 Linux 是最常用的操作系统。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">今天的课就到这里，一起加油吧！</p>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/39/article/456">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    02 GNU项目和Linux的不同发行版，摩登时代
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

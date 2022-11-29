@@ -1,0 +1,344 @@
+<html><head><meta charset="utf-8"><title>26不让我进门，我就在门口一直等！—BlockingQueue和ArrayBlockingQueue-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        26不让我进门，我就在门口一直等！—BlockingQueue和ArrayBlockingQueue
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2019-11-26 10:24:24
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img.mukewang.com/5ddc8ae50001246a06400359.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">读书而不思考，等于吃饭而不消化。<p class="author">——波尔克</p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">前面两节我们对 ConcurrentHashMap 的源代码进行了分析，是不是意犹未尽？那么做好准备，本小节，我们将对阻塞队列的借口 BlockingQueue 以及它的一个实现 ArrayBlockingQueue 做源码分析。说实话，源码分析十分的枯燥和艰难，不过坚持下来，收获将会很大。</p>
+</div><div class="cl-preview-section"><h2 id="、blockingqueue-介绍" style="font-size: 30px;">1、BlockingQueue 介绍</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">BlockingQueue 顾名思义----阻塞队列。队列大家应该都很清楚了，阻塞队列是指当队列满时，入队操作需要等待；当队列空时，出队操作需要等待。而非阻塞的方式则会直接返回false。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">BlockingQueue 是一个接口。定义了出队和入队的方法。</p>
+</div><div class="cl-preview-section"><h6 id="我们首先看入队的方法：">我们首先看入队的方法：</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>1、boolean add(E e)</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">该方法向队列添加元素e，如果可以有空间添加，那么添加成功返回 true。如果没有空间，那么直接抛出 IllegalStateException。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>2、boolean offer(E e)</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">该方法向队列添加元素 e，如果可以有空间添加，那么添加成功返回 true。如果没有空间，则会返回 false。和 add 方法很像，只不过不是抛异常。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>3、boolean offer(E e, long timeout, TimeUnit unit) throws InterruptedException</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">该方法向队列添加元素 e，如果可以有空间添加，那么添加成功返回 true。如果没有空间，则会等待一定时长，如果仍旧没有空间则返回 false。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>4、void put(E e) throws InterruptedException</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">该方法向队列添加元素 e，如果成功立即返回，如果没有空间，则一直等待空间。等待是可被直接中断。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这四种入队的方法中前两种为非阻塞方式，后两种为阻塞方式。</p>
+</div><div class="cl-preview-section"><h6 id="接下来我们再来分析出队的方法：">接下来我们再来分析出队的方法：</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>1、E take() throws InterruptedException</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">返回并且从队列中移除 head 元素。如果队列为空，则会阻塞等待直到元素入队。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>2、E poll(long timeout, TimeUnit unit)</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">返回并且从队列中移除 head 元素。如果队列为空，则会阻塞一定的时间，等待有元素入队。如果等待时间内没有元素入队，那么返回 null。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上两种出队方法均为阻塞方法。</p>
+</div><div class="cl-preview-section"><h6 id="还有几个其它的方法，也做下介绍：">还有几个其它的方法，也做下介绍：</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>1、boolean contains(Object o)</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果队列中至少含有一个元素 equals 对象 o，那么返回 true。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>2、int drainTo(Collection&lt;? super E&gt; c)和int drainTo(Collection&lt;? super E&gt; c, int maxElements)</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一个方法是一次性“榨干”队列，把所有元素 remove 掉，放入集合 c 中。第二个方法的区别是每次 remove 掉 maxElements 个元素，放入集合 c。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>3、int remainingCapacity()</strong></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">返回列表的剩余容量。</p>
+</div><div class="cl-preview-section"><h6 id="我们通过以下表格对出入对方法进行总结：">我们通过以下表格对出入对方法进行总结：</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>入队：</strong></p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>是否阻塞</th>
+<th>抛出异常</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add(E e)</td>
+<td>否</td>
+<td>IllegalStateException</td>
+</tr>
+<tr>
+<td>offer(E e)</td>
+<td>否</td>
+<td>无。返回false</td>
+</tr>
+<tr>
+<td>offer(E e, long timeout, TimeUnit unit)</td>
+<td>阻塞指定时长</td>
+<td>InterruptedException</td>
+</tr>
+<tr>
+<td>put(E e)</td>
+<td>是</td>
+<td>InterruptedException</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><strong>出队：</strong></p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>是否阻塞</th>
+<th>抛出异常</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>take()</td>
+<td>是</td>
+<td>InterruptedException</td>
+</tr>
+<tr>
+<td>poll(long timeout, TimeUnit unit)</td>
+<td>阻塞指定时长，超时返回null</td>
+<td>InterruptedException</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><h2 id="、arrayblockingqueue源码分析" style="font-size: 30px;">2、ArrayBlockingQueue源码分析</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ArrayBlockingQueue 是 BlockingQueue 的一种实现。底层通过数组实现。ArrayBlockingQueue 支持公平和非公平的方式来入队和出队。公平是指当出现多个线程阻塞时，等待时间长的会先获得锁，非公平则不一定。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们先看 ArrayBlockingQueue 的构造函数，有如下三个</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">public ArrayBlockingQueue(int capacity)；</li>
+<li style="font-size: 20px; line-height: 38px;">public ArrayBlockingQueue(int capacity, boolean fair)；</li>
+<li style="font-size: 20px; line-height: 38px;">public ArrayBlockingQueue(int capacity, boolean fair, Collection&lt;? extends E&gt; c) 。</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">capacity 为队列的大小，一旦初始化了无法改变。fair 指锁的类型，c 用来初始化队列时设置初始元素。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">ArrayBlockingQueue 通过两个 Condition 信号量来控制出队和入队的阻塞，分别为 notEmpty 和 notFull。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来，我们先分析入队方法 put 的源代码。</p>
+</div><div class="cl-preview-section"><h3 id="put-方法源码分析">2.1 put 方法源码分析</h3>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">put</span><span class="token punctuation">(</span>E e<span class="token punctuation">)</span> <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+  <span class="token comment">//检查e是否为null，如果为null，抛出NullPointerException</span>
+    <span class="token function">checkNotNull</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//声明显式锁</span>
+    <span class="token keyword">final</span> ReentrantLock lock <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">;</span>
+  <span class="token comment">//以lockInterruptibly方式上锁，如果其他线程打断等待的线程，那么等待的线程会立刻终止等待，抛出InterruptedException</span>
+  lock<span class="token punctuation">.</span><span class="token function">lockInterruptibly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      <span class="token comment">//如果队列已经满了，那么等待</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> items<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+            notFull<span class="token punctuation">.</span><span class="token function">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//直到消费者消费了一个元素后，通过notFull.signal()来通知等待的线程添加元素</span>
+        <span class="token function">enqueue</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+      <span class="token comment">//释放锁</span>
+        lock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">enqueue 中实现元素的入队操作，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">enqueue</span><span class="token punctuation">(</span>E x<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> Object<span class="token punctuation">[</span><span class="token punctuation">]</span> items <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">;</span>
+    items<span class="token punctuation">[</span>putIndex<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">++</span>putIndex <span class="token operator">==</span> items<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+        putIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    count<span class="token operator">++</span><span class="token punctuation">;</span>
+    notEmpty<span class="token punctuation">.</span><span class="token function">signal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">putIndex 记录了当前可以写入的数组下标。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">count 是 queue 中保存的元素总数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这段代码中，第 4、5 行不太好理解。当 ++putIndex 和数组长度一样时，说明到了数组的最后一个元素。然后putIndex 被置为0。这是因为这里循环使用数组，由于数组长度就是队列的长度，并且出一个才能进一个，所以进到数组最后一位时，下一个等待出队的位置肯定是 &gt;=0 。此时循环使用数组，下一个 put 的位置转到数组第一位。如果消费得比较快，消费的位置 &gt;0，那么没问题，再次 put 时候就会写入 index=0 的位置。如果恰巧出队位置就是 0。那么下次 put 的时候，由于count == items.length，而会进入等待。直到位置 0 的元素被消费掉，那么写入 0 位置，也不会有任何问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这么做的好处是循环使用数组，而不需要每次消费都向前移动数组中元素的位置。</p>
+</div><div class="cl-preview-section"><h3 id="offer-方法和-add-方法源码分析">2.2 offer 方法和 add 方法源码分析</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们再来看看 offer 的源代码：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">offer</span><span class="token punctuation">(</span>E e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">checkNotNull</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> ReentrantLock lock <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">;</span>
+    lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> items<span class="token punctuation">.</span>length<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            <span class="token function">enqueue</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+        lock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">区别就是使用 lock，在等待锁的期间不能被打断。另外如果 count == items.length，队列满了直接返回 false，而不是阻塞等待。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里一并讲解 add 方法：</p>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">add</span><span class="token punctuation">(</span>E e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">offer</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalStateException</span><span class="token punctuation">(</span><span class="token string">"Queue full"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实 add 方法中调用的 offer 方法，只不过 add 在 offer 返回 false 时，抛出异常。</p>
+</div><div class="cl-preview-section"><h3 id="有等待超时参数的-offer-方法源码分析">2.3 有等待超时参数的 offer 方法源码分析</h3>
+</div><div class="cl-preview-section"><pre class="  language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">offer</span><span class="token punctuation">(</span>E e<span class="token punctuation">,</span> <span class="token keyword">long</span> timeout<span class="token punctuation">,</span> TimeUnit unit<span class="token punctuation">)</span>
+    <span class="token keyword">throws</span> InterruptedException <span class="token punctuation">{</span>
+
+    <span class="token function">checkNotNull</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">long</span> nanos <span class="token operator">=</span> unit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>timeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">final</span> ReentrantLock lock <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>lock<span class="token punctuation">;</span>
+    lock<span class="token punctuation">.</span><span class="token function">lockInterruptibly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> items<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>nanos <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+            nanos <span class="token operator">=</span> notFull<span class="token punctuation">.</span><span class="token function">awaitNanos</span><span class="token punctuation">(</span>nanos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">enqueue</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+        lock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">其实这个方法和 put 更像一点，put 阻塞直到有空位出现。而此方法阻塞时会有超时时间设置， notFull.awaitNanos(nanos) 返回剩余的超时时长，当 nanos &lt;= 0，也就是说没有时长了，如果还没有等到空位，那么也会放回 false。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">以上入队的方法已经讲完了，接下来我们看一下出队的方法，出队方法的区别其实和入队类似，所以这里我不再详细讲解每一个，我们看一个典型就可以了。</p>
+</div><div class="cl-preview-section"><h3 id="take-方法源代码分析">2.4 take 方法源代码分析</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">tabke 方法和 put 方法相对应，代码如下：</p>
+</div><div class="cl-preview-section"><pre class="  language-csharp"><code class="prism  language-csharp"><span class="token keyword">public</span> E <span class="token function">take</span><span class="token punctuation">(</span><span class="token punctuation">)</span> throws InterruptedException <span class="token punctuation">{</span>
+        final ReentrantLock <span class="token keyword">lock</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">lock</span><span class="token punctuation">;</span>
+        <span class="token keyword">lock</span><span class="token punctuation">.</span><span class="token function">lockInterruptibly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span>count <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+                notEmpty<span class="token punctuation">.</span><span class="token keyword">await</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token function">dequeue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+            <span class="token keyword">lock</span><span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">可以看到，和put 一样都是使用的 lockInterruptibly 方法上锁，可以被中断。当 count 为0时，说明队列已经空了，无法取出元素，那么通过调用 notEmpty.await() 阻塞。直到某个入队方法添加元素后调用了notEmpty.signal()，通知该线程可以继续出队操作了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">poll() 方法不会阻塞，如果没有元素，则直接返回 null。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">poll(long timeout, TimeUnit unit) ，则会阻塞一定时长，如果还是没有元素，才会返回 null。</p>
+</div><div class="cl-preview-section"><h2 id="、总结" style="font-size: 30px;">3、总结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">关于 ArrayBlockingQueue 的源代码就讲解到这里，可以看出源代码并不复杂，而且不同方法的实现也很类似，只有细微的差别。如果大家感兴趣，相信你轻松就能读懂源代码。另外 BlockingQueue 的实现还有很多，还有个比较常用的是 LinkedBlockingQueue，通过链表存储来实现，如果感兴趣也可以自己去看源代码。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">阻塞队列用来实现生产者和消费者很好用。另外我们还应该知道在 Executor 中使用了 BlockingQueue。大家如果已经忘了，可以回过头再去看看 Executor 源码分析那一节的内容。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/960">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            25 经典并发容器，多线程面试必备—深入解析ConcurrentHashMap下
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/49/article/961">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            27 倒数计时开始，三、二、一—CountDownLatch详解
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.mukewang.com/5d762b3c000119e505400602.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">1910221525494047</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：906691736</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=55RtSbJ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

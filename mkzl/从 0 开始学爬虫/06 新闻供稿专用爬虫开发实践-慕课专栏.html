@@ -1,0 +1,331 @@
+<html><head><meta charset="utf-8"><title>06 新闻供稿专用爬虫开发实践-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+<div class="container clearfix" id="top" style="display: block; width: 1134px;">
+    
+    <div class="center_con js-center_con l" style="width: 1134px;">
+        <div class="article-con">
+                            <!-- 买过的阅读 -->
+                <div class="map">
+                    <a href="/read" target="_blank"><i class="imv2-feather-o"></i></a>
+                    <a href="/read/34" target="_blank">从 0 开始学爬虫</a>
+                    <a href="" target="_blank">
+                        <span>
+                            / 2-2 06 新闻供稿专用爬虫开发实践
+                        </span>
+                    </a>
+                </div>
+
+            
+
+
+            <div class="art-title" style="margin-top: 0px;">
+                06 新闻供稿专用爬虫开发实践
+            </div>
+            <div class="art-info">
+                
+                <span>
+                    更新时间：2019-07-04 10:26:37
+                </span>
+            </div>
+            <div class="art-top">
+                                <img src="https://img2.mukewang.com/5ce255380001dc7b06400359.jpg" alt="">
+                                                <div class="famous-word-box">
+                    <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                    <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                    <div class="famous-word">困难只能吓倒懦夫懒汉，而胜利永远属于敢于等科学高峰的人。<p class="author">——茅以升</p></div>
+                </div>
+                            </div>
+            <div class="art-content js-lookimg">
+                <div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节课我们将学习如何用 <code>Item</code> 定义目标数据的提取结构，然后开始了解“蜘蛛”到底是长什么样子的，在 scrapy 中是怎么实现的，最后用 scrapy 内置的 <code>XMLFeedSpider</code> 快速实现新闻供稿爬虫。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节将会以爬取<a href="http://rss.sina.com.cn/news/index.shtml">新浪 RSS 频道聚合</a>为示例，展开 Scrapy 爬虫的学习、开发之旅。先来看一下 RSS 频道聚合长什么样子：<img src="http://img.mukewang.com/5cde1aee0001e12725502076.png" alt="图片描述" data-original="http://img.mukewang.com/5cde1aee0001e12725502076.png" class="" style="cursor: pointer;">开始之前我们先回顾一下在第一章所学到的设计爬虫的基本步骤：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">确立爬取目标，分析种子页结构</li>
+<li style="font-size: 20px; line-height: 38px;">设计需要的存储的数据结构</li>
+<li style="font-size: 20px; line-height: 38px;">分析承载数据的页面结构，建立数据结构与元素选择器间的映射关系</li>
+<li style="font-size: 20px; line-height: 38px;">设计代码流程与编写思路</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">第一步，我们这个示例先定位于爬取单个频道的聚合内容，然后接下来就是需要分析存储的数据结构了。这个示例与之前我们接触过的 HTML 编写的页面源码有所不同，在爬取这个页面之前，我们需要先来了解一些关于 RSS （新闻供稿）格式的相关内容，这能有助于加深我们的理解与进一步的学习。</p>
+</div><div class="cl-preview-section"><h2 id="rss-的基本知识" style="font-size: 30px;">RSS 的基本知识</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">简易信息聚合（也叫聚合内容）是一种 RSS 基于 XML 标准，在互联网上被广泛采用的内容包装和投递协议。RSS( Really Simple Syndication ) 是一种描述和同步网站内容的格式，是使用最广泛的 XML 应用。RSS 搭建了信息迅速传播的一个技术平台，使得每个人都成为潜在的信息提供者。发布一个 RSS 文件后，这个 RSS Feed 中包含的信息就能直接被其他站点调用，而且由于这些数据都是标准的XML 格式，所以也能在其他的终端和服务中使用，是一种描述和同步网站内容的格式。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">为了更好的了解 RSS ，我们来打开新浪 RSS 频道聚合新闻中心分类的页面源码。来到新闻中心页面，右键查看网页源代码：<br>
+<img src="http://img.mukewang.com/5cde1b540001b40225502076.png" alt="图片描述" data-original="http://img.mukewang.com/5cde1b540001b40225502076.png" class="" style="cursor: pointer;">将上述文档格式用中文重新标识其中的内容作用，就可以了解整个文档的数据结构了：</p>
+</div><div class="cl-preview-section"><pre class="  language-xml"><code class="prism  language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rss</span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>channel</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>频道标题名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>image</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>图片标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span><span class="token punctuation">&gt;</span></span>图片链接地址<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url</span><span class="token punctuation">&gt;</span></span>图片地址<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>image</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>description</span><span class="token punctuation">&gt;</span></span>新闻频道的详细描述
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>description</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span><span class="token punctuation">&gt;</span></span>本频道的链接地址<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>language</span><span class="token punctuation">&gt;</span></span>语言<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>language</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>item</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>新闻标题<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span><span class="token punctuation">&gt;</span></span>新闻的原文链接<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>description</span><span class="token punctuation">&gt;</span></span>新闻摘要信息
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>description</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pubDate</span><span class="token punctuation">&gt;</span></span>发布日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pubDate</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>item</span><span class="token punctuation">&gt;</span></span> 
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>item</span><span class="token punctuation">&gt;</span></span>
+        	...
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>item</span><span class="token punctuation">&gt;</span></span>  	
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>channel</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rss</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">是不是比较容易理解？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当然 RSS 的所有元素定义远远不止这么一点，为了表述方便，此处不对其全部的元素定义一一赘述了，有兴趣的读者可以到 W3CSchool 的<a href="http://www.w3school.com.cn/rss/rss_reference.asp">RSS参考手册</a> 上阅读更多内容。</p>
+</div><div class="cl-preview-section"><h2 id="为-rss-设计通用的数据结构" style="font-size: 30px;">为 RSS 设计通用的数据结构</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">对于 RSS 这种具有标准化格式的数据，可以说是爬虫项目中最简单的一种了，因为我们只需要做的就是下载一个 XML 文件，然后从 XML 文件中读取出对应标签内的内容就可以了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">按照我在第一章中介绍的方法先来建立的一个数据关系的对照表,先弄清楚哪些数据是我们需要的，这些数据又存在结果数据中的哪个位置。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据对路透社 RSS 的结构分析，所有的数据都存在 <code>&lt;item&gt;</code> 标记内，对此进行分析可以得到下表：</p>
+</div><div class="cl-preview-section"><div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>字段</th>
+<th>选择器(XPATH)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标题</td>
+<td>title</td>
+<td>item/title/text()</td>
+</tr>
+<tr>
+<td>摘要</td>
+<td>desc</td>
+<td>item/description/text()</td>
+</tr>
+<tr>
+<td>链接</td>
+<td>link</td>
+<td>item/link/text()</td>
+</tr>
+<tr>
+<td>发表日期</td>
+<td>pub_date</td>
+<td>item/pubDate/text()</td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="cl-preview-section"><h2 id="编写-items.rssfeeditem---浅释-item" style="font-size: 30px;">编写 <code>items.RSSFeedItem</code> - 浅释 Item</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在 Scrapy 中提供一个类，用于帮助我们以面向对象的方式来定义用于存储分析后的结构化内容，这个类称为 <code>scrapy.item.Item</code></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，我们用 pyCharm 打开在上章中创建的 news_cralwer 项目,并在 pyCharm 中指定项目使用的 Python 解释器,具体操作如下:<br>
+<img src="http://img.mukewang.com/5cde20d000014e0d06400422.gif" alt="图片描述" data-original="http://img.mukewang.com/5cde20d000014e0d06400422.gif" class="" style="cursor: pointer;">然后在 pyCharm 中打开 <code>news_crawler/items.py</code> 文件:<br>
+<img src="http://img.mukewang.com/5cde211f0001876825881680.png" alt="图片描述" data-original="http://img.mukewang.com/5cde211f0001876825881680.png" class="" style="cursor: pointer;">这个文件内有一个 <code>NewsCralwerItem</code> 的类，是在创建 scrapy 项目时，<code>startproject</code> 指令为我们默认创建的，为了方便使用，先将类命名为 <code>NewsItem</code>。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">Scrapy 的 <code>scrapy.item.Item</code> 类的属性需要用一个 <code>scrapy.item.Field</code> 对象来指明每个字段的元数据( metadata )。这样做是方便 Scrapy 对数据进行序列化操作。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">根据字段映射表我们就可以动手定义这个 <code>Item</code> 类了，具体代码如下所示：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token comment"># news_crawler/news_crawler/items.py</span>
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>item <span class="token keyword">import</span> Item<span class="token punctuation">,</span> Field
+
+<span class="token keyword">class</span> <span class="token class-name">NewsItem</span><span class="token punctuation">(</span>Item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    title <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    desc <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    link <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    pub_date <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>scrapy.item.Field</code> 对象对接受的值没有任何限制。也正是因为这个原因，文档也无法提供所有可用的元数据的键(key)参考列表。<code>scrapy.item.Field</code> 对象中保存的每个键可以由多个组件使用，并且只有这些组件知道这个键的存在。读者可以根据自己的需求，定义使用其他的 <code>Field</code> 键。设置 <code>Field</code> 对象的主要目的就是在一个地方定义好所有的元数据。一般来说，那些依赖某个字段的组件肯定使用了特定的键( key )。我们必须查看组件相关的文档，查看其用了哪些元数据键( metadata key )。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">需要注意的是，用来声明 item 的 <code>scrapy.item.Field</code> 对象并没有被赋值为 class 的属性。不过可以通过 <code>Item.fields</code> 属性进行访问。</p>
+</div><div class="cl-preview-section"><h2 id="编写-蜘蛛-rssfeedspider" style="font-size: 30px;">编写 蜘蛛 `RSSFeedSpider</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来就是重头戏蜘蛛类的编写了，在 pyCharm 打开终端，使用我们在上一节中重点讲述的 <code>genspider</code> 指令生成一个基于 <code>xmlfeed</code> 模板的蜘蛛:</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ scrapy genspider -t xmlfeed news rss.sina.com.cn
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">然后打开 <code>news_crawler/news_cralwer/spiders/news.py</code> 文件:</p>
+</div><div class="cl-preview-section"><h3 id="了解-scrapy-蜘蛛的最基本写法">了解 scrapy 蜘蛛的最基本写法</h3>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token comment"># -*- coding: utf-8 -*-</span>
+<span class="token keyword">from</span> scrapy<span class="token punctuation">.</span>spiders <span class="token keyword">import</span> XMLFeedSpider
+
+<span class="token keyword">class</span> <span class="token class-name">NewsSpider</span><span class="token punctuation">(</span>XMLFeedSpider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'news'</span>
+    allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'rss.sina.com.cn'</span><span class="token punctuation">]</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http//:rss.sina.com.cn/feed.xml'</span><span class="token punctuation">]</span>
+    iterator <span class="token operator">=</span> <span class="token string">'iternodes'</span> <span class="token comment"># you can change this; see the docs</span>
+    itertag <span class="token operator">=</span> <span class="token string">'item'</span> <span class="token comment"># change it accordingly</span>
+
+    <span class="token keyword">def</span> <span class="token function">parse_node</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">,</span> selector<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        i <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        <span class="token comment">#i['url'] = selector.select('url').extract()</span>
+        <span class="token comment">#i['name'] = selector.select('name').extract()</span>
+        <span class="token comment">#i['description'] = selector.select('description').extract()</span>
+        <span class="token keyword">return</span> i
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们来细致地解读上述由 <code>genspider -t xmlfeed</code> 所生成的这个 <code>NewsSpider</code> 类的代码，了解清楚具体的逻辑以后，就知道应该从哪里着手写了。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先，<code>scrapy.spiders.XMLFeedSpider</code> 是 Scrapy 的一个内置提供的爬虫类，它被设计用于通过迭代各个节点来分析XML源（XML feed ）。</p>
+</div><div class="cl-preview-section"><h3 id="认识-spider-类的最基本构成">认识 Spider 类的最基本构成</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>NewsSpider</code> 类中定义的这几个属性分别具有以下这些作用：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python">name <span class="token operator">=</span> <span class="token string">'news'</span>                                              <span class="token comment"># 蜘蛛的名称用于`crawl`指令调用</span>
+allowed_domains <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'rss.sina.com.cn'</span><span class="token punctuation">]</span>               <span class="token comment"># 指明允许蜘蛛能爬取的主域（可以是多个）</span>
+<span class="token comment"># start_urls = ['http://https://cn.reuters.com/feed.xml']  # 由genspider生成，但地址不并正确采用下一行这个</span>
+start_urls <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'http//:rss.sina.com.cn/feed.xml'</span><span class="token punctuation">]</span> <span class="token comment"># 指定爬虫的种子页，可以是一个也可以是多个</span>
+iterator <span class="token operator">=</span> <span class="token string">'iternodes'</span>                                     <span class="token comment"># 迭代器，可以从 "iternodes", "xml" , "html"这三种值中选取</span>
+itertag <span class="token operator">=</span> <span class="token string">'item'</span>                                           <span class="token comment"># 指定一个标签名，迭代器会根据这个标签名去定位数据项，这里设置为item意思就是定位所有&lt;item&gt;标记</span>
+</code></pre>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;"><strong>注</strong>:不用太纠结于 <code>iterator</code> 的取值，无论你用 <code>iternodes</code>、<code>xml</code> 还是 <code>html</code> 最终还是会被转换成为以 xpath 方式对文档进行选择然后迭代，所以它们的速度几乎是没有差别的，甚至你可以将这&gt;个属性的赋值删除了 <code>XMLFeedSpider</code> 是依然能正常工作。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h3 id="parse_node-函数的作用"><code>parse_node</code> 函数的作用</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">解释完这些属性的作用，是不是还感觉有点云里雾里？如果用 Scrapy 的方式来理解蜘蛛就很容易记住上面这些属性的真正作用了，Scrapy 是这样来执行蜘蛛的：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">用 <code>scrapy crawl news</code> 来启动蜘蛛</li>
+<li style="font-size: 20px; line-height: 38px;">Scrapy 会根据 <code>start_urls</code> 内定义的种子页自动生成并发出网页请求，这些请求只能被限定在从属于  <code>allowed_domains</code> 内指定的域内的子页</li>
+<li style="font-size: 20px; line-height: 38px;">当请求返回之后，<code>XMLFeedSpider</code> 就会预先将返回结果载入一个 XML 文档，并按照 <code>iterator</code> 指定的迭代器来分析结果</li>
+<li style="font-size: 20px; line-height: 38px;">根据 <code>itertag</code> 中指定的标签名从 XML 文档中取出一个或多个的 XMLNode 对象</li>
+<li style="font-size: 20px; line-height: 38px;">最后由 <code>XMLFeedSpider</code> 根据提取出的 <code>XMLNode</code> 的个数<strong>循环调用</strong> <code>parse_node</code> 函数并将 XML 节点选择器实例传入</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">也就是说 <code>XMLFeedSpider</code> 预先为我们进行RSS文档的分析和提取工作，我们只需要从 <code>parse_node</code> 函数的 <code>selector</code> 参数中取得其包含的子标签的内容并生成 <code>NewsItem</code> 返回即可。</p>
+</div><div class="cl-preview-section"><h2 id="内容的提取，通过写代码认识-selector-与-response-对象" style="font-size: 30px;">内容的提取，通过写代码认识 Selector 与 Response 对象</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>parse_node( self, response, selector )</code> 中的 <code>response</code> 就是与发出请求对应的原生响应对象，<code>selector</code> 就是节点<a href="https://scrapy-chs.readthedocs.io/zh_CN/0.24/topics/selectors.html#module-scrapy.selector">选择器</a>。节点选择器又是什么鬼？这个节点选择器就与我们在第一章中学到的 css 选择器相类似，只是这个选择器是一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/XPath">XPath</a> 选择器类型，采用的是 XPath 的选择语法。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">接下来就是实现这个 <code>parse_node</code> 函数了，先从 <code>items</code> 中导入 <code>NewsItem</code> ，实例化 <code>NewsItem</code> 类，然后通过选择器将 <code>&lt;item&gt;</code> 内对应的字段读取出来并保存到 <code>NewsItem</code> 实例中，最后返回 <code>NewsItem</code> 实例，具体代码如下所示：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">from</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>items <span class="token keyword">import</span> NewsItem
+
+<span class="token keyword">def</span> <span class="token function">parse_node</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> response<span class="token punctuation">,</span> selector<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    item <span class="token operator">=</span> NewsItem<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    item<span class="token punctuation">[</span><span class="token string">'title'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'title/text()'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    item<span class="token punctuation">[</span><span class="token string">'link'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'link/text()'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    item<span class="token punctuation">[</span><span class="token string">'pub_date'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'pubDate/text()'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    item<span class="token punctuation">[</span><span class="token string">'desc'</span><span class="token punctuation">]</span> <span class="token operator">=</span> selector<span class="token punctuation">.</span>xpath<span class="token punctuation">(</span><span class="token string">'description/text()'</span><span class="token punctuation">)</span><span class="token punctuation">.</span>extract_first<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> item
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>selector.xpath</code> 可以匹配 xpath query  的节点，并返回 <code>SelectorList</code> 的一个实例结果，单一化其所有元素。列表元素也实现了 <code>Selector</code> 的接口。而 <code>extract_first()</code> 方法则是从 <code>SelectorList</code> 中提取出第一个元素，如果只调用 <code>extract()</code> 方法的话就会返回一个 <code>list</code> 对象。</p>
+</div><div class="cl-preview-section"><h2 id="使用-scrapy-crawl-news-执行蜘蛛" style="font-size: 30px;">使用 <code>scrapy crawl news</code> 执行蜘蛛</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">整个代码已经写完了，是不是感觉学的概念很多但实际写的代码很少呢？这就是 Scrapy 的强大之处，只要你完全掌握了它的相关概念实质，编码量是非常少的。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">打开终端运行以下指令启动爬虫</p>
+</div><div class="cl-preview-section"><pre><code>(venv) $ scrapy crawl news -o sina.json
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里的 <code>-o sina.json</code> 是将爬取结果保存到JSON格式的文件中，当成功执行 <code>crawl</code> 后会看到一大堆的指令输出结果</p>
+</div><div class="cl-preview-section"><h2 id="在控制台输出的众多数据哪些是有用的？" style="font-size: 30px;">在控制台输出的众多数据哪些是有用的？</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">如果你仔细看这些结果就会发现很多有用的信息，如下图所示：<br>
+<img src="http://img.mukewang.com/5cde24220001029235842278.png" alt="图片描述" data-original="http://img.mukewang.com/5cde24220001029235842278.png" class="" style="cursor: pointer;">如果你并不想看到这些令人眼花缭乱的输出记录可以加上一个 <code>--nolog</code> 参数，这样 <code>crawl</code> 指令就会停止日志的输出，这样做遇到海量数据爬取时是非常有用的。</p>
+</div><div class="cl-preview-section"><h2 id="如何让这个-news-爬虫变得通用起来-？" style="font-size: 30px;">如何让这个 news 爬虫变得通用起来 ？</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">既然 RSS 是一种通用格式，也就是说所有的提供 RSS 格式聚合内容的网站 news 爬虫都可以爬取吗？答案当然是肯定的。但现在 <code>start_urls</code> 这个参数被写死在蜘蛛代码内，是否能将它变成一个变量接收命令行参数的输入呢？</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><a href="https://scrapy-chs.readthedocs.io/zh_CN/0.24/topics/spiders.html#spider">官方文档</a>提出过可以通过 <code>-a</code> 参数将命令行输入的参数直接绑定到蜘蛛的一个属性值上。根据此原理我们来改写一下这个新闻蜘蛛让它变更得更通用一些：</p>
+</div><div class="cl-preview-section"><pre class="  language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">NewsSpider</span><span class="token punctuation">(</span>XMLFeedSpider<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name <span class="token operator">=</span> <span class="token string">'news'</span>
+    url <span class="token operator">=</span> <span class="token string">'http://rss.sina.com.cn/news/world/focus15.xml'</span>
+    start_urls <span class="token operator">=</span> <span class="token punctuation">[</span>url<span class="token punctuation">]</span>
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里改写了两处，一是我将 <code>allowed_domains</code>、<code>iterator</code>、<code>itertag</code> 三个属性都删除了，因为对于本示例来说这三个属性直接用默认值运行就可以了，没有必要声明到类里面。然后增加了一个 <code>url</code> 属性用于承载输入参数。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">通过这个简单的重构，就可以用以下的指令去爬取中新网新闻供稿(<a href="http://www.chinanews.com/rss/scroll-news.xml">http://www.chinanews.com/rss/scroll-news.xml</a>),如下所示：</p>
+</div><div class="cl-preview-section"><pre><code>$ scrapy crawl news -a url='http://www.chinanews.com/rss/scroll-news.xml'  -o chinanews.json
+</code></pre>
+</div><div class="cl-preview-section"><h2 id="如何完美解决json输出的中文编码问题" style="font-size: 30px;">如何完美解决JSON输出的中文编码问题</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">当我们打开 <code>sina.json</code> 文件可能你又会觉得有点崩溃，因为又遇到中文乱码了，原因我在第一章第3小节也解释过。但在 Scrapy 我们又应如何处理呢？是不是要增加一个处理类来解决这个编码问题？当然你上百度或谷歌一下会出现一大堆建议，例如你去增加一个管道( <code>pipline</code> )类来解决这个编码问题，但我认为不写代码才是<strong>完美解决</strong>这个问题的办法。而且我们还没有讲述到 <code>pipline</code> 这一个重要的内容，所以我们同样可以用 <code>crawl</code> 的输入参数来解决这一问题。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">方法非常简单，只要设置 scrapy 的默认运行配置项 <code>FEED_EXPORT_ENCODING='utf-8'</code> 就可以了，具体做法如下：</p>
+</div><div class="cl-preview-section"><pre><code>$ scrapy crawl news -a url='http://www.chinanews.com/rss/scroll-news.xml' -o chinanews.json  -s FEED_EXPORT_ENCODING='utf-8'
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>-s</code> 参数就是修改运行配置 <code>settings.py</code> 内的预置配置项的意思。再运行一次，问题就完美解决！这样你就得到了一个可以爬取任何内容聚合网站的强力爬虫了，是不是很简单呢？</p>
+</div><div class="cl-preview-section"><h2 id="小结" style="font-size: 30px;">小结</h2>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">回想这个简单的通用爬虫实践，我们仍然是采用第一章中的开发思路，其实那就是爬虫的本质！无论爬虫用什么语言实现，用什么框架实现还是用这4个套路：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">确立爬取目标，分析种子页结构</li>
+<li style="font-size: 20px; line-height: 38px;">设计需要的存储的数据结构</li>
+<li style="font-size: 20px; line-height: 38px;">分析承载数据的页面结构，建立数据结构与元素选择器间的映射关系</li>
+<li style="font-size: 20px; line-height: 38px;">设计代码流程与编写思路</li>
+</ol>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节的示例只是一种对于爬取结构化数据的特例，毕竟互联网中非结构化数据的存量是远远大于结构化数据的，没有几个如此大方的网站会将数据按照统一标准做好给你去爬的，所以谨记以上4步，是设计一个良好爬虫项目的根本。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">本节的重点则在于以下几点：</p>
+</div><div class="cl-preview-section"><ol>
+<li style="font-size: 20px; line-height: 38px;">RSS 的数据结构</li>
+<li style="font-size: 20px; line-height: 38px;">学习用 <code>Item</code> 与 <code>Field</code> 来构建数据实体类</li>
+<li style="font-size: 20px; line-height: 38px;">采用 Scrapy 自带的 <code>XMLFeedSpider</code> 快速解决一切 RSS 网页的问题</li>
+<li style="font-size: 20px; line-height: 38px;">了解 Scrapy 的最基本的运作过程</li>
+<li style="font-size: 20px; line-height: 38px;">用好 <code>crawl</code> 指令可以省去你不少额外的代码<br>
+<img src="http://img.mukewang.com/5cde26ae0001999916000646.jpg" alt="图片描述" data-original="http://img.mukewang.com/5cde26ae0001999916000646.jpg" class="" style="cursor: pointer;"></li>
+</ol>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">思考：本示例只是直接用了 RSS 的页来爬取，如果将种子页换成新浪 RSS 聚合频道页面那这个项目应该如何改写呢？</p>
+</blockquote>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">注: 你可以到 <a href="https://github.com/DotNetAge/news-crawler">GitHub</a> 获取本节源代码</p>
+</blockquote>
+</div></div>
+            </div>
+                            <!-- 买过的阅读 -->
+                <div class="art-next-prev clearfix">
+                                                                        <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/303">
+                                                    <div class="prev l clearfix">
+                                <div class="icon l">
+                                    <i class="imv2-arrow3_l"></i>
+                                </div>
+                                <p>
+                                    05 Python 世界最流行的网络爬虫框架 Scrapy
+                                </p>
+                            </div>
+                        </a>
+                                                                                            <!-- 已买且开放 或者可以试读 -->
+                            <a href="/read/34/article/309">
+                                                    <div class="next r clearfix">
+                                <p>
+                                    07 常见爬网方式与网页结构分析思路
+                                </p>
+                                <div class="icon r">
+                                    <i class="imv2-arrow3_r"></i>
+                                </div>
+
+                            </div>
+                        </a>
+                                    </div>
+                    </div>
+        <div class="comments-con js-comments-con" id="coments_con">
+        </div>
+
+
+
+    </div>
+    
+    
+    
+
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>

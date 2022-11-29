@@ -1,0 +1,243 @@
+<html><head><meta charset="utf-8"><title>26 让 LNMP 运行起来-慕课专栏</title>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+			<meta name="renderer" content="webkit">
+			<meta property="qc:admins" content="77103107776157736375">
+			<meta property="wb:webmaster" content="c4f857219bfae3cb">
+			<meta http-equiv="Access-Control-Allow-Origin" content="*">
+			<meta http-equiv="Cache-Control" content="no-transform ">
+			<meta http-equiv="Cache-Control" content="no-siteapp">
+			<link rel="apple-touch-icon" sizes="76x76" href="https://www.imooc.com/static/img/common/touch-icon-ipad.png">
+			<link rel="apple-touch-icon" sizes="120x120" href="https://www.imooc.com/static/img/common/touch-icon-iphone-retina.png">
+			<link rel="apple-touch-icon" sizes="152x152" href="https://www.imooc.com/static/img/common/touch-icon-ipad-retina.png">
+			<link href="https://moco.imooc.com/captcha/style/captcha.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="https://www.imooc.com/static/moco/v1.0/dist/css/moco.min.css?t=201907021539" type="text/css">
+			<link rel="stylesheet" href="https://www.imooc.com/static/lib/swiper/swiper-3.4.2.min.css?t=201907021539">
+			<link rel="stylesheet" href="https://static.mukewang.com/static/css/??base.css,common/common-less.css?t=2.5,column/zhuanlanChapter-less.css?t=2.5,course/inc/course_tipoff-less.css?t=2.5?v=201907051055" type="text/css">
+			<link charset="utf-8" rel="stylesheet" href="https://www.imooc.com/static/lib/ueditor/themes/imooc/css/ueditor.css?v=201907021539"><link rel="stylesheet" href="https://www.imooc.com/static/lib/baiduShare/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+			<body><div id="main">
+
+
+<div class="main-con hide-menu">
+    <!-- 左侧菜单 & 索引 -->
+    
+    <div class="right-content" style="padding-left: 0px;">
+        <div class="container clearfix" id="top" style="width: 1134px; display: block;">
+            
+            
+            <div class="center_con js-center_con l" style="width: 1134px;">
+                <div class="article-con">
+                                            <!-- 买过的阅读 -->
+                        
+
+                    
+                    <div class="art-title" style="margin-top: 0px;">
+                        26 让 LNMP 运行起来
+                    </div>
+                    <div class="art-info clearfix">
+                        
+                        <span class="l">
+                            更新时间：2020-03-10 10:14:22
+                        </span>
+                    </div>
+                    <div class="art-top">
+                                                <img src="https://img1.sycdn.imooc.com/5e66f7f3000112bf06400427.jpg" alt="">
+                                                                        <div class="famous-word-box">
+                            <img src="https://www.imooc.com/static/img/column/bg-l.png" alt="" class="bg1 bg">
+                            <img src="https://www.imooc.com/static/img/column/bg-r.png" alt="" class="bg2 bg">
+                            <div class="famous-word">最聪明的人是最不愿浪费时间的人。——但丁<p></p></div>
+                        </div>
+                                            </div>
+                    <div class="art-content js-lookimg">
+                        <div id="article_content">
+                            <div class="cl-preview-section"><h3 id="前言">前言</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在前面介绍了很多理论知识，这一节我们要实战一下，从头到尾安装一个 <code>LNMP</code> 环境。只有自己亲自动手才能遇到各种问题，在解决问题的过程中加深大家的理解。<br>
+废话不多说，我们直接开撸……</p>
+</div><div class="cl-preview-section"><h3 id="环境准备">环境准备</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们不要求大家有任何特殊的东西，只用一个电脑 (哈哈，这是废话)，一个带有 <code>centos</code> 镜像的 <code>docker</code> 环境，仅此而已。</p>
+</div><div class="cl-preview-section"><h3 id="直接开始">直接开始</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先看一下我们机器上面有什么 <code>docker</code> 镜像。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f72d000170cc10640142.png" data-original="//img1.sycdn.imooc.com/5e66f72d000170cc10640142.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="启动centos" style="font-size: 26px;">启动 <code>centos</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">使用 <code>docker run</code> 命令启动我们的 <code>centos</code> 镜像<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f73600012eaa07950063.png" data-original="//img1.sycdn.imooc.com/5e66f73600012eaa07950063.png" alt="图片描述"><br>
+我们进入到 <code>centos</code> 镜像，从此就相当于一个完全新的操作系统，可以随便我们折腾……<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f73e0001956e08870072.png" data-original="//img1.sycdn.imooc.com/5e66f73e0001956e08870072.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h4 id="安装nginx" style="font-size: 26px;">安装 <code>Nginx</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">在安装 <code>nginx</code> 之前，有一些依赖文件要安装，比如我们前面提到的 <code>openssl</code> 等。<br>
+使用 <code>yum</code> 命令安装这些依赖文件。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7480001027a12270652.png" data-original="//img1.sycdn.imooc.com/5e66f7480001027a12270652.png" alt="图片描述"><br>
+我们首先创建一个目录 <code>/root/lnmp/</code> 用于保存我们的所有源代码文件。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f751000175a105010059.png" data-original="//img1.sycdn.imooc.com/5e66f751000175a105010059.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h5 id="下载nginx源代码" style="font-size: 20px; line-height: 38px;">下载 <code>nginx</code><a href="http://nginx.org/download/nginx-1.16.1.tar.gz">源代码</a></h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><img class="" src="https://img1.sycdn.imooc.com/5e66f75a000140f512240276.png" data-original="//img1.sycdn.imooc.com/5e66f75a000140f512240276.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">有的朋友的机器 <code>centos</code> 镜像可能没有 <code>wget</code> 工具，我们可以使用 <code>wget</code> 命令安装一个</p>
+</blockquote>
+</div><div class="cl-preview-section"><h5 id="解压nginx源码，" style="font-size: 20px; line-height: 38px;">解压 <code>Nginx</code> 源码，</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">将下载的压缩文件解压到本地目录：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7630001362a08770381.png" data-original="//img1.sycdn.imooc.com/5e66f7630001362a08770381.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h5 id="编译源码" style="font-size: 20px; line-height: 38px;">编译源码</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">有很多朋友对 <code>Linux</code> 系统安装软件非常的惧怕，其实这是没有必要的。因为我们平时使用 <code>Windows</code> 系统安装软件非常的方便，只用点击<code>同意</code>，然后一路的<code>下一步</code>就可以了，因为这是一个图形用户界面，所以对用户很友好。其实在 <code>Linux</code> 中安装软件也是非常的固定化的，分为三个步骤，<code>configure</code>, <code>make</code>, <code>make install</code>，也是非常简单的。</p>
+</div><div class="cl-preview-section"><h6 id="configure"><code>configure</code></h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">下面我们就安装一下 <code>nginx</code>, 我们进入到解压文件之后，可以看到一个 <code>configure</code> 文件，顾名思义，这就是一个配置文件。其实它提供了非常详细的用法，我们通过执行 <code>configure --help</code> 命令就可以看到：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f76d0001a10808690566.png" data-original="//img1.sycdn.imooc.com/5e66f76d0001a10808690566.png" alt="图片描述"><br>
+网上有很多文章介绍我们在配置 <code>configure</code> 的时候要传递这个参数，那个参数的，其实没有必要，对于我们学习使用而言，使用默认值安全满足要求。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7760001d84b06020115.png" data-original="//img1.sycdn.imooc.com/5e66f7760001d84b06020115.png" alt="图片描述"><br>
+下面是配置之后的检测输出：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f77f000146c608300503.png" data-original="//img1.sycdn.imooc.com/5e66f77f000146c608300503.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h6 id="编译和安装">编译和安装</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这一步只用执行 <code>make</code> 和 <code>make install</code> 即可，没有任何其他的操作，我在这里就不贴图了。</p>
+</div><div class="cl-preview-section"><h6 id="测试">测试</h6>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们上面提到过，在 <code>configure</code> 的最后会生成一个 <code>summary</code>，里面包含了 <code>nginx</code> 的安装路径，配置文件路径等等。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7880001505a13610867.png" data-original="//img1.sycdn.imooc.com/5e66f7880001505a13610867.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里说明我们的 <code>nginx</code> 已经安装成功了，<code>so easy</code></p>
+</div><div class="cl-preview-section"><h4 id="安装php" style="font-size: 26px;">安装 <code>php</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">首先我们选择安装的 <code>php</code> 版本。现在已经是 <code>php7</code> 的天下了，所以我们选择了 <code>php7.3</code> 版本。</p>
+</div><div class="cl-preview-section"><h5 id="下载并解压源代码" style="font-size: 20px; line-height: 38px;">下载并解压源代码</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们可以从这个地方下载 <a href="https://www.php.net/distributions/php-7.3.15.tar.bz2">php7.3</a> 的源代码，然后解压。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f79200019ed507910482.png" data-original="//img1.sycdn.imooc.com/5e66f79200019ed507910482.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h5 id="配置" style="font-size: 20px; line-height: 38px;">配置</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里也是执行 <code>configure</code> 命令，但是我们要给 <code>configure</code> 传递几个参数，如下：</p>
+</div><div class="cl-preview-section"><pre><code>./configure --prefix=/usr/local/php-fpm --enable-fpm --with-config-file-path=/usr/local/php-fpm/etc
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里的 <code>--enable-fpm</code> 的作用就是打开 <code>fpm</code> 功能。</p>
+</div><div class="cl-preview-section"><h5 id="编译并安装" style="font-size: 20px; line-height: 38px;">编译并安装</h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">和 <code>nginx</code> 一模一样，我们执行 <code>make</code> 和 <code>make install</code> 就可以安装 <code>php</code> 了。<br>
+安装成功之后我们可以看一下安装结果：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f79c00014bd907700115.png" data-original="//img1.sycdn.imooc.com/5e66f79c00014bd907700115.png" alt="图片描述"><br>
+写一个简单的脚本测试一下安装成果。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7a50001b7c906160218.png" data-original="//img1.sycdn.imooc.com/5e66f7a50001b7c906160218.png" alt="图片描述"><br>
+好嘞，我们的 <code>php</code> 安装成功了……</p>
+</div><div class="cl-preview-section"><h4 id="配置nginx和php" style="font-size: 26px;">配置 <code>Nginx</code> 和 <code>php</code></h4>
+</div><div class="cl-preview-section"><h4 id="启动php-fpm" style="font-size: 26px;">启动 <code>php-fpm</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这里我们要了解 <code>php-fpm</code> 的工作原理，非常的简单，大家可以自行搜索。<br>
+首先我们要启动 <code>php-fpm</code>，我们首先找到 <code>php-fpm</code> 的配置文件所在的目录 <code>/usr/local/php-fpm/etc/</code>，该目录下面有一个 <code>php-fpm.conf.default</code> 的文件，我们拷贝一份这个文件，重新命名为 <code>php-fpm.conf</code>。我们打开这个文件，最后有一行代码：</p>
+</div><div class="cl-preview-section"><pre><code>include=/usr/local/php-fpm/etc/php-fpm.d/*.conf
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">所以看出来，真正的配置应该在 <code>/usr/local/php-fpm/etc/php-fpm.d/</code> 目录下面。进入这个目录，拷贝一份 <code>www.conf.default</code>，重新命名为 <code>www.conf</code>，打开这个文件，将 <code>pm=dynamic</code> 修改为 <code>pm.static</code>，保存退出。</p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这样我们就可以使用命令 <code>/usr/local/php-fpm/sbin/php-fpm</code> 启动 <code>php-fpm</code> 了。<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7ae0001a65713530199.png" data-original="//img1.sycdn.imooc.com/5e66f7ae0001a65713530199.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><h5 id="配置nginx" style="font-size: 20px; line-height: 38px;">配置 <code>nginx</code></h5>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们打开 <code>nginx</code> 的配置文件，在 <code>server</code> 配置部分增加如下 <code>location</code> 配置。</p>
+</div><div class="cl-preview-section"><pre><code>location ~ \.php$ {
+     root /root/php/;
+     fastcgi_pass   127.0.0.1:9000;
+     fastcgi_index  index.php;
+     fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+     include        fastcgi_params;
+ }
+</code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;"><code>php-fpm</code> 默认监听 <code>9000</code> 端口，我们可以通过 <code>netstat</code> 命令查看：<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7b80001ce2c11950106.png" data-original="//img1.sycdn.imooc.com/5e66f7b80001ce2c11950106.png" alt="图片描述"><br>
+重启 <code>Nginx</code>，然后我们在 <code>/root/php/</code> 下面创建一个 <code>index.php</code> 文件，非常的简单：</p>
+</div><div class="cl-preview-section"><pre class=" language-php"><code class="prism  language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
+
+<span class="token keyword">echo</span> <span class="token string">"hello from php-fpm\n"</span><span class="token punctuation">;</span>
+</span></code></pre>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">访问 <code>http://localhost/index.php</code> 可以看到输出结果:<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7c000018a7607030309.png" data-original="//img1.sycdn.imooc.com/5e66f7c000018a7607030309.png" alt="图片描述"></p>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">说明我们的 <code>Nginx</code> 已经和 <code>php</code> 正常的进行了通信，安装成功。</p>
+</div><div class="cl-preview-section"><blockquote>
+<p style="font-size: 20px; line-height: 38px;">我们访问 <code>php</code> 文件的时候可能会出现 <code>File not found</code> 的问题，这个时候看一下 <code>error.log</code> 可以发现，<br>
+<img class="" src="https://img1.sycdn.imooc.com/5e66f7cc0001fd4214980121.png" data-original="//img1.sycdn.imooc.com/5e66f7cc0001fd4214980121.png" alt="图片描述"><br>
+这个问题十有八九是因为我们存放 <code>php</code> 文件的目录权限造成了，大家修改一下对应的权限就可以了。</p>
+</blockquote>
+</div><div class="cl-preview-section"><h4 id="安装mysql" style="font-size: 26px;">安装 <code>MySql</code></h4>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">这个过程就不再展示了，和 <code>Nginx</code> 以及 <code>php</code> 的安装过程一模一样。大家可以试着自己安装。</p>
+</div><div class="cl-preview-section"><h3 id="总结">总结</h3>
+</div><div class="cl-preview-section"><p style="font-size: 20px; line-height: 38px;">我们在这篇文章中手把手的教大家如何安装 <code>LNMP</code> 系统，大家一定要亲自动手尝试，切勿眼高手低。有的朋友可能一直在写业务层代码，对于这些东西不熟悉，认为这是 <code>OP</code> 的工作，其实不然，这对于每一个开发同学来说都非常的重要。遇到问题的时候我们可以准确快速的定位。</p>
+</div>}
+                        </div>
+                    </div>
+                                            <!-- 买过的阅读 -->
+                        <div class="art-next-prev clearfix">
+                                                                                                <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1629">
+                                                                    <div class="prev l clearfix">
+                                        <div class="icon l">
+                                            <i class="imv2-arrow3_l"></i>
+                                        </div>
+                                        <p>
+                                            25 LNMP 初体验
+                                        </p>
+                                    </div>
+                                </a>
+                                                                                                                            <!-- 已买且开放 或者可以试读 -->
+                                    <a href="/read/57/article/1644">
+                                                                    <div class="next r clearfix">
+                                        <p>
+                                            27 Nginx 的防盗链
+                                        </p>
+                                        <div class="icon r">
+                                            <i class="imv2-arrow3_r"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                                                    </div>
+                                    </div>
+                <div class="comments-con js-comments-con" id="coments_con">
+                </div>
+
+                
+            </div>
+            
+            
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-jiaQun-new hide" id="modal-jiaQun">
+    <div class="inner" style="">
+        <div class="modal-close js-close-jiaQun">
+            <i class="imv2-close"></i>
+        </div>
+        <div class="content">
+            <img src="https://img1.sycdn.imooc.com/5f1a80c50001c9a105340522.jpg">
+            <div class="right-info">
+                <div class="title">
+                    扫码加入慕课Java核心用户群
+                </div>
+                <div class="desc">
+                                            <p class="mb6">验证信息：<span id="joincode">2011161453536434</span><span class="copy js-copy-joincode">复制</span></p>
+                                        <p class="mb6">QQ讨论群号：314316732</p>
+                                            <p>QQ群URL：<a href="https://jq.qq.com/?_wv=1027&amp;k=OouwHZGZ" target="_blank">点击访问</a></p>
+                                    </div>
+            </div>
+            <p class="tip">若遇到搜索不到QQ群或加群失败，请联系客服邮箱:kf@imooc.com</p>
+        </div>
+    </div>
+</div>
+ 
+<!-- 专栏介绍页专栏评价 -->
+
+<!-- 专栏介绍页底部三条评价 -->
+
+<!-- 专栏阅读页弹层目录和介绍页页面目录 -->
+
+<!-- 专栏阅读页发布回复 -->
+
+<!-- 专栏阅读页发布评论 -->
+
+<!-- 专栏阅读页底部评论 -->
+
+<!-- 专栏阅读 单个 评论 -->
+
+<!-- 新增回复和展开三条以外回复 -->
+
+<!-- 立即订阅的弹窗 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</div></body></html>
