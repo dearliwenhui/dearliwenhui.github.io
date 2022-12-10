@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# change yum repo to 163
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.163.com/.help/CentOS7-Base-163.repo
+yum clean all
+yum makecache
+
+yum install vim -y
+
+# install java 11
+yum install -y java-11-openjdk
+
+# 下载flink
+#https://mirrors.aliyun.com/apache/flink/
+#https://mirrors.tuna.tsinghua.edu.cn/apache/flink/
+#http://mirrors.cloud.tencent.com/apache/flink/
+curl -O https://mirrors.aliyun.com/apache/flink/flink-1.15.3/flink-1.15.3-bin-scala_2.12.tgz
+
+tar zxvf flink-1.15.3-bin-scala_2.12.tgz
+
+curl -o /flink-1.15.3-bin-scala_2.12/bin/flink-conf.yaml 
+
+cd /root/flink-1.13.2/bin
+
+./start-cluster.sh
