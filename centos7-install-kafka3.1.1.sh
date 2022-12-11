@@ -16,7 +16,16 @@ curl -O https://archive.apache.org/dist/kafka/3.1.1/kafka_2.12-3.1.1.tgz
 
 tar -xzf kafka_2.12-3.1.1.tgz
 
-# 
+
+#vim kafka_2.12-3.1.1/config/server.properties
+#
+#listeners=PLAINTEXT://:8002
+#advertised.listeners=PLAINTEXT://
+#zookeeper.connect=106.75.171.152:2181
+#
+#./kafka-server-start.sh -daemon ../config/server.properties
+
+
 echo '-------------------------------------------------------------'
 echo '*************************************************************'
 echo 'add conf'
